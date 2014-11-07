@@ -1,0 +1,16 @@
+To access the testing network:
+
+VPN using PPTP to 174.56.62.89 - May change due to DHCP, please let Jayson Grace know if this happens.
+Log in using your username/password
+
+IP addresses:
+
+Troy's testing box w/ TeamViewer: 192.168.1.48
+General testing box: 192.168.1.49
+Server: 
+
+Administrators:
+
+Jayson Grace < jaysong@unm.edu >
+Adam Mitchell < adam@unm.edu >
+
