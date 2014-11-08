@@ -1,0 +1,36 @@
+package redrun.model.gameobject.trap;
+
+import redrun.model.gameobject.GameObject;
+
+/**
+ * This class represents a trap that can be activated by a player.
+ * 
+ * @author Troy Squillaci, Jake Nichol
+ * @version 1.0
+ * @since 2014-11-07
+ */
+public abstract class Trap extends GameObject
+{
+  /**
+   * Creates a new trap at the specified position.
+   * 
+   * @param x the x position of the trap
+   * @param y the y position of the trap
+   * @param z the z position of the trap
+   */
+  public Trap(float x, float y, float z)
+  {
+    super(x, y, z);
+    // TODO Auto-generated constructor stub
+  }
+
+  /**
+   * Activates the trap.
+   */
+  public abstract void activate();
+  
+  /**
+   * Resets the trap.
+   */
+  public abstract void reset();
+}
