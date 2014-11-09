@@ -1,3 +1,7 @@
 Create Gemfile
+
+For DB:
 Create Models
 Create Spec
+Create Migrations
+Create Rakefile
