@@ -1,0 +1,3 @@
+Create Gemfile
+Create Models
+Create Spec
