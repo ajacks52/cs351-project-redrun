@@ -1,6 +1,5 @@
 For DB:
-Create Models
-Create Spec
+Create Specs
 
 Done:
 Create config/YAML file
@@ -9,3 +8,4 @@ Create database log file
 Create Gemfile
 Create Rakefile
 Create Migrations
+Create Models
