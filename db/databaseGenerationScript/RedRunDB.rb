@@ -19,9 +19,9 @@ class RedRunDB
   def delete_tables
     delete_characters
     delete_kiosks
-    delete_buttons
     delete_traps
-  end
+    delete_buttons
+   end
 
   # Generate all of the tables
   def generate_tables
@@ -38,8 +38,8 @@ class RedRunDB
     @db.execute %Q{
     CREATE TABLE Characters (
     id INTEGER PRIMARY KEY NOT NULL,
-    name TEXT,
-    picture BLOB,
+    character_name TEXT NOT NULL,
+    image TEXT NOT NULL,
     team TEXT NOT NULL
     );
   }
@@ -75,7 +75,7 @@ class RedRunDB
     @db.execute %Q{
       CREATE TABLE Buttons (
         id INTEGER PRIMARY KEY NOT NULL,
-        state TEXT,
+        state TEXT NOT NULL,
         Traps_id INTEGER NOT NULL,
         FOREIGN KEY (Traps_id) REFERENCES Traps (id)
       );
@@ -92,7 +92,7 @@ class RedRunDB
     @db.execute %Q{
   CREATE TABLE Traps (
   id INTEGER PRIMARY KEY NOT NULL,
-  type TEXT,
+  type TEXT NOT NULL,
   Kiosks_id INTEGER NOT NULL,
   Buttons_id INTEGER NOT NULL,
   FOREIGN KEY (Kiosks_id) REFERENCES Kiosks (id),
