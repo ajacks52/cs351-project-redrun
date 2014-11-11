@@ -30,12 +30,11 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.util.vector.Vector3f;
 
 import redrun.graphics.camera.Camera;
-import redrun.graphics.selection.Picker;
 import redrun.model.gameobject.world.Room;
 import redrun.model.toolkit.BufferConverter;
-import redrun.model.toolkit.Dimension3D;
 
 /**
  * A test class for Room.java Creates a 50x50x100 room. Uses our standard
@@ -86,7 +85,7 @@ public class RoomTest
         0.0f);
 
     // Create the room.
-    Room room = new Room(0, 0, 0, new Dimension3D(50, 50, 100));
+    Room room = new Room(0, 0, 0, new Vector3f(50, 50, 100));
 
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
