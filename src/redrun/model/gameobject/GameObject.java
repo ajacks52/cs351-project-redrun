@@ -19,7 +19,7 @@ public abstract class GameObject
   
   // OpenGL related fields...
   /** The display list for the game object.  */
-  private int displayListId = -1;
+  protected int displayListId = -1;
 
   /** The position of the game object in 3D space. */
   private Vector3f position = null;
@@ -40,6 +40,9 @@ public abstract class GameObject
     position = new Vector3f(x, y, z);
   }
   
+  
+  
+  // OpenGL related methods...
   /**
    * Draws the game object to the OpenGL scene.
    */
@@ -47,7 +50,76 @@ public abstract class GameObject
   {
     glCallList(displayListId);
   }
+  
+  
+  
+  // Getter methods...
+  /**
+   * Gets the X position of the game object.
+   * 
+   * @return the X position of the game object
+   */
+  public float getX()
+  {
+    return position.x;
+  }
+  
+  /**
+   * Gets the Y position of the game object.
+   * 
+   * @return the Y position of the game object
+   */
+  public float getY()
+  {
+    return position.y;
+  }
+  
+  /**
+   * Gets the Z position of the game object.
+   * 
+   * @return the Z position of the game object
+   */
+  public float getZ()
+  {
+    return position.z;
+  }
+  
+  
+  
+  // Setter methods...
+  /**
+   * Sets the X position of the game object.
+   * 
+   * @param x the X position of the game object
+   */
+  public void setX(float x)
+  {
+    position.x = x;
+  }
+  
+  /**
+   * Sets the Y position of the game object.
+   * 
+   * @param y the Y position of the game object
+   */
+  public void setY(float y)
+  {
+    position.y = y;
+  }
+  
+  /**
+   * Sets the Z position of the game object.
+   * 
+   * @param z the Z position of the game object
+   */
+  public void setZ(float z)
+  {
+    position.z = z;
+  }
+  
 
+  
+  // Overridden methods from Object...
   @Override
   public String toString()
   {

@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.FloatBuffer;
 
-import org.lwjgl.BufferUtils;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
@@ -30,7 +28,7 @@ public class Tools
   {
     try
     {
-      return TextureLoader.getTexture("png", new FileInputStream(new File("res/" + filename + ".png")));
+      return TextureLoader.getTexture("png", new FileInputStream(new File("res/textures/" + filename + ".png")));
     }
     catch (FileNotFoundException e)
     {
@@ -44,19 +42,5 @@ public class Tools
     }
     
     return null;
-  }
-  
-  /**
-   * Converts a float array to a FloatBuffer.
-   * 
-   * @param values the float array to convert into a FloatBuffer
-   * @return the converted FloatBuffer
-   */
-  public static FloatBuffer asFloatBuffer(float[] values)
-  {
-    FloatBuffer buffer = BufferUtils.createFloatBuffer(values.length);
-    buffer.put(values);
-    buffer.flip();
-    return buffer;
   }
 }

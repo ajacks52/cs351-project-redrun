@@ -12,17 +12,17 @@ import java.nio.FloatBuffer;
 public class Color
 {
   /** The color red. */
-  public static final FloatBuffer RED = Tools.asFloatBuffer(new float[] {1.0f, 0.0f, 0.0f, 1.0f});
+  public static final FloatBuffer RED = BufferConverter.asFloatBuffer(new float[] {1.0f, 0.0f, 0.0f, 1.0f});
   
   /** The color green. */
-  public static final FloatBuffer GREEN = Tools.asFloatBuffer(new float[] {0.0f, 1.0f, 0.0f, 1.0f});
+  public static final FloatBuffer GREEN = BufferConverter.asFloatBuffer(new float[] {0.0f, 1.0f, 0.0f, 1.0f});
   
   /** The color blue. */
-  public static final FloatBuffer BLUE = Tools.asFloatBuffer(new float[] {0.0f, 0.0f, 1.0f, 1.0f});
+  public static final FloatBuffer BLUE = BufferConverter.asFloatBuffer(new float[] {0.0f, 0.0f, 1.0f, 1.0f});
 
   /** The color white. */
-  public static final FloatBuffer WHITE = Tools.asFloatBuffer(new float[] {1.0f, 1.0f, 1.0f, 1.0f});
+  public static final FloatBuffer WHITE = BufferConverter.asFloatBuffer(new float[] {1.0f, 1.0f, 1.0f, 1.0f});
   
   /** The color black. */
-  public static final FloatBuffer BLACK = Tools.asFloatBuffer(new float[] {0.0f, 0.0f, 0.0f, 1.0f});
+  public static final FloatBuffer BLACK = BufferConverter.asFloatBuffer(new float[] {0.0f, 0.0f, 0.0f, 1.0f});
 }
