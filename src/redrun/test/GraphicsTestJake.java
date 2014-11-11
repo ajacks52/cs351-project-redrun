@@ -2,7 +2,6 @@ package redrun.test;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import java.awt.Dimension;
 import java.nio.FloatBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +15,6 @@ import org.lwjgl.opengl.DisplayMode;
 
 import redrun.graphics.camera.Camera;
 import redrun.graphics.selection.Picker;
-import redrun.model.gameobject.world.CheckerBoard;
 import redrun.model.gameobject.world.Room;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.Dimension3D;
