@@ -4,6 +4,8 @@ import static org.lwjgl.opengl.GL11.glCallList;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import com.bulletphysics.dynamics.RigidBody;
+
 /**
  * This abstract class represents a game object. Every object in the 3D scene will extend
  * this class.
@@ -25,8 +27,8 @@ public abstract class GameObject
   private Vector3f position = null;
   
   // Physics related fields...
-  /** The mass of the game object. */
-  private float mass = -1;
+  /** The variable that holds all of the information needed for the physics calculations */
+  private RigidBody rigidBody = null;
   
   /**
    * Creates a new game object at the specified position.
@@ -128,7 +130,7 @@ public abstract class GameObject
       "=== Game Object ===\n" +
       "ID: " + id + "\n" +
       "Position: (" + position.getX() + ", " + position.getY() + ", " + position.getZ() + ")\n" +
-      "Physics: Mass: " + mass + "\n" +
+      "Physics: " + rigidBody.toString() + "\n" +
       "===================\n";
     //@formatter:on
   }
