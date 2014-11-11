@@ -32,7 +32,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 import redrun.graphics.camera.Camera;
-import redrun.graphics.selection.Picker;
 import redrun.model.gameobject.world.Room;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.Dimension3D;
