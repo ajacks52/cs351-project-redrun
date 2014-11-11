@@ -22,6 +22,7 @@ public abstract class Player extends GameObject implements Interactable
   public Player(float x, float y, float z)
   {
     super(x, y, z);
+    
     // TODO Auto-generated constructor stub
   }
 

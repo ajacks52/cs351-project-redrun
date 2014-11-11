@@ -28,7 +28,7 @@ public abstract class GameObject
   
   // Physics related fields...
   /** The variable that holds all of the information needed for the physics calculations */
-  private RigidBody rigidBody = null;
+  protected RigidBody rigidBody = null;
   
   /**
    * Creates a new game object at the specified position.
@@ -86,6 +86,16 @@ public abstract class GameObject
     return position.z;
   }
   
+  /**
+   * Gets the physics rigid body
+   * 
+   * @return the rigidBody
+   */
+  public RigidBody getRigidBody()
+  {
+    return rigidBody;
+  }
+  
   
   
   // Setter methods...
@@ -119,7 +129,7 @@ public abstract class GameObject
     position.z = z;
   }
   
-
+  
   
   // Overridden methods from Object...
   @Override
