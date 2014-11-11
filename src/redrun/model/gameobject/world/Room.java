@@ -1,7 +1,8 @@
 package redrun.model.gameobject.world;
 
 import static org.lwjgl.opengl.GL11.*;
-import redrun.model.toolkit.Dimension3D;
+
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  * A class for creating a room. A rectangular room of any dimension can be
@@ -13,7 +14,7 @@ import redrun.model.toolkit.Dimension3D;
  */
 public class Room extends WorldObject
 {
-  Dimension3D dimensions;
+  Vector3f dimensions;
 
   /**
    * Creates a new room object.
@@ -23,7 +24,7 @@ public class Room extends WorldObject
    * @param z the Z position of the room
    * @param dimensions the 3D dimensions of the room
    */
-  public Room(float x, float y, float z, Dimension3D dimensions)
+  public Room(float x, float y, float z, Vector3f dimensions)
   {
     super(x, y, z);
     this.dimensions = dimensions;
