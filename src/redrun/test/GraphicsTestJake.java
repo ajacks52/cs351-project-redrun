@@ -17,13 +17,15 @@ import org.lwjgl.opengl.DisplayMode;
 import redrun.graphics.camera.Camera;
 import redrun.graphics.selection.Picker;
 import redrun.model.gameobject.world.CheckerBoard;
+import redrun.model.gameobject.world.Room;
 import redrun.model.toolkit.BufferConverter;
+import redrun.model.toolkit.Dimension3D;
 
 public class GraphicsTestJake
 {
   /** time at last frame */
   long lastFrame;
-  
+
   // Settings for how materials react to lighting...
   /** Shininess level. */
   public static float shininess = 0.0f;
@@ -66,12 +68,12 @@ public class GraphicsTestJake
    */
   private void gameLoop()
   {
-    // Create the camera...
+    // Create the camera.
     Camera camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f, 0.0f,
         0.0f);
 
-    // Create the checker-board floor...
-    CheckerBoard board = new CheckerBoard(0, 0, 0, new Dimension(50, 50));
+    // Create the room.
+    Room room = new Room(0, 0, 0, new Dimension3D(8, 10, 100));
 
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
@@ -84,7 +86,7 @@ public class GraphicsTestJake
 
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
-    
+
     boolean shininessToggle = false;
     boolean specularityToggle = false;
     boolean emissionToggle = false;
@@ -156,27 +158,27 @@ public class GraphicsTestJake
       glLight(GL_LIGHT1, GL_POSITION, lightPosition1);
 
       // Draw the checker-board...
-      board.draw();
-      
+      room.draw();
+
       Display.update();
       Display.sync(60);
     }
   }
-  
-  /** 
-   * Calculate how many milliseconds have passed 
-   * since last frame.
-   * 
-   * @return milliseconds passed since last frame 
-   */
-  public int getDelta() {
-      long time = getTime();
-      int delta = (int) (time - lastFrame);
-      lastFrame = time;
 
-      return delta;
+  /**
+   * Calculate how many milliseconds have passed since last frame.
+   * 
+   * @return milliseconds passed since last frame
+   */
+  public int getDelta()
+  {
+    long time = getTime();
+    int delta = (int) (time - lastFrame);
+    lastFrame = time;
+
+    return delta;
   }
-  
+
   /**
    * Get the accurate system time
    * 
