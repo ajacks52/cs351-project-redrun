@@ -1,7 +1,5 @@
 package redrun.model.toolkit;
 
-import java.util.ArrayList;
-
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
@@ -54,9 +52,9 @@ public class FontTools
    * @param x coordinate of screen where text is drawn
    * @param y coordinate of screen where text is drawn
    */
-  public static void renderText(String text, int x, int y)
+  public static void renderText(String text, int x, int y, Color color)
   {
-    font.drawString(x, y, text, Color.white);
+    font.drawString(x, y, text, color);
   }
 
   /**

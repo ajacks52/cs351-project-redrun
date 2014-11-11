@@ -8,6 +8,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.newdawn.slick.Color;
 
 import redrun.graphics.camera.Camera;
 import redrun.graphics.selection.Picker;
@@ -23,29 +24,24 @@ import static org.lwjgl.opengl.GL11.*;
  * @version 1.0
  * @since 2014-11-10
  * 
- *        Features:
  */
 public class GraphicsTestAdam
 {
-
-  // Settings for how materials react to lighting...
-  /** Shininess level. */
-  public static float shininess = 0.0f;
-
-  /** Specularity level. */
-  public static float specularity = 0.0f;
-
-  /** Emmision level. */
-  public static float emission = 0.0f;
 
   Camera cam;
 
   /**
    * Mostly copied Troy's mainLoop code to set the basic scene added walls and a
    * few small testing tweaks
+   * 
+   * Loads the fonts
+   * 
    */
   public void mainLoop()
   {
+
+    // load font takes a about 2 seconds
+    redrun.model.toolkit.FontTools.loadFonts();
 
     Random rand = new Random();
     int[] coordsX = new int[2000];
@@ -118,7 +114,7 @@ public class GraphicsTestAdam
       if (Keyboard.isKeyDown(Keyboard.KEY_SPACE))
       {
 
-        System.out.println(cam.getY());
+        // System.out.println(cam.getY());
 
       }
       if (cam.getY() < -1 && !Keyboard.isKeyDown(Keyboard.KEY_SPACE) || cam.getY() < -5)
@@ -135,15 +131,6 @@ public class GraphicsTestAdam
         cam.moveDown(movementSpeed * dt * 2);
       }
 
-      if (shininessToggle) shininess = 25.0f;
-      else shininess = 12.0f;
-
-      if (specularityToggle) specularity = 1.0f;
-      else specularity = 0.3f;
-
-      if (emissionToggle) emission = 0.05f;
-      else emission = 0.0f;
-
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
       glLoadIdentity();
@@ -159,9 +146,9 @@ public class GraphicsTestAdam
       theta += 0.15f;
 
       FontTools.draw2D();
-      FontTools.renderText("Line of text one ", 10, 10);
-      FontTools.renderText("Line of text two ", 10, 25);
-      FontTools.renderText("Dynamic line of text, y " + cam.getY() + " x: " + cam.getX(), 10, 40);
+      FontTools.renderText("Line of text one ", 10, 10, Color.green);
+      FontTools.renderText("Line of text two ", 10, 25, Color.orange);
+      FontTools.renderText("Dynamic line of text, y " + cam.getY() + " x: " + cam.getX(), 10, 40, Color.magenta);
       FontTools.draw3D();
 
       Display.update();
@@ -215,8 +202,8 @@ public class GraphicsTestAdam
     for (int x = 0; x < GridSizeX; ++x)
       for (int y = 0; y < GridSizeY; ++y)
       {
-        if ((x + y) % 2 == 0) glColor3f(0.0f, 0.0f, 1.0f);
-        else glColor3f(0.0f, 0.5f, 1.0f);
+        if ((x + y) % 2 == 0) glColor3f(0.5f, 0.5f, 0.5f);
+        else glColor3f(0.53f, 0.53f, 0.53f);
 
         glVertex3f(0, x * SizeX, y * SizeY);
         glVertex3f(0, (x + 1) * SizeX, y * SizeY);
@@ -390,8 +377,7 @@ public class GraphicsTestAdam
   }
 
   /**
-   * Sets up the screen 800x600 and loads the fonts takes a away to run cause the
-   * fonts take about 2 seconds to load
+   * Sets up the screen 800x600
    */
   public void initDisplay()
   {
@@ -405,8 +391,6 @@ public class GraphicsTestAdam
       ex.printStackTrace();
     }
 
-    // load font takes a about 2 seconds
-    FontTools.loadFonts();
   }
 
   /**
@@ -420,6 +404,7 @@ public class GraphicsTestAdam
 
   /**
    * Gets things started
+   * 
    * @param args
    */
   public static void main(String[] args)
