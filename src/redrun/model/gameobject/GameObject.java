@@ -24,7 +24,7 @@ public abstract class GameObject
   protected int displayListId = -1;
 
   /** The position of the game object in 3D space. */
-  private Vector3f position = null;
+  protected Vector3f position = null;
   
   // Physics related fields...
   /** The variable that holds all of the information needed for the physics calculations */
