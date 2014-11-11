@@ -192,47 +192,56 @@ public class GraphicsTestTroy
       glLight(GL_LIGHT1, GL_POSITION, lightPosition1);
 
       // Draw the checker-board...
-      board.draw();
+      
+      glPushName(board.id);
+      {
+        board.draw();
+      }
+      glPopName();
 
       // Draw the cubes...
       for (Cube cube : cubes)
       {
         glPushMatrix();
         {
-          glTranslatef(20.0f, 1.5f, 5.0f);
-          glTranslatef(cube.getX(), (float) (cube.getY() + Math.sin(occilate)), cube.getZ());
-          glRotatef(rotate, 0, 1, 0);
+          glPushName(cube.id);
+          {
+            glTranslatef(20.0f, 1.5f, 5.0f);
+            glTranslatef(cube.getX(), (float) (cube.getY() + Math.sin(occilate)), cube.getZ());
+            glRotatef(rotate, 0, 1, 0);
 
-          glEnable(GL_TEXTURE_2D);
-          wood.bind();
-          cube.draw();
-          glDisable(GL_TEXTURE_2D);
+            glEnable(GL_TEXTURE_2D);
+            wood.bind();
+            cube.draw();
+            glDisable(GL_TEXTURE_2D);
+          }
+          glPopName();
         }
         glPopMatrix();
       }
-
-      int i = 0;
       
       // Draw the tetrahedrons...
       for (Tetrahedron tetrahedron : tetrahedrons)
       {
         glPushMatrix();
         {
-          glPushName(i++);
-          
-          glTranslatef(5.0f, 1.5f, 20.0f);
-          glTranslatef(tetrahedron.getX(), (float) (tetrahedron.getY() + Math.sin(occilate)), tetrahedron.getZ());
-          glRotatef(rotate, 0, 1, 0);
+          glPushName(tetrahedron.id);
+          {
+            glTranslatef(5.0f, 1.5f, 20.0f);
+            glTranslatef(tetrahedron.getX(), (float) (tetrahedron.getY() + Math.sin(occilate)), tetrahedron.getZ());
+            glRotatef(rotate, 0, 1, 0);
 
-          glEnable(GL_TEXTURE_2D);
-          pokadots.bind();
-          tetrahedron.draw();
-          glDisable(GL_TEXTURE_2D);
-          
+            glEnable(GL_TEXTURE_2D);
+            pokadots.bind();
+            tetrahedron.draw();
+            glDisable(GL_TEXTURE_2D);
+          }
           glPopName();
         }
         glPopMatrix();
       }
+      
+      if (Picker.mode == 2) Picker.stopPicking();
 
       glEnable(GL_COLOR_MATERIAL);
 
@@ -291,8 +300,6 @@ public class GraphicsTestTroy
       }
 
       glDisable(GL_COLOR_MATERIAL);
-
-      if (Picker.mode == 2) Picker.stopPicking();
       
       occilate += 0.025f;
       rotate++;
