@@ -13,6 +13,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.Timer;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
 import redrun.graphics.camera.Camera;
@@ -22,6 +23,7 @@ import redrun.model.gameobject.world.Cube;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.gameobject.world.Tetrahedron;
 import redrun.model.toolkit.BufferConverter;
+import redrun.model.toolkit.FontTools;
 import redrun.model.toolkit.Tools;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -36,13 +38,17 @@ public class GraphicsTestTroy
 {
   /** The list of cubes. */
   private static ArrayList<Cube> cubes = new ArrayList<Cube>();
+  
   /** The list of tetrahedrons. */
   private static ArrayList<Tetrahedron> tetrahedrons = new ArrayList<Tetrahedron>();
+  
   // Settings for how materials react to lighting...
   /** Shininess level. */
   public static float shininess = 0.0f;
+  
   /** Specularity level. */
   public static float specularity = 0.0f;
+  
   /** Emmision level. */
   public static float emission = 0.0f;
 
@@ -62,6 +68,7 @@ public class GraphicsTestTroy
     {
       Logger.getLogger(GraphicsTestTroy.class.getName()).log(Level.SEVERE, null, ex);
     }
+    
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_COLOR_MATERIAL);
     glEnable(GL_LIGHTING);
@@ -69,6 +76,8 @@ public class GraphicsTestTroy
     glEnable(GL_LIGHT1);
     glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
+    
+    FontTools.loadFonts(15);
   }
 
   /**
@@ -77,50 +86,65 @@ public class GraphicsTestTroy
   private static void gameLoop()
   {
     // Load in the textures...
-    Texture wood = Tools.loadPNGTexture("wood");
-    Texture pokadots = Tools.loadPNGTexture("pokadots");
+    Texture wood = Tools.loadTexture("wood", "png");
+    Texture pokadots = Tools.loadTexture("pokadots", "png");
+    
     // Create the camera...
-    Camera camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f, 0.0f,
-        0.0f);
+    Camera camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f, 0.0f, 0.0f);
+    
+    // Create the skybox...
+    SkyBox skybox = new SkyBox(0, 0, 0, "blood_sport", camera);
+    
     // Create the checker-board floor...
     CheckerBoard board = new CheckerBoard(0, 0, 0, new Dimension(50, 50));
-    // Create the skybox...
-    //TODO SkyBox skybox = new SkyBox(0, 0, 0);
+    
     // Create the cubes...
     cubes.add(new Cube(0.0f, 0.0f, 0.0f));
     cubes.add(new Cube(5.0f, 0.0f, 0.0f));
     cubes.add(new Cube(0.0f, 0.0f, 5.0f));
     cubes.add(new Cube(5.0f, 0.0f, 5.0f));
+    
     // Create the tetrahedrons...
     tetrahedrons.add(new Tetrahedron(0.0f, 0.0f, 0.0f));
     tetrahedrons.add(new Tetrahedron(5.0f, 0.0f, 0.0f));
     tetrahedrons.add(new Tetrahedron(0.0f, 0.0f, 5.0f));
     tetrahedrons.add(new Tetrahedron(5.0f, 0.0f, 5.0f));
+    
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
     float dy = 0.0f;
     float dt = 0.0f;
     float previousTime = 0.0f;
     float currentTime = 0.0f;
+    
     // Set the mouse sensitivity...
     float mouseSensitivity = 0.05f;
     float movementSpeed = 10.0f;
+    
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
+    
+    // Set transformation variables...
     float occilate = 0;
     float rotate = 0;
+    
+    // Set lighting toggles...
     boolean shininessToggle = false;
     boolean specularityToggle = false;
     boolean emissionToggle = false;
+    
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
       currentTime = Sys.getTime();
       dt = (currentTime - previousTime) / 1000.0f;
       previousTime = currentTime;
+      
       dx = Mouse.getDX();
       dy = Mouse.getDY();
+      
       camera.yaw(dx * mouseSensitivity);
       camera.pitch(-dy * mouseSensitivity);
+      
       if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed * dt);
       if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed * dt);
       if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed * dt);
@@ -131,38 +155,53 @@ public class GraphicsTestTroy
       if (Keyboard.isKeyDown(Keyboard.KEY_K)) specularityToggle = !specularityToggle;
       if (Keyboard.isKeyDown(Keyboard.KEY_L)) emissionToggle = !emissionToggle;
       if (Keyboard.isKeyDown(Keyboard.KEY_F)) Picker.mode = 2;
+      
       if (shininessToggle) shininess = 25.0f;
       else shininess = 12.0f;
       if (specularityToggle) specularity = 1.0f;
       else specularity = 0.3f;
       if (emissionToggle) emission = 0.05f;
       else emission = 0.0f;
+      
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-      if (Picker.mode == 2) Picker.startPicking();
       glLoadIdentity();
+      
+      glPushMatrix();
+      glDepthMask(false);
+      glRotatef(camera.getYaw(), 0, 1, 0);
+
+      skybox.draw();
+      glDepthMask(true);
+      glPopMatrix();
+      
       camera.lookThrough();
-      // Rotate to look at the scene...
-      glRotatef(135, 0, 1, 0);
+      
+      if (Picker.mode == 2) Picker.startPicking();
+
       // Add ambient light...
       FloatBuffer ambientColor = BufferConverter.asFloatBuffer(new float[] { 0.2f, 0.2f, 0.2f, 1.0f });
       glLightModel(GL_LIGHT_MODEL_AMBIENT, ambientColor);
+      
       // Add positional light...
       FloatBuffer lightColor0 = BufferConverter.asFloatBuffer(new float[] { 1.5f, 1.5f, 1.5f, 1.0f });
       FloatBuffer lightPosition0 = BufferConverter.asFloatBuffer(new float[] { 15.0f, 0.0f, 5.0f, 1.0f });
       glLight(GL_LIGHT0, GL_DIFFUSE, lightColor0);
       glLight(GL_LIGHT0, GL_SPECULAR, lightColor0);
       glLight(GL_LIGHT0, GL_POSITION, lightPosition0);
+      
       // Add directional light...
       FloatBuffer lightColor1 = BufferConverter.asFloatBuffer(new float[] { 0.5f, 0.5f, 0.5f, 1.0f });
       FloatBuffer lightPosition1 = BufferConverter.asFloatBuffer(new float[] { 0.0f, 15.0f, 0.0f, 0.0f });
       glLight(GL_LIGHT1, GL_DIFFUSE, lightColor1);
       glLight(GL_LIGHT1, GL_POSITION, lightPosition1);
+      
       // Draw the checker-board...
       glPushName(board.id);
       {
         board.draw();
       }
       glPopName();
+      
       // Draw the cubes...
       for (Cube cube : cubes)
       {
@@ -182,6 +221,7 @@ public class GraphicsTestTroy
         }
         glPopMatrix();
       }
+      
       // Draw the tetrahedrons...
       for (Tetrahedron tetrahedron : tetrahedrons)
       {
@@ -201,9 +241,18 @@ public class GraphicsTestTroy
         }
         glPopMatrix();
       }
+      
       if (Picker.mode == 2) Picker.stopPicking();
 
-      //TODO skybox.draw();
+      // Draw the skybox...
+//      glPushMatrix();
+//      {
+//        System.out.println(camera.getX() + ", " + camera.getY() + ", " + camera.getZ());
+//        glTranslatef(camera.getX(), camera.getY(), camera.getZ());
+//        skybox.draw();
+//      }
+//      glPopMatrix();
+
 
       // Draw the checker-board...
       board.draw();
@@ -224,6 +273,7 @@ public class GraphicsTestTroy
         }
         glPopMatrix();
       }
+      
       // Draw the tetrahedrons...
       for (Tetrahedron tetrahedron : tetrahedrons)
       {
@@ -239,7 +289,9 @@ public class GraphicsTestTroy
         }
         glPopMatrix();
       }
+      
       glEnable(GL_COLOR_MATERIAL);
+      
       for (int x = 0; x < 3; x++)
       {
         for (int y = 0; y < 3; y++)
@@ -291,20 +343,29 @@ public class GraphicsTestTroy
         }
         glTranslatef(2f, -6f, 0);
       }
+      
       glDisable(GL_COLOR_MATERIAL);
+      
+      FontTools.draw2D();
+      FontTools.renderText("Position: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10, Color.orange, 0);
+      FontTools.draw3D();
+      
+      // Update transformation variables...
       occilate += 0.025f;
       rotate++;
-      Display.update();
+      
       Timer.tick();
+      Display.update();
       Display.sync(60);
     }
   }
 
   /**
-   * Cleans up OpenGL.
+   * Cleans up resources.
    */
   private static void destroyOpenGL()
   {
+    FontTools.cleanUpFonts();
     Display.destroy();
   }
 

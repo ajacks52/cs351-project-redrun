@@ -1,12 +1,14 @@
 package redrun.model.toolkit;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
+
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * This class contains a variety of tools that assist other classes in constructing
@@ -19,52 +21,21 @@ import org.newdawn.slick.opengl.TextureLoader;
 public class Tools
 {
   /**
-   * Loads a texture from a PNG file for OpenGL.
+   * Loads a texture from a file for OpenGL.
    * 
    * @param filename the name of the file located in the res (resources) directory
    * @return the loaded tecture
    */
-  public static Texture loadPNGTexture(String filename)
+  public static Texture loadTexture(String filename, String filetype)
   {
     try
     {
-      return TextureLoader.getTexture("png", new FileInputStream(new File("res/textures/" + filename + ".png")));
+      return TextureLoader.getTexture(filetype,
+        ResourceLoader.getResourceAsStream("res/textures/" + filename + "." + filetype), GL_LINEAR);
     }
-    catch (FileNotFoundException e)
+    catch (IOException ex)
     {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    catch (IOException e)
-    {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    
-    return null;
-  }
-  
-  /**
-   * Loads a texture from a JPG for OpenGL.
-   * 
-   * @param filename the name of the file located in the res (resources) directory
-   * @return the loaded tecture
-   */
-  public static Texture loadJPGTexture(String filename)
-  {
-    try
-    {
-      return TextureLoader.getTexture("jpg", new FileInputStream(new File("res/textures/" + filename + ".jpg")));
-    }
-    catch (FileNotFoundException e)
-    {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    catch (IOException e)
-    {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+      Logger.getLogger(Tools.class.getName()).log(Level.SEVERE, null, ex);
     }
     
     return null;
