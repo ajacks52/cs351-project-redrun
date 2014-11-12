@@ -13,8 +13,11 @@ public class Ball extends WorldObject
     super(x, y, z);
 
     displayListId = glGenLists(1);
+    
     glNewList(displayListId, GL_COMPILE);
     {
+      glTranslatef(this.getX(), this.getY(), this.getZ());
+
       glBegin(GL_SPHERE_MAP);
       {
         if (color != null)
@@ -34,6 +37,20 @@ public class Ball extends WorldObject
 
   @Override
   public void interact()
+  {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void update()
+  {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void reset()
   {
     // TODO Auto-generated method stub
 

@@ -21,84 +21,86 @@ public class Cube extends WorldObject
   public Cube(float x, float y, float z)
   {
     super(x, y, z);
-    
+
     displayListId = glGenLists(1);
-    
+
     glNewList(displayListId, GL_COMPILE);
     {
+      glTranslatef(this.getX(), this.getY(), this.getZ());
+
       glBegin(GL_QUADS);
-      {    
+      {
         // Top face...
         glNormal3f(0.0f, 1.0f, 0.0f);
         glColor3f(0.0f, 1.0f, 0.0f);
         glVertex3f(1.0f, 1.0f, -1.0f);
-        glTexCoord2f(0,0);
+        glTexCoord2f(0, 0);
         glVertex3f(-1.0f, 1.0f, -1.0f);
-        glTexCoord2f(0,1);
+        glTexCoord2f(0, 1);
         glVertex3f(-1.0f, 1.0f, 1.0f);
-        glTexCoord2f(1,1);
+        glTexCoord2f(1, 1);
         glVertex3f(1.0f, 1.0f, 1.0f);
-        glTexCoord2f(1,0);
-        
+        glTexCoord2f(1, 0);
+
         // Bottom face...
         glNormal3f(0.0f, -1.0f, 0.0f);
         glColor3f(1.0f, 0.5f, 0.0f);
         glVertex3f(1.0f, -1.0f, 1.0f);
-        glTexCoord2f(0,0);
+        glTexCoord2f(0, 0);
         glVertex3f(-1.0f, -1.0f, 1.0f);
-        glTexCoord2f(0,1);
+        glTexCoord2f(0, 1);
         glVertex3f(-1.0f, -1.0f, -1.0f);
-        glTexCoord2f(1,1);
+        glTexCoord2f(1, 1);
         glVertex3f(1.0f, -1.0f, -1.0f);
-        glTexCoord2f(1,0);
-        
+        glTexCoord2f(1, 0);
+
         // Front face...
         glNormal3f(0.0f, 0.0f, -1.0f);
         glColor3f(1.0f, 1.0f, 0.0f);
         glVertex3f(1.0f, -1.0f, -1.0f);
-        glTexCoord2f(0,0);
+        glTexCoord2f(0, 0);
         glVertex3f(-1.0f, -1.0f, -1.0f);
-        glTexCoord2f(0,1);
+        glTexCoord2f(0, 1);
         glVertex3f(-1.0f, 1.0f, -1.0f);
-        glTexCoord2f(1,1);
+        glTexCoord2f(1, 1);
         glVertex3f(1.0f, 1.0f, -1.0f);
-        glTexCoord2f(1,0);
-   
+        glTexCoord2f(1, 0);
+
         // Back face...
         glNormal3f(0.0f, 0.0f, 1.0f);
         glColor3f(1.0f, 0.0f, 0.0f);
         glVertex3f(1.0f, 1.0f, 1.0f);
-        glTexCoord2f(0,0);
+        glTexCoord2f(0, 0);
         glVertex3f(-1.0f, 1.0f, 1.0f);
-        glTexCoord2f(0,1);
+        glTexCoord2f(0, 1);
         glVertex3f(-1.0f, -1.0f, 1.0f);
-        glTexCoord2f(1,1);
+        glTexCoord2f(1, 1);
         glVertex3f(1.0f, -1.0f, 1.0f);
-        glTexCoord2f(1,0);
+        glTexCoord2f(1, 0);
 
         // Left face...
         glNormal3f(-1.0f, 0.0f, 0.0f);
         glColor3f(0.0f, 0.0f, 1.0f);
         glVertex3f(-1.0f, 1.0f, 1.0f);
-        glTexCoord2f(0,0);
+        glTexCoord2f(0, 0);
         glVertex3f(-1.0f, 1.0f, -1.0f);
-        glTexCoord2f(0,1);
+        glTexCoord2f(0, 1);
         glVertex3f(-1.0f, -1.0f, -1.0f);
-        glTexCoord2f(1,1);
+        glTexCoord2f(1, 1);
         glVertex3f(-1.0f, -1.0f, 1.0f);
-        glTexCoord2f(1,0);
-        
+        glTexCoord2f(1, 0);
+
         // Right face...
         glNormal3f(1.0f, 0.0f, 0.0f);
         glColor3f(1.0f, 0.0f, 1.0f);
         glVertex3f(1.0f, 1.0f, -1.0f);
-        glTexCoord2f(0,0);
+        glTexCoord2f(0, 0);
         glVertex3f(1.0f, 1.0f, 1.0f);
-        glTexCoord2f(0,1);
+        glTexCoord2f(0, 1);
         glVertex3f(1.0f, -1.0f, 1.0f);
-        glTexCoord2f(1,1);
+        glTexCoord2f(1, 1);
         glVertex3f(1.0f, -1.0f, -1.0f);
-        glTexCoord2f(1,0);
+        glTexCoord2f(1, 0);
       }
       glEnd();
     }
@@ -115,13 +117,13 @@ public class Cube extends WorldObject
   public void update()
   {
     // TODO Auto-generated method stub
-    
+
   }
 
   @Override
   public void reset()
   {
     // TODO Auto-generated method stub
-    
+
   }
 }

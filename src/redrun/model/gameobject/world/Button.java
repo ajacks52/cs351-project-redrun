@@ -2,7 +2,7 @@ package redrun.model.gameobject.world;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import org.lwjgl.util.glu.Sphere;
+import org.lwjgl.util.Timer;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -14,7 +14,7 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class Button extends WorldObject
 {
-  private boolean isPressed = false;
+  private Vector3f defaultButtonPosition;
 
   private Cube pedestal;
   private Ball button;
@@ -22,75 +22,51 @@ public class Button extends WorldObject
   public Button(float x, float y, float z)
   {
     super(x, y, z);
+    defaultButtonPosition = new Vector3f(x, y + 1, z);
 
     pedestal = new Cube(x, y, z);
-    button = new Ball(x, y, z, 0.5f, new Vector3f(1.0f, 0.0f, 0.0f));
+    button = new Ball(x, y + 1, z, 0.5f, new Vector3f(1.0f, 0.0f, 0.0f));
 
     displayListId = glGenLists(1);
 
     glNewList(displayListId, GL_COMPILE);
     {
-      pedestal.draw();
-      button.draw();
+      glPushMatrix();
+      {
+        pedestal.draw();
+      }
+      glPopMatrix();
+
+      glPushMatrix();
+      {
+        button.draw();
+      }
+      glPopMatrix();
     }
     glEndList();
-  }
-
-  public void reset()
-  {
-    button.setY(button.getY() + 1);
   }
 
   @Override
   public void interact()
   {
-    isPressed = true;
+    System.out.println("Interacting with the game object: " + this.id);
+    this.timer.resume();
     button.setY(button.getY() - 1);
   }
 
-  public boolean isPressed()
+  @Override
+  public void update()
   {
-    return this.isPressed;
+    if ((int) this.timer.getTime() == 4) reset();
+    button.setY(button.getY() - 0.001f);
   }
 
-  // public void pressed()
-  // {
-  // isPressed = true;
-  // }
-
-  // public void update()
-  // {
-  // drawCube();
-  // drawSphere();
-  // }
-  //
-  // private void drawCube()
-  // {
-  // glPushMatrix();
-  // glTranslatef(this.getX(), this.getY(), this.getZ());
-  // new Cube(this.getX(), this.getY(), this.getZ()).draw();
-  // glPopMatrix();
-  // }
-  //
-  // private void drawSphere()
-  // {
-  // if (!isPressed)
-  // {
-  // System.out.println("button not pressed");
-  // glPushMatrix();
-  // glTranslatef(this.getX(), this.getY() + 1, this.getZ());
-  // new Ball(this.getX(), this.getY(), this.getZ(), 0.5f, new Vector3f(1.0f,
-  // 0.0f, 0.0f)).draw();
-  // glPopMatrix();
-  // }
-  // else
-  // {
-  // System.out.println("button pressed");
-  // glPushMatrix();
-  // glTranslatef(this.getX(), this.getY() + 1, this.getZ());
-  // new Ball(this.getX(), this.getY() - 1f, this.getZ(), 0.5f, new
-  // Vector3f(1.0f, 0.0f, 0.0f)).draw();
-  // glPopMatrix();
-  // }
-  // }
+  @Override
+  public void reset()
+  {
+    System.out.println("Resetting game object: " + this.id);
+    this.timer.reset();
+    this.timer.pause();
+//    button.setY(button.getY() + 1);
+  }
 }

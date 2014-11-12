@@ -26,6 +26,8 @@ public class Tetrahedron extends WorldObject
 
     glNewList(displayListId, GL_COMPILE);
     {
+      glTranslatef(this.getX(), this.getY(), this.getZ());
+      
       glBegin(GL_TRIANGLES);
       {
         // Front triangle...

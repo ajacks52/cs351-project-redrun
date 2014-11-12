@@ -2,6 +2,7 @@ package redrun.test;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.awt.Dimension;
 import java.nio.FloatBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,11 +13,13 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.util.Timer;
 import org.lwjgl.util.vector.Vector3f;
 
 import redrun.graphics.camera.Camera;
 import redrun.graphics.selection.Picker;
 import redrun.model.gameobject.world.Button;
+import redrun.model.gameobject.world.CheckerBoard;
 import redrun.model.gameobject.world.Room;
 import redrun.model.toolkit.BufferConverter;
 
@@ -73,9 +76,11 @@ public class GraphicsTestJake
 
     // Create the room.
     Room room = new Room(0, 0, 0, new Vector3f(50, 50, 50));
+    
+    CheckerBoard board = new CheckerBoard(0,0,0, new Dimension(50, 50));
 
     // Create a button.
-     Button button = new Button(0, 0, 25);
+    Button button = new Button(25, 0, 25);
 
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
@@ -84,7 +89,7 @@ public class GraphicsTestJake
 
     // Set the mouse sensitivity...
     float mouseSensitivity = 0.08f;
-    float movementSpeed = 0.03f;
+    float movementSpeed = 0.02f;
 
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
@@ -159,11 +164,21 @@ public class GraphicsTestJake
       glLight(GL_LIGHT1, GL_DIFFUSE, lightColor1);
       glLight(GL_LIGHT1, GL_POSITION, lightPosition1);
 
-      // Draw the room and button.
-      room.draw();
-      if (button.isPressed() && (System.currentTimeMillis() % 200 == 0)) button.reset();
-      button.draw();
+      // Draw the stuff.
+//      room.draw();
 
+      if (Picker.mode == 2) Picker.startPicking();
+      glPushName(button.id);
+      {
+        button.draw();
+      }
+      glPopName();
+      if (Picker.mode == 2) Picker.stopPicking();
+      button.draw();
+      board.draw();
+
+      button.update();
+      Timer.tick();
       Display.update();
       Display.sync(60);
     }
