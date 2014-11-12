@@ -144,4 +144,11 @@ public class Room extends WorldObject
     }
     glEnd();
   }
+
+	@Override
+	public void interact()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

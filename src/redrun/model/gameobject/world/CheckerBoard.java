@@ -80,4 +80,10 @@ public class CheckerBoard extends WorldObject
   {
     return (float) dimensions.height / 2;
   }
+
+  @Override
+  public void interact()
+  {
+    System.out.println("Interacting with the game object: " + this.id);
+  }
 }

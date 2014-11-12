@@ -19,16 +19,42 @@ import org.newdawn.slick.opengl.TextureLoader;
 public class Tools
 {
   /**
-   * Loads a texture for OpenGL.
+   * Loads a texture from a PNG file for OpenGL.
    * 
    * @param filename the name of the file located in the res (resources) directory
    * @return the loaded tecture
    */
-  public static Texture loadTexture(String filename)
+  public static Texture loadPNGTexture(String filename)
   {
     try
     {
       return TextureLoader.getTexture("png", new FileInputStream(new File("res/textures/" + filename + ".png")));
+    }
+    catch (FileNotFoundException e)
+    {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    catch (IOException e)
+    {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
+    return null;
+  }
+  
+  /**
+   * Loads a texture from a JPG for OpenGL.
+   * 
+   * @param filename the name of the file located in the res (resources) directory
+   * @return the loaded tecture
+   */
+  public static Texture loadJPGTexture(String filename)
+  {
+    try
+    {
+      return TextureLoader.getTexture("jpg", new FileInputStream(new File("res/textures/" + filename + ".jpg")));
     }
     catch (FileNotFoundException e)
     {
