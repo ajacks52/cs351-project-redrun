@@ -161,8 +161,8 @@ public class GraphicsTestJake
 
       // Draw the room and button.
       room.draw();
-      if (button.getIsPressed() && (System.currentTimeMillis() % 200 == 0)) button.reset();
-      button.update();
+      if (button.isPressed() && (System.currentTimeMillis() % 200 == 0)) button.reset();
+      button.draw();
 
       Display.update();
       Display.sync(60);
