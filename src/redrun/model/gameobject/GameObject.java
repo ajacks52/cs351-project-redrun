@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.lwjgl.util.Timer;
 import org.lwjgl.util.vector.Vector3f;
 
 import static org.lwjgl.opengl.GL11.glCallList;
@@ -26,6 +27,8 @@ public abstract class GameObject
   private static HashMap<Integer, GameObject> gameObjects = new HashMap<Integer, GameObject>();
   
   // OpenGL related fields...
+  protected Timer timer = null;
+  
   /** The display list for the game object.  */
   protected int displayListId = -1;
 
@@ -46,6 +49,9 @@ public abstract class GameObject
   public GameObject(float x, float y, float z)
   {
     position = new Vector3f(x, y, z);
+    
+    timer = new Timer();
+    timer.pause();
     
     id = System.identityHashCode(this);
     
@@ -79,6 +85,16 @@ public abstract class GameObject
    * Interacts with the game object.
    */
   public abstract void interact();
+  
+  /**
+   * Updates the game object to reflect the state of the timer.
+   */
+  public abstract void update();
+  
+  /**
+   * Reset the game object.
+   */
+  public abstract void reset();
   
   
   
