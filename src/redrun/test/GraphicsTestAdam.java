@@ -27,7 +27,6 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class GraphicsTestAdam
 {
-
   Camera cam;
 
   /**
@@ -41,8 +40,9 @@ public class GraphicsTestAdam
   {
 
     // load font takes a about 2 seconds
-    redrun.model.toolkit.FontTools.loadFonts();
+    redrun.model.toolkit.FontTools.loadFonts(15);
 
+    // don't worry about this just making a basic scene..
     Random rand = new Random();
     int[] coordsX = new int[2000];
     int[] coordsY = new int[2000];
@@ -146,9 +146,12 @@ public class GraphicsTestAdam
       theta += 0.15f;
 
       FontTools.draw2D();
-      FontTools.renderText("Line of text one ", 10, 10, Color.green);
-      FontTools.renderText("Line of text two ", 10, 25, Color.orange);
-      FontTools.renderText("Dynamic line of text, y " + cam.getY() + " x: " + cam.getX(), 10, 40, Color.magenta);
+      FontTools.renderText("Dynamic line of text, y " + cam.getY() + " x: " + cam.getX(), 10, 50, Color.magenta, 0);
+      FontTools.renderText("size 18 line of text ", 10, 10, Color.green, 0);
+      FontTools.renderText("size 22 line text ", 10, 30, Color.orange, 1);
+      FontTools.renderText("size 44 line text ", 10, 60, Color.green, 2);
+      FontTools.renderText("custom size line text ", 10, 105, Color.yellow, 3);
+
       FontTools.draw3D();
 
       Display.update();
@@ -202,8 +205,8 @@ public class GraphicsTestAdam
     for (int x = 0; x < GridSizeX; ++x)
       for (int y = 0; y < GridSizeY; ++y)
       {
-        if ((x + y) % 2 == 0) glColor3f(0.5f, 0.5f, 0.5f);
-        else glColor3f(0.53f, 0.53f, 0.53f);
+        if ((x + y) % 2 == 0) glColor3f(0.0f, 0.5f, 1.0f);
+        else glColor3f(0.0f, 0.0f, 1.0f);
 
         glVertex3f(0, x * SizeX, y * SizeY);
         glVertex3f(0, (x + 1) * SizeX, y * SizeY);
