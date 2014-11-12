@@ -10,7 +10,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 /**
- * This class is a utility class to draw fonts to the screen
+ * This class is a utility class to draw fonts to the screen.
  * 
  * @author Adam Mitchell
  * @version 1.0
@@ -24,7 +24,6 @@ public class FontTools
   private static UnicodeFont fontCustom;
   private static int customSize = 0;
 
-
   /**
    * Loads the fonts to be used for drawing text. Default fonts all Helvetica and
    * size 18, 22, and 44 feel free to come in here and change to any font supported by java.awt.Font
@@ -32,7 +31,6 @@ public class FontTools
    * 
    * Takes a few seconds to load font so account for this when you call this
    * method. Should only be called once while initializing for the first time.
-   * 
    */
   @SuppressWarnings("unchecked")
   public static void loadFonts(int size)
@@ -75,7 +73,7 @@ public class FontTools
   }
 
   /**
-   * Draws a line of text to the screen 
+   * Draws a line of text to the screen.
    * 
    * @param the text to be drawn
    * @param x coordinate of screen where text is drawn
@@ -92,7 +90,7 @@ public class FontTools
   }
 
   /**
-   * Switches the drawing mode from 3d to 2d
+   * Switches the drawing mode from 3D to 2D
    */
   public static void draw2D()
   {
@@ -114,7 +112,7 @@ public class FontTools
   }
 
   /**
-   * Switches the drawing mode from 2d to 3d
+   * Switches the drawing mode from 2D to 3D.
    */
   public static void draw3D()
   {
@@ -138,5 +136,4 @@ public class FontTools
   {
     font.destroy();
   }
-
 }
