@@ -16,6 +16,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import redrun.graphics.camera.Camera;
 import redrun.graphics.selection.Picker;
+import redrun.model.gameobject.world.Button;
 import redrun.model.gameobject.world.Room;
 import redrun.model.toolkit.BufferConverter;
 
@@ -71,7 +72,10 @@ public class GraphicsTestJake
         0.0f);
 
     // Create the room.
-    Room room = new Room(0, 0, 0, new Vector3f(8, 10, 100));
+    Room room = new Room(0, 0, 0, new Vector3f(50, 50, 50));
+    
+    // Create a button.
+    Button button = new Button(0, 0, 25);
 
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
@@ -80,7 +84,7 @@ public class GraphicsTestJake
 
     // Set the mouse sensitivity...
     float mouseSensitivity = 0.08f;
-    float movementSpeed = 0.05f;
+    float movementSpeed = 0.03f;
 
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
@@ -107,9 +111,9 @@ public class GraphicsTestJake
 
       if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed * dt);
 
-      if (Keyboard.isKeyDown(Keyboard.KEY_UP)) camera.moveUp(movementSpeed * dt);
+      if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) camera.moveUp(movementSpeed * dt);
 
-      if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) camera.moveDown(movementSpeed * dt);
+      if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) camera.moveDown(movementSpeed * dt);
 
       if (Keyboard.isKeyDown(Keyboard.KEY_J)) shininessToggle = !shininessToggle;
 
@@ -155,8 +159,9 @@ public class GraphicsTestJake
       glLight(GL_LIGHT1, GL_DIFFUSE, lightColor1);
       glLight(GL_LIGHT1, GL_POSITION, lightPosition1);
 
-      // Draw the checker-board...
+      // Draw the room and button.
       room.draw();
+      button.draw();
 
       Display.update();
       Display.sync(60);
