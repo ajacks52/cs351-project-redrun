@@ -3,6 +3,7 @@ package redrun.model.gameobject.world;
 import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.util.glu.Sphere;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Creates a button object. This button sits on a pedestal and reacts to clicks.
@@ -13,38 +14,67 @@ import org.lwjgl.util.glu.Sphere;
  */
 public class Button extends WorldObject
 {
-  
+  private boolean isPressed = false;
+
   public Button(float x, float y, float z)
   {
     super(x, y, z);
 
-    displayListId = glGenLists(1);
-
-    glNewList(displayListId, GL_COMPILE);
-    {
-      drawButton();
-    }
-    glEndList();
-  }
-  
-  public void buttonPressed()
-  {
-    
-  }
-  
-  public void buttonReset()
-  {
-    
+    drawCube();
+    drawSphere();
   }
 
-  private void drawButton()
+  public void pressed()
   {
+    isPressed = true;
+  }
+
+  public void reset()
+  {
+    isPressed = false;
+  }
+
+  public void update()
+  {
+    drawCube();
+    drawSphere();
+  }
+
+  private void drawCube()
+  {
+    glPushMatrix();
     glTranslatef(this.getX(), this.getY(), this.getZ());
-    glEnable(GL_COLOR_MATERIAL);
-    glColor3f(1.0f, 0.0f, 0.0f);
-    new Sphere().draw(1.1f, 40, 40);
-    glColor3f(1.0f, 1.0f, 1.0f);
-    glDisable(GL_COLOR_MATERIAL);
-    new Cube(this.getX(), this.getY(), this.getZ());
+    new Cube(this.getX(), this.getY(), this.getZ()).draw();
+    glPopMatrix();
+  }
+
+  private void drawSphere()
+  {
+    if (!isPressed)
+    {
+      System.out.println("button not pressed");
+      glPushMatrix();
+      glTranslatef(this.getX(), this.getY() + 1, this.getZ());
+      new Ball(this.getX(), this.getY(), this.getZ(), 0.5f, new Vector3f(1.0f, 0.0f, 0.0f)).draw();
+      glPopMatrix();
+    }
+    else
+    {
+      System.out.println("button pressed");
+      glPushMatrix();
+      glTranslatef(this.getX(), this.getY() + 1, this.getZ());
+      new Ball(this.getX(), this.getY() - 1f, this.getZ(), 0.5f, new Vector3f(1.0f, 0.0f, 0.0f)).draw();
+      glPopMatrix();
+    }
+  }
+  
+  public boolean getIsPressed()
+  {
+    return this.isPressed;
+  }
+  
+  public void setIsPressed(boolean value)
+  {
+    isPressed = value;
   }
 }

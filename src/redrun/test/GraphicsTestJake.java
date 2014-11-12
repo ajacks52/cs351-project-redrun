@@ -73,9 +73,9 @@ public class GraphicsTestJake
 
     // Create the room.
     Room room = new Room(0, 0, 0, new Vector3f(50, 50, 50));
-    
+
     // Create a button.
-    Button button = new Button(0, 0, 25);
+     Button button = new Button(0, 0, 25);
 
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
@@ -161,7 +161,8 @@ public class GraphicsTestJake
 
       // Draw the room and button.
       room.draw();
-      button.draw();
+      if (button.getIsPressed() && (System.currentTimeMillis() % 200 == 0)) button.reset();
+      button.update();
 
       Display.update();
       Display.sync(60);
