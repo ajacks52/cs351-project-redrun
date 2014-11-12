@@ -1,8 +1,13 @@
 package redrun.model.gameobject;
 
-import static org.lwjgl.opengl.GL11.glCallList;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.lwjgl.util.Timer;
 import org.lwjgl.util.vector.Vector3f;
+
+import static org.lwjgl.opengl.GL11.glCallList;
 
 /**
  * This abstract class represents a game object. Every object in the 3D scene will extend
@@ -14,10 +19,16 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public abstract class GameObject
 {
+  // Identification related fields...
   /** The ID of the game object. */
-  private int id = -1;
+  public final int id;
+  
+  /** All game objects in existence. */
+  private static HashMap<Integer, GameObject> gameObjects = new HashMap<Integer, GameObject>();
   
   // OpenGL related fields...
+  protected Timer timer = null;
+  
   /** The display list for the game object.  */
   protected int displayListId = -1;
 
@@ -38,6 +49,25 @@ public abstract class GameObject
   public GameObject(float x, float y, float z)
   {
     position = new Vector3f(x, y, z);
+    
+    timer = new Timer();
+    timer.pause();
+    
+    id = System.identityHashCode(this);
+    
+    if (gameObjects.containsKey(id))
+    {
+      try
+      {
+        throw new IllegalArgumentException();
+      }
+      catch (IllegalArgumentException ex)
+      {
+        Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
+      }
+    }
+    
+    gameObjects.put(id, this);
   }
   
   
@@ -51,9 +81,36 @@ public abstract class GameObject
     glCallList(displayListId);
   }
   
+  /**
+   * Interacts with the game object.
+   */
+  public abstract void interact();
+  
+  /**
+   * Updates the game object to reflect the state of the timer.
+   */
+  public abstract void update();
+  
+  /**
+   * Reset the game object.
+   */
+  public abstract void reset();
+  
   
   
   // Getter methods...
+  /**
+   * Gets an active game object with the specified ID. Returns null if no such game
+   * object is associated with the specified ID.
+   * 
+   * @param id the ID of the game object
+   * @return the game object with the specified ID
+   */
+  public static GameObject getGameObject(int id)
+  {
+    return gameObjects.get(id);
+  }
+  
   /**
    * Gets the X position of the game object.
    * 
@@ -86,7 +143,7 @@ public abstract class GameObject
   
   
   
-  // Setter methods...
+  // Setter methods...  
   /**
    * Sets the X position of the game object.
    * 
@@ -120,6 +177,20 @@ public abstract class GameObject
 
   
   // Overridden methods from Object...
+  @Override
+  public boolean equals(Object obj) 
+  {
+    GameObject other = (GameObject) obj;
+     
+    return id == other.id;
+  }
+
+  @Override
+  public int hashCode() 
+  {
+    return id;
+  }
+  
   @Override
   public String toString()
   {
