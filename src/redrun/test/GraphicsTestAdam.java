@@ -12,6 +12,8 @@ import org.newdawn.slick.Color;
 
 import redrun.graphics.camera.Camera;
 import redrun.graphics.selection.Picker;
+import redrun.model.gameobject.trap.Spike;
+import redrun.model.gameobject.world.Tetrahedron;
 import redrun.model.toolkit.*;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -77,6 +79,7 @@ public class GraphicsTestAdam
 
     boolean fall = false;
     glEnable(GL_DEPTH_TEST);
+    Spike ss = new Spike(1, 1, 1);
 
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
@@ -136,25 +139,47 @@ public class GraphicsTestAdam
       glLoadIdentity();
       cam.lookThrough();
 
+      drawSpikes(ss);
       drawBuilding();
 
       for (int i = 0; i < 500; i++)
       {
-        buildBox(theta, coordsZ[i], coordsX[i], coordsY[i], 1, 1, 1);
-        buildTetaedron(theta, coordsY[i], coordsZ[i], coordsX[i], -1, -1, -1);
+        // buildBox(theta, coordsZ[i], coordsX[i], coordsY[i], 1, 1, 1);
+        // buildTetaedron(theta, coordsY[i], coordsZ[i], coordsX[i], -1, -1,
+        // -1);
       }
       theta += 0.15f;
 
       FontTools.draw2D();
-      FontTools.renderText("Dynamic line of text, y " + cam.getY() + " x: " + cam.getX(), 10, 50, Color.magenta, 0);
-      FontTools.renderText("size 18 line of text ", 10, 10, Color.green, 0);
-      FontTools.renderText("size 22 line text ", 10, 30, Color.orange, 1);
-      FontTools.renderText("size 44 line text ", 10, 60, Color.green, 2);
-      FontTools.renderText("custom size line text ", 10, 105, Color.yellow, 3);
+      FontTools.renderText("y\t: " + cam.getY() + "\tx: " + cam.getX() + "\tz: " + cam.getZ(), 10, 10, Color.white, 0);
+      // FontTools.renderText("size 18 line of text ", 10, 10, Color.green, 0);
+      // FontTools.renderText("size 22 line text ", 10, 30, Color.orange, 1);
+      // FontTools.renderText("size 44 line text ", 10, 60, Color.green, 2);
+      // FontTools.renderText("custom size line text ", 10, 105, Color.yellow,
+      // 3);
 
       FontTools.draw3D();
 
       Display.update();
+    }
+  }
+
+  public void drawSpikes(Spike ss)
+  {
+    for (int i = 0; i < 5; i++)
+    {
+      glPushMatrix();
+      {
+        glPushName(ss.id);
+        {
+          glTranslatef(20.0f + i, 1.5f, 5.0f + i);
+          glScalef(0.5f, 2.f, 0.5f);
+          glColor3f(0.5f, 0.5f, 0.5f);
+          ss.getSpikes().draw();
+        }
+        glPopName();
+      }
+      glPopMatrix();
     }
   }
 
