@@ -109,8 +109,8 @@ public class GraphicsTestJake
     Button button = new Button(4, 0, 4);
 
     // Load in the textures...
-    Texture wood = Tools.loadPNGTexture("wood");
-    Texture pokadots = Tools.loadPNGTexture("pokadots");
+    Texture wood = Tools.loadTexture("wood", "png");
+    Texture pokadots = Tools.loadTexture("pokadots", "png");
     // Create the camera...
     Camera camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f, 0.0f,
         0.0f);
