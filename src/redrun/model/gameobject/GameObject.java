@@ -4,7 +4,8 @@ import static org.lwjgl.opengl.GL11.glCallList;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import com.bulletphysics.dynamics.RigidBody;
+import redrun.model.physics.PhysicsBody;
+
 
 /**
  * This abstract class represents a game object. Every object in the 3D scene will extend
@@ -28,7 +29,7 @@ public abstract class GameObject
   
   // Physics related fields...
   /** The variable that holds all of the information needed for the physics calculations */
-  protected RigidBody rigidBody = null;
+  protected PhysicsBody body = null;
   
   /**
    * Creates a new game object at the specified position.
@@ -91,9 +92,9 @@ public abstract class GameObject
    * 
    * @return the rigidBody
    */
-  public RigidBody getRigidBody()
+  public PhysicsBody getBody()
   {
-    return rigidBody;
+    return body;
   }
   
   
@@ -140,7 +141,7 @@ public abstract class GameObject
       "=== Game Object ===\n" +
       "ID: " + id + "\n" +
       "Position: (" + position.getX() + ", " + position.getY() + ", " + position.getZ() + ")\n" +
-      "Physics: " + rigidBody.toString() + "\n" +
+      "Physics: " + body.toString() + "\n" +
       "===================\n";
     //@formatter:on
   }

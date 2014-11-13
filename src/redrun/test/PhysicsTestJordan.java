@@ -5,7 +5,8 @@ import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import redrun.model.physics.BoxRigidBody;
+import redrun.model.physics.BoxPhysicsBody;
+import redrun.model.physics.PhysicsTools;
 
 import com.bulletphysics.collision.broadphase.BroadphaseInterface;
 import com.bulletphysics.collision.broadphase.DbvtBroadphase;
@@ -53,18 +54,24 @@ public class PhysicsTestJordan
     
     dynamicsWorld.addRigidBody(groundRigidBody);
     
-    BoxRigidBody fallRigidBody = new BoxRigidBody(new Vector3f(0,50,0), new Vector3f(0.5f,1.0f,0.5f), new Quat4f(0,0,0,1), 120.0f);
-    fallRigidBody.getCollisionShape().calculateLocalInertia(120.0f, vec(new Vector3f(0,0,0)));
+    float mass = 60f;
+    BoxPhysicsBody fallRigidBody = new BoxPhysicsBody(new Vector3f(0,1,0), new Vector3f(0.5f,1.0f,0.5f), new Quat4f(0,0,0,1), mass);
+    fallRigidBody.getCollisionShape().calculateLocalInertia(mass, vec(new Vector3f(0,0,0)));
     dynamicsWorld.addRigidBody(fallRigidBody);
+
+    fallRigidBody.jump();
     
     for (int i=0; i < 300; i++)
     {
+
+      fallRigidBody.push(new Vector3f(1,0,0));
+      
       dynamicsWorld.stepSimulation(1/60.0f, 10);
       
       Transform trans = new Transform();
       trans = fallRigidBody.getMotionState().getWorldTransform(trans);
       
-      System.out.println("sphere height:" + trans.origin.y);
+      System.out.println("sphere x: " + trans.origin.x + " y: " + trans.origin.y);
     }
   }
 

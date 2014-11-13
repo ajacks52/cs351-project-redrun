@@ -11,7 +11,7 @@ import org.lwjgl.util.vector.Vector3f;
  * @author jem
  *
  */
-public class CubeRigidBody extends BoxRigidBody
+public class CubePhysicsBody extends BoxPhysicsBody
 {
 
   /**
@@ -20,7 +20,7 @@ public class CubeRigidBody extends BoxRigidBody
    * @param direction
    * @param mass
    */
-  public CubeRigidBody(Vector3f center, float radius, Quat4f direction, float mass)
+  public CubePhysicsBody(Vector3f center, float radius, Quat4f direction, float mass)
   {
     super(center, new Vector3f(radius,radius,radius), direction, mass);
   }
