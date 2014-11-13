@@ -80,4 +80,28 @@ public class CheckerBoard extends WorldObject
   {
     return (float) dimensions.height / 2;
   }
+
+  @Override
+  public void interact()
+  {
+    System.out.println("Interacting with the game object: " + this.id);
+    this.timer.resume();
+  }
+
+  @Override
+  public void update()
+  {    
+    if ((int) this.timer.getTime() == 4)
+    {
+      System.out.println("Resetting game object: " + this.id);
+      reset();
+    }    
+  }
+
+  @Override
+  public void reset()
+  {
+    this.timer.reset();
+    this.timer.pause();
+  }
 }

@@ -1,0 +1,9 @@
+Done (For DB):
+Create config/YAML file
+Create log directory
+Create database log file
+Create Gemfile
+Create Rakefile
+Create Migrations
+Create Models
+Create Specs

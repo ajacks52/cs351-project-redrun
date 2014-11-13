@@ -56,4 +56,24 @@ public class Tetrahedron extends WorldObject
     }
     glEndList();
   }
+
+  @Override
+  public void interact()
+  {
+    System.out.println("Interacting with the game object: " + this.id);
+  }
+
+  @Override
+  public void update()
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void reset()
+  {
+    // TODO Auto-generated method stub
+    
+  }
 }

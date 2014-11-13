@@ -1,5 +1,4 @@
 *target*
-*.jar
 *.war
 *.ear
 
@@ -22,3 +21,8 @@ local.properties
 # Locally stored "Eclipse launch configurations"
 *.launch
 /bin/
+
+# Ruby Criteria
+*.log
+*.lock
+*.idea

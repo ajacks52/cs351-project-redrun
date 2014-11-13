@@ -36,7 +36,11 @@ Model
 Milestone for next Thurday the 13th:
 
 Jayson:
-
+  ERD Done
+  UML Done
+  Base DB working
+  serves items
+  Queue
 Adam:
 Troy:
   Menu System
