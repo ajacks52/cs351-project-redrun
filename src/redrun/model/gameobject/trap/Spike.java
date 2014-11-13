@@ -8,6 +8,18 @@ import org.newdawn.slick.opengl.Texture;
 import redrun.model.toolkit.ShaderLoader;
 import redrun.model.toolkit.Tools;
 
+/**
+ * 
+ * Class to make spikes. To make a new spike make a new object of this class
+ * calling the constructor that wants x,y,z and to use call
+ * spikeObject.drawTrapDoor(50, 0); followed by spikeObject.update(); when you
+ * are rendering graphics.
+ * 
+ * @author Adam Mitchell
+ * @version 1.0
+ * @since 2014-13-10
+ * 
+ */
 public class Spike extends Trap
 {
 
@@ -17,6 +29,13 @@ public class Spike extends Trap
   float occilate = 0;
   float occilate2 = 0;
 
+  /**
+   * The spike constructor pass in x,y,z
+   * 
+   * @param x starting coordinate
+   * @param y starting coordinate
+   * @param z starting coordinate
+   */
   public Spike(float x, float y, float z)
   {
     super(x, y, z);
@@ -71,6 +90,12 @@ public class Spike extends Trap
     glEndList();
   }
 
+  /**
+   * Draws spikes to the screen at the given position
+   * 
+   * @param the x coord 
+   * @param the z coord
+   */
   public void drawSpikes(float x, float z)
   {
     for (int i = 0; i < 4; i++)
@@ -81,7 +106,7 @@ public class Spike extends Trap
         {
           glUseProgram(sl.getShaderProgram());
           {
-            glTranslatef(x + i, (float) (-5.5 + 3 *Math.sin(occilate)), (float) (Math.pow(-1, i) + z));
+            glTranslatef(x + i, (float) (-5.5 + 3 * Math.sin(occilate)), (float) (Math.pow(-1, i) + z));
             glScalef(0.3f, 2.f, 0.2f);
             glColor3f(0.5f, 0.5f, 0.5f);
             this.draw();

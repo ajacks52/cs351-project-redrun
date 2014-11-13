@@ -8,6 +8,15 @@ import java.util.ArrayList;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 
+/**
+ * Utility class to load shaders to make new shader make a new object of this
+ * class
+ * 
+ * 
+ * @author Adam Mitchell
+ *
+ *
+ */
 public class ShaderLoader
 {
   private ArrayList<Integer> shaders = new ArrayList<Integer>();
@@ -34,14 +43,14 @@ public class ShaderLoader
     {
       return -1;
     }
-    
+
     StringBuilder shaderSource = new StringBuilder();
     BufferedReader reader = null;
     try
     {
       reader = new BufferedReader(new FileReader("res/shaders/" + name));
       String line;
-      
+
       while ((line = reader.readLine()) != null)
       {
         shaderSource.append(line).append('\n');
@@ -49,7 +58,7 @@ public class ShaderLoader
     }
     catch (IOException e)
     {
-      //System.out.println(name);
+      // System.out.println(name);
       System.err.println("Shader wasn't loaded properly.");
       return -1;
     }
@@ -83,21 +92,37 @@ public class ShaderLoader
     return shader;
   }
 
+  /**
+   * Gets the current shader "return this.shaderProgram"
+   * 
+   * @return
+   */
   public int getShaderProgram()
   {
     return this.shaderProgram;
   }
 
+  /**
+   * Deletes the this shaderProgram
+   */
   public void deleteShaderProgram()
   {
     glDeleteProgram(this.shaderProgram);
   }
-  
+
+  /**
+   * Deletes a given shader
+   * 
+   * @param shader to be deleted int
+   */
   public void deleteShader(int s)
   {
     glDeleteShader(s);
   }
 
+  /**
+   * Deletes all shaders, should called when programs exits
+   */
   public void deleteShaders()
   {
     for (Integer s : shaders)

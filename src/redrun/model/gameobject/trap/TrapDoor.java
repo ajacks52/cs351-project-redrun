@@ -1,13 +1,23 @@
 package redrun.model.gameobject.trap;
 
-import static org.lwjgl.opengl.GL11.*;
-
 import org.newdawn.slick.opengl.Texture;
 
 import redrun.model.gameobject.GameObject;
 import redrun.model.toolkit.ShaderLoader;
 import redrun.model.toolkit.Tools;
+import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * 
+ * Class to make trap doors.  To make a new trap door make a new object of this class 
+ * calling the constructor that wants x,y,z and to use call trapDoorObject.drawTrapDoor(50, 0);
+ * followed by trapDoorObject.update(); when you are rendering graphics. 
+ * 
+ * @author Adam Mitchell
+ * @version 1.0
+ * @since 2014-13-10
+ * 
+ */
 public class TrapDoor extends GameObject
 {
 
@@ -15,6 +25,12 @@ public class TrapDoor extends GameObject
   Texture wood;
   float occilate = 0;
 
+  /**
+   * Constructor to make a new trap door give the starting position 
+   * @param starting x
+   * @param starting y
+   * @param starting z
+   */
   public TrapDoor(float x, float y, float z)
   {
     super(x, y, z);
@@ -41,6 +57,12 @@ public class TrapDoor extends GameObject
     glEndList();
   }
 
+  /**
+   * Draws a trap door to the screen at the given position
+   *  
+   * @param the x coord 
+   * @param the z coord
+   */
   public void drawTrapDoor(float x, float z)
   {
     glPushMatrix();
