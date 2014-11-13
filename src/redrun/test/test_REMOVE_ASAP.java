@@ -88,7 +88,7 @@ public class test_REMOVE_ASAP
     }
     catch (LWJGLException ex)
     {
-      Logger.getLogger(GraphicsTestTroy.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(test_REMOVE_ASAP.class.getName()).log(Level.SEVERE, null, ex);
     }
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_COLOR_MATERIAL);
@@ -133,7 +133,7 @@ public class test_REMOVE_ASAP
     float dt = 0.0f;
     // Set the mouse sensitivity...
     float mouseSensitivity = 0.05f;
-    float movementSpeed = 0.03f;
+    float movementSpeed = 0.01f;
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
     float occilate = 0;
@@ -235,6 +235,9 @@ public class test_REMOVE_ASAP
         glPopMatrix();
       }
       if (Picker.mode == 2) Picker.stopPicking();
+      
+      // Draw the button.
+      button.draw();
 
       // TODO skybox.draw();
 

@@ -21,12 +21,40 @@ public class Button extends WorldObject
   public Button(float x, float y, float z)
   {
     super(x, y, z);
-    defaultButtonPosition = new Vector3f(x, y + 1, z);
+    defaultButtonPosition = new Vector3f(x, y + 0.8f, z);
 
     pedestal = new Cube(x, y, z);
-    button = new Ball(x, y + 1, z, 0.5f, new Vector3f(1.0f, 0.0f, 0.0f));
+    button = new Ball(x, y + 0.8f, z, 0.5f, new Vector3f(1.0f, 0.0f, 0.0f));
 
     displayListId = glGenLists(1);
+
+    // glNewList(displayListId, GL_COMPILE);
+    // {
+    // glPushMatrix();
+    // {
+    // glTranslatef(x, y, z);
+    // pedestal.draw();
+    // }
+    // glPopMatrix();
+    // }
+    // glEndList();
+  }
+
+  @Override
+  public void interact()
+  {
+    System.out.println("Interacting with the game object: " + this.id);
+    this.timer.resume();
+    // button.setY(button.getY() - 1);
+  }
+
+  @Override
+  public void update()
+  {
+    if (this.timer.getTime() >= 0.1f) reset();
+
+    if (timer.isPaused() && button.getY() < defaultButtonPosition.y) button.setY(button.getY() + 0.02f);
+    else if (!timer.isPaused()) button.setY(button.getY() - 0.02f);
 
     glNewList(displayListId, GL_COMPILE);
     {
@@ -38,6 +66,7 @@ public class Button extends WorldObject
 
       glPushMatrix();
       {
+        glTranslatef(button.getX(), button.getY(), button.getZ());
         button.draw();
       }
       glPopMatrix();
@@ -46,26 +75,11 @@ public class Button extends WorldObject
   }
 
   @Override
-  public void interact()
-  {
-    System.out.println("Interacting with the game object: " + this.id);
-    this.timer.resume();
-//    button.setY(button.getY() - 1);
-  }
-
-  @Override
-  public void update()
-  {
-    if ((int) this.timer.getTime() == 4) reset();
-    button.setY(button.getY() - 0.1f);
-  }
-
-  @Override
   public void reset()
   {
     System.out.println("Resetting game object: " + this.id);
     this.timer.reset();
     this.timer.pause();
-//    button.setY(button.getY() + 1);
+    // button.setY(button.getY() + 1);
   }
 }

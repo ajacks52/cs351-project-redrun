@@ -16,8 +16,6 @@ public class Ball extends WorldObject
     
     glNewList(displayListId, GL_COMPILE);
     {
-      glTranslatef(this.getX(), this.getY(), this.getZ());
-
       glBegin(GL_SPHERE_MAP);
       {
         if (color != null)
