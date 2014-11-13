@@ -2,7 +2,6 @@ package redrun.model.gameobject.world;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import org.lwjgl.util.Timer;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -51,14 +50,14 @@ public class Button extends WorldObject
   {
     System.out.println("Interacting with the game object: " + this.id);
     this.timer.resume();
-    button.setY(button.getY() - 1);
+//    button.setY(button.getY() - 1);
   }
 
   @Override
   public void update()
   {
     if ((int) this.timer.getTime() == 4) reset();
-    button.setY(button.getY() - 0.001f);
+    button.setY(button.getY() - 0.1f);
   }
 
   @Override

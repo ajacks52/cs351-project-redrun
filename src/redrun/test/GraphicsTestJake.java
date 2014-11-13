@@ -109,21 +109,13 @@ public class GraphicsTestJake
       camera.pitch(-dy * mouseSensitivity);
 
       if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed * dt);
-
       if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed * dt);
-
       if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed * dt);
-
       if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed * dt);
-
       if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) camera.moveUp(movementSpeed * dt);
-
       if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) camera.moveDown(movementSpeed * dt);
-
       if (Keyboard.isKeyDown(Keyboard.KEY_J)) shininessToggle = !shininessToggle;
-
       if (Keyboard.isKeyDown(Keyboard.KEY_K)) specularityToggle = !specularityToggle;
-
       if (Keyboard.isKeyDown(Keyboard.KEY_L)) emissionToggle = !emissionToggle;
 
       if (Keyboard.isKeyDown(Keyboard.KEY_F)) Picker.mode = 2;
