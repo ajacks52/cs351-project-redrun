@@ -7,15 +7,13 @@ import org.lwjgl.util.vector.Vector3f;
 /**
  * Creates a button object. This button sits on a pedestal and reacts to clicks.
  * 
- * @author JakeNichol
+ * @author J. Jake Nichol
  * @since 11-11-2014
  * @version 1.0
  */
 public class Button extends WorldObject
 {
   private Vector3f defaultButtonPosition;
-
-//  private Cube pedestal;
   private Ball button;
 
   public Button(float x, float y, float z)
@@ -23,7 +21,6 @@ public class Button extends WorldObject
     super(x, y, z);
     defaultButtonPosition = new Vector3f(x, y + 0.8f, z);
 
-//    pedestal = new Cube(x, y, z);
     button = new Ball(x, y + 0.8f, z, 0.5f, new Vector3f(1.0f, 0.0f, 0.0f));
   }
 
@@ -32,7 +29,6 @@ public class Button extends WorldObject
   {
     System.out.println("Interacting with the game object: " + this.id);
     this.timer.resume();
-    // button.setY(button.getY() - 1);
   }
 
   @Override
@@ -47,12 +43,6 @@ public class Button extends WorldObject
 
     glNewList(displayListId, GL_COMPILE);
     {
-//      glPushMatrix();
-//      {
-//        pedestal.draw();
-//      }
-//      glPopMatrix();
-
       glPushMatrix();
       {
         glTranslatef(button.getX(), button.getY(), button.getZ());
@@ -69,6 +59,5 @@ public class Button extends WorldObject
     System.out.println("Resetting game object: " + this.id);
     this.timer.reset();
     this.timer.pause();
-    // button.setY(button.getY() + 1);
   }
 }
