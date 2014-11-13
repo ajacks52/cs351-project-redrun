@@ -33,6 +33,8 @@ public class Room extends WorldObject
 
     glNewList(displayListId, GL_COMPILE);
     {
+      glTranslatef(this.getX(), this.getY(), this.getZ());
+      
       drawFloor();
       drawCeiling();
       drawLeftWall();
