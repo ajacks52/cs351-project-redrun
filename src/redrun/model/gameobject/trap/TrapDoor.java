@@ -36,7 +36,7 @@ public class TrapDoor extends GameObject
     super(x, y, z);
 
     displayListId = glGenLists(1);
-    wood = Tools.loadPNGTexture("wood");
+    wood = Tools.loadTexture("wood", "png");
 
     glNewList(displayListId, GL_COMPILE);
     {

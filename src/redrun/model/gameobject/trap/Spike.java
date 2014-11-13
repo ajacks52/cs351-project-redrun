@@ -41,7 +41,7 @@ public class Spike extends Trap
     super(x, y, z);
 
     td = new TrapDoor(1, 1, 1);
-    wood = Tools.loadPNGTexture("wood");
+    wood = Tools.loadTexture("wood", "png");
 
     sl = new ShaderLoader();
     sl.loadShader("shader.fs");
