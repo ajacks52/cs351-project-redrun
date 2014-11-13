@@ -15,7 +15,7 @@ public class Button extends WorldObject
 {
   private Vector3f defaultButtonPosition;
 
-  private Cube pedestal;
+//  private Cube pedestal;
   private Ball button;
 
   public Button(float x, float y, float z)
@@ -23,21 +23,8 @@ public class Button extends WorldObject
     super(x, y, z);
     defaultButtonPosition = new Vector3f(x, y + 0.8f, z);
 
-    pedestal = new Cube(x, y, z);
+//    pedestal = new Cube(x, y, z);
     button = new Ball(x, y + 0.8f, z, 0.5f, new Vector3f(1.0f, 0.0f, 0.0f));
-
-    displayListId = glGenLists(1);
-
-    // glNewList(displayListId, GL_COMPILE);
-    // {
-    // glPushMatrix();
-    // {
-    // glTranslatef(x, y, z);
-    // pedestal.draw();
-    // }
-    // glPopMatrix();
-    // }
-    // glEndList();
   }
 
   @Override
@@ -56,13 +43,15 @@ public class Button extends WorldObject
     if (timer.isPaused() && button.getY() < defaultButtonPosition.y) button.setY(button.getY() + 0.02f);
     else if (!timer.isPaused()) button.setY(button.getY() - 0.02f);
 
+    displayListId = glGenLists(1);
+
     glNewList(displayListId, GL_COMPILE);
     {
-      glPushMatrix();
-      {
-        pedestal.draw();
-      }
-      glPopMatrix();
+//      glPushMatrix();
+//      {
+//        pedestal.draw();
+//      }
+//      glPopMatrix();
 
       glPushMatrix();
       {
