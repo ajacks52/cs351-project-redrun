@@ -8,6 +8,8 @@ import org.lwjgl.util.Timer;
 import org.lwjgl.util.vector.Vector3f;
 
 import static org.lwjgl.opengl.GL11.glCallList;
+import redrun.model.physics.PhysicsBody;
+
 
 /**
  * This abstract class represents a game object. Every object in the 3D scene will extend
@@ -33,11 +35,11 @@ public abstract class GameObject
   protected int displayListId = -1;
 
   /** The position of the game object in 3D space. */
-  private Vector3f position = null;
+  protected Vector3f position = null;
   
   // Physics related fields...
-  /** The mass of the game object. */
-  private float mass = -1;
+  /** The variable that holds all of the information needed for the physics calculations */
+  protected PhysicsBody body = null;
   
   /**
    * Creates a new game object at the specified position.
@@ -141,6 +143,16 @@ public abstract class GameObject
     return position.z;
   }
   
+  /**
+   * Gets the physics rigid body
+   * 
+   * @return the rigidBody
+   */
+  public PhysicsBody getBody()
+  {
+    return body;
+  }
+  
   
   
   // Setter methods...  
@@ -174,7 +186,7 @@ public abstract class GameObject
     position.z = z;
   }
   
-
+  
   
   // Overridden methods from Object...
   @Override
@@ -199,7 +211,7 @@ public abstract class GameObject
       "=== Game Object ===\n" +
       "ID: " + id + "\n" +
       "Position: (" + position.getX() + ", " + position.getY() + ", " + position.getZ() + ")\n" +
-      "Physics: Mass: " + mass + "\n" +
+      "Physics: " + body.toString() + "\n" +
       "===================\n";
     //@formatter:on
   }
