@@ -61,9 +61,10 @@ public class TrapDoor extends GameObject
    * Draws a trap door to the screen at the given position
    *  
    * @param the x coord 
+   * @param the y coord 
    * @param the z coord
    */
-  public void drawTrapDoor(float x, float z)
+  public void drawTrapDoor(float x, float y,  float z)
   {
     System.out.println("td occilate "+ occilate);
     glPushMatrix();
@@ -71,7 +72,7 @@ public class TrapDoor extends GameObject
       glPushName(this.id);
       {
         glColor3f(0.5f, 0.5f, 0.5f);
-        glTranslatef((float) (x - occilate), -4.6f, z);
+        glTranslatef((x - occilate), -2.8f, z);
         glScalef(3f, 1f, 3f);
         glEnable(GL_TEXTURE_2D);
         wood.bind();
@@ -86,7 +87,7 @@ public class TrapDoor extends GameObject
       glPushName(this.id);
       {
         glColor3f(0.0f, 0.0f, 0.0f);
-        glTranslatef(x, -4.7f, z);
+        glTranslatef(x, -2.9f, z);
         glScalef(2.9f, 1f, 2.9f);
         this.draw();
       }

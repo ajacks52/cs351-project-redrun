@@ -94,9 +94,10 @@ public class Spike extends Trap
    * Draws spikes to the screen at the given position
    * 
    * @param the x coord
+   * @param the y coord 
    * @param the z coord
    */
-  public void drawSpikes(float x, float z)
+  public void drawSpikes(float x, float y, float z)
   {
     for (int i = 0; i < 5; i++)
     {
@@ -106,7 +107,7 @@ public class Spike extends Trap
         {
           glUseProgram(sl.getShaderProgram());
           {
-            glTranslatef(x + i - 1.2f, (float) (-5.7 + 3 * Math.sin(occilate)), (float) (Math.pow(-1, i) + z));
+            glTranslatef((x+i), (float) (-5 - 2*Math.sin(occilate)), 2+z+i%2);
             glScalef(0.3f, 2.f, 0.2f);
             glColor3f(0.5f, 0.5f, 0.5f);
             this.draw();
@@ -122,7 +123,7 @@ public class Spike extends Trap
       glPushName(td.id);
       {
         glColor3f(0.5f, 0.5f, 0.5f);
-        glTranslatef((float) (x - occilate2), -4.6f, z);
+        glTranslatef((float) (x - occilate2), -2.98f, z);
         glScalef(3f, 1f, 3f);
         glEnable(GL_TEXTURE_2D);
         wood.bind();
@@ -137,7 +138,7 @@ public class Spike extends Trap
       glPushName(td.id);
       {
         glColor3f(0.0f, 0.0f, 0.0f);
-        glTranslatef(x, -4.7f, z);
+        glTranslatef(x, -2.99f, z);
         glScalef(2.8f, 1f, 2.8f);
         td.draw();
       }
@@ -174,7 +175,7 @@ public class Spike extends Trap
       occilate2 = 0;
       occilate = 0;
     }
-    else if (occilate2 < 4)
+    else if (occilate2 < 6)
     {
       occilate2 += 0.15f;
     }
