@@ -14,7 +14,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.Timer;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.opengl.Texture;
 
 import redrun.graphics.camera.Camera;
 import redrun.graphics.selection.Picker;
@@ -24,7 +23,6 @@ import redrun.model.gameobject.world.SkyBox;
 import redrun.model.gameobject.world.Tetrahedron;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
-import redrun.model.toolkit.Tools;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -41,16 +39,6 @@ public class GraphicsTestTroy
   
   /** The list of tetrahedrons. */
   private static ArrayList<Tetrahedron> tetrahedrons = new ArrayList<Tetrahedron>();
-  
-  // Settings for how materials react to lighting...
-  /** Shininess level. */
-  public static float shininess = 0.0f;
-  
-  /** Specularity level. */
-  public static float specularity = 0.0f;
-  
-  /** Emmision level. */
-  public static float emission = 0.0f;
 
   /**
    * Performs OpenGL initialization.
@@ -85,10 +73,6 @@ public class GraphicsTestTroy
    */
   private static void gameLoop()
   {
-    // Load in the textures...
-    Texture wood = Tools.loadTexture("wood", "png");
-    Texture pokadots = Tools.loadTexture("pokadots", "png");
-    
     // Create the camera...
     Camera camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f, 0.0f, 0.0f);
     
@@ -96,19 +80,19 @@ public class GraphicsTestTroy
     SkyBox skybox = new SkyBox(0, 0, 0, "blood_sport", camera);
     
     // Create the checker-board floor...
-    CheckerBoard board = new CheckerBoard(0, 0, 0, new Dimension(50, 50));
+    CheckerBoard board = new CheckerBoard(0, 0, 0, null, new Dimension(50, 50));
     
     // Create the cubes...
-    cubes.add(new Cube(0.0f, 0.0f, 0.0f));
-    cubes.add(new Cube(5.0f, 0.0f, 0.0f));
-    cubes.add(new Cube(0.0f, 0.0f, 5.0f));
-    cubes.add(new Cube(5.0f, 0.0f, 5.0f));
+    cubes.add(new Cube(20.0f, 1.5f, 20.0f, null));
+    cubes.add(new Cube(25.0f, 1.5f, 20.0f, null));
+    cubes.add(new Cube(20.0f, 1.5f, 25.0f, null));
+    cubes.add(new Cube(25.0f, 1.5f, 25.0f, null));
     
     // Create the tetrahedrons...
-    tetrahedrons.add(new Tetrahedron(0.0f, 0.0f, 0.0f));
-    tetrahedrons.add(new Tetrahedron(5.0f, 0.0f, 0.0f));
-    tetrahedrons.add(new Tetrahedron(0.0f, 0.0f, 5.0f));
-    tetrahedrons.add(new Tetrahedron(5.0f, 0.0f, 5.0f));
+    tetrahedrons.add(new Tetrahedron(0.0f, 0.0f, 0.0f, null));
+    tetrahedrons.add(new Tetrahedron(5.0f, 0.0f, 0.0f, null));
+    tetrahedrons.add(new Tetrahedron(0.0f, 0.0f, 5.0f, null));
+    tetrahedrons.add(new Tetrahedron(5.0f, 0.0f, 5.0f, null));
     
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
@@ -126,12 +110,6 @@ public class GraphicsTestTroy
     
     // Set transformation variables...
     float occilate = 0;
-    float rotate = 0;
-    
-    // Set lighting toggles...
-    boolean shininessToggle = false;
-    boolean specularityToggle = false;
-    boolean emissionToggle = false;
     
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
@@ -151,32 +129,21 @@ public class GraphicsTestTroy
       if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed * dt);
       if (Keyboard.isKeyDown(Keyboard.KEY_UP)) camera.moveUp(movementSpeed * dt);
       if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) camera.moveDown(movementSpeed * dt);
-      if (Keyboard.isKeyDown(Keyboard.KEY_J)) shininessToggle = !shininessToggle;
-      if (Keyboard.isKeyDown(Keyboard.KEY_K)) specularityToggle = !specularityToggle;
-      if (Keyboard.isKeyDown(Keyboard.KEY_L)) emissionToggle = !emissionToggle;
-      if (Keyboard.isKeyDown(Keyboard.KEY_F)) Picker.mode = 2;
-      
-      if (shininessToggle) shininess = 25.0f;
-      else shininess = 12.0f;
-      if (specularityToggle) specularity = 1.0f;
-      else specularity = 0.3f;
-      if (emissionToggle) emission = 0.05f;
-      else emission = 0.0f;
       
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
       glLoadIdentity();
       
       glPushMatrix();
-      glDepthMask(false);
-      glRotatef(camera.getYaw(), 0, 1, 0);
-
-      skybox.draw();
-      glDepthMask(true);
+      {
+        glDepthMask(false);
+        //TODO Fix rotations along X and Z axis.
+        glRotatef(camera.getYaw(), 0, 1, 0);
+        skybox.draw();
+        glDepthMask(true);
+      }
       glPopMatrix();
       
       camera.lookThrough();
-      
-      if (Picker.mode == 2) Picker.startPicking();
 
       // Add ambient light...
       FloatBuffer ambientColor = BufferConverter.asFloatBuffer(new float[] { 0.2f, 0.2f, 0.2f, 1.0f });
@@ -195,81 +162,67 @@ public class GraphicsTestTroy
       glLight(GL_LIGHT1, GL_DIFFUSE, lightColor1);
       glLight(GL_LIGHT1, GL_POSITION, lightPosition1);
       
-      // Draw the checker-board...
-      glPushName(board.id);
+      if (Keyboard.isKeyDown(Keyboard.KEY_F))
       {
-        board.draw();
-      }
-      glPopName();
-      
-      // Draw the cubes...
-      for (Cube cube : cubes)
-      {
-        glPushMatrix();
+        Picker.startPicking();
         {
-          glPushName(cube.id);
+          // Draw the checker-board...
+          glPushName(board.id);
           {
-            glTranslatef(20.0f, 1.5f, 5.0f);
-            glTranslatef(cube.getX(), (float) (cube.getY() + Math.sin(occilate)), cube.getZ());
-            glRotatef(rotate, 0, 1, 0);
-            glEnable(GL_TEXTURE_2D);
-            wood.bind();
-            cube.draw();
-            glDisable(GL_TEXTURE_2D);
+            board.draw();
           }
           glPopName();
-        }
-        glPopMatrix();
-      }
-      
-      // Draw the tetrahedrons...
-      for (Tetrahedron tetrahedron : tetrahedrons)
-      {
-        glPushMatrix();
-        {
-          glPushName(tetrahedron.id);
+          
+          // Draw the cubes...
+          for (Cube cube : cubes)
           {
-            glTranslatef(5.0f, 1.5f, 20.0f);
-            glTranslatef(tetrahedron.getX(), (float) (tetrahedron.getY() + Math.sin(occilate)), tetrahedron.getZ());
-            glRotatef(rotate, 0, 1, 0);
-            glEnable(GL_TEXTURE_2D);
-            pokadots.bind();
-            tetrahedron.draw();
-            glDisable(GL_TEXTURE_2D);
+            glPushMatrix();
+            {
+              glPushName(cube.id);
+              {
+                //glTranslatef(20.0f, 1.5f, 5.0f);
+                glTranslatef(0.0f, (float) Math.sin(occilate), 0.0f);
+                
+                //glRotatef(rotate, 0, 1, 0);
+                cube.draw();
+              }
+              glPopName();
+            }
+            glPopMatrix();
           }
-          glPopName();
+          
+          // Draw the tetrahedrons...
+          for (Tetrahedron tetrahedron : tetrahedrons)
+          {
+            glPushMatrix();
+            {
+              glPushName(tetrahedron.id);
+              {
+                tetrahedron.draw();
+              }
+              glPopName();
+            }
+            glPopMatrix();
+          }
         }
-        glPopMatrix();
+        Picker.stopPicking();
       }
       
-      if (Picker.mode == 2) Picker.stopPicking();
-
-      // Draw the skybox...
-//      glPushMatrix();
-//      {
-//        System.out.println(camera.getX() + ", " + camera.getY() + ", " + camera.getZ());
-//        glTranslatef(camera.getX(), camera.getY(), camera.getZ());
-//        skybox.draw();
-//      }
-//      glPopMatrix();
-
+      
 
       // Draw the checker-board...
       board.draw();
-      board.update();
 
       // Draw the cubes...
       for (Cube cube : cubes)
       {
         glPushMatrix();
         {
-          glTranslatef(20.0f, 1.5f, 5.0f);
-          glTranslatef(cube.getX(), (float) (cube.getY() + Math.sin(occilate)), cube.getZ());
-          glRotatef(rotate, 0, 1, 0);
-          glEnable(GL_TEXTURE_2D);
-          wood.bind();
+          //glTranslatef(20.0f, 1.5f, 5.0f);
+          glTranslatef(0.0f, (float) Math.sin(occilate), 0.0f);
+          
+          //glRotatef(rotate, 0, 1, 0);
           cube.draw();
-          glDisable(GL_TEXTURE_2D);
         }
         glPopMatrix();
       }
@@ -279,13 +232,7 @@ public class GraphicsTestTroy
       {
         glPushMatrix();
         {
-          glTranslatef(5.0f, 1.5f, 20.0f);
-          glTranslatef(tetrahedron.getX(), (float) (tetrahedron.getY() + Math.sin(occilate)), tetrahedron.getZ());
-          glRotatef(rotate, 0, 1, 0);
-          glEnable(GL_TEXTURE_2D);
-          pokadots.bind();
           tetrahedron.draw();
-          glDisable(GL_TEXTURE_2D);
         }
         glPopMatrix();
       }
@@ -352,7 +299,6 @@ public class GraphicsTestTroy
       
       // Update transformation variables...
       occilate += 0.025f;
-      rotate++;
       
       Timer.tick();
       Display.update();

@@ -22,9 +22,9 @@ public class CheckerBoard extends WorldObject
    * @param width the width of the checker-board
    * @param depth the depth of the checker-board
    */
-  public CheckerBoard(float x, float y, float z, Dimension dimensions)
+  public CheckerBoard(float x, float y, float z, String textureName, Dimension dimensions)
   {
-    super(x, y, z);
+    super(x, y, z, textureName);
     
     this.dimensions = dimensions;
 

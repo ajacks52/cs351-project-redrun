@@ -17,9 +17,9 @@ public class Hammer extends Trap
    * @param starting y
    * @param starting z
    */
-  public Hammer(float x, float y, float z)
+  public Hammer(float x, float y, float z, String textureName)
   {
-    super(x, y, z);
+    super(x, y, z, textureName);
     
   }
 

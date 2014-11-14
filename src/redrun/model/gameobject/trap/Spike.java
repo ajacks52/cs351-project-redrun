@@ -36,11 +36,11 @@ public class Spike extends Trap
    * @param y starting coordinate
    * @param z starting coordinate
    */
-  public Spike(float x, float y, float z)
+  public Spike(float x, float y, float z, String textureName)
   {
-    super(x, y, z);
+    super(x, y, z, textureName);
 
-    td = new TrapDoor(1, 1, 1);
+    td = new TrapDoor(1, 1, 1, textureName);
     wood = Tools.loadTexture("wood", "png");
 
     sl = new ShaderLoader();
