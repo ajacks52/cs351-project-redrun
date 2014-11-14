@@ -21,6 +21,7 @@ import static org.lwjgl.opengl.GL11.*;
  * 
  * Class to show how to draw text, also does a few other camera adjustments to
  * mimic a person walking and jumping these are mainly just for testing purposes
+ * also shows how traps work.
  * 
  * @author Adam Mitchell
  * @version 1.0
@@ -33,8 +34,7 @@ public class GraphicsTestAdam
   Random rand;
 
   /**
-   * Mostly copied Troy's mainLoop code to set the basic scene added walls and a
-   * few small testing tweaks
+   * Renders a scene so show how the traps work.
    * 
    * Loads the fonts
    * 
@@ -84,7 +84,7 @@ public class GraphicsTestAdam
       if (Keyboard.isKeyDown(Keyboard.KEY_D)) cam.moveRight(movementSpeed * dt);
       if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) cam.moveUp(movementSpeed * dt);
       if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) cam.moveDown(movementSpeed * dt);
-      if (Keyboard.isKeyDown(Keyboard.KEY_F)) Picker.mode = 2;
+      if (Keyboard.isKeyDown(Keyboard.KEY_F))  td.interact(); //Picker.mode = 2;
       if (cam.getY() < -1 && !Keyboard.isKeyDown(Keyboard.KEY_SPACE) || cam.getY() < -5)
       {
         fall = true;
@@ -106,9 +106,9 @@ public class GraphicsTestAdam
 
       ss.drawSpikes(10, 0);
       ss.update();
-      ss.drawSpikes(30, 0);
-      ss.update();
-      td.drawTrapDoor(50, 0);
+//      ss.drawSpikes(30, 0);
+//      ss.update();
+      td.drawTrapDoor(30, 0);
       td.update();
       
       

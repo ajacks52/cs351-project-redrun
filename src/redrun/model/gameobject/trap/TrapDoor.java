@@ -65,18 +65,18 @@ public class TrapDoor extends GameObject
    */
   public void drawTrapDoor(float x, float z)
   {
+    System.out.println("td occilate "+ occilate);
     glPushMatrix();
     {
       glPushName(this.id);
       {
         glColor3f(0.5f, 0.5f, 0.5f);
-        glTranslatef((float) (x + 2 * Math.sin(occilate)), -4.6f, z);
+        glTranslatef((float) (x - occilate), -4.6f, z);
         glScalef(3f, 1f, 3f);
         glEnable(GL_TEXTURE_2D);
         wood.bind();
         this.draw();
         glDisable(GL_TEXTURE_2D);
-
       }
       glPopName();
     }
@@ -85,12 +85,10 @@ public class TrapDoor extends GameObject
     {
       glPushName(this.id);
       {
-        // glUseProgram(sl.getShaderProgram());
         glColor3f(0.0f, 0.0f, 0.0f);
-        glTranslatef(x + 2, -4.7f, z);
-        glScalef(2.8f, 1f, 2.7f);
+        glTranslatef(x, -4.7f, z);
+        glScalef(2.9f, 1f, 2.9f);
         this.draw();
-        // glUseProgram(0);
       }
       glPopName();
     }
@@ -114,13 +112,15 @@ public class TrapDoor extends GameObject
   @Override
   public void update()
   {
-    System.out.println(this.timer.getTime());
-    if (this.timer.getTime() < 2)
+    if (this.timer.getTime() == 0)
     {
-      occilate += 0.015f;
+      occilate = 0;
     }
-
-    if ((int) this.timer.getTime() == 4)
+    else if (occilate < 5)
+    {
+      occilate += 0.15f;
+    }
+    if ((int) this.timer.getTime() == 2)
     {
       System.out.println("Resetting game object: " + this.id);
       reset();

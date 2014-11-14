@@ -93,12 +93,12 @@ public class Spike extends Trap
   /**
    * Draws spikes to the screen at the given position
    * 
-   * @param the x coord 
+   * @param the x coord
    * @param the z coord
    */
   public void drawSpikes(float x, float z)
   {
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 5; i++)
     {
       glPushMatrix();
       {
@@ -106,7 +106,7 @@ public class Spike extends Trap
         {
           glUseProgram(sl.getShaderProgram());
           {
-            glTranslatef(x + i, (float) (-5.5 + 3 * Math.sin(occilate)), (float) (Math.pow(-1, i) + z));
+            glTranslatef(x + i - 1.2f, (float) (-5.7 + 3 * Math.sin(occilate)), (float) (Math.pow(-1, i) + z));
             glScalef(0.3f, 2.f, 0.2f);
             glColor3f(0.5f, 0.5f, 0.5f);
             this.draw();
@@ -122,7 +122,7 @@ public class Spike extends Trap
       glPushName(td.id);
       {
         glColor3f(0.5f, 0.5f, 0.5f);
-        glTranslatef((float) (x + 2 * Math.sin(occilate2)), -4.6f, z);
+        glTranslatef((float) (x - occilate2), -4.6f, z);
         glScalef(3f, 1f, 3f);
         glEnable(GL_TEXTURE_2D);
         wood.bind();
@@ -136,12 +136,10 @@ public class Spike extends Trap
     {
       glPushName(td.id);
       {
-        // glUseProgram(sl.getShaderProgram());
         glColor3f(0.0f, 0.0f, 0.0f);
-        glTranslatef(x + 2, -4.7f, z);
+        glTranslatef(x, -4.7f, z);
         glScalef(2.8f, 1f, 2.8f);
         td.draw();
-        // glUseProgram(0);
       }
       glPopName();
     }
@@ -171,19 +169,20 @@ public class Spike extends Trap
   @Override
   public void update()
   {
-    System.out.println(this.timer.getTime());
     if (this.timer.getTime() == 0)
     {
+      occilate2 = 0;
       occilate = 0;
-      occilate2 = 1;
+    }
+    else if (occilate2 < 4)
+    {
+      occilate2 += 0.15f;
     }
     else
     {
       occilate += 0.015f;
-      occilate2 += 0.025f;
     }
-
-    if ((int) this.timer.getTime() == 4)
+    if ((int) this.timer.getTime() == 2)
     {
       System.out.println("Resetting game object: " + this.id);
       reset();
