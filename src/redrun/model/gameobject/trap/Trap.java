@@ -18,9 +18,9 @@ public abstract class Trap extends GameObject
    * @param y the y position of the trap
    * @param z the z position of the trap
    */
-  public Trap(float x, float y, float z)
+  public Trap(float x, float y, float z, String textureName)
   {
-    super(x, y, z);
+    super(x, y, z, textureName);
     // TODO Auto-generated constructor stub
   }
 

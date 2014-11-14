@@ -36,7 +36,7 @@ public class SkyBox extends WorldObject
    */
   public SkyBox(float x, float y, float z, String skybox, Camera camera)
   {
-    super(x, y, z);
+    super(x, y, z, null);
     
     // Load the skybox textures...
     textures.add(Tools.loadTexture(skybox + "/" + skybox + "512_front", "jpg"));

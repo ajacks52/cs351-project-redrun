@@ -18,16 +18,14 @@ public class Cube extends WorldObject
    * @param y the initial y position
    * @param z the initial z position
    */
-  public Cube(float x, float y, float z)
+  public Cube(float x, float y, float z, String textureName)
   {
-    super(x, y, z);
+    super(x, y, z, textureName);
 
     displayListId = glGenLists(1);
 
     glNewList(displayListId, GL_COMPILE);
     {
-      glTranslatef(this.getX(), this.getY(), this.getZ());
-
       glBegin(GL_QUADS);
       {
         // Top face...

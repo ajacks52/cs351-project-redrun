@@ -16,9 +16,9 @@ public class Button extends WorldObject
   private Vector3f defaultButtonPosition;
   private Ball button;
 
-  public Button(float x, float y, float z)
+  public Button(float x, float y, float z, String textureName)
   {
-    super(x, y, z);
+    super(x, y, z, textureName);
     defaultButtonPosition = new Vector3f(x, y + 0.8f, z);
 
     button = new Ball(x, y + 0.8f, z, 0.5f, new Vector3f(1.0f, 0.0f, 0.0f));

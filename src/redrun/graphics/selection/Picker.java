@@ -20,14 +20,17 @@ import static org.lwjgl.util.glu.GLU.*;
 public class Picker
 {
   /** The mode of selection. */
-  public static int mode;
+  private static boolean picking;
 
   /** Contains selection data. */
-  public static IntBuffer selectBuf = BufferUtils.createIntBuffer(1024);
+  private static IntBuffer selectBuf = BufferUtils.createIntBuffer(1024);
 
   /** The number of objects hit in 3D space. */
-  public static int hits;
+  private static int hits;
 
+  /**
+   * Begins picking from an OpenGL scene.
+   */
   public static void startPicking()
   {
     IntBuffer viewport = BufferUtils.createIntBuffer(16);
@@ -49,7 +52,13 @@ public class Picker
     glMatrixMode(GL_MODELVIEW);
   }
 
-  public static void processHits(int hits, IntBuffer buffer, int sw)
+  /**
+   * Processes all hits from picking and executes the interact method of the closest game object.
+   * 
+   * @param hits the total number of hits
+   * @param buffer the selection buffer where the results from picking were placed
+   */
+  public static void processHits(int hits, IntBuffer buffer)
   {
     for (int i = 0; i < hits * 4; i++)
       System.out.println("Buffer: " + buffer.get(i));
@@ -96,6 +105,9 @@ public class Picker
     selected.interact();
   }
 
+  /**
+   * Stops picking and processes the results.
+   */
   public static void stopPicking()
   {
     glMatrixMode(GL_PROJECTION);
@@ -105,10 +117,27 @@ public class Picker
     hits = glRenderMode(GL_RENDER);
     System.out.println("================================================");
     System.out.println("Number of hits: " + hits);
-    if (hits != 0) processHits(hits, selectBuf, 0);
+    if (hits != 0) processHits(hits, selectBuf);
     System.out.println("================================================\n");
     selectBuf.clear();
-    // Set the mode to render...
-    mode = 1;
+    
+    // Prevent picking from occurring on future passes...
+    picking = false;
+  }
+  
+  /**
+   * Controlled 
+   */
+  public static void pick()
+  {
+    picking = true;
+  }
+  
+  /*
+   * Indicates if the picker is currently is currently picking.
+   */
+  public static boolean isPicking()
+  {
+    return picking;
   }
 }

@@ -18,9 +18,9 @@ public class Tetrahedron extends WorldObject
    * @param y the initial y position
    * @param z the initial z position
    */
-  public Tetrahedron(float x, float y, float z)
+  public Tetrahedron(float x, float y, float z, String textureName)
   {
-    super(x, y, z);
+    super(x, y, z, textureName);
 
     displayListId = glGenLists(1);
 

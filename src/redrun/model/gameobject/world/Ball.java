@@ -8,9 +8,9 @@ import org.lwjgl.util.vector.Vector3f;
 public class Ball extends WorldObject
 {
 
-  public Ball(float x, float y, float z, float radius, Vector3f color)
+  public Ball(float x, float y, float z, String textureName, float radius, Vector3f color)
   {
-    super(x, y, z);
+    super(x, y, z, textureName);
 
     displayListId = glGenLists(1);
     

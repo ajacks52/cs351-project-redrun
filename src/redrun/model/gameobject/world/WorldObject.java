@@ -19,10 +19,8 @@ public abstract class WorldObject extends GameObject implements Noninteractable
    * @param y the y position of the world object
    * @param z the z position of the world object
    */
-  public WorldObject(float x, float y, float z)
+  public WorldObject(float x, float y, float z, String textureName)
   {
-    super(x, y, z);
-    // TODO Auto-generated constructor stub
+    super(x, y, z, textureName);
   }
-
 }

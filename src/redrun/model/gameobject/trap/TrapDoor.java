@@ -31,9 +31,9 @@ public class TrapDoor extends GameObject
    * @param starting y
    * @param starting z
    */
-  public TrapDoor(float x, float y, float z)
+  public TrapDoor(float x, float y, float z, String textureName)
   {
-    super(x, y, z);
+    super(x, y, z, textureName);
 
     displayListId = glGenLists(1);
     wood = Tools.loadTexture("wood", "png");

@@ -24,9 +24,9 @@ public class Room extends WorldObject
    * @param z the Z position of the room
    * @param dimensions the 3D dimensions of the room
    */
-  public Room(float x, float y, float z, Vector3f dimensions)
+  public Room(float x, float y, float z, String textureName, Vector3f dimensions)
   {
-    super(x, y, z);
+    super(x, y, z, textureName);
     this.dimensions = dimensions;
 
     displayListId = glGenLists(1);
