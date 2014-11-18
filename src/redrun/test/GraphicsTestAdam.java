@@ -76,7 +76,7 @@ public class GraphicsTestAdam
 
     board = new CheckerBoard(0, 0, 0, "x17", new Dimension(50, 50));
     wallT = new CheckerBoard(0, 10, 0, "x11", new Dimension(50, 50));
-    wallR = new CheckerBoard(0, 0, 0, "brickwall6", new Dimension(50, 11));
+    wallR = new CheckerBoard(0, 0, 0, "24", new Dimension(50, 11));
 
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
