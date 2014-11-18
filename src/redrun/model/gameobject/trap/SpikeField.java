@@ -7,7 +7,12 @@ import static org.lwjgl.opengl.GL20.glVertexAttrib3f;
 
 import java.awt.Dimension;
 
+import javax.vecmath.Quat4f;
+
+import org.lwjgl.util.vector.Vector3f;
+
 import redrun.model.gameobject.world.CheckerBoard;
+import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.toolkit.ShaderLoader;
 
 
@@ -36,7 +41,7 @@ public class SpikeField extends Trap
   public SpikeField(float x, float y, float z, String textureName, Dimension dim)
   {
     super(x, y, z, null);
-
+    this.body = new BoxPhysicsBody(new Vector3f(x,y,z), new Vector3f(dim.width, 1, dim.height), new Quat4f(0,0,0,1), 0);
     this.dim = dim;
     
     // simple shaders to color the spikes red

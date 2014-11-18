@@ -78,6 +78,7 @@ public class GraphicsTestAdam
     wallT = new CheckerBoard(0, 10, 0, "x11", new Dimension(50, 50));
     wallR = new CheckerBoard(0, 0, 0, "24", new Dimension(50, 11));
 
+
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
     getDelta(); // call once before loop to initialize lastFrame
