@@ -4,13 +4,21 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.vecmath.Quat4f;
+
 import org.lwjgl.util.Timer;
 import org.lwjgl.util.vector.Vector3f;
+import org.newdawn.slick.opengl.Texture;
 
 import redrun.model.physics.PhysicsBody;
+import redrun.model.toolkit.Tools;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glCallList;
-import redrun.model.physics.PhysicsBody;
-
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glTranslatef;
 
 /**
  * This abstract class represents a game object. Every object in the 3D scene will extend
@@ -30,16 +38,17 @@ public abstract class GameObject
   private static HashMap<Integer, GameObject> gameObjects = new HashMap<Integer, GameObject>();
   
   // OpenGL related fields...
+  /** A timer associated with this game object. */
   protected Timer timer = null;
+  
+  /** A texture associated with this game object. */
+  protected Texture texture = null;
   
   /** The display list for the game object.  */
   protected int displayListId = -1;
-
-  /** The position of the game object in 3D space. */
-  protected Vector3f position = null;
   
   // Physics related fields...
-  /** The variable that holds all of the information needed for the physics calculations */
+  /** The variable that holds all of the information needed for the physics calculations. */
   protected PhysicsBody body = null;
   
   /**
@@ -49,9 +58,14 @@ public abstract class GameObject
    * @param y the y position of the game object
    * @param z the z position of the game object
    */
-  public GameObject(float x, float y, float z)
+  public GameObject(float x, float y, float z, String textureName)
   {
-    position = new Vector3f(x, y, z);
+    body = new PhysicsBody(0, new Quat4f(0, 0, 0, 1), new Vector3f(x, y, z), null);
+    
+    if (textureName != null)
+    {
+      texture = Tools.loadTexture(textureName, "png");
+    }
     
     timer = new Timer();
     timer.pause();
@@ -81,7 +95,29 @@ public abstract class GameObject
    */
   public void draw()
   {
-    glCallList(displayListId);
+    if (texture != null)
+    {
+      glPushMatrix();
+      {
+        glEnable(GL_TEXTURE_2D);
+        texture.bind();  
+        glTranslatef(body.getX(), body.getY(), body.getZ());
+        glCallList(displayListId);
+        glDisable(GL_TEXTURE_2D);
+      }
+      glPopMatrix();
+    }
+    else
+    {
+      glPushMatrix();
+      {
+        glTranslatef(body.getX(), body.getY(), body.getZ());
+        glCallList(displayListId);
+      }
+      glPopMatrix();
+    }
+    
+    update();
   }
   
   /**
@@ -121,7 +157,7 @@ public abstract class GameObject
    */
   public float getX()
   {
-    return position.x;
+    return body.getX();
   }
   
   /**
@@ -131,7 +167,7 @@ public abstract class GameObject
    */
   public float getY()
   {
-    return position.y;
+    return body.getY();
   }
   
   /**
@@ -141,50 +177,17 @@ public abstract class GameObject
    */
   public float getZ()
   {
-    return position.z;
+    return body.getZ();
   }
   
   /**
-   * Gets the physics rigid body
+   * Gets the physics rigid body.
    * 
-   * @return the rigidBody
+   * @return the the physics rigid body
    */
   public PhysicsBody getBody()
   {
     return body;
-  }
-  
-  
-  
-  // Setter methods...  
-  /**
-   * Sets the X position of the game object.
-   * 
-   * @param x the X position of the game object
-   */
-  public void setX(float x)
-  {
-    position.x = x;
-  }
-  
-  /**
-   * Sets the Y position of the game object.
-   * 
-   * @param y the Y position of the game object
-   */
-  public void setY(float y)
-  {
-    position.y = y;
-  }
-  
-  /**
-   * Sets the Z position of the game object.
-   * 
-   * @param z the Z position of the game object
-   */
-  public void setZ(float z)
-  {
-    position.z = z;
   }
   
   
@@ -211,7 +214,7 @@ public abstract class GameObject
     return 
       "=== Game Object ===\n" +
       "ID: " + id + "\n" +
-      "Position: (" + position.getX() + ", " + position.getY() + ", " + position.getZ() + ")\n" +
+      "Position: (" + body.getX() + ", " + body.getY() + ", " + body.getZ() + ")\n" +
       "Physics: " + body.toString() + "\n" +
       "===================\n";
     //@formatter:on

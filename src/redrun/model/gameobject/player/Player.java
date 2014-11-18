@@ -22,9 +22,9 @@ public abstract class Player extends GameObject implements Interactable
    * @param y the y position of the player
    * @param z the z position of the player
    */
-  public Player(float x, float y, float z)
+  public Player(float x, float y, float z, String textureName)
   {
-    super(x, y, z);
+    super(x, y, z, textureName);
     // all the physics you'll  need :-D
 //    rigidBody = new BoxRigidBody(this.position, new Vector3f(1,2,1), new Quat4f(0,0,0,1), 120.0f);
     // TODO Auto-generated constructor stub

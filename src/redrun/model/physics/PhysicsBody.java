@@ -66,7 +66,7 @@ public class PhysicsBody extends RigidBody
   public float getZ()
   {
     trans = this.getMotionState().getWorldTransform(trans);
-    return trans.origin.y;
+    return trans.origin.z;
   }
   
   /**
