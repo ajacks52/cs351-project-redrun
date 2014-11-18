@@ -9,6 +9,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 import redrun.model.physics.PhysicsBody;
 import static org.lwjgl.opengl.GL11.glCallList;
+import redrun.model.physics.PhysicsBody;
+
 
 /**
  * This abstract class represents a game object. Every object in the 3D scene will extend
