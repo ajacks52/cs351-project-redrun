@@ -4,7 +4,6 @@ import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-
 import org.lwjgl.BufferUtils;
 
 /**
@@ -30,7 +29,7 @@ public class BufferConverter
     buffer.flip();
     return buffer;
   }
-  
+
   /**
    * Converts a int array to a IntBuffer.
    * 
@@ -44,7 +43,7 @@ public class BufferConverter
     buffer.flip();
     return buffer;
   }
-  
+
   /**
    * Converts a float array to a FloatBuffer.
    * 
@@ -58,7 +57,7 @@ public class BufferConverter
     buffer.flip();
     return buffer;
   }
-  
+
   /**
    * Converts a double array to a DoubleBuffer.
    * 
@@ -68,6 +67,20 @@ public class BufferConverter
   public static DoubleBuffer asDoubleBuffer(double[] values)
   {
     DoubleBuffer buffer = BufferUtils.createDoubleBuffer(values.length);
+    buffer.put(values);
+    buffer.flip();
+    return buffer;
+  }
+
+  /**
+   * Converts a float array to a flipped FloatBuffer.
+   * 
+   * @param values the float values that are to be turned into a FloatBuffer
+   * @return a FloatBuffer
+   */
+  public static FloatBuffer asFlippedFloatBuffer(float... values)
+  {
+    FloatBuffer buffer = BufferUtils.createFloatBuffer(values.length);
     buffer.put(values);
     buffer.flip();
     return buffer;

@@ -1,42 +1,38 @@
 package redrun.model.gameobject.trap;
 
-import org.newdawn.slick.opengl.Texture;
-
-import redrun.model.gameobject.GameObject;
 import redrun.model.toolkit.ShaderLoader;
-import redrun.model.toolkit.Tools;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
  * 
- * Class to make trap doors.  To make a new trap door make a new object of this class 
- * calling the constructor that wants x,y,z and to use call trapDoorObject.drawTrapDoor(50, 0);
- * followed by trapDoorObject.update(); when you are rendering graphics. 
+ * Class to make trap doors.  To make a new trap door make a new object of this class. 
+ * 
+ * objectName.update(); when you are rendering graphics. 
+ * 
  * 
  * @author Adam Mitchell
  * @version 1.0
  * @since 2014-13-10
  * 
  */
-public class TrapDoor extends GameObject
+public class TrapDoor extends Trap
 {
 
   ShaderLoader sl;
-  Texture wood;
   float occilate = 0;
 
   /**
    * Constructor to make a new trap door give the starting position 
-   * @param starting x
-   * @param starting y
-   * @param starting z
+   * @param x pos
+   * @param y pos
+   * @param z pos 
+   * @param textureName
    */
   public TrapDoor(float x, float y, float z, String textureName)
   {
     super(x, y, z, textureName);
 
     displayListId = glGenLists(1);
-    wood = Tools.loadTexture("wood", "png");
 
     glNewList(displayListId, GL_COMPILE);
     {
@@ -61,22 +57,19 @@ public class TrapDoor extends GameObject
    * Draws a trap door to the screen at the given position
    *  
    * @param the x coord 
+   * @param the y coord 
    * @param the z coord
    */
-  public void drawTrapDoor(float x, float z)
+  public void render(float x, float y,  float z)
   {
     glPushMatrix();
     {
       glPushName(this.id);
       {
         glColor3f(0.5f, 0.5f, 0.5f);
-        glTranslatef((float) (x + 2 * Math.sin(occilate)), -4.6f, z);
+        glTranslatef((x - occilate), -2.98f, z);
         glScalef(3f, 1f, 3f);
-        glEnable(GL_TEXTURE_2D);
-        wood.bind();
         this.draw();
-        glDisable(GL_TEXTURE_2D);
-
       }
       glPopName();
     }
@@ -85,12 +78,10 @@ public class TrapDoor extends GameObject
     {
       glPushName(this.id);
       {
-        // glUseProgram(sl.getShaderProgram());
         glColor3f(0.0f, 0.0f, 0.0f);
-        glTranslatef(x + 2, -4.7f, z);
-        glScalef(2.8f, 1f, 2.7f);
+        glTranslatef(x, -2.99f, z);
+        glScalef(2.9f, 1f, 2.9f);
         this.draw();
-        // glUseProgram(0);
       }
       glPopName();
     }
@@ -114,17 +105,26 @@ public class TrapDoor extends GameObject
   @Override
   public void update()
   {
-    System.out.println(this.timer.getTime());
-    if (this.timer.getTime() < 2)
+    if (this.timer.getTime() == 0)
     {
-      occilate += 0.015f;
+      occilate = 0;
     }
-
-    if ((int) this.timer.getTime() == 4)
+    else if (occilate < 6)
+    {
+      occilate += 0.15f;
+    }
+    if ((int) this.timer.getTime() == 2)
     {
       System.out.println("Resetting game object: " + this.id);
       reset();
     }
+  }
+
+  @Override
+  public void activate()
+  {
+    // TODO Auto-generated method stub
+    
   }
 
 }

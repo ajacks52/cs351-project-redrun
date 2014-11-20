@@ -59,7 +59,7 @@ public class ShaderLoader
     catch (IOException e)
     {
       // System.out.println(name);
-      System.err.println("Shader wasn't loaded properly.");
+      System.err.println("Shader wasn't loaded properly " + name + ".");
       return -1;
     }
     finally
@@ -81,7 +81,7 @@ public class ShaderLoader
     glCompileShader(shader);
     if (glGetShaderi(shader, GL_COMPILE_STATUS) == GL_FALSE)
     {
-      System.err.println("Shader wasn't compiled correctly.");
+      System.err.println("Shader wasn't compiled correctly "+ name + ".");
       return -1;
     }
 

@@ -25,7 +25,7 @@ public class CheckerBoard extends WorldObject
   public CheckerBoard(float x, float y, float z, String textureName, Dimension dimensions)
   {
     super(x, y, z, textureName);
-    
+
     this.dimensions = dimensions;
 
     displayListId = glGenLists(1);
@@ -35,24 +35,34 @@ public class CheckerBoard extends WorldObject
       glBegin(GL_QUADS);
       {
         glNormal3f(0.0f, 1.0f, 0.0f);
-        
+
         for (int width = 0; width < dimensions.width - 1; width++)
         {
           for (int height = 0; height < dimensions.height - 1; height++)
           {
-            if ((width + height) % 2 == 0)
+            if (textureName == null)
             {
-              glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
+              if ((width + height) % 2 == 0)
+              {
+                glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
+              }
+              else
+              {
+                glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+              }
             }
             else
             {
               glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             }
-            
             glVertex3d(width, -1.0f, height);
+            glTexCoord2f(0, 0);
             glVertex3d(width + 1, -1.0f, height);
+            glTexCoord2f(0, 1);
             glVertex3d(width + 1, -1.0f, height + 1);
+            glTexCoord2f(1, 1);
             glVertex3d(width, -1.0f, height + 1);
+            glTexCoord2f(1, 0);
           }
         }
       }
@@ -90,12 +100,12 @@ public class CheckerBoard extends WorldObject
 
   @Override
   public void update()
-  {    
+  {
     if ((int) this.timer.getTime() == 4)
     {
       System.out.println("Resetting game object: " + this.id);
       reset();
-    }    
+    }
   }
 
   @Override
