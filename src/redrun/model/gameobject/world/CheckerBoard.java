@@ -63,7 +63,6 @@ public class CheckerBoard extends WorldObject
             glTexCoord2f(1, 1);
             glVertex3d(width, -1.0f, height + 1);
             glTexCoord2f(1, 0);
-
           }
         }
       }

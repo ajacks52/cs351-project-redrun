@@ -83,7 +83,7 @@ public class GraphicsTestTroy
     CheckerBoard board = new CheckerBoard(0, 0, 0, null, new Dimension(50, 50));
     
     // Create the cubes...
-    cubes.add(new Cube(20.0f, 1.5f, 20.0f, null));
+    cubes.add(new Cube(20.0f, 1.5f, 20.0f, "wood"));
     cubes.add(new Cube(25.0f, 1.5f, 20.0f, null));
     cubes.add(new Cube(20.0f, 1.5f, 25.0f, null));
     cubes.add(new Cube(25.0f, 1.5f, 25.0f, null));

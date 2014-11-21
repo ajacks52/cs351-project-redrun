@@ -6,7 +6,6 @@ public class Runner extends Player
   public Runner(float x, float y, float z, String textureName)
   {
     super(x, y, z, textureName);
-    
     constructPlayer();
   }
   
