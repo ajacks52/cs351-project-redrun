@@ -2,12 +2,10 @@ package redrun.test;
 
 import java.awt.Dimension;
 import java.nio.FloatBuffer;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.lwjgl.LWJGLException;
-import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -21,9 +19,10 @@ import redrun.model.gameobject.world.Button;
 import redrun.model.gameobject.world.CheckerBoard;
 import redrun.model.gameobject.world.Cube;
 import redrun.model.gameobject.world.SkyBox;
-import redrun.model.gameobject.world.Tetrahedron;
+import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
+import redrun.model.toolkit.Tools;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -38,11 +37,11 @@ public class testTestClass_FOR_REMOVAL
   /** time at last frame */
   long lastFrame;
 
-  /** The list of cubes. */
-  private static ArrayList<Cube> cubes = new ArrayList<Cube>();
-
-  /** The list of tetrahedrons. */
-  private static ArrayList<Tetrahedron> tetrahedrons = new ArrayList<Tetrahedron>();
+  /** frames per second */
+  int fps;
+  
+  /** last fps time */
+  long lastFPS;
 
   /**
    * Performs OpenGL initialization.
@@ -58,7 +57,7 @@ public class testTestClass_FOR_REMOVAL
     }
     catch (LWJGLException ex)
     {
-      Logger.getLogger(GraphicsTestTroy.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(testTestClass_FOR_REMOVAL.class.getName()).log(Level.SEVERE, null, ex);
     }
 
     glEnable(GL_DEPTH_TEST);
@@ -78,9 +77,6 @@ public class testTestClass_FOR_REMOVAL
    */
   private void gameLoop()
   {
-    Cube pedestal = new Cube(4, 0, 4, "wood");
-    Button button = new Button(4, 0.8f, 4, "pokadots");
-
     // Create the camera...
     Camera camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f, 0.0f,
         0.0f);
@@ -90,6 +86,9 @@ public class testTestClass_FOR_REMOVAL
 
     // Create the checker-board floor...
     CheckerBoard board = new CheckerBoard(0, 0, 0, null, new Dimension(50, 50));
+
+    Cube pedestal = new Cube(4, 0, 4, "wood");
+    Button button = new Button(4, 0.8f, 4, "pokadots");
 
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
@@ -187,7 +186,7 @@ public class testTestClass_FOR_REMOVAL
         Picker.stopPicking();
       }
 
-      // Draw the checker-board...
+      // Draw the checker-board.
       board.draw();
 
       // Draw the button.
@@ -207,6 +206,9 @@ public class testTestClass_FOR_REMOVAL
           Color.orange, 0);
       FontTools.draw3D();
 
+      updateFPS();
+      PhysicsWorld.stepSimulation(1 / (float) lastFPS);
+      
       Timer.tick();
       Display.update();
       Display.sync(60);
@@ -220,7 +222,7 @@ public class testTestClass_FOR_REMOVAL
    */
   public int getDelta()
   {
-    long time = getTime();
+    long time = Tools.getTime();
     int delta = (int) (time - lastFrame);
     lastFrame = time;
 
@@ -228,13 +230,17 @@ public class testTestClass_FOR_REMOVAL
   }
 
   /**
-   * Get the accurate system time
-   * 
-   * @return The system time in milliseconds
+   * Calculate the FPS and set it in the title bar
    */
-  public long getTime()
+  public void updateFPS()
   {
-    return (Sys.getTime() * 1000) / Sys.getTimerResolution();
+    if (Tools.getTime() - lastFPS > 1000)
+    {
+      Display.setTitle("FPS: " + fps);
+      fps = 0;
+      lastFPS += 1000;
+    }
+    fps++;
   }
 
   /**
