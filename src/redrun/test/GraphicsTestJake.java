@@ -105,8 +105,8 @@ public class GraphicsTestJake
    */
   private void gameLoop()
   {
-    Cube pedestal = new Cube(4, 0, 4);
-    Button button = new Button(4, 0, 4);
+    Cube pedestal = new Cube(4, 0, 4, "wood");
+    Button button = new Button(4, 0, 4, null);
 
     // Load in the textures...
     Texture wood = Tools.loadTexture("wood", "png");
@@ -115,19 +115,19 @@ public class GraphicsTestJake
     Camera camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f, 0.0f,
         0.0f);
     // Create the checker-board floor...
-    CheckerBoard board = new CheckerBoard(0, 0, 0, new Dimension(50, 50));
+    CheckerBoard board = new CheckerBoard(0, 0, 0, null, new Dimension(50, 50));
     // Create the skybox...
     // TODO SkyBox skybox = new SkyBox(0, 0, 0);
     // Create the cubes...
-    cubes.add(new Cube(0.0f, 0.0f, 0.0f));
-    cubes.add(new Cube(5.0f, 0.0f, 0.0f));
-    cubes.add(new Cube(0.0f, 0.0f, 5.0f));
-    cubes.add(new Cube(5.0f, 0.0f, 5.0f));
+    cubes.add(new Cube(0.0f, 0.0f, 0.0f, null));
+    cubes.add(new Cube(5.0f, 0.0f, 0.0f, null));
+    cubes.add(new Cube(0.0f, 0.0f, 5.0f, null));
+    cubes.add(new Cube(5.0f, 0.0f, 5.0f, null));
     // Create the tetrahedrons...
-    tetrahedrons.add(new Tetrahedron(0.0f, 0.0f, 0.0f));
-    tetrahedrons.add(new Tetrahedron(5.0f, 0.0f, 0.0f));
-    tetrahedrons.add(new Tetrahedron(0.0f, 0.0f, 5.0f));
-    tetrahedrons.add(new Tetrahedron(5.0f, 0.0f, 5.0f));
+    tetrahedrons.add(new Tetrahedron(0.0f, 0.0f, 0.0f, null));
+    tetrahedrons.add(new Tetrahedron(5.0f, 0.0f, 0.0f, null));
+    tetrahedrons.add(new Tetrahedron(0.0f, 0.0f, 5.0f, null));
+    tetrahedrons.add(new Tetrahedron(5.0f, 0.0f, 5.0f, null));
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
     float dy = 0.0f;
@@ -159,7 +159,7 @@ public class GraphicsTestJake
       if (Keyboard.isKeyDown(Keyboard.KEY_J)) shininessToggle = !shininessToggle;
       if (Keyboard.isKeyDown(Keyboard.KEY_K)) specularityToggle = !specularityToggle;
       if (Keyboard.isKeyDown(Keyboard.KEY_L)) emissionToggle = !emissionToggle;
-      if (Keyboard.isKeyDown(Keyboard.KEY_F)) Picker.mode = 2;
+//      if (Keyboard.isKeyDown(Keyboard.KEY_F)) Picker.mode = 2;
       if (shininessToggle) shininess = 25.0f;
       else shininess = 12.0f;
       if (specularityToggle) specularity = 1.0f;
@@ -167,7 +167,7 @@ public class GraphicsTestJake
       if (emissionToggle) emission = 0.05f;
       else emission = 0.0f;
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-      if (Picker.mode == 2) Picker.startPicking();
+//      if (Picker.mode == 2) Picker.startPicking();
       glLoadIdentity();
       camera.lookThrough();
       // Rotate to look at the scene...
@@ -244,7 +244,7 @@ public class GraphicsTestJake
         }
         glPopMatrix();
       }
-      if (Picker.mode == 2) Picker.stopPicking();
+//      if (Picker.mode == 2) Picker.stopPicking();
 
       // Draw the button.
       button.draw();
