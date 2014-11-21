@@ -5,7 +5,9 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.util.glu.Sphere;
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.physics.PhysicsWorld;
 import redrun.model.physics.SpherePhysicsBody;
+import redrun.model.toolkit.Tools;
 
 /**
  * Creates a button object. This button sits on a pedestal and reacts to clicks.
