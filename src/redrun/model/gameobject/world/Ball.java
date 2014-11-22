@@ -13,7 +13,7 @@ public class Ball extends WorldObject
     super(x, y, z, textureName);
 
     displayListId = glGenLists(1);
-    
+
     glNewList(displayListId, GL_COMPILE);
     {
       glBegin(GL_SPHERE_MAP);

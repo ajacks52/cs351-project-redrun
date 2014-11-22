@@ -85,7 +85,7 @@ public class RoomTest
         0.0f);
 
     // Create the room.
-    Room room = new Room(0, 0, 0, new Vector3f(50, 50, 100));
+    Room room = new Room(0, 0, 0, null, new Vector3f(50, 50, 100));
 
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;

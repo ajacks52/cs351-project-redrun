@@ -2,7 +2,12 @@ package redrun.model.gameobject.world;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import org.lwjgl.util.glu.Sphere;
 import org.lwjgl.util.vector.Vector3f;
+
+import redrun.model.physics.PhysicsWorld;
+import redrun.model.physics.SpherePhysicsBody;
+import redrun.model.toolkit.Tools;
 
 /**
  * Creates a button object. This button sits on a pedestal and reacts to clicks.
@@ -14,14 +19,13 @@ import org.lwjgl.util.vector.Vector3f;
 public class Button extends WorldObject
 {
   private Vector3f defaultButtonPosition;
-  private Ball button;
 
   public Button(float x, float y, float z, String textureName)
   {
     super(x, y, z, textureName);
-    defaultButtonPosition = new Vector3f(x, y + 0.8f, z);
 
-    button = new Ball(x, y + 0.8f, z, 0.5f, new Vector3f(1.0f, 0.0f, 0.0f));
+    defaultButtonPosition = new Vector3f(x, y, z);
+    body = new SpherePhysicsBody(defaultButtonPosition, 0.08f, 20);
   }
 
   @Override
@@ -34,10 +38,12 @@ public class Button extends WorldObject
   @Override
   public void update()
   {
-    if (this.timer.getTime() >= 0.1f) reset();
+    if (this.timer.getTime() >= 0.8f) reset();
 
-    if (timer.isPaused() && button.getY() < defaultButtonPosition.y) button.setY(button.getY() + 0.02f);
-    else if (!timer.isPaused()) button.setY(button.getY() - 0.02f);
+    // if (timer.isPaused() && button.getY() < defaultButtonPosition.y) button.setY(button.getY() + 0.02f);
+    // else if (!timer.isPaused()) button.setY(button.getY() - 0.02f);
+    if (timer.isPaused() && this.getY() < defaultButtonPosition.y) this.getBody().push(new Vector3f(10, -1.0f, 10));
+    else if (!timer.isPaused()) this.getBody().push(new Vector3f(10, 1.0f, 10));
 
     displayListId = glGenLists(1);
 
@@ -45,8 +51,23 @@ public class Button extends WorldObject
     {
       glPushMatrix();
       {
-        glTranslatef(button.getX(), button.getY(), button.getZ());
-        button.draw();
+        glNewList(displayListId, GL_COMPILE);
+        {
+          glBegin(GL_SPHERE_MAP);
+          {
+            // if (color != null)
+            // {
+            // glEnable(GL_COLOR_MATERIAL);
+            // glColor3f(color.x, color.y, color.z);
+            // new Sphere().draw(0.5f, 40, 40);
+            // glColor3f(1.0f, 1.0f, 1.0f);
+            // glDisable(GL_COLOR_MATERIAL);
+            // }
+            new Sphere().draw(0.5f, 40, 40);
+          }
+          glEnd();
+        }
+        glEndList();
       }
       glPopMatrix();
     }

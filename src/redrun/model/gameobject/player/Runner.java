@@ -2,12 +2,10 @@ package redrun.model.gameobject.player;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
 import redrun.graphics.camera.Camera;
 import redrun.model.gameobject.world.*;
-import redrun.model.gameobject.trap.*;
 import redrun.model.physics.*;
 
 public class Runner extends Player
@@ -20,6 +18,7 @@ public class Runner extends Player
     super(x, y, z, textureName);
     // cam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, -10f, -3f, -10f);
     constructPlayer(x, y, z);
+
   }
 
   public void constructPlayer(float x, float y, float z)
