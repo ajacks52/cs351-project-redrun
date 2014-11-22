@@ -1,7 +1,6 @@
 package redrun.test;
 
 import java.awt.Dimension;
-import java.util.Random;
 
 import org.lwjgl.*;
 import org.lwjgl.input.*;
@@ -10,6 +9,8 @@ import org.lwjgl.util.Timer;
 import org.newdawn.slick.Color;
 
 import redrun.graphics.camera.Camera;
+import redrun.main.LoadingScreen;
+import redrun.main.Menu;
 import redrun.model.gameobject.trap.*;
 import redrun.model.gameobject.world.*;
 import redrun.model.gameobject.player.*;
@@ -18,21 +19,16 @@ import static org.lwjgl.opengl.GL11.*;
 
 /**
  * 
- * Renders a scene so show how the traps work. To activate a trap press the r or
- * f keys. Loads and uses fonts, and applies textures to the walls
- * 
  * @author Adam Mitchell
  * @version 1.0
- * @since 2014-11-10
- * 
+ * @since 2014-19-10
+ *
  */
-public class GraphicsTestAdam
+public class MainTestAdam
 {
+
   // the camera object
   private Camera cam;
-  @SuppressWarnings("unused")
-  private Random rand;
-
   /** time at last frame */
   private long lastFrame;
   /** frames per second */
@@ -40,16 +36,15 @@ public class GraphicsTestAdam
   /** last fps time */
   private long lastFPS;
 
+  // Game objects...
   // the traps in display
   private SpikeTrapDoor spikes;
   private TrapDoor trapDoor;
   private Hammer hammer;
   private SpikeField spikeField;
-  
-  //
+  // the runners
   Runner runner1;
   Runner runner2;
-  
   // the walls
   private CheckerBoard board;
   private CheckerBoard wallT;
@@ -57,56 +52,65 @@ public class GraphicsTestAdam
 
   // Used for controlling the camera with the keyboard and mouse...
   private float dx, dy, dt;
-  @SuppressWarnings("unused")
-  private float previousTime, currentTime;
   // Set the mouse sensitivity...
   private float mouseSensitivity = 0.05f;
   private float movementSpeed = 0.005f;
 
-  private GraphicsTestAdam()
+  private static BackgroundLoader backgroundLoader;
+
+  private MainTestAdam()
   {
     this.initDisplay();
-    // load font takes a about 2 seconds
-    redrun.model.toolkit.FontTools.loadFonts();
+    Display.setVSyncEnabled(true);
 
     cam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, -10f, -3f, -10f);
 
+    Menu menu = new Menu();
+
+    //////// Initialize game objects 
     spikes = new SpikeTrapDoor(10, 0, 30, "wood");
-    trapDoor = new TrapDoor(30, -2, 10, "wood");
+    trapDoor = new TrapDoor(30, 0, 10, "wood");
     hammer = new Hammer(50, 0, 50, null);
     spikeField = new SpikeField(30, 0, 20, "s11", new Dimension(10, 15));
     runner1 = new Runner(10, 0, 10, null);
-    
     runner2 = new Runner(15, 0, 10, null);
-
-    
     board = new CheckerBoard(0, 0, 0, "x17", new Dimension(50, 50));
     wallT = new CheckerBoard(0, 10, 0, "x11", new Dimension(50, 50));
     wallR = new CheckerBoard(0, 0, 0, "24", new Dimension(50, 11));
 
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
-    getDelta(); // call once before loop to initialize lastFrame
-    lastFPS = getTime(); // call before loop to initialize fps timer
+    // call once before loop to initialize lastFrame
+    getDelta();
+    // call before loop to initialize fps timer
+    lastFPS = getTime();
 
-    this.mainLoop();
-    this.exit();
+    while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+    {
+      mainLoop();
+      menu.stateControl();
+
+      Timer.tick();
+      updateFPS();
+      Display.sync(65);
+      Display.update();
+    }
+    exit();
   }
-
+  
   /**
    * Scene rendering loop
-   * 
    */
   private void mainLoop()
   {
     glEnable(GL_DEPTH_TEST);
-    while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+    // while (!Display.isCloseRequested() &&
+    // !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
-
-      keyBoard();
+      keyBoardControls();
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
       glLoadIdentity();
+      
       // if (Picker.mode == 2) Picker.startPicking();
       cam.lookThrough();
 
@@ -117,7 +121,6 @@ public class GraphicsTestAdam
       spikeField.draw();
       runner1.render();
       runner2.render();
-
 
       // if (Picker.mode == 2) Picker.stopPicking();
 
@@ -134,21 +137,14 @@ public class GraphicsTestAdam
 
       // drawing 2d text
       FontTools.draw2D();
-      FontTools.renderText("x: " + cam.getX() + " y: " + cam.getY() + " z: " + cam.getZ(), 10, 10, Color.white, 0);
+      FontTools.renderText("x: " + cam.getX() + " y: " + cam.getY() + " z: " + cam.getZ(), 10, 10, Color.white, 1);
       FontTools.draw3D();
-      Timer.tick();
-      updateFPS();
-      Display.sync(65);
-      Display.update();
     }
   }
 
-  private void keyBoard()
+  private void keyBoardControls()
   {
-    currentTime = Sys.getTime();
     dt = getDelta();
-    previousTime = currentTime;
-
     dx = Mouse.getDX();
     dy = Mouse.getDY();
 
@@ -159,8 +155,8 @@ public class GraphicsTestAdam
     if (Keyboard.isKeyDown(Keyboard.KEY_S)) cam.moveBackward(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_A)) cam.moveLeft(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_D)) cam.moveRight(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) || Keyboard.isKeyDown(Keyboard.KEY_UP)) cam.moveUp(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_X) || Keyboard.isKeyDown(Keyboard.KEY_DOWN)) cam.moveDown(movementSpeed * dt);
+    if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) cam.moveUp(movementSpeed * dt);
+    if (Keyboard.isKeyDown(Keyboard.KEY_X)) cam.moveDown(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_F)) spikes.interact();
     if (Keyboard.isKeyDown(Keyboard.KEY_R)) trapDoor.interact();
   }
@@ -178,6 +174,31 @@ public class GraphicsTestAdam
     catch (LWJGLException ex)
     {
       ex.printStackTrace();
+    }
+
+    backgroundLoader = new BackgroundLoader()
+    {
+      protected Drawable getDrawable() throws LWJGLException
+      {
+        return new SharedDrawable(Display.getDrawable());
+      }
+    };
+    try
+    {
+      backgroundLoader.start();
+    }
+    catch (LWJGLException e)
+    {
+    }
+    // set up the loading screen
+    LoadingScreen spashScreen = new LoadingScreen("loading_screen");
+    FontTools.draw2D();
+    while (backgroundLoader.isRunning())
+    {
+      glClear(GL_COLOR_BUFFER_BIT);
+      spashScreen.draw();
+      Display.sync(65);
+      Display.update();
     }
   }
 
@@ -233,7 +254,7 @@ public class GraphicsTestAdam
    */
   public static void main(String[] args)
   {
-    new GraphicsTestAdam();
+    new MainTestAdam();
 
   }
 }

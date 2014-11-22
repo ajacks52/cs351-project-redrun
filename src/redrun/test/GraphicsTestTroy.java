@@ -65,7 +65,7 @@ public class GraphicsTestTroy
     glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
     
-    FontTools.loadFonts(15);
+    FontTools.loadFonts();
   }
 
   /**
@@ -294,7 +294,7 @@ public class GraphicsTestTroy
       glDisable(GL_COLOR_MATERIAL);
       
       FontTools.draw2D();
-      FontTools.renderText("Position: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10, Color.orange, 0);
+      FontTools.renderText("Position: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10, Color.orange, 1);
       FontTools.draw3D();
       
       // Update transformation variables...
@@ -311,7 +311,6 @@ public class GraphicsTestTroy
    */
   private static void destroyOpenGL()
   {
-    FontTools.cleanUpFonts();
     Display.destroy();
   }
 

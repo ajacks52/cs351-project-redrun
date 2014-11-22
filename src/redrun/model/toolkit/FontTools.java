@@ -1,10 +1,12 @@
 package redrun.model.toolkit;
 
+import java.awt.Font;
+import java.io.InputStream;
+
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
+import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.util.ResourceLoader;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.gluPerspective;
@@ -18,55 +20,46 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
  */
 public class FontTools
 {
-  private static UnicodeFont font;
-  private static UnicodeFont fontBig;
-  private static UnicodeFont fontBigger;
-  private static UnicodeFont fontCustom;
-  private static int customSize = 0;
+  private static TrueTypeFont fontSmall;
+  private static TrueTypeFont fontNormal;
+  private static TrueTypeFont fontBig;
+  private static TrueTypeFont fontBigger;
+
 
   /**
-   * Loads the fonts to be used for drawing text. Default fonts all Helvetica and
-   * size 18, 22, and 44 feel free to come in here and change to any font supported by java.awt.Font
-   * To load a different size font call this method with a parameter greater than 0
+   * Loads the fonts to be used for drawing text. Default fonts are Helvetica, 
+   * KGBlankSpaceSolid and size 12, 18, 30, and 44 feel free to come in here and 
+   * change to any font supported by java.awt.Font, or add a font to the font res 
+   * folder and modify the loadfonts code or just ask me (adam) to do for you :)
    * 
    * Takes a few seconds to load font so account for this when you call this
    * method. Should only be called once while initializing for the first time.
    */
-  @SuppressWarnings("unchecked")
-  public static void loadFonts(int size)
+  public static void loadFonts()
   {
-    customSize = size;
-    java.awt.Font awtFont = new java.awt.Font("Helvetica", java.awt.Font.BOLD, 18);
-    font = new UnicodeFont(awtFont);
-    font.getEffects().add(new ColorEffect(java.awt.Color.white));
-    font.addAsciiGlyphs();
-
-    java.awt.Font awtFontBig = new java.awt.Font("Helvetica", java.awt.Font.BOLD, 22);
-    fontBig = new UnicodeFont(awtFontBig);
-    fontBig.getEffects().add(new ColorEffect(java.awt.Color.white));
-    fontBig.addAsciiGlyphs();
-
-    java.awt.Font awtFontBigger = new java.awt.Font("Helvetica", java.awt.Font.BOLD, 44);
-    fontBigger = new UnicodeFont(awtFontBigger);
-    fontBigger.getEffects().add(new ColorEffect(java.awt.Color.white));
-    fontBigger.addAsciiGlyphs();
+    // small test fonts
+    Font awtFontSmall = new Font("Helvetica", Font.TRUETYPE_FONT, 12);
+    fontSmall = new TrueTypeFont(awtFontSmall, true);
+    Font awtFontNormal = new Font("Helvetica", Font.TRUETYPE_FONT, 18);
+    fontNormal = new TrueTypeFont(awtFontNormal, true);
     
-    if(size > 0)
-    {
-      java.awt.Font awtCustom = new java.awt.Font("Helvetica", java.awt.Font.BOLD, size);
-      fontCustom = new UnicodeFont(awtCustom);
-      fontCustom.getEffects().add(new ColorEffect(java.awt.Color.white));
-      fontCustom.addAsciiGlyphs();
-    }
-
     try
     {
-      font.loadGlyphs();
-      fontBig.loadGlyphs();
-      fontBigger.loadGlyphs();
-      if(size > 0)  fontCustom.loadGlyphs();
+      // main game fonts
+      InputStream inputStream = ResourceLoader.getResourceAsStream("res/fonts/KGBlankSpaceSolid.ttf");
+      InputStream inputStream2 = ResourceLoader.getResourceAsStream("res/fonts/KGBlankSpaceSolid.ttf");
+
+      Font awtFontBigger = Font.createFont(Font.TRUETYPE_FONT, inputStream2);
+      awtFontBigger = awtFontBigger.deriveFont(30f);
+      fontBig = new TrueTypeFont(awtFontBigger, true);
+      
+      //Color.white.bind();
+      Font awtExtraLargeFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+      awtExtraLargeFont = awtExtraLargeFont.deriveFont(44f);
+      fontBigger = new TrueTypeFont(awtExtraLargeFont, true);
+      Color.white.bind();
     }
-    catch (SlickException e)
+    catch (Exception e)
     {
       e.printStackTrace();
     }
@@ -75,18 +68,23 @@ public class FontTools
   /**
    * Draws a line of text to the screen.
    * 
-   * @param the text to be drawn
+   * If you want more size and font options let 
+   * me know, it will just take more time to 
+   * load them so lets try and be conservative.
+   * 
+   * @param string of the text to be drawn
    * @param x coordinate of screen where text is drawn
    * @param y coordinate of screen where text is drawn
-   * @param font size 0 = 18pt, 1 = 22pt, 2 = 44pt, 3 = custom size
+   * @param the color of the font
+   * @param font size 0 = 12pt, 1 = 18pt, 2 = 30pt, 3 = 44
    *
    */
   public static void renderText(String text, int x, int y, Color color, int size)
   {
-    if (size == 0) font.drawString(x, y, text, color);
-    if (size == 1) fontBig.drawString(x, y, text, color);
-    if (size == 2) fontBigger.drawString(x, y, text, color);
-    if (size == 3 && customSize > 0) fontCustom.drawString(x, y, text, color);
+    if (size == 0) fontSmall.drawString(x, y, text, color);
+    if (size == 1) fontNormal.drawString(x, y, text, color);
+    if (size == 2) fontBig.drawString(x, y, text, color);
+    if (size == 3) fontBigger.drawString(x, y, text, color);
   }
 
   /**
@@ -126,14 +124,5 @@ public class FontTools
     glMatrixMode(GL_MODELVIEW);
     glDepthFunc(GL_LEQUAL);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-  }
-
-  /**
-   * Cleans up and destroys the fonts. Should be called when windows is closed
-   * and game is exited.
-   */
-  public static void cleanUpFonts()
-  {
-    font.destroy();
   }
 }

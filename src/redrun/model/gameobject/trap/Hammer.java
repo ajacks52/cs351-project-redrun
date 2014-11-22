@@ -6,7 +6,8 @@ import static org.lwjgl.opengl.GL11.*;
  * Class to make a hammer trap
  * 
  * @author Adam Mitchell
- *
+ * @version 1.0
+ * @since 2014-19-10
  *
  */
 public class Hammer extends Trap
