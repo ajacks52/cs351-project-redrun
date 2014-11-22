@@ -17,12 +17,15 @@ import org.newdawn.slick.Color;
 
 import redrun.graphics.camera.Camera;
 import redrun.graphics.selection.Picker;
+import redrun.model.constants.Direction;
+import redrun.model.gameobject.map.Corridor;
 import redrun.model.gameobject.world.CheckerBoard;
 import redrun.model.gameobject.world.Cube;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.gameobject.world.Tetrahedron;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
+import redrun.model.toolkit.Tools;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -34,6 +37,9 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class GraphicsTestTroy
 {
+	/** */
+	private static long lastFrame;
+	
   /** The list of cubes. */
   private static ArrayList<Cube> cubes = new ArrayList<Cube>();
   
@@ -82,6 +88,8 @@ public class GraphicsTestTroy
     // Create the checker-board floor...
     CheckerBoard board = new CheckerBoard(0, 0, 0, null, new Dimension(50, 50));
     
+    Corridor corridor1 = new Corridor(5, 0.5f, 5, "direction", Direction.NORTH, null);
+    
     // Create the cubes...
     cubes.add(new Cube(20.0f, 1.5f, 20.0f, "wood"));
     cubes.add(new Cube(25.0f, 1.5f, 20.0f, null));
@@ -98,12 +106,10 @@ public class GraphicsTestTroy
     float dx = 0.0f;
     float dy = 0.0f;
     float dt = 0.0f;
-    float previousTime = 0.0f;
-    float currentTime = 0.0f;
     
     // Set the mouse sensitivity...
-    float mouseSensitivity = 0.05f;
-    float movementSpeed = 10.0f;
+    float mouseSensitivity = 0.08f;
+    float movementSpeed = 0.02f;
     
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
@@ -113,9 +119,7 @@ public class GraphicsTestTroy
     
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
-      currentTime = Sys.getTime();
-      dt = (currentTime - previousTime) / 1000.0f;
-      previousTime = currentTime;
+      dt = getDelta();
       
       dx = Mouse.getDX();
       dy = Mouse.getDY();
@@ -212,6 +216,8 @@ public class GraphicsTestTroy
 
       // Draw the checker-board...
       board.draw();
+      
+      corridor1.draw();
 
       // Draw the cubes...
       for (Cube cube : cubes)
@@ -305,6 +311,21 @@ public class GraphicsTestTroy
       Display.sync(60);
     }
   }
+  
+  /**
+   * Calculate how many milliseconds have passed since last frame.
+   * 
+   * @return milliseconds passed since last frame
+   */
+  public static int getDelta()
+  {
+    long time = Tools.getTime();
+    int delta = (int) (time - lastFrame);
+    lastFrame = time;
+
+    return delta;
+  }
+
 
   /**
    * Cleans up resources.
