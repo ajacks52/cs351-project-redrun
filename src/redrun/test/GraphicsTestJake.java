@@ -7,13 +7,19 @@ import java.nio.FloatBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.text.PlainDocument;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.Timer;
+import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.Color;
+
+import com.bulletphysics.collision.broadphase.BroadphaseInterface;
+import com.bulletphysics.collision.broadphase.DbvtBroadphase;
 
 import redrun.graphics.camera.Camera;
 import redrun.graphics.selection.Picker;
@@ -22,9 +28,29 @@ import redrun.model.gameobject.world.CheckerBoard;
 import redrun.model.gameobject.world.Cube;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
+import redrun.model.physics.PlanePhysicsBody;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
 import redrun.model.toolkit.Tools;
+
+import redrun.model.physics.BoxPhysicsBody;
+import redrun.model.physics.PhysicsTools;
+
+import com.bulletphysics.collision.broadphase.BroadphaseInterface;
+import com.bulletphysics.collision.broadphase.DbvtBroadphase;
+import com.bulletphysics.collision.dispatch.CollisionDispatcher;
+import com.bulletphysics.collision.dispatch.DefaultCollisionConfiguration;
+import com.bulletphysics.collision.shapes.CollisionShape;
+import com.bulletphysics.collision.shapes.StaticPlaneShape;
+import com.bulletphysics.dynamics.DiscreteDynamicsWorld;
+import com.bulletphysics.dynamics.RigidBody;
+import com.bulletphysics.dynamics.RigidBodyConstructionInfo;
+import com.bulletphysics.dynamics.constraintsolver.SequentialImpulseConstraintSolver;
+import com.bulletphysics.linearmath.DefaultMotionState;
+import com.bulletphysics.linearmath.Transform;
+
+import javax.vecmath.Matrix4f;
+import javax.vecmath.Quat4f;
 
 /**
  * Test class for Jake's work.
@@ -78,9 +104,40 @@ public class GraphicsTestJake
    */
   private void gameLoop()
   {
+    // Add physics body for floor.
+    PhysicsWorld.addPhysicsBody(new PlanePhysicsBody(new Vector3f(0, 0, 0), new Vector3f(0, 1, 0), 0));
+
+    // Build the broadphase
+    BroadphaseInterface broadphase = new DbvtBroadphase();
+
+    // Set up the collision configuration and dispatcher
+    DefaultCollisionConfiguration collisionConfiguration = new DefaultCollisionConfiguration();
+    CollisionDispatcher dispatcher = new CollisionDispatcher(collisionConfiguration);
+
+    // The actual physics solver
+    SequentialImpulseConstraintSolver solver = new SequentialImpulseConstraintSolver();
+
+    // The world.
+    DiscreteDynamicsWorld dynamicsWorld = new DiscreteDynamicsWorld(dispatcher, broadphase, solver,
+        collisionConfiguration);
+    dynamicsWorld.setGravity(vec(new Vector3f(0, -10, 0)));
+
+    // Do_everything_else_here
+    CollisionShape groundShape = new StaticPlaneShape(vec(new Vector3f(0, 1, 0)), 1);
+
+    DefaultMotionState groundMotionState = new DefaultMotionState(btTransform(new Quat4f(0, 0, 0, 1), new Vector3f(0,
+        -1, 0)));
+
+    RigidBodyConstructionInfo groundRigidBodyCI = new RigidBodyConstructionInfo(0, groundMotionState, groundShape,
+        vec(new Vector3f(0, 0, 0)));
+    RigidBody groundRigidBody = new RigidBody(groundRigidBodyCI);
+
+    dynamicsWorld.addRigidBody(groundRigidBody);
+
     // Create the camera...
     Camera camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f, 0.0f,
         0.0f);
+    camera.moveBackward(10);
 
     // Create the skybox...
     SkyBox skybox = new SkyBox(0, 0, 0, "blood_sport", camera);
@@ -89,7 +146,7 @@ public class GraphicsTestJake
     CheckerBoard board = new CheckerBoard(0, 0, 0, null, new Dimension(50, 50));
 
     Cube pedestal = new Cube(4, 0, 4, "wood");
-    Button button = new Button(4, 0.8f, 4, "pokadots");
+    Button button = new Button(4, 0.8f, 4, "pokadots", new Vector3f(1.0f, 0.0f, 0.0f));
 
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
@@ -98,7 +155,7 @@ public class GraphicsTestJake
 
     // Set the mouse sensitivity...
     float mouseSensitivity = 0.08f;
-    float movementSpeed = 0.02f;
+    float movementSpeed = 0.01f;
 
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
@@ -128,7 +185,7 @@ public class GraphicsTestJake
         glDepthMask(false);
         // TODO Fix rotations along X and Z axis.
         glRotatef(camera.getYaw(), 0, 180, 0);
-        skybox.draw();
+        skybox.draw(); // TODO
         glDepthMask(true);
       }
       glPopMatrix();
@@ -157,7 +214,7 @@ public class GraphicsTestJake
         Picker.startPicking();
         {
           // Draw the checker-board...
-          glPushName(board.id);
+          glPushName(board.id);// TODO
           {
             board.draw();
           }
@@ -173,7 +230,7 @@ public class GraphicsTestJake
             glPopName();
           }
           glPopMatrix();
-          glPushMatrix();
+          glPushMatrix();// TODO
           {
             glPushName(pedestal.id);
             {
@@ -188,7 +245,7 @@ public class GraphicsTestJake
       }
 
       // Draw the checker-board.
-      board.draw();
+      board.draw();// TODO
 
       // Draw the button.
       glPushMatrix();
@@ -196,7 +253,7 @@ public class GraphicsTestJake
         button.draw();
       }
       glPopMatrix();
-      glPushMatrix();
+      glPushMatrix();// TODO
       {
         pedestal.draw();
       }
@@ -208,7 +265,7 @@ public class GraphicsTestJake
       FontTools.draw3D();
 
       updateFPS();
-      PhysicsWorld.stepSimulation(1 / (float) lastFPS);
+      PhysicsWorld.stepSimulation(1 / 60.0f); // (float) lastFPS
 
       Timer.tick();
       Display.update();
@@ -242,6 +299,17 @@ public class GraphicsTestJake
       lastFPS += 1000;
     }
     fps++;
+  }
+
+  // Taken from Jordan's test.
+  public static javax.vecmath.Vector3f vec(Vector3f vec)
+  {
+    return new javax.vecmath.Vector3f(vec.x, vec.y, vec.z);
+  }
+
+  private static Transform btTransform(Quat4f quat4f, Vector3f vector3f)
+  {
+    return new Transform(new Matrix4f(quat4f, vec(vector3f), 1.0f));
   }
 
   /**
