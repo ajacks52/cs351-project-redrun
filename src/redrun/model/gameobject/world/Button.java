@@ -18,16 +18,15 @@ import redrun.model.physics.SpherePhysicsBody;
 public class Button extends WorldObject
 {
   Sphere sphere = new Sphere();
-  private Vector3f defaultButtonPosition;
+//  private Vector3f defaultButtonPosition; // See todo below.
   Vector3f color;
 
   public Button(float x, float y, float z, String textureName, Vector3f color)
   {
     super(x, y, z, textureName);
 
-    defaultButtonPosition = new Vector3f(x, y, z);
+//    defaultButtonPosition = new Vector3f(x, y, z); // See todo below.
     this.color = color;
-    body = new SpherePhysicsBody(defaultButtonPosition, 0.5f, 2);
 
     sphere.setDrawStyle(GLU.GLU_FILL);
     if (textureName != null) sphere.setTextureFlag(true);
@@ -44,14 +43,12 @@ public class Button extends WorldObject
   @Override
   public void update()
   {
-    System.out.println(this.getBody().getY());
-    
     if (this.timer.getTime() >= 0.8f) reset();
 
-    // if (timer.isPaused() && button.getY() < defaultButtonPosition.y) button.setY(button.getY() + 0.02f);
+    // TODO: For animation, under construction.
+    // if (timer.isPaused() && button.getY() < defaultButtonPosition.y)
+    // button.setY(button.getY() + 0.02f);
     // else if (!timer.isPaused()) button.setY(button.getY() - 0.02f);
-    if (timer.isPaused() && this.getY() < defaultButtonPosition.y) this.getBody().push(new Vector3f(0, -1.0f, 0));
-    else if (!timer.isPaused()) this.getBody().push(new Vector3f(0, 1.0f, 0));
 
     displayListId = glGenLists(1);
 
