@@ -6,8 +6,6 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.glu.Sphere;
 import org.lwjgl.util.vector.Vector3f;
 
-import redrun.model.physics.SpherePhysicsBody;
-
 /**
  * Creates a button object. This button sits on a pedestal and reacts to clicks.
  * 
@@ -46,9 +44,8 @@ public class Button extends WorldObject
     if (this.timer.getTime() >= 0.8f) reset();
 
     // TODO: For animation, under construction.
-    // if (timer.isPaused() && button.getY() < defaultButtonPosition.y)
-    // button.setY(button.getY() + 0.02f);
-    // else if (!timer.isPaused()) button.setY(button.getY() - 0.02f);
+//    if (timer.isPaused() && this.getY() < defaultButtonPosition.y) this.setY(this.getY() + 0.02f);
+//    else if (!timer.isPaused()) this.setY(this.getY() - 0.02f);
 
     displayListId = glGenLists(1);
 
