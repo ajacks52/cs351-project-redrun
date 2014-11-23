@@ -5,6 +5,7 @@ require 'shoulda-matchers'
 class Character < ActiveRecord::Base
   validates :character_name, presence: true, uniqueness: {case_sensitive: false}
   validates_presence_of :team
+  validates_presence_of :start_loc
   I18n.enforce_available_locales = true
 end
 
@@ -14,7 +15,8 @@ describe Character do
   before(:all) do
     @attr = {character_name: 'bob',
             image: 'bobthedumpster.png',
-            team: 'victims'}
+            team: 'victims',
+            start_loc: '17.1, 23.2, 78.1'}
     Character.create(@attr)
     p Character.all
   end
@@ -26,4 +28,5 @@ describe Character do
   it { should validate_presence_of :team }
   it { should validate_uniqueness_of :character_name }
   it { should validate_presence_of :character_name }
+  it { should validate_presence_of :start_loc}
 end
