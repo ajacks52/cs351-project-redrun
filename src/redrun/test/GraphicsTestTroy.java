@@ -18,9 +18,16 @@ import org.newdawn.slick.Color;
 import redrun.graphics.camera.Camera;
 import redrun.graphics.selection.Picker;
 import redrun.model.constants.Direction;
+import redrun.model.gameobject.map.Corner;
 import redrun.model.gameobject.map.Corridor;
+import redrun.model.gameobject.map.End;
+import redrun.model.gameobject.map.Staircase;
+import redrun.model.gameobject.map.Start;
+import redrun.model.gameobject.map.Tunnel;
 import redrun.model.gameobject.world.CheckerBoard;
 import redrun.model.gameobject.world.Cube;
+import redrun.model.gameobject.world.Plane;
+import redrun.model.gameobject.world.RectangularPrism;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.gameobject.world.Tetrahedron;
 import redrun.model.toolkit.BufferConverter;
@@ -53,7 +60,7 @@ public class GraphicsTestTroy
   {
     try
     {
-      Display.setDisplayMode(new DisplayMode(800, 600));
+      Display.setDisplayMode(new DisplayMode(1920, 1080));
       Display.setTitle("An Awesome OpenGL Scene");
       Display.create();
       Display.setVSyncEnabled(true);
@@ -88,7 +95,36 @@ public class GraphicsTestTroy
     // Create the checker-board floor...
     CheckerBoard board = new CheckerBoard(0, 0, 0, null, new Dimension(50, 50));
     
-    Corridor corridor1 = new Corridor(5, 0.5f, 5, "direction", Direction.NORTH, null);
+    Corridor corridor1 = new Corridor(20, 0.5f, 20, "wood", Direction.NORTH, null);
+    Corridor corridor2 = new Corridor(30, 0.5f, 20, "wood", Direction.EAST, null);
+    Corridor corridor3 = new Corridor(40, 0.5f, 20, "wood", Direction.SOUTH, null);
+    Corridor corridor4 = new Corridor(50, 0.5f, 20, "wood", Direction.WEST, null);
+    
+    Corner corner1 = new Corner(20, 0.5f, 40, "wood", Direction.NORTH, null);
+    Corner corner2 = new Corner(30, 0.5f, 40, "wood", Direction.EAST, null);
+    Corner corner3 = new Corner(40, 0.5f, 40, "wood", Direction.SOUTH, null);
+    Corner corner4 = new Corner(50, 0.5f, 40, "wood", Direction.WEST, null);
+
+    End end1 = new End(20, 0.5f, 60, "wood", Direction.NORTH, null);
+    End end2 = new End(30, 0.5f, 60, "wood", Direction.EAST, null);
+    End end3 = new End(40, 0.5f, 60, "wood", Direction.SOUTH, null);
+    End end4 = new End(50, 0.5f, 60, "wood", Direction.WEST, null);
+    
+    Start start1 = new Start(20, 0.5f, 80, "wood", Direction.NORTH, null);
+    Start start2 = new Start(30, 0.5f, 80, "wood", Direction.EAST, null);
+    Start start3 = new Start(40, 0.5f, 80, "wood", Direction.SOUTH, null);
+    Start start4 = new Start(50, 0.5f, 80, "wood", Direction.WEST, null);
+    
+    Tunnel tunnel1 = new Tunnel(20, 0.5f, 100, "wood", Direction.NORTH, null);
+    Tunnel tunnel2 = new Tunnel(30, 0.5f, 100, "wood", Direction.EAST, null);
+    Tunnel tunnel3 = new Tunnel(40, 0.5f, 100, "wood", Direction.SOUTH, null);
+    Tunnel tunnel4 = new Tunnel(50, 0.5f, 100, "wood", Direction.WEST, null);
+    
+    Staircase stair1 = new Staircase(20, 0.5f, 120, "wood", Direction.NORTH, null);
+    Staircase stair2 = new Staircase(30, 0.5f, 120, "wood", Direction.EAST, null);
+    Staircase stair3 = new Staircase(40, 0.5f, 120, "wood", Direction.SOUTH, null);
+    Staircase stair4 = new Staircase(50, 0.5f, 120, "wood", Direction.WEST, null);
+
     
     // Create the cubes...
     cubes.add(new Cube(20.0f, 1.5f, 20.0f, "wood"));
@@ -127,7 +163,8 @@ public class GraphicsTestTroy
       camera.yaw(dx * mouseSensitivity);
       camera.pitch(-dy * mouseSensitivity);
       
-      if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed * dt);
+      if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) camera.moveForward(movementSpeed * dt * 2);
+      else if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed * dt);
       if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed * dt);
       if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed * dt);
       if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed * dt);
@@ -211,13 +248,39 @@ public class GraphicsTestTroy
         }
         Picker.stopPicking();
       }
-      
-      
 
       // Draw the checker-board...
       board.draw();
       
-      corridor1.draw();
+      corridor1.draw();      
+      corridor2.draw();      
+      corridor3.draw();      
+      corridor4.draw();     
+      
+      corner1.draw();
+      corner2.draw();
+      corner3.draw();
+      corner4.draw();
+
+      end1.draw();
+      end2.draw();
+      end3.draw();
+      end4.draw();
+      
+      start1.draw();
+      start2.draw();
+      start3.draw();
+      start4.draw();
+      
+      tunnel1.draw();
+      tunnel2.draw();
+      tunnel3.draw();
+      tunnel4.draw();
+      
+      stair1.draw();
+      stair2.draw();
+      stair3.draw();
+      stair4.draw();
 
       // Draw the cubes...
       for (Cube cube : cubes)
