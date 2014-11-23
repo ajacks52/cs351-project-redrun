@@ -13,6 +13,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.Timer;
+import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.Color;
 
 import redrun.graphics.camera.Camera;
@@ -25,6 +26,11 @@ import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
 import redrun.model.toolkit.Tools;
+
+import com.bulletphysics.linearmath.Transform;
+
+import javax.vecmath.Matrix4f;
+import javax.vecmath.Quat4f;
 
 /**
  * Test class for Jake's work.
@@ -89,7 +95,7 @@ public class GraphicsTestJake
     CheckerBoard board = new CheckerBoard(0, 0, 0, null, new Dimension(50, 50));
 
     Cube pedestal = new Cube(4, 0, 4, "wood");
-    Button button = new Button(4, 0.8f, 4, "pokadots");
+    Button button = new Button(4, 0.8f, 4, "pokadots", new Vector3f(1.0f, 0.0f, 0.0f));
 
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
@@ -98,7 +104,7 @@ public class GraphicsTestJake
 
     // Set the mouse sensitivity...
     float mouseSensitivity = 0.08f;
-    float movementSpeed = 0.02f;
+    float movementSpeed = 0.01f;
 
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
@@ -128,7 +134,7 @@ public class GraphicsTestJake
         glDepthMask(false);
         // TODO Fix rotations along X and Z axis.
         glRotatef(camera.getYaw(), 0, 180, 0);
-        skybox.draw();
+        skybox.draw(); // TODO
         glDepthMask(true);
       }
       glPopMatrix();
@@ -157,7 +163,7 @@ public class GraphicsTestJake
         Picker.startPicking();
         {
           // Draw the checker-board...
-          glPushName(board.id);
+          glPushName(board.id);// TODO
           {
             board.draw();
           }
@@ -173,7 +179,7 @@ public class GraphicsTestJake
             glPopName();
           }
           glPopMatrix();
-          glPushMatrix();
+          glPushMatrix();// TODO
           {
             glPushName(pedestal.id);
             {
@@ -188,7 +194,7 @@ public class GraphicsTestJake
       }
 
       // Draw the checker-board.
-      board.draw();
+      board.draw();// TODO
 
       // Draw the button.
       glPushMatrix();
@@ -196,7 +202,7 @@ public class GraphicsTestJake
         button.draw();
       }
       glPopMatrix();
-      glPushMatrix();
+      glPushMatrix();// TODO
       {
         pedestal.draw();
       }
@@ -208,7 +214,7 @@ public class GraphicsTestJake
       FontTools.draw3D();
 
       updateFPS();
-      PhysicsWorld.stepSimulation(1 / (float) lastFPS);
+      PhysicsWorld.stepSimulation(1 / 60.0f); // (float) lastFPS
 
       Timer.tick();
       Display.update();
@@ -242,6 +248,17 @@ public class GraphicsTestJake
       lastFPS += 1000;
     }
     fps++;
+  }
+
+  // Taken from Jordan's test.
+  public static javax.vecmath.Vector3f vec(Vector3f vec)
+  {
+    return new javax.vecmath.Vector3f(vec.x, vec.y, vec.z);
+  }
+
+  private static Transform btTransform(Quat4f quat4f, Vector3f vector3f)
+  {
+    return new Transform(new Matrix4f(quat4f, vec(vector3f), 1.0f));
   }
 
   /**
