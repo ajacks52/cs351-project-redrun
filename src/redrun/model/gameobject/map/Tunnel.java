@@ -53,32 +53,32 @@ public class Tunnel extends Map
       case NORTH:
       {   
         floor = new Plane(x, y, z, textureName, size);
-        leftWall = new RectangularPrism(x + (size / 2), y + (size / 2), z, textureName, 1.0f, size, size);
-        rightWall = new RectangularPrism(x + -(size / 2), y + (size / 2), z, textureName, 1.0f, size, size);
+        leftWall = new RectangularPrism(x + (size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size);
+        rightWall = new RectangularPrism(x + -(size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size);
         roof = new RectangularPrism(x, y + size - 1.0f, z, textureName, size - 2.0f, 1.0f, size);
         break;
       }
       case EAST:
       {
         floor = new Plane(x, y, z, textureName, size);
-        leftWall = new RectangularPrism(x, y + (size / 2), z + (size / 2), textureName, size, size, 1.0f);
-        rightWall = new RectangularPrism(x, y + (size / 2), z + -(size / 2), textureName, size, size, 1.0f);
-        roof = new RectangularPrism(x, y + size - 1.0f, z, textureName, size, 1.0f, size - 2.0f);
+        leftWall = new RectangularPrism(x, y + (size / 2) + 0.5f, z + (size / 2), textureName, size, size, 1.0f);
+        rightWall = new RectangularPrism(x, y + (size / 2) + 0.5f, z + -(size / 2), textureName, size, size, 1.0f);
+        roof = new RectangularPrism(x, y + size - 0.5f, z, textureName, size, 1.0f, size - 2.0f);
         break;
       }
       case SOUTH:
       {
         floor = new Plane(x, y, z, textureName, size);
-        leftWall = new RectangularPrism(x + (size / 2), y + (size / 2), z, textureName, 1.0f, size, size);
-        rightWall = new RectangularPrism(x + -(size / 2), y + (size / 2), z, textureName, 1.0f, size, size);
+        leftWall = new RectangularPrism(x + (size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size);
+        rightWall = new RectangularPrism(x + -(size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size);
         roof = new RectangularPrism(x, y + size - 1.0f, z, textureName, size - 2.0f, 1.0f, size);
         break;
       }
       case WEST:
       {
         floor = new Plane(x, y, z, textureName, size);
-        leftWall = new RectangularPrism(x, y + + (size / 2), z + (size / 2), textureName, size, size, 1.0f);
-        rightWall = new RectangularPrism(x, y + + (size / 2), z + -(size / 2), textureName, size, size, 1.0f);
+        leftWall = new RectangularPrism(x, y + + (size / 2) + 0.5f, z + (size / 2), textureName, size, size, 1.0f);
+        rightWall = new RectangularPrism(x, y + + (size / 2) + 0.5f, z + -(size / 2), textureName, size, size, 1.0f);
         roof = new RectangularPrism(x, y + size - 1.0f, z, textureName, size, 1.0f, size - 2.0f);
         break;
       }

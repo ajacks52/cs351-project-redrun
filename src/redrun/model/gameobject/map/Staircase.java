@@ -60,11 +60,11 @@ public class Staircase extends Map
       }
       case EAST:
       {
-        leftWall = new RectangularPrism(x, y + (size / 2), z + (size / 2), textureName, size, size, 1.0f);
-        rightWall = new RectangularPrism(x, y + (size / 2), z + -(size / 2), textureName, size, size, 1.0f);
+        leftWall = new RectangularPrism(x, y + (size / 2) + 0.5f, z + (size / 2), textureName, size, size, 1.0f);
+        rightWall = new RectangularPrism(x, y + (size / 2) + 0.5f, z + -(size / 2), textureName, size, size, 1.0f);
         for (int i = 0; i < stairs.length; i++)
         {
-          stairs[i] = new RectangularPrism((x - (size / 2)) + i, (y - (size / 2)) + i + (size / 2), z, textureName, 1.0f, 1.0f, size - 2);
+          stairs[i] = new RectangularPrism((x - (size / 2)) + i, (y - (size / 2)) + i + (size / 2) + 0.5f, z, textureName, 1.0f, 1.0f, size - 2);
         }  
         break;
       }

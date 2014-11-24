@@ -3,6 +3,7 @@ package redrun.test;
 import java.awt.Dimension;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +23,7 @@ import redrun.model.gameobject.map.Corner;
 import redrun.model.gameobject.map.Corridor;
 import redrun.model.gameobject.map.End;
 import redrun.model.gameobject.map.Field;
+import redrun.model.gameobject.map.Map;
 import redrun.model.gameobject.map.Pit;
 import redrun.model.gameobject.map.Platform;
 import redrun.model.gameobject.map.Staircase;
@@ -96,47 +98,97 @@ public class GraphicsTestTroy
     // Create the checker-board floor...
     CheckerBoard board = new CheckerBoard(0, 0, 0, null, new Dimension(50, 50));
     
-    Corridor corridor1 = new Corridor(20, 0.5f, 20, "wood", Direction.NORTH, null);
-    Corridor corridor2 = new Corridor(30, 0.5f, 20, "wood", Direction.EAST, null);
-    Corridor corridor3 = new Corridor(40, 0.5f, 20, "wood", Direction.SOUTH, null);
-    Corridor corridor4 = new Corridor(50, 0.5f, 20, "wood", Direction.WEST, null);
+    // Create the map...
+    LinkedList<Map> worldMap = new LinkedList<Map>();
     
-    Corner corner1 = new Corner(20, 0.5f, 30, "wood", Direction.NORTH, null);
-    Corner corner2 = new Corner(30, 0.5f, 30, "wood", Direction.EAST, null);
-    Corner corner3 = new Corner(40, 0.5f, 30, "wood", Direction.SOUTH, null);
-    Corner corner4 = new Corner(50, 0.5f, 30, "wood", Direction.WEST, null);
+    // Add the starting point...
+    worldMap.add(new Start(20, 0.5f, 20, "brickwall5", Direction.NORTH, null));
+    
+    // Add a walkway...
+    worldMap.add(new Corridor(20, 0.5f, 27.5f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corridor(20, 0.5f, 35, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corridor(20, 0.5f, 42.5f, "brickwall5", Direction.NORTH, null));
+    
+    // Add a corner...
+    worldMap.add(new Corner(20, 0.5f, 50, "brickwall5", Direction.NORTH, null));
+    
+    // Add a staircase...
+    worldMap.add(new Staircase(27.5f, 0.5f, 50, "brickwall5", Direction.EAST, null));
+    
+    // Add a walkway...
+    worldMap.add(new Corridor(35, 8.0f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(42.5f, 8.0f, 50, "brickwall5", Direction.EAST, null));
+    
+    // Add a field...
+    worldMap.add(new Field(57.5f, 8.0f, 50, "brickwall5", Direction.EAST, null));
+    
+    // Add a walkway...
+    worldMap.add(new Corridor(72.5f, 8.0f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(80, 8.0f, 50, "brickwall5", Direction.EAST, null));
+    
+    // Add a tunnel...
+    worldMap.add(new Tunnel(87.5f, 8.0f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Tunnel(95, 8.0f, 50, "brickwall5", Direction.EAST, null));
+    
+    // Add a walkway...
+    worldMap.add(new Corridor(102.5f, 8.0f, 50, "brickwall5", Direction.EAST, null));
+    
+    // Add a pit...
+    worldMap.add(new Pit(110.0f, 8.0f, 50, "brickwall5", Direction.EAST, null));
+    
+    // Add a walkway...
+    worldMap.add(new Corridor(117.5f, 8.0f, 50, "brickwall5", Direction.EAST, null));
+    
+    // Add a platform...
+    worldMap.add(new Platform(125.0f, 8.0f, 50, "brickwall5", Direction.EAST, null));
+    
+    // Add the ending point...
+    worldMap.add(new End(132.5f, 8.0f, 50, "brickwall5", Direction.EAST, null));
 
-    End end1 = new End(20, 0.5f, 40, "wood", Direction.NORTH, null);
-    End end2 = new End(30, 0.5f, 40, "wood", Direction.EAST, null);
-    End end3 = new End(40, 0.5f, 40, "wood", Direction.SOUTH, null);
-    End end4 = new End(50, 0.5f, 40, "wood", Direction.WEST, null);
+
+
     
-    Start start1 = new Start(20, 0.5f, 50, "wood", Direction.NORTH, null);
-    Start start2 = new Start(30, 0.5f, 50, "wood", Direction.EAST, null);
-    Start start3 = new Start(40, 0.5f, 50, "wood", Direction.SOUTH, null);
-    Start start4 = new Start(50, 0.5f, 50, "wood", Direction.WEST, null);
-    
-    Pit pit1 = new Pit(20, 0.5f, 60, "wood", Direction.NORTH, null);
-    Pit pit2 = new Pit(30, 0.5f, 60, "wood", Direction.EAST, null);
-    Pit pit3 = new Pit(40, 0.5f, 60, "wood", Direction.SOUTH, null);
-    Pit pit4 = new Pit(50, 0.5f, 60, "wood", Direction.WEST, null);
-    
-    Tunnel tunnel1 = new Tunnel(20, 0.5f, 70, "wood", Direction.NORTH, null);
-    Tunnel tunnel2 = new Tunnel(30, 0.5f, 70, "wood", Direction.EAST, null);
-    Tunnel tunnel3 = new Tunnel(40, 0.5f, 70, "wood", Direction.SOUTH, null);
-    Tunnel tunnel4 = new Tunnel(50, 0.5f, 70, "wood", Direction.WEST, null);
-    
-    Staircase stair1 = new Staircase(20, 0.5f, 80, "wood", Direction.NORTH, null);
-    Staircase stair2 = new Staircase(30, 0.5f, 80, "wood", Direction.EAST, null);
-    Staircase stair3 = new Staircase(40, 0.5f, 80, "wood", Direction.SOUTH, null);
-    Staircase stair4 = new Staircase(50, 0.5f, 80, "wood", Direction.WEST, null);
-    
-    Platform plat1 = new Platform(20, 0.5f, 90, "wood", null, null);
-    
-    Field field1 = new Field(20, 0.5f, 120, "wood", Direction.NORTH, null);
-    Field field2 = new Field(50, 0.5f, 120, "wood", Direction.EAST, null);
-    Field field3 = new Field(80, 0.5f, 120, "wood", Direction.SOUTH, null);
-    Field field4 = new Field(110, 0.5f, 120, "wood", Direction.WEST, null);
+//    Corridor corridor1 = new Corridor(20, 0.5f, 20, "wood", Direction.NORTH, null);
+//    Corridor corridor2 = new Corridor(30, 0.5f, 20, "wood", Direction.EAST, null);
+//    Corridor corridor3 = new Corridor(40, 0.5f, 20, "wood", Direction.SOUTH, null);
+//    Corridor corridor4 = new Corridor(50, 0.5f, 20, "wood", Direction.WEST, null);
+//    
+//    Corner corner1 = new Corner(20, 0.5f, 30, "wood", Direction.NORTH, null);
+//    Corner corner2 = new Corner(30, 0.5f, 30, "wood", Direction.EAST, null);
+//    Corner corner3 = new Corner(40, 0.5f, 30, "wood", Direction.SOUTH, null);
+//    Corner corner4 = new Corner(50, 0.5f, 30, "wood", Direction.WEST, null);
+//
+//    End end1 = new End(20, 0.5f, 40, "wood", Direction.NORTH, null);
+//    End end2 = new End(30, 0.5f, 40, "wood", Direction.EAST, null);
+//    End end3 = new End(40, 0.5f, 40, "wood", Direction.SOUTH, null);
+//    End end4 = new End(50, 0.5f, 40, "wood", Direction.WEST, null);
+//    
+//    Start start1 = new Start(20, 0.5f, 50, "wood", Direction.NORTH, null);
+//    Start start2 = new Start(30, 0.5f, 50, "wood", Direction.EAST, null);
+//    Start start3 = new Start(40, 0.5f, 50, "wood", Direction.SOUTH, null);
+//    Start start4 = new Start(50, 0.5f, 50, "wood", Direction.WEST, null);
+//    
+//    Pit pit1 = new Pit(20, 0.5f, 60, "wood", Direction.NORTH, null);
+//    Pit pit2 = new Pit(30, 0.5f, 60, "wood", Direction.EAST, null);
+//    Pit pit3 = new Pit(40, 0.5f, 60, "wood", Direction.SOUTH, null);
+//    Pit pit4 = new Pit(50, 0.5f, 60, "wood", Direction.WEST, null);
+//    
+//    Tunnel tunnel1 = new Tunnel(20, 0.5f, 70, "wood", Direction.NORTH, null);
+//    Tunnel tunnel2 = new Tunnel(30, 0.5f, 70, "wood", Direction.EAST, null);
+//    Tunnel tunnel3 = new Tunnel(40, 0.5f, 70, "wood", Direction.SOUTH, null);
+//    Tunnel tunnel4 = new Tunnel(50, 0.5f, 70, "wood", Direction.WEST, null);
+//    
+//    Staircase stair1 = new Staircase(20, 0.5f, 80, "wood", Direction.NORTH, null);
+//    Staircase stair2 = new Staircase(30, 0.5f, 80, "wood", Direction.EAST, null);
+//    Staircase stair3 = new Staircase(40, 0.5f, 80, "wood", Direction.SOUTH, null);
+//    Staircase stair4 = new Staircase(50, 0.5f, 80, "wood", Direction.WEST, null);
+//    
+//    Platform plat1 = new Platform(20, 0.5f, 90, "wood", null, null);
+//    
+//    Field field1 = new Field(20, 0.5f, 120, "wood", Direction.NORTH, null);
+//    Field field2 = new Field(50, 0.5f, 120, "wood", Direction.EAST, null);
+//    Field field3 = new Field(80, 0.5f, 120, "wood", Direction.SOUTH, null);
+//    Field field4 = new Field(110, 0.5f, 120, "wood", Direction.WEST, null);
     
     // Create the cubes...
     cubes.add(new Cube(20.0f, 1.5f, 20.0f, "wood"));
@@ -264,47 +316,53 @@ public class GraphicsTestTroy
       // Draw the checker-board...
       board.draw();
       
-      corridor1.draw();      
-      corridor2.draw();      
-      corridor3.draw();      
-      corridor4.draw();     
+      // Draw the world map...
+      for (Map mapObject : worldMap)
+      {
+        mapObject.draw();
+      }
       
-      corner1.draw();
-      corner2.draw();
-      corner3.draw();
-      corner4.draw();
-
-      end1.draw();
-      end2.draw();
-      end3.draw();
-      end4.draw();
-      
-      start1.draw();
-      start2.draw();
-      start3.draw();
-      start4.draw();
-      
-      tunnel1.draw();
-      tunnel2.draw();
-      tunnel3.draw();
-      tunnel4.draw();
-      
-      stair1.draw();
-      stair2.draw();
-      stair3.draw();
-      stair4.draw();
-      
-      pit1.draw();
-      pit2.draw();
-      pit3.draw();
-      pit4.draw();
-      
-      plat1.draw();
-      
-      field1.draw();
-      field2.draw();
-      field3.draw();
-      field4.draw();
+//      corridor1.draw();      
+//      corridor2.draw();      
+//      corridor3.draw();      
+//      corridor4.draw();     
+//      
+//      corner1.draw();
+//      corner2.draw();
+//      corner3.draw();
+//      corner4.draw();
+//
+//      end1.draw();
+//      end2.draw();
+//      end3.draw();
+//      end4.draw();
+//      
+//      start1.draw();
+//      start2.draw();
+//      start3.draw();
+//      start4.draw();
+//      
+//      tunnel1.draw();
+//      tunnel2.draw();
+//      tunnel3.draw();
+//      tunnel4.draw();
+//      
+//      stair1.draw();
+//      stair2.draw();
+//      stair3.draw();
+//      stair4.draw();
+//      
+//      pit1.draw();
+//      pit2.draw();
+//      pit3.draw();
+//      pit4.draw();
+//      
+//      plat1.draw();
+//      
+//      field1.draw();
+//      field2.draw();
+//      field3.draw();
+//      field4.draw();
 
       // Draw the cubes...
       for (Cube cube : cubes)
