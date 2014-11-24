@@ -50,7 +50,7 @@ public class Staircase extends Map
         rightWall = new RectangularPrism(x + -(size / 2), y + 5.0f, z, textureName, 1.0f, size, size);
         for (int i = 0; i < stairs.length; i++)
         {
-          stairs[i] = new RectangularPrism(x, (y - (size / 2)) + i + 5.0f, (z - (size / 2)) + i, textureName, size - 2, 1.0f, 1.0f);
+          stairs[i] = new RectangularPrism(x, (y - (size / 2)) + i + 5.0f, (z + (size / 2)) - i, textureName, size - 2, 1.0f, 1.0f);
         } 
         break;
       }
@@ -60,7 +60,7 @@ public class Staircase extends Map
         rightWall = new RectangularPrism(x, y + 5.0f, z + -(size / 2), textureName, size, size, 1.0f);
         for (int i = 0; i < stairs.length; i++)
         {
-          stairs[i] = new RectangularPrism((x - (size / 2)) + i, (y - (size / 2)) + i + 5.0f, z, textureName, 1.0f, 1.0f, size - 2);
+          stairs[i] = new RectangularPrism((x + (size / 2)) - i, (y - (size / 2)) + i + 5.0f, z, textureName, 1.0f, 1.0f, size - 2);
         }  
         break;
       }

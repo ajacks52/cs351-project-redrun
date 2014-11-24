@@ -60,7 +60,7 @@ public class GraphicsTestTroy
   {
     try
     {
-      Display.setDisplayMode(new DisplayMode(1920, 1080));
+      Display.setDisplayMode(new DisplayMode(1280, 720));
       Display.setTitle("An Awesome OpenGL Scene");
       Display.create();
       Display.setVSyncEnabled(true);

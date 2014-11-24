@@ -28,9 +28,9 @@ public class Tunnel extends Map
       case NORTH:
       {
         floor = new Plane(x, y, z, textureName, size);
-        leftWall = new RectangularPrism(x + (size / 2), y + 5.0f, z, textureName, 1.0f, 10.0f, size);
-        rightWall = new RectangularPrism(x + -(size / 2), y + 5.0f, z, textureName, 1.0f, 10.0f, size);
-        roof = new RectangularPrism(x, y + 10.5f, z, textureName, size, 1.0f, size);
+        leftWall = new RectangularPrism(x + (size / 2), y + (size / 2), z, textureName, 1.0f, size, size);
+        rightWall = new RectangularPrism(x + -(size / 2), y + (size / 2), z, textureName, 1.0f, size, size);
+        roof = new RectangularPrism(x, y + size - 0.5f, z, textureName, size - 1, 1.0f, size);
         break;
       }
       case EAST:
