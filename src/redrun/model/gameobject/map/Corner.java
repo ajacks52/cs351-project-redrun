@@ -10,17 +10,40 @@ import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.RectangularPrism;
 
+/**
+ * This class represents a map object that is used to construct Redrun maps.
+ * This particular class is a corner that turns ninety degrees.
+ * 
+ * @author Troy Squillaci
+ * @version 1.0
+ * @since 2014-11-22
+ */
 public class Corner extends Map
 {
+	/** The floor defined by a plane. */
   private Plane floor;
 
+  /** The left wall. */
   private RectangularPrism leftWall;
   
+  /** The back wall. */
   private RectangularPrism backWall;
 
+  /** The pylon. */
   private RectangularPrism pylon;
 
-  
+  /**
+   * Creates a new corner at the specified location. If the texture name is not null, the specified
+   * texture will be applied to the corner. In addition the orientation of the corner and the trap
+   * associated with it are specified here. Trap may be null.
+   * 
+   * @param x the x position of the corner
+   * @param y the y position of the corner
+   * @param z the z position of the corner
+   * @param textureName the name of the texture to apply to the corner
+   * @param orientation the cardinal direction that corner should be aligned to
+   * @param trap the trap to place on the corner
+   */
   public Corner(float x, float y, float z, String textureName, Direction orientation, Trap trap)
   {
     super(x, y, z, textureName, orientation, trap);

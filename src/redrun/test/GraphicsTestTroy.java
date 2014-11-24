@@ -22,13 +22,12 @@ import redrun.model.gameobject.map.Corner;
 import redrun.model.gameobject.map.Corridor;
 import redrun.model.gameobject.map.End;
 import redrun.model.gameobject.map.Pit;
+import redrun.model.gameobject.map.Platform;
 import redrun.model.gameobject.map.Staircase;
 import redrun.model.gameobject.map.Start;
 import redrun.model.gameobject.map.Tunnel;
 import redrun.model.gameobject.world.CheckerBoard;
 import redrun.model.gameobject.world.Cube;
-import redrun.model.gameobject.world.Plane;
-import redrun.model.gameobject.world.RectangularPrism;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.gameobject.world.Tetrahedron;
 import redrun.model.toolkit.BufferConverter;
@@ -130,6 +129,8 @@ public class GraphicsTestTroy
     Staircase stair2 = new Staircase(30, 0.5f, 80, "wood", Direction.EAST, null);
     Staircase stair3 = new Staircase(40, 0.5f, 80, "wood", Direction.SOUTH, null);
     Staircase stair4 = new Staircase(50, 0.5f, 80, "wood", Direction.WEST, null);
+    
+    Platform plat1 = new Platform(20, 0.5f, 90, "wood", null, null);
     
 
     
@@ -293,6 +294,8 @@ public class GraphicsTestTroy
       pit2.draw();
       pit3.draw();
       pit4.draw();
+      
+      plat1.draw();
 
       // Draw the cubes...
       for (Cube cube : cubes)
