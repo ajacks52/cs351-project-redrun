@@ -30,10 +30,10 @@ public class Corner extends Map
     switch (orientation)
     {
       case NORTH:
-      {
+      {        
         floor = new Plane(x, y, z, textureName, size);
         leftWall = new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size);
-        backWall = new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size, 3.0f, 1.0f);
+        backWall = new RectangularPrism(x + 0.5f, y + 1.5f, z + ((size - 1.0f) / 2.0f), textureName, size - 1.0f, 3.0f, 1.0f);
         pylon = new RectangularPrism(x + (size / 2), y + 1.5f, z + -(size / 2), textureName, 1.0f, 3.0f, 1.0f);
         break;
       }
@@ -41,7 +41,7 @@ public class Corner extends Map
       {
         floor = new Plane(x, y, z, textureName, size);
         leftWall = new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size, 3.0f, 1.0f);
-        backWall = new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size);
+        backWall = new RectangularPrism(x + ((size - 1.0f) / 2), y + 1.5f, z - 0.5f, textureName, 1.0f, 3.0f, size - 1.0f);
         pylon = new RectangularPrism(x + -(size / 2), y + 1.5f, z + -(size / 2), textureName, 1.0f, 3.0f, 1.0f);
         break;
       }
@@ -49,7 +49,7 @@ public class Corner extends Map
       {
         floor = new Plane(x, y, z, textureName, size);
         leftWall = new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size);
-        backWall = new RectangularPrism(x, y + 1.5f, z + -(size / 2), textureName, size, 3.0f, 1.0f);
+        backWall = new RectangularPrism(x - 0.5f, y + 1.5f, z + -((size - 1.0f) / 2), textureName, size - 1.0f, 3.0f, 1.0f);
         pylon = new RectangularPrism(x + -(size / 2), y + 1.5f, z + (size / 2), textureName, 1.0f, 3.0f, 1.0f);
         break;
       }
@@ -57,7 +57,7 @@ public class Corner extends Map
       {
         floor = new Plane(x, y, z, textureName, size);
         leftWall = new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size);
-        backWall = new RectangularPrism(x, y + 1.5f, z + -(size / 2), textureName, size, 3.0f, 1.0f);
+        backWall = new RectangularPrism(x + 0.5f, y + 1.5f, z + -((size - 1.0f) / 2), textureName, size - 1.0f, 3.0f, 1.0f);
         pylon = new RectangularPrism(x + (size / 2), y + 1.5f, z + (size / 2), textureName, 1.0f, 3.0f, 1.0f);
         break;
       }

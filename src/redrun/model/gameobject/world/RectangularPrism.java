@@ -3,7 +3,7 @@ package redrun.model.gameobject.world;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
- * This class represents a rectanguler prism that can be drawn in an OpenGL scene.
+ * This class represents a rectangular prism that can be drawn in an OpenGL scene.
  * 
  * @author Troy Squillaci
  * @version 1.0

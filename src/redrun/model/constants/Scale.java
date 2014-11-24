@@ -6,7 +6,7 @@ public enum Scale
   {
     public int scale()
     {
-      return 15;
+      return 17;
     }
   };
 

@@ -15,7 +15,6 @@ public class Corridor extends Map
   
   private RectangularPrism rightWall;
 
-  
   public Corridor(float x, float y, float z, String textureName, Direction orientation, Trap trap)
   {
     super(x, y, z, textureName, orientation, trap);
