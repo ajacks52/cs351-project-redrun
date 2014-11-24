@@ -75,9 +75,7 @@ public class GraphicsTestAdam
     trapDoor = new TrapDoor(30, -2, 10, "wood");
     hammer = new Hammer(50, 0, 50, null);
     spikeField = new SpikeField(30, 0, 20, "s11", new Dimension(10, 15));
-    runner1 = new Runner(10, 0, 10, null);
-    
-    runner2 = new Runner(15, 0, 10, null);
+
 
     
     board = new CheckerBoard(0, 0, 0, "x17", new Dimension(50, 50));
@@ -115,8 +113,7 @@ public class GraphicsTestAdam
       spikes.draw();
       trapDoor.draw();
       spikeField.draw();
-      runner1.render();
-      runner2.render();
+
 
 
       // if (Picker.mode == 2) Picker.stopPicking();

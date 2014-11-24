@@ -18,7 +18,7 @@ describe Button do
   before(:all) do
     @attr = {state: false,
              kiosk_id: 1,
-             trap_id: 1}
+             trap_id: 1, map_id: 1}
     Button.create(@attr)
     p Button.all
   end

@@ -6,8 +6,6 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.glu.Sphere;
 import org.lwjgl.util.vector.Vector3f;
 
-import redrun.model.physics.SpherePhysicsBody;
-
 /**
  * Creates a button object. This button sits on a pedestal and reacts to clicks.
  * 
@@ -18,14 +16,16 @@ import redrun.model.physics.SpherePhysicsBody;
 public class Button extends WorldObject
 {
   Sphere sphere = new Sphere();
-//  private Vector3f defaultButtonPosition; // See todo below.
+  private Vector3f defaultButtonPosition; // See todo below.
+  private Vector3f currentButtonPosition; // See todo below.
   Vector3f color;
 
   public Button(float x, float y, float z, String textureName, Vector3f color)
   {
     super(x, y, z, textureName);
 
-//    defaultButtonPosition = new Vector3f(x, y, z); // See todo below.
+    defaultButtonPosition = new Vector3f(x, y, z); // See todo below.
+    currentButtonPosition = defaultButtonPosition;
     this.color = color;
 
     sphere.setDrawStyle(GLU.GLU_FILL);
@@ -46,9 +46,8 @@ public class Button extends WorldObject
     if (this.timer.getTime() >= 0.8f) reset();
 
     // TODO: For animation, under construction.
-    // if (timer.isPaused() && button.getY() < defaultButtonPosition.y)
-    // button.setY(button.getY() + 0.02f);
-    // else if (!timer.isPaused()) button.setY(button.getY() - 0.02f);
+//    if (timer.isPaused() && this.getY() < defaultButtonPosition.y) this.currentButtonPosition.y = this.getY() + 0.02f;
+//    else if (!timer.isPaused()) this.currentButtonPosition.y = this.getY() - 0.02f;
 
     displayListId = glGenLists(1);
 
@@ -60,12 +59,13 @@ public class Button extends WorldObject
         {
           glBegin(GL_SPHERE_MAP);
           {
+//            glTranslatef(0, defaultButtonPosition.y - currentButtonPosition.y, 0); // See todo above
             if (color != null)
             {
               glColor3f(color.x, color.y, color.z);
               sphere.draw(0.5f, 40, 40);
             }
-            sphere.draw(0.5f, 40, 40);
+            else sphere.draw(0.5f, 40, 40);
           }
           glEnd();
         }
