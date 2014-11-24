@@ -1,7 +1,6 @@
 #!usr/bin/env ruby
 require 'active_record'
 require 'yaml'
-require 'ruby-debug'
 require 'logger'
 
 # Rakefile to create and drop tables from the database with ease
