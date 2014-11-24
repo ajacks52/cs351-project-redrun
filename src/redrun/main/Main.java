@@ -11,6 +11,6 @@ public class Main
 {
   public static void main(String[] args)
   {
-    System.out.println("Such code, much wow!");
+    System.out.println(0.5f + (15 / 2));
   }
 }
