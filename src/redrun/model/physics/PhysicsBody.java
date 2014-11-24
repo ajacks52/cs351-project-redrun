@@ -171,4 +171,8 @@ public class PhysicsBody extends RigidBody
     push(new Vector3f(x,y,0));
   }
   
+  public void translate(float x, float y, float z)
+  {
+    this.translate(PhysicsTools.openGLToBullet(new Vector3f(x,y,z)));
+  }
 }

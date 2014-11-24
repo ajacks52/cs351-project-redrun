@@ -19,7 +19,7 @@ public class PlanePhysicsBody extends PhysicsBody
    * Creates an infinite plane in all directions
    * The simplest and easiest physics body should be used wherever possible
    * @param center in meters
-   * @param normal in meters, this is the vector that is perpendicular to the plane
+   * @param normal the vector that is perpendicular to the plane
    * @param mass in kg
    */
   public PlanePhysicsBody(Vector3f center, Vector3f normal, float mass)
