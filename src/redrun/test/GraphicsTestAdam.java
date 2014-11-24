@@ -43,7 +43,7 @@ public class GraphicsTestAdam
   // the traps in display
   private SpikeTrapDoor spikes;
   private TrapDoor trapDoor;
-  private Hammer hammer;
+  private DeathPillar deathPillar;
   private SpikeField spikeField;
   
   //
@@ -73,7 +73,7 @@ public class GraphicsTestAdam
 
     spikes = new SpikeTrapDoor(10, 0, 30, "wood");
     trapDoor = new TrapDoor(30, -2, 10, "wood");
-    hammer = new Hammer(50, 0, 50, null);
+    deathPillar = new DeathPillar(50, 0, 50, null);
     spikeField = new SpikeField(30, 0, 20, "s11", new Dimension(10, 15));
     runner1 = new Runner(10, 0, 10, null);
     
@@ -111,12 +111,12 @@ public class GraphicsTestAdam
       cam.lookThrough();
 
       // draw the trap objects
-      hammer.render();
+      deathPillar.draw();
       spikes.draw();
       trapDoor.draw();
       spikeField.draw();
-      runner1.render();
-      runner2.render();
+      runner1.draw();
+      runner2.draw();
 
 
       // if (Picker.mode == 2) Picker.stopPicking();

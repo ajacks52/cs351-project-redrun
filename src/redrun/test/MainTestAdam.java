@@ -11,8 +11,11 @@ import org.newdawn.slick.Color;
 import redrun.graphics.camera.Camera;
 import redrun.main.LoadingScreen;
 import redrun.main.Menu;
+import redrun.model.constants.Direction;
+import redrun.model.constants.ScreenConstants;
 import redrun.model.gameobject.trap.*;
 import redrun.model.gameobject.world.*;
+import redrun.model.gameobject.map.Corridor;
 import redrun.model.gameobject.player.*;
 import redrun.model.toolkit.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -40,15 +43,17 @@ public class MainTestAdam
   // the traps in display
   private SpikeTrapDoor spikes;
   private TrapDoor trapDoor;
-  private Hammer hammer;
+  private DeathPillar deathPillar;
   private SpikeField spikeField;
-  // the runners
-  Runner runner1;
-  Runner runner2;
+
   // the walls
   private CheckerBoard board;
   private CheckerBoard wallT;
   private CheckerBoard wallR;
+  
+  private BallsSwing bs;
+  
+  
 
   // Used for controlling the camera with the keyboard and mouse...
   private float dx, dy, dt;
@@ -67,17 +72,17 @@ public class MainTestAdam
 
     Menu menu = new Menu();
 
-    //////// Initialize game objects 
+    // ////// Initialize game objects
     spikes = new SpikeTrapDoor(10, 0, 30, "wood");
     trapDoor = new TrapDoor(30, 0, 10, "wood");
-    hammer = new Hammer(50, 0, 50, null);
+    deathPillar = new DeathPillar(50, 0, 50, null);
     spikeField = new SpikeField(30, 0, 20, "s11", new Dimension(10, 15));
-    runner1 = new Runner(10, 0, 10, null);
-    runner2 = new Runner(15, 0, 10, null);
     board = new CheckerBoard(0, 0, 0, "x17", new Dimension(50, 50));
     wallT = new CheckerBoard(0, 10, 0, "x11", new Dimension(50, 50));
     wallR = new CheckerBoard(0, 0, 0, "24", new Dimension(50, 11));
 
+    bs = new BallsSwing(-10,2, 5, null);
+    
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
     // call once before loop to initialize lastFrame
@@ -97,7 +102,7 @@ public class MainTestAdam
     }
     exit();
   }
-  
+
   /**
    * Scene rendering loop
    */
@@ -110,17 +115,18 @@ public class MainTestAdam
       keyBoardControls();
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
       glLoadIdentity();
-      
+
       // if (Picker.mode == 2) Picker.startPicking();
       cam.lookThrough();
 
       // draw the trap objects
-      hammer.render();
+      deathPillar.draw();
       spikes.draw();
       trapDoor.draw();
       spikeField.draw();
-      runner1.render();
-      runner2.render();
+
+      bs.draw();
+      
 
       // if (Picker.mode == 2) Picker.stopPicking();
 
@@ -159,6 +165,8 @@ public class MainTestAdam
     if (Keyboard.isKeyDown(Keyboard.KEY_X)) cam.moveDown(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_F)) spikes.interact();
     if (Keyboard.isKeyDown(Keyboard.KEY_R)) trapDoor.interact();
+    if (Keyboard.isKeyDown(Keyboard.KEY_C)) deathPillar.interact();
+
   }
 
   /**
@@ -168,7 +176,7 @@ public class MainTestAdam
   {
     try
     {
-      Display.setDisplayMode(new DisplayMode(800, 600));
+      Display.setDisplayMode(new DisplayMode(ScreenConstants.SCREEN_WIDTH, ScreenConstants.SCREEN_HEIGHT));
       Display.create();
     }
     catch (LWJGLException ex)

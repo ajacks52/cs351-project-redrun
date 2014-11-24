@@ -2,6 +2,13 @@ package redrun.model.gameobject.trap;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import javax.vecmath.Quat4f;
+//import javax.vecmath.Vector3f;
+
+import org.lwjgl.util.vector.Vector3f;
+
+import redrun.model.physics.BoxPhysicsBody;
+
 /**
  * Class to make a hammer trap
  * 
@@ -10,7 +17,7 @@ import static org.lwjgl.opengl.GL11.*;
  * @since 2014-19-10
  *
  */
-public class Hammer extends Trap
+public class DeathPillar extends Trap
 {
 
   /**
@@ -21,10 +28,11 @@ public class Hammer extends Trap
    * @param z pos
    * @param textureName
    */
-  public Hammer(float x, float y, float z, String textureName)
+  public DeathPillar(float x, float y, float z, String textureName)
   {
     super(x, y, z, textureName);
-
+    body = new BoxPhysicsBody(new Vector3f(x,y,z), new Vector3f(0.5f,1.0f,0.5f), new Quat4f(), 100.0f);
+    
     float height = 5f;
     float radius = .5f;
     float resolution = .1f;
@@ -33,6 +41,7 @@ public class Hammer extends Trap
     // cylinder
     glNewList(displayListId, GL_COMPILE);
     {
+      glColor3f(.301f, .207f, .007f);
       /* top triangle */
       glBegin(GL_TRIANGLE_FAN);
       {
@@ -67,30 +76,22 @@ public class Hammer extends Trap
       }
       glEnd();
 
-      glBegin(GL_QUAD_STRIP);
+      glBegin(GL_QUADS);
       {
-
+        //glNormal3f(0.0f, 1.0f, 0.0f);
+        glVertex3f(1.0f, 1.0f, -1.0f);
+        glTexCoord2f(0, 0);
+        glVertex3f(-1.0f, 1.0f, -1.0f);
+        glTexCoord2f(0, 1);
+        glVertex3f(-1.0f, 1.0f, 1.0f);
+        glTexCoord2f(1, 1);
+        glVertex3f(1.0f, 1.0f, 1.0f);
+        glTexCoord2f(1, 0);
       }
       glEnd();
 
     }
     glEndList();
-  }
-
-  public void render()
-  {
-    glPushMatrix();
-    {
-      glPushName(this.id);
-      {
-        glTranslatef(0, 0, 0);
-        glColor3f(.301f, .207f, .007f);
-        // glScalef(3f, 1f, 3f);
-        this.draw();
-      }
-      glPopName();
-    }
-    glPopMatrix();
   }
 
   @Override
@@ -118,7 +119,20 @@ public class Hammer extends Trap
   public void update()
   {
     // TODO Auto-generated method stub
+    if ((int) this.timer.getTime() == 0)
+    {
+      
+    }
+    else if ((int) this.timer.getTime() < 3)
+    {
+      body.push(new Vector3f(0.0f,-1.0f,0.0f));
 
+    }
+    else
+    {
+      System.out.println("Resetting game object: " + this.id);
+      reset();
+    }
   }
 
 }

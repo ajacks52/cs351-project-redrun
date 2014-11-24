@@ -8,6 +8,7 @@ public class Platform extends Map
 	public Platform(float x, float y, float z, String textureName, Direction orientation, Trap trap)
 	{
 		super(x, y, z, textureName, orientation, trap);
-		// TODO Auto-generated constructor stub
+		
+		
 	}
 }
