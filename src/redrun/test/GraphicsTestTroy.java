@@ -21,6 +21,7 @@ import redrun.model.constants.Direction;
 import redrun.model.gameobject.map.Corner;
 import redrun.model.gameobject.map.Corridor;
 import redrun.model.gameobject.map.End;
+import redrun.model.gameobject.map.Field;
 import redrun.model.gameobject.map.Pit;
 import redrun.model.gameobject.map.Platform;
 import redrun.model.gameobject.map.Staircase;
@@ -132,7 +133,10 @@ public class GraphicsTestTroy
     
     Platform plat1 = new Platform(20, 0.5f, 90, "wood", null, null);
     
-
+    Field field1 = new Field(20, 0.5f, 120, "wood", Direction.NORTH, null);
+    Field field2 = new Field(50, 0.5f, 120, "wood", Direction.EAST, null);
+    Field field3 = new Field(80, 0.5f, 120, "wood", Direction.SOUTH, null);
+    Field field4 = new Field(110, 0.5f, 120, "wood", Direction.WEST, null);
     
     // Create the cubes...
     cubes.add(new Cube(20.0f, 1.5f, 20.0f, "wood"));
@@ -296,6 +300,11 @@ public class GraphicsTestTroy
       pit4.draw();
       
       plat1.draw();
+      
+      field1.draw();
+      field2.draw();
+      field3.draw();
+      field4.draw();
 
       // Draw the cubes...
       for (Cube cube : cubes)
