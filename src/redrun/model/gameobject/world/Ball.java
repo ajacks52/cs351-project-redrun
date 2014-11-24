@@ -5,12 +5,16 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.util.glu.Sphere;
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.physics.SpherePhysicsBody;
+
 public class Ball extends WorldObject
 {
 
   public Ball(float x, float y, float z, String textureName, float radius, Vector3f color)
   {
     super(x, y, z, textureName);
+    
+    this.body = new SpherePhysicsBody(new Vector3f(x, y, z), radius, 0);
 
     displayListId = glGenLists(1);
 

@@ -13,16 +13,16 @@ import redrun.model.gameobject.trap.Trap;
  */
 public abstract class Map extends GameObject
 {
-	/** The orientation of the map object in 3D space. */
-	private Direction orientation = null;
-	
-	/** The trap associated with the map object. */
-	private Trap trap = null;
-	
-	/**
-   * Creates a new map object at the specified location. If the texture name is not null, the specified
-   * texture will be applied to the map object. In addition the orientation of the map object and the trap
-   * associated with it are specified here. Trap may be null.
+  /** The orientation of the map object in 3D space. */
+  private Direction orientation = null;
+
+  /** The trap associated with the map object. */
+  private Trap trap = null;
+
+  /**
+   * Creates a new map object at the specified location. If the texture name is not null, the specified texture will be
+   * applied to the map object. In addition the orientation of the map object and the trap associated with it are
+   * specified here. Trap may be null.
    * 
    * @param x the x position of the map object
    * @param y the y position of the map object
@@ -31,28 +31,28 @@ public abstract class Map extends GameObject
    * @param orientation the cardinal direction that map object should be aligned to
    * @param trap the trap to place on the map object
    */
-	public Map(float x, float y, float z, String textureName, Direction orientation, Trap trap)
-	{
-		super(x, y, z, textureName);
+  public Map(float x, float y, float z, String textureName, Direction orientation, Trap trap)
+  {
+    super(x, y, z, textureName);
 
-		this.orientation = orientation;
-	}
+    this.orientation = orientation;
+  }
 
-	@Override
-	public void interact()
-	{
-		// TODO Auto-generated method stub
-	}
+  @Override
+  public void interact()
+  {
+    // TODO Auto-generated method stub
+  }
 
-	@Override
-	public void update()
-	{
-		// TODO Auto-generated method stub
-	}
+  @Override
+  public void update()
+  {
+    // TODO Auto-generated method stub
+  }
 
-	@Override
-	public void reset()
-	{
-		// TODO Auto-generated method stub
-	}
+  @Override
+  public void reset()
+  {
+    // TODO Auto-generated method stub
+  }
 }

@@ -2,6 +2,12 @@ package redrun.model.gameobject.world;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import javax.vecmath.Quat4f;
+
+import org.lwjgl.util.vector.Vector3f;
+
+import redrun.model.physics.BoxPhysicsBody;
+
 /**
  * This class represents a rectangular prism that can be drawn in an OpenGL scene.
  * 
@@ -21,6 +27,8 @@ public class RectangularPrism extends WorldObject
   public RectangularPrism(float x, float y, float z, String textureName, float width, float height, float depth)
   {
     super(x, y, z, textureName);
+    
+    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(width / 2, height / 2, depth / 2), new Quat4f(), 0);
 
     displayListId = glGenLists(1);
 

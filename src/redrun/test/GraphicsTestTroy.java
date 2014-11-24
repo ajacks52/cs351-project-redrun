@@ -144,9 +144,6 @@ public class GraphicsTestTroy
     
     // Add the ending point...
     worldMap.add(new End(132.5f, 8.0f, 50, "brickwall5", Direction.EAST, null));
-
-
-
     
 //    Corridor corridor1 = new Corridor(20, 0.5f, 20, "wood", Direction.NORTH, null);
 //    Corridor corridor2 = new Corridor(30, 0.5f, 20, "wood", Direction.EAST, null);

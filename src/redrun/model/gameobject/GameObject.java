@@ -53,7 +53,7 @@ public abstract class GameObject
    * @param z the z position of the game object
    */
   public GameObject(float x, float y, float z, String textureName)
-  {
+  { 
     body = new PhysicsBody(0, new Quat4f(0, 0, 0, 1), new Vector3f(x, y, z), null);
     
     if (textureName != null)
