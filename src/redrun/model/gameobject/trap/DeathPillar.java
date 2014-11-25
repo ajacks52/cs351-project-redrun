@@ -112,27 +112,32 @@ public class DeathPillar extends Trap
   public void interact()
   {
     // TODO Auto-generated method stub
-
+    this.timer.resume();
   }
 
   @Override
   public void update()
-  {
-    // TODO Auto-generated method stub
-    if ((int) this.timer.getTime() == 0)
+  {   
+    if (this.timer.getTime() > 0)
     {
-      
+      System.out.println("interactiong with game object: " + this.id);
+      body.push(new Vector3f(0.0f,-5000.0f,0.0f));
     }
-    else if ((int) this.timer.getTime() < 3)
-    {
-      body.push(new Vector3f(0.0f,-1.0f,0.0f));
-
-    }
-    else
-    {
-      System.out.println("Resetting game object: " + this.id);
-      reset();
-    }
+    
+//    if ((int) this.timer.getTime() == 0)
+//    {
+//      
+//    }
+//    else if ((int) this.timer.getTime() < 3)
+//    {
+//      System.out.println(this.timer.getTime());
+//      body.push(new Vector3f(0.0f,-500.0f,0.0f));
+//    }
+//    else
+//    {
+//      System.out.println("Resetting game object: " + this.id);
+//      reset();
+//    }
   }
 
 }

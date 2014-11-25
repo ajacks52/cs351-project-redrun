@@ -8,36 +8,8 @@ import redrun.graphics.camera.Camera;
 import redrun.model.gameobject.world.*;
 import redrun.model.physics.*;
 
-public class Runner extends Player
-{
 
-  private Ball player;
+public class Runner{
 
-  public Runner(float x, float y, float z, String textureName)
-  {
-    super(x, y, z, textureName);
-
-  }
-
-  
-
-  @Override
-  public void interact()
-  {
-
-  }
-  
-  @Override
-  public void update()
-  {
-    
-  }
-
-  @Override
-  public void reset()
-  {
-    // TODO Auto-generated method stub
-
-  }
-
+ 
 }

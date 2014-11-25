@@ -12,7 +12,6 @@ import org.newdawn.slick.Color;
 import redrun.graphics.camera.Camera;
 import redrun.model.gameobject.trap.*;
 import redrun.model.gameobject.world.*;
-import redrun.model.gameobject.player.*;
 import redrun.model.toolkit.*;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -46,10 +45,6 @@ public class GraphicsTestAdam
   private DeathPillar deathPillar;
   private SpikeField spikeField;
   
-  //
-  Runner runner1;
-  Runner runner2;
-  
   // the walls
   private CheckerBoard board;
   private CheckerBoard wallT;
@@ -75,9 +70,7 @@ public class GraphicsTestAdam
     trapDoor = new TrapDoor(30, -2, 10, "wood");
     deathPillar = new DeathPillar(50, 0, 50, null);
     spikeField = new SpikeField(30, 0, 20, "s11", new Dimension(10, 15));
-    runner1 = new Runner(10, 0, 10, null);
-    
-    runner2 = new Runner(15, 0, 10, null);
+
 
     
     board = new CheckerBoard(0, 0, 0, "x17", new Dimension(50, 50));
@@ -115,8 +108,7 @@ public class GraphicsTestAdam
       spikes.draw();
       trapDoor.draw();
       spikeField.draw();
-      runner1.draw();
-      runner2.draw();
+
 
 
       // if (Picker.mode == 2) Picker.stopPicking();

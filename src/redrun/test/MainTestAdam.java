@@ -17,6 +17,7 @@ import redrun.model.gameobject.trap.*;
 import redrun.model.gameobject.world.*;
 import redrun.model.gameobject.map.Corridor;
 import redrun.model.gameobject.player.*;
+import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.*;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -47,12 +48,17 @@ public class MainTestAdam
   private SpikeField spikeField;
 
   // the walls
-  private CheckerBoard board;
-  private CheckerBoard wallT;
-  private CheckerBoard wallR;
+//  private CheckerBoard board;
+//  private CheckerBoard wallT;
+//  private CheckerBoard wallR;
   
   private BallsSwing bs;
   
+  private Corridor hallway1;
+  private Corridor hallway2;
+  private Corridor hallway3;
+  
+  private PoleWall pWall;
   
 
   // Used for controlling the camera with the keyboard and mouse...
@@ -77,10 +83,12 @@ public class MainTestAdam
     trapDoor = new TrapDoor(30, 0, 10, "wood");
     deathPillar = new DeathPillar(50, 0, 50, null);
     spikeField = new SpikeField(30, 0, 20, "s11", new Dimension(10, 15));
-    board = new CheckerBoard(0, 0, 0, "x17", new Dimension(50, 50));
-    wallT = new CheckerBoard(0, 10, 0, "x11", new Dimension(50, 50));
-    wallR = new CheckerBoard(0, 0, 0, "24", new Dimension(50, 11));
 
+    hallway1 = new Corridor(0, 0, 0, "x17", Direction.EAST , null);
+    hallway2 = new Corridor(9, 0, 0, "x17", Direction.EAST , null);
+    hallway3 = new Corridor(18, 0, 0, "x17", Direction.EAST , null);
+    
+    pWall = new PoleWall(5,5,5, null);
     bs = new BallsSwing(-10,2, 5, null);
     
     // Hide the mouse cursor...
@@ -126,21 +134,15 @@ public class MainTestAdam
       spikeField.draw();
 
       bs.draw();
+      hallway1.draw();
+      hallway2.draw();
+      hallway3.draw();
       
+      pWall.draw();
 
       // if (Picker.mode == 2) Picker.stopPicking();
 
-      // draw the floor
-      board.draw();
-      // draw a left wall
-      glPushMatrix();
-      glTranslatef(0, -1, -1);
-      glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
-      wallR.draw();
-      glPopMatrix();
-      // draw the ceiling
-      wallT.draw();
-
+  
       // drawing 2d text
       FontTools.draw2D();
       FontTools.renderText("x: " + cam.getX() + " y: " + cam.getY() + " z: " + cam.getZ(), 10, 10, Color.white, 1);
@@ -240,6 +242,7 @@ public class MainTestAdam
   {
     if (getTime() - lastFPS > 1000)
     {
+      PhysicsWorld.stepSimulation(1.0f/fps);
       Display.setTitle("My test level FPS: " + fps);
       fps = 0;
       lastFPS += 1000;

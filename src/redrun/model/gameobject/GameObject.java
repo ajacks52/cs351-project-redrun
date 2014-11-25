@@ -12,13 +12,7 @@ import org.newdawn.slick.opengl.Texture;
 
 import redrun.model.physics.PhysicsBody;
 import redrun.model.toolkit.Tools;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glCallList;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glTranslatef;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * This abstract class represents a game object. Every object in the 3D scene will extend
