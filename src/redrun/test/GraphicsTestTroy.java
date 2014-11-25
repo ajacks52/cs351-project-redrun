@@ -1,7 +1,6 @@
 package redrun.test;
 
 import java.nio.FloatBuffer;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +26,6 @@ import redrun.model.gameobject.map.Platform;
 import redrun.model.gameobject.map.Staircase;
 import redrun.model.gameobject.map.Start;
 import redrun.model.gameobject.map.Tunnel;
-import redrun.model.gameobject.world.Ball;
 import redrun.model.gameobject.world.Cube;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
@@ -140,14 +138,7 @@ public class GraphicsTestTroy
     // Add the ending point...
     worldMap.add(new End(225.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
-    ArrayList<Ball> balls = new ArrayList<Ball>();
-    
-    for (int i = 0; i < 10; i++)
-    {
-      balls.add(new Ball(0.0f, i + 100.0f, 15.0f + (i * 0.1f), null, 0.5f));
-    }
-    
-    Cube testCube = new Cube(0.0f, 50.0f, 0f, null);
+    Cube testCube = new Cube(0.0f, 50.0f, 0f, "wood");
     
 //    Corridor corridor1 = new Corridor(20, 0.5f, 20, "wood", Direction.NORTH, null);
 //    Corridor corridor2 = new Corridor(30, 0.5f, 20, "wood", Direction.EAST, null);
@@ -219,14 +210,14 @@ public class GraphicsTestTroy
       
       // Add positional light...
       FloatBuffer lightColor0 = BufferConverter.asFloatBuffer(new float[] { 1.5f, 1.5f, 1.5f, 1.0f });
-      FloatBuffer lightPosition0 = BufferConverter.asFloatBuffer(new float[] { 15.0f, 0.0f, 5.0f, 1.0f });
+      FloatBuffer lightPosition0 = BufferConverter.asFloatBuffer(new float[] { -15.0f, 10.0f, 5.0f, 1.0f });
       glLight(GL_LIGHT0, GL_DIFFUSE, lightColor0);
       glLight(GL_LIGHT0, GL_SPECULAR, lightColor0);
       glLight(GL_LIGHT0, GL_POSITION, lightPosition0);
       
       // Add directional light...
       FloatBuffer lightColor1 = BufferConverter.asFloatBuffer(new float[] { 0.5f, 0.5f, 0.5f, 1.0f });
-      FloatBuffer lightPosition1 = BufferConverter.asFloatBuffer(new float[] { 0.0f, 15.0f, 0.0f, 0.0f });
+      FloatBuffer lightPosition1 = BufferConverter.asFloatBuffer(new float[] { -15.0f, 10.0f, 5.0f, 0.0f });
       glLight(GL_LIGHT1, GL_DIFFUSE, lightColor1);
       glLight(GL_LIGHT1, GL_POSITION, lightPosition1);
       
@@ -238,10 +229,8 @@ public class GraphicsTestTroy
         }
         Picker.stopPicking();
       }
-
-      // Draw the checker-board...
-      //board.draw();
       
+      // Draw the floor...
       plane.draw();
       
       // Draw the world map...
@@ -250,10 +239,6 @@ public class GraphicsTestTroy
         mapObject.draw();
       }
       
-      for (Ball ball : balls)
-      {
-        ball.draw();
-      }
       testCube.draw();
       
       // Draw text to the screen...
