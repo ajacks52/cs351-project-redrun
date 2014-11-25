@@ -16,7 +16,7 @@ describe Character do
     @attr = {character_name: 'bob',
             image: 'bobthedumpster.png',
             team: 'victims',
-            start_loc: '17.1, 23.2, 78.1'}
+            start_loc: '17.1, 23.2, 78.1', map_id: 1}
     Character.create(@attr)
     p Character.all
   end

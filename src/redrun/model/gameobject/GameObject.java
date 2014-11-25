@@ -12,13 +12,7 @@ import org.newdawn.slick.opengl.Texture;
 
 import redrun.model.physics.PhysicsBody;
 import redrun.model.toolkit.Tools;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glCallList;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glTranslatef;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * This abstract class represents a game object. Every object in the 3D scene will extend
@@ -59,7 +53,7 @@ public abstract class GameObject
    * @param z the z position of the game object
    */
   public GameObject(float x, float y, float z, String textureName)
-  {
+  { 
     body = new PhysicsBody(0, new Quat4f(0, 0, 0, 1), new Vector3f(x, y, z), null);
     
     if (textureName != null)

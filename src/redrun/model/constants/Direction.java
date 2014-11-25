@@ -14,18 +14,6 @@ public enum Direction
 			return -1;
 		}
 	},
-	NORTHEAST
-	{
-		public int deltaX()
-		{
-			return 1;
-		}
-
-		public int deltaY()
-		{
-			return -1;
-		}
-	},
 	EAST
 	{
 		public int deltaX()
@@ -38,35 +26,11 @@ public enum Direction
 			return 0;
 		}
 	},
-	SOUTHEAST
-	{
-		public int deltaX()
-		{
-			return 1;
-		}
-
-		public int deltaY()
-		{
-			return 1;
-		}
-	},
 	SOUTH
 	{
 		public int deltaX()
 		{
 			return 0;
-		}
-
-		public int deltaY()
-		{
-			return 1;
-		}
-	},
-	SOUTHWEST
-	{
-		public int deltaX()
-		{
-			return -1;
 		}
 
 		public int deltaY()
@@ -84,18 +48,6 @@ public enum Direction
 		public int deltaY()
 		{
 			return 0;
-		}
-	},
-	NORTHWEST
-	{
-		public int deltaX()
-		{
-			return -1;
-		}
-
-		public int deltaY()
-		{
-			return -1;
 		}
 	};
 	
