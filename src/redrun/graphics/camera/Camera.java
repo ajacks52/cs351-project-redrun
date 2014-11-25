@@ -110,8 +110,8 @@ public class Camera
    */
   public void moveForward(float distance)
   {
-    position.x -= distance * (float) Math.sin(Math.toRadians(yaw));
-    position.z += distance * (float) Math.cos(Math.toRadians(yaw));
+    position.x += distance * (float) Math.sin(Math.toRadians(yaw));
+    position.z -= distance * (float) Math.cos(Math.toRadians(yaw));
   }
 
   /**
@@ -121,8 +121,8 @@ public class Camera
    */
   public void moveBackward(float distance)
   {
-    position.x += distance * (float) Math.sin(Math.toRadians(yaw));
-    position.z -= distance * (float) Math.cos(Math.toRadians(yaw));
+    position.x -= distance * (float) Math.sin(Math.toRadians(yaw));
+    position.z += distance * (float) Math.cos(Math.toRadians(yaw));
   }
 
   /**
@@ -132,8 +132,8 @@ public class Camera
    */
   public void moveLeft(float distance)
   {
-    position.x -= distance * (float) Math.sin(Math.toRadians(yaw - 90));
-    position.z += distance * (float) Math.cos(Math.toRadians(yaw - 90));
+    position.x += distance * (float) Math.sin(Math.toRadians(yaw - 90));
+    position.z -= distance * (float) Math.cos(Math.toRadians(yaw - 90));
   }
 
   /**
@@ -143,8 +143,8 @@ public class Camera
    */
   public void moveRight(float distance)
   {
-    position.x -= distance * (float) Math.sin(Math.toRadians(yaw + 90));
-    position.z += distance * (float) Math.cos(Math.toRadians(yaw + 90));
+    position.x += distance * (float) Math.sin(Math.toRadians(yaw + 90));
+    position.z -= distance * (float) Math.cos(Math.toRadians(yaw + 90));
   }
 
   /**
@@ -154,7 +154,7 @@ public class Camera
    */
   public void moveUp(float distance)
   {
-    position.y -= distance;
+    position.y += distance;
   }
 
   /**
@@ -164,7 +164,7 @@ public class Camera
    */
   public void moveDown(float distance)
   {
-    position.y += distance;
+    position.y -= distance;
 
     if (position.y > 0) position.y = 0;
   }

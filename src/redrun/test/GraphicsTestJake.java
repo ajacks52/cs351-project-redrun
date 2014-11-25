@@ -20,11 +20,11 @@ import org.newdawn.slick.Color;
 import redrun.graphics.selection.Picker;
 import redrun.model.constants.Direction;
 import redrun.model.constants.Team;
+import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.map.Corner;
 import redrun.model.gameobject.map.Corridor;
 import redrun.model.gameobject.map.End;
 import redrun.model.gameobject.map.Field;
-import redrun.model.gameobject.map.Map;
 import redrun.model.gameobject.map.Pit;
 import redrun.model.gameobject.map.Platform;
 import redrun.model.gameobject.map.Staircase;
@@ -110,7 +110,7 @@ public class GraphicsTestJake
     Button button = new Button(4, 0.8f, 4, "pokadots", new Vector3f(1.0f, 0.0f, 0.0f));
 
     // Create the map...
-    LinkedList<Map> worldMap = new LinkedList<Map>();
+    LinkedList<MapObject> worldMap = new LinkedList<MapObject>();
 
     // Add the starting point...
     worldMap.add(new Start(20, 0.5f, 20, "brickwall5", Direction.NORTH, null));
@@ -281,7 +281,7 @@ public class GraphicsTestJake
       glPopMatrix();
 
       // Draw the world map...
-      for (Map mapObject : worldMap)
+      for (MapObject mapObject : worldMap)
       {
         mapObject.draw();
       }
