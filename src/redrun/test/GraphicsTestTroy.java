@@ -153,7 +153,7 @@ public class GraphicsTestTroy
       balls.add(new Ball(0.0f, i + 1000.0f, 15.0f + (i * 0.1f), null, 0.5f, null));
     }
     
-    Cube testCube = new Cube(0.0f, 50.0f, -8.0f, null);
+    Cube testCube = new Cube(0.0f, 50.0f, 0f, null);
     
 //    Corridor corridor1 = new Corridor(20, 0.5f, 20, "wood", Direction.NORTH, null);
 //    Corridor corridor2 = new Corridor(30, 0.5f, 20, "wood", Direction.EAST, null);
