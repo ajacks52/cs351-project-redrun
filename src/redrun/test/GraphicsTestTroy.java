@@ -96,64 +96,58 @@ public class GraphicsTestTroy
     // Create the map...
     LinkedList<MapObject> worldMap = new LinkedList<MapObject>();
     
-    //TODO Tests...
-    worldMap.add(new Staircase(0.0f, 0.0f, 0.0f, "brickwall5", Direction.NORTH, null));
-    worldMap.add(new Staircase(0.0f, 0.0f, 15.0f, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Staircase(0.0f, 0.0f, 30.0f, "brickwall5", Direction.SOUTH, null));
-    worldMap.add(new Staircase(0.0f, 0.0f, 45.0f, "brickwall5", Direction.WEST, null));
-    
     // Add the starting point...
-    worldMap.add(new Start(20, 0.0f, 20, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Start(0.0f, 0.0f, 0.0f, "brickwall5", Direction.NORTH, null));
     
     // Add a walkway...
-    worldMap.add(new Corridor(20, 0.0f, 27.5f, "brickwall5", Direction.NORTH, null));
-    worldMap.add(new Corridor(20, 0.0f, 35, "brickwall5", Direction.NORTH, null));
-    worldMap.add(new Corridor(20, 0.0f, 42.5f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corridor(0.0f, 0.0f, 15.0f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corridor(0.0f, 0.0f, 30.0f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corridor(0.0f, 0.0f, 45.0f, "brickwall5", Direction.NORTH, null));
     
     // Add a corner...
-    worldMap.add(new Corner(20, 0.0f, 50, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corner(0.0f, 0.0f, 60.0f, "brickwall5", Direction.NORTH, null));
     
     // Add a staircase...
-    worldMap.add(new Staircase(27.5f, 0.0f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Staircase(15.0f, 0.0f, 60.0f, "brickwall5", Direction.NORTH, null));
     
     // Add a walkway...
-    worldMap.add(new Corridor(35, 7.5f, 50, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Corridor(42.5f, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(30.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(45.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     // Add a field...
-    worldMap.add(new Field(57.5f, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Field(75.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     // Add a walkway...
-    worldMap.add(new Corridor(72.5f, 7.5f, 50, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Corridor(80, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(105.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(120.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     // Add a tunnel...
-    worldMap.add(new Tunnel(87.5f, 7.5f, 50, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Tunnel(95, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Tunnel(135.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Tunnel(150.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     // Add a walkway...
-    worldMap.add(new Corridor(102.5f, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(165.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     // Add a pit...
-    worldMap.add(new Pit(110.0f, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Pit(180.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     // Add a walkway...
-    worldMap.add(new Corridor(117.5f, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(195.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     // Add a platform...
-    worldMap.add(new Platform(125.0f, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Platform(210.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     // Add the ending point...
-    worldMap.add(new End(132.5f, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new End(225.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     ArrayList<Ball> balls = new ArrayList<Ball>();
     
     for (int i = 0; i < 10; i++)
     {
-      balls.add(new Ball(0.0f, i + 1000.0f, 15.0f + (i * 0.1f), null, 0.5f, null));
+      balls.add(new Ball(0.0f, i + 100.0f, 15.0f + (i * 0.1f), null, 0.5f, null));
     }
     
-    Cube testCube = new Cube(0.0f, 50.0f, -8.0f, null);
+    Cube testCube = new Cube(0.0f, 50.0f, 0f, null);
     
 //    Corridor corridor1 = new Corridor(20, 0.5f, 20, "wood", Direction.NORTH, null);
 //    Corridor corridor2 = new Corridor(30, 0.5f, 20, "wood", Direction.EAST, null);
