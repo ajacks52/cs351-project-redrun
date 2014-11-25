@@ -11,6 +11,7 @@ import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.opengl.Texture;
 
 import redrun.model.physics.PhysicsBody;
+import redrun.model.physics.PhysicsTools;
 import redrun.model.toolkit.Tools;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -27,6 +28,9 @@ public abstract class GameObject
   // Identification related fields...
   /** The ID of the game object. */
   public final int id;
+  
+  /** The ID counter. */
+  private static int counter = 0;
   
   /** All game objects in existence. */
   private static HashMap<Integer, GameObject> gameObjects = new HashMap<Integer, GameObject>();
@@ -51,9 +55,10 @@ public abstract class GameObject
    * @param x the x position of the game object
    * @param y the y position of the game object
    * @param z the z position of the game object
+   * @param textureName the name of the texture to apply to the game object
    */
   public GameObject(float x, float y, float z, String textureName)
-  {
+  { 
     body = new PhysicsBody(0, new Quat4f(0, 0, 0, 1), new Vector3f(x, y, z), null);
     
     if (textureName != null)
@@ -64,7 +69,7 @@ public abstract class GameObject
     timer = new Timer();
     timer.pause();
     
-    id = System.identityHashCode(this);
+    id = counter++;
     
     if (gameObjects.containsKey(id))
     {
@@ -95,6 +100,9 @@ public abstract class GameObject
       {
         glEnable(GL_TEXTURE_2D);
         texture.bind();  
+        glRotatef(body.getYaw(), 1, 0, 0);
+        glRotatef(body.getPitch(), 0, 1, 0);
+        glRotatef(body.getRoll(), 0, 0, 1);
         glTranslatef(body.getX(), body.getY(), body.getZ());
         glCallList(displayListId);
         glDisable(GL_TEXTURE_2D);

@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 import java.awt.Dimension;
 import java.nio.FloatBuffer;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,8 +17,20 @@ import org.lwjgl.util.Timer;
 import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.Color;
 
-import redrun.graphics.camera.Camera;
 import redrun.graphics.selection.Picker;
+import redrun.model.constants.Direction;
+import redrun.model.constants.Team;
+import redrun.model.gameobject.map.Corner;
+import redrun.model.gameobject.map.Corridor;
+import redrun.model.gameobject.map.End;
+import redrun.model.gameobject.map.Field;
+import redrun.model.gameobject.map.Map;
+import redrun.model.gameobject.map.Pit;
+import redrun.model.gameobject.map.Platform;
+import redrun.model.gameobject.map.Staircase;
+import redrun.model.gameobject.map.Start;
+import redrun.model.gameobject.map.Tunnel;
+import redrun.model.gameobject.player.Player;
 import redrun.model.gameobject.world.Button;
 import redrun.model.gameobject.world.CheckerBoard;
 import redrun.model.gameobject.world.Cube;
@@ -26,11 +39,6 @@ import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
 import redrun.model.toolkit.Tools;
-
-import com.bulletphysics.linearmath.Transform;
-
-import javax.vecmath.Matrix4f;
-import javax.vecmath.Quat4f;
 
 /**
  * Test class for Jake's work.
@@ -85,17 +93,68 @@ public class GraphicsTestJake
   private void gameLoop()
   {
     // Create the camera...
-    Camera camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f, 0.0f,
-        0.0f);
+    // Camera camera = new Camera(70, (float) Display.getWidth() / (float)
+    // Display.getHeight(), 0.3f, 1000, 0.0f, 0.0f,
+    // 0.0f);
+
+    // Create Player
+    Player player1 = new Player(37, 10, 42f, "Player 1", null, Team.BLUE);
 
     // Create the skybox...
-    SkyBox skybox = new SkyBox(0, 0, 0, "blood_sport", camera);
+    SkyBox skybox = new SkyBox(0, 0, 0, "blood_sport", player1.getCamera());
 
     // Create the checker-board floor...
     CheckerBoard board = new CheckerBoard(0, 0, 0, null, new Dimension(50, 50));
 
     Cube pedestal = new Cube(4, 0, 4, "wood");
     Button button = new Button(4, 0.8f, 4, "pokadots", new Vector3f(1.0f, 0.0f, 0.0f));
+
+    // Create the map...
+    LinkedList<Map> worldMap = new LinkedList<Map>();
+
+    // Add the starting point...
+    worldMap.add(new Start(20, 0.5f, 20, "brickwall5", Direction.NORTH, null));
+
+    // Add a walkway...
+    worldMap.add(new Corridor(20, 0.5f, 27.5f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corridor(20, 0.5f, 35, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corridor(20, 0.5f, 42.5f, "brickwall5", Direction.NORTH, null));
+
+    // Add a corner...
+    worldMap.add(new Corner(20, 0.5f, 50, "brickwall5", Direction.NORTH, null));
+
+    // Add a staircase...
+    worldMap.add(new Staircase(27.5f, 0.5f, 50, "brickwall5", Direction.EAST, null));
+
+    // Add a walkway...
+    worldMap.add(new Corridor(35, 8.0f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(42.5f, 8.0f, 50, "brickwall5", Direction.EAST, null));
+
+    // Add a field...
+    worldMap.add(new Field(57.5f, 8.0f, 50, "brickwall5", Direction.EAST, null));
+
+    // Add a walkway...
+    worldMap.add(new Corridor(72.5f, 8.0f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(80, 8.0f, 50, "brickwall5", Direction.EAST, null));
+
+    // Add a tunnel...
+    worldMap.add(new Tunnel(87.5f, 8.0f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Tunnel(95, 8.0f, 50, "brickwall5", Direction.EAST, null));
+
+    // Add a walkway...
+    worldMap.add(new Corridor(102.5f, 8.0f, 50, "brickwall5", Direction.EAST, null));
+
+    // Add a pit...
+    worldMap.add(new Pit(110.0f, 8.0f, 50, "brickwall5", Direction.EAST, null));
+
+    // Add a walkway...
+    worldMap.add(new Corridor(117.5f, 8.0f, 50, "brickwall5", Direction.EAST, null));
+
+    // Add a platform...
+    worldMap.add(new Platform(125.0f, 8.0f, 50, "brickwall5", Direction.EAST, null));
+
+    // Add the ending point...
+    worldMap.add(new End(132.5f, 8.0f, 50, "brickwall5", Direction.EAST, null));
 
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
@@ -116,15 +175,29 @@ public class GraphicsTestJake
       dx = Mouse.getDX();
       dy = Mouse.getDY();
 
-      camera.yaw(dx * mouseSensitivity);
-      camera.pitch(-dy * mouseSensitivity);
+      // player1.yaw((float) dx * mouseSensitivity);
+      // player1.pitch((float) -dy * mouseSensitivity);
+      player1.getCamera().yaw(dx * mouseSensitivity);
+      player1.getCamera().pitch(-dy * mouseSensitivity);
 
-      if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed * dt);
-      if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed * dt);
-      if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed * dt);
-      if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed * dt);
-      if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) camera.moveUp(movementSpeed * dt);
-      if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) camera.moveDown(movementSpeed * dt);
+      if (Keyboard.isKeyDown(Keyboard.KEY_W)) player1.walkForward(movementSpeed * dt);
+      if (Keyboard.isKeyDown(Keyboard.KEY_S)) player1.walkBackward(movementSpeed * dt);
+      if (Keyboard.isKeyDown(Keyboard.KEY_A)) player1.walkLeft(movementSpeed * dt);
+      if (Keyboard.isKeyDown(Keyboard.KEY_D)) player1.walkRight(movementSpeed * dt);
+      if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) player1.jump();
+      if (Keyboard.isKeyDown(Keyboard.KEY_E)) System.out.println(player1.toString());
+      // if (Keyboard.isKeyDown(Keyboard.KEY_W))
+      // camera.moveForward(movementSpeed * dt);
+      // if (Keyboard.isKeyDown(Keyboard.KEY_S))
+      // camera.moveBackward(movementSpeed * dt);
+      // if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed *
+      // dt);
+      // if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed
+      // * dt);
+      // if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) camera.moveUp(movementSpeed
+      // * dt);
+      // if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+      // camera.moveDown(movementSpeed * dt);
 
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
       glLoadIdentity();
@@ -132,14 +205,13 @@ public class GraphicsTestJake
       glPushMatrix();
       {
         glDepthMask(false);
-        // TODO Fix rotations along X and Z axis.
-        glRotatef(camera.getYaw(), 0, 180, 0);
-        skybox.draw(); // TODO
+        glRotatef(player1.getBody().getYaw(), 0, 180, 0);
+        skybox.draw();
         glDepthMask(true);
       }
       glPopMatrix();
 
-      camera.lookThrough();
+      player1.lookThrough();
 
       // Add ambient light...
       FloatBuffer ambientColor = BufferConverter.asFloatBuffer(new float[] { 0.2f, 0.2f, 0.2f, 1.0f });
@@ -163,7 +235,7 @@ public class GraphicsTestJake
         Picker.startPicking();
         {
           // Draw the checker-board...
-          glPushName(board.id);// TODO
+          glPushName(board.id);
           {
             board.draw();
           }
@@ -179,7 +251,7 @@ public class GraphicsTestJake
             glPopName();
           }
           glPopMatrix();
-          glPushMatrix();// TODO
+          glPushMatrix();
           {
             glPushName(pedestal.id);
             {
@@ -194,7 +266,7 @@ public class GraphicsTestJake
       }
 
       // Draw the checker-board.
-      board.draw();// TODO
+      board.draw();
 
       // Draw the button.
       glPushMatrix();
@@ -202,17 +274,24 @@ public class GraphicsTestJake
         button.draw();
       }
       glPopMatrix();
-      glPushMatrix();// TODO
+      glPushMatrix();
       {
         pedestal.draw();
       }
       glPopMatrix();
 
+      // Draw the world map...
+      for (Map mapObject : worldMap)
+      {
+        mapObject.draw();
+      }
+
       FontTools.draw2D();
-      FontTools.renderText("Position: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10,
-          Color.orange, 0);
+      FontTools.renderText("Position: (" + player1.getBody().getX() + ", " + player1.getBody().getY() + ", "
+          + player1.getBody().getZ() + ")", 10, 10, Color.orange, 0);
       FontTools.draw3D();
 
+      player1.update();
       updateFPS();
       PhysicsWorld.stepSimulation(1 / 60.0f); // (float) lastFPS
 
@@ -243,7 +322,6 @@ public class GraphicsTestJake
   {
     if (Tools.getTime() - lastFPS > 1000)
     {
-      Display.setTitle("FPS: " + fps);
       fps = 0;
       lastFPS += 1000;
     }
@@ -254,11 +332,6 @@ public class GraphicsTestJake
   public static javax.vecmath.Vector3f vec(Vector3f vec)
   {
     return new javax.vecmath.Vector3f(vec.x, vec.y, vec.z);
-  }
-
-  private static Transform btTransform(Quat4f quat4f, Vector3f vector3f)
-  {
-    return new Transform(new Matrix4f(quat4f, vec(vector3f), 1.0f));
   }
 
   /**

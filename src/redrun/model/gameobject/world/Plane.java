@@ -1,5 +1,10 @@
 package redrun.model.gameobject.world;
 
+import javax.vecmath.Quat4f;
+
+import org.lwjgl.util.vector.Vector3f;
+
+import redrun.model.physics.BoxPhysicsBody;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -21,6 +26,8 @@ public class Plane extends WorldObject
   public Plane(float x, float y, float z, String textureName, float size)
   {
     super(x, y, z, textureName);
+    
+    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(size / 2, 0, size / 2), new Quat4f(), 0);
 
     displayListId = glGenLists(1);
 
