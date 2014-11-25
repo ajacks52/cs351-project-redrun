@@ -46,8 +46,10 @@ public class Button extends WorldObject
     if (this.timer.getTime() >= 0.8f) reset();
 
     // TODO: For animation, under construction.
-//    if (timer.isPaused() && this.getY() < defaultButtonPosition.y) this.currentButtonPosition.y = this.getY() + 0.02f;
-//    else if (!timer.isPaused()) this.currentButtonPosition.y = this.getY() - 0.02f;
+    // if (timer.isPaused() && this.getY() < defaultButtonPosition.y)
+    // this.currentButtonPosition.y = this.getY() + 0.02f;
+    // else if (!timer.isPaused()) this.currentButtonPosition.y = this.getY() -
+    // 0.02f;
 
     displayListId = glGenLists(1);
 
@@ -55,21 +57,18 @@ public class Button extends WorldObject
     {
       glPushMatrix();
       {
-        glNewList(displayListId, GL_COMPILE);
+        glBegin(GL_SPHERE_MAP);
         {
-          glBegin(GL_SPHERE_MAP);
+          // glTranslatef(0, defaultButtonPosition.y - currentButtonPosition.y,
+          // 0); // See todo above
+          if (color != null)
           {
-//            glTranslatef(0, defaultButtonPosition.y - currentButtonPosition.y, 0); // See todo above
-            if (color != null)
-            {
-              glColor3f(color.x, color.y, color.z);
-              sphere.draw(0.5f, 40, 40);
-            }
-            else sphere.draw(0.5f, 40, 40);
+            glColor3f(color.x, color.y, color.z);
+            sphere.draw(0.5f, 40, 40);
           }
-          glEnd();
+          else sphere.draw(0.5f, 40, 40);
         }
-        glEndList();
+        glEnd();
       }
       glPopMatrix();
     }
