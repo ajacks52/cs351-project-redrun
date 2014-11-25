@@ -9,32 +9,18 @@ import redrun.model.physics.SpherePhysicsBody;
 
 public class Ball extends WorldObject
 {
+  private float radius;
+  
+  private Sphere sphere;
 
   public Ball(float x, float y, float z, String textureName, float radius, Vector3f color)
   {
     super(x, y, z, textureName);
     
-    this.body = new SpherePhysicsBody(new Vector3f(x, y, z), radius, 0);
-
-    displayListId = glGenLists(1);
-
-    glNewList(displayListId, GL_COMPILE);
-    {
-      glBegin(GL_SPHERE_MAP);
-      {
-        if (color != null)
-        {
-          glEnable(GL_COLOR_MATERIAL);
-          glColor3f(color.x, color.y, color.z);
-          new Sphere().draw(radius, 40, 40);
-          glColor3f(1.0f, 1.0f, 1.0f);
-          glDisable(GL_COLOR_MATERIAL);
-        }
-        else new Sphere().draw(radius, 40, 40);
-      }
-      glEnd();
-    }
-    glEndList();
+    this.radius = radius;
+    this.sphere = new Sphere();
+    
+    this.body = new SpherePhysicsBody(new Vector3f(x, y, z), radius, 1.0f);
   }
 
   @Override
@@ -47,8 +33,17 @@ public class Ball extends WorldObject
   @Override
   public void update()
   {
-    // TODO Auto-generated method stub
+    displayListId = glGenLists(1);
 
+    glNewList(displayListId, GL_COMPILE);
+    {
+      glBegin(GL_SPHERE_MAP);
+      {
+        sphere.draw(radius, 40, 40);
+      }
+      glEnd();
+    }
+    glEndList();
   }
 
   @Override
