@@ -2,7 +2,7 @@ require 'active_record'
 require 'yaml'
 require 'database_cleaner'
 
-DATABASE_ENV   = 'redrun'
+DATABASE_ENV   = 'redruntest'
 MIGRATIONS_DIR = ENV['MIGRATIONS_DIR'] || '../db/migrate/'
 @config        = YAML.load_file('../config/database.yml')[DATABASE_ENV]
 
