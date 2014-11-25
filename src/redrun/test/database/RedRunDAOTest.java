@@ -1,5 +1,6 @@
 package redrun.test.database;
 
+import redrun.database.Map;
 import redrun.database.RedRunDAO;
 import redrun.database.Character;
 
@@ -17,11 +18,66 @@ public class RedRunDAOTest
   private static RedRunDAO dao = new RedRunDAO();
 
   /**
-   * Used to test the character INSERT functionality of the DAO
+   * Used to test the map INSERT functionality of the DAO
    * 
    * @return true if all tests pass
    */
   private boolean firstTest()
+  {
+    assert (RedRunDAO.insertMap("Ice World") == true) : "Unable to create new Map";
+    boolean found = false;
+    for (Map map : RedRunDAO.getAllMaps())
+    {
+      if (DEBUG) System.out.println(map.toString());
+      if (map.toString().contains("Ice World")) found = true;
+    }
+    assert (found == true) : "Unable to find newly created map in Map table";
+    return true;
+  }
+
+  /**
+   * Used to test the map SELECT functionality of the DAO
+   * 
+   * @return true if all tests pass
+   */
+  private boolean secondTest()
+  {
+    if (DEBUG)
+    {
+      for (Map map : RedRunDAO.getAllMaps())
+      {
+        System.out.println(map.toString());
+      }
+    }
+    assert (RedRunDAO.getAllMaps() != null) : "We were unable to retrieve any maps from the Map table";
+    return true;
+  }
+
+  /**
+   * Used to test the map DELETE functionality of the DAO
+   * 
+   * @return true if all tests pass
+   */
+  private boolean thirdTest()
+  {
+    assert (RedRunDAO.deleteMap("Ice World") == true) : "Something went horribly wrong with our deletion method";
+    boolean found = false;
+    for (Map map : RedRunDAO.getAllMaps())
+    {
+      if (DEBUG) System.out.println(map.toString());
+      if (map.toString().contains("Ice World")) found = true;
+    }
+    assert (found == false) : "Ice World was not actually deleted from the database.";
+
+    return true;
+  }
+
+  /**
+   * Used to test the character INSERT functionality of the DAO
+   * 
+   * @return true if all tests pass
+   */
+  private boolean fourthTest()
   {
     assert (RedRunDAO.insertCharacter("Pally Jenkins", "Bdubz.png", "Doom Bringers", "50.0,12.2,23.2", 1)) == true : "Unable to create new Character";
     boolean found = false;
@@ -39,9 +95,8 @@ public class RedRunDAOTest
    * 
    * @return true if all tests pass
    */
-  private boolean secondTest()
+  private boolean fifthTest()
   {
-
     if (DEBUG)
     {
       for (Character c : RedRunDAO.getAllCharacters())
@@ -58,7 +113,7 @@ public class RedRunDAOTest
    * 
    * @return true if all tests pass
    */
-  private boolean thirdTest()
+  private boolean sixthTest()
   {
     assert (RedRunDAO.deleteCharacter("Pally Jenkins") == true) : "Something went horribly wrong with our deletion method";
     boolean found = false;
@@ -79,11 +134,13 @@ public class RedRunDAOTest
    */
   public static void main(String[] args)
   {
-
     RedRunDAOTest redRunDaoTest = new RedRunDAOTest();
     if (redRunDaoTest.firstTest() == true) System.out.println("First test passed.");
     if (redRunDaoTest.secondTest() == true) System.out.println("Second test passed.");
-    if (redRunDaoTest.thirdTest() == true) System.out.println("Third test passed.");
+//    if (redRunDaoTest.thirdTest() == true) System.out.println("Third test passed.");
+    if (redRunDaoTest.fourthTest() == true) System.out.println("Fourth test passed.");
+    if (redRunDaoTest.fifthTest() == true) System.out.println("Five test passed.");
+//    if (redRunDaoTest.sixthTest() == true) System.out.println("Sixth test passed.");
     dao.closeConnection();
   }
 }

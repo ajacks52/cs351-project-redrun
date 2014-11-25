@@ -67,6 +67,105 @@ public class RedRunDAO
   }
 
   /**
+   * Insert new map into Maps table
+   * 
+   * @param mapName name of map
+   * @return true if map created, false otherwise
+   */
+  public static boolean insertMap(String mapName)
+  {
+    try
+    {
+      String sql = "INSERT INTO maps(map_name) VALUES (?)";
+
+      /** F**k SQL Injections. */
+      PreparedStatement pstmt = c.prepareStatement(sql);
+      pstmt.setString(1, mapName);
+      pstmt.executeUpdate();
+      pstmt.close();
+      return true;
+    }
+    catch (SQLException e)
+    {
+      System.err.println(e.getClass().getName() + ": " + e.getMessage());
+      System.exit(0);
+    }
+    return false;
+  }
+
+  /**
+   * Insert new character into the Character table
+   * 
+   * @param characterName name of new character
+   * @param image image associated with new character
+   * @param team team of new character
+   * @param startLocation starting location of new character
+   * @return true if character created, otherwise false
+   */
+  public static boolean insertCharacter(String characterName, String image, String team, String startLocation, int mapId)
+  {
+    try
+    {
+      String sql = "INSERT INTO characters(character_name, image, team, start_loc, map_id) VALUES (?, ?, ?, ?, ?)";
+
+      /** F**k SQL Injections. */
+      PreparedStatement pstmt = c.prepareStatement(sql);
+      pstmt.setString(1, characterName);
+      pstmt.setString(2, image);
+      pstmt.setString(3, team);
+      pstmt.setString(4, startLocation);
+      pstmt.setInt(5, mapId);
+      pstmt.executeUpdate();
+      pstmt.close();
+      return true;
+    }
+    catch (SQLException e)
+    {
+      System.err.println(e.getClass().getName() + ": " + e.getMessage());
+      System.exit(0);
+    }
+    return false;
+  }
+
+  /**
+   * Get a list of all maps in the Map table
+   * 
+   * @return list of all items in the Map database
+   */
+  public static ArrayList<Map> getAllMaps()
+  {
+    ArrayList<Map> mapList = new ArrayList<Map>();
+    try
+    {
+      Statement sqlStatement = c.createStatement();
+
+      ResultSet rs = sqlStatement.executeQuery("SELECT * FROM maps;");
+      while (rs.next())
+      {
+        int id = rs.getInt("id");
+        String mapName = rs.getString("map_name");
+        Map map = new Map(id, mapName);
+
+        mapList.add(map);
+        if (DEBUG)
+        {
+          System.out.println(id);
+          System.out.println(mapName);
+        }
+      }
+      rs.close();
+      sqlStatement.close();
+      return mapList;
+    }
+    catch (SQLException e)
+    {
+      System.err.println(e.getClass().getName() + ": " + e.getMessage());
+      System.exit(0);
+    }
+    return null;
+  }
+
+  /**
    * Get a list of all characters in the Character table
    * 
    * @return list of all items in the Characters database
@@ -113,29 +212,20 @@ public class RedRunDAO
   }
 
   /**
-   * Insert new character into the Character table
+   * Delete a specified map out of the Map table
    * 
-   * @param characterName name of new character
-   * @param image image associated with new character
-   * @param team team of new character
-   * @param startLocation starting location of new character
-   * @return true if character created, otherwise false
+   * @param mapName name of map to delete
+   * @return true if successfully deleted, false otherwise
    */
-  public static boolean insertCharacter(String characterName, String image, String team, String startLocation, int mapId)
+  public static boolean deleteMap(String mapName)
   {
     try
     {
-      String sql = "INSERT INTO characters(character_name, image, team, start_loc, map_id) VALUES (?, ?, ?, ?, ?)";
+      Statement sqlStatement = c.createStatement();
+      String sql = "DELETE FROM maps WHERE map_name = " + "'" + mapName + "'";
 
-      /** F**k SQL Injections. */
-      PreparedStatement pstmt = c.prepareStatement(sql);
-      pstmt.setString(1, characterName);
-      pstmt.setString(2, image);
-      pstmt.setString(3, team);
-      pstmt.setString(4, startLocation);
-      pstmt.setInt(5, mapId);
-      pstmt.executeUpdate();
-      pstmt.close();
+      sqlStatement.execute(sql);
+      sqlStatement.close();
       return true;
     }
     catch (SQLException e)
@@ -145,7 +235,7 @@ public class RedRunDAO
     }
     return false;
   }
-
+  
   /**
    * Delete a specified character out of the Character table
    * 
@@ -170,4 +260,5 @@ public class RedRunDAO
     }
     return false;
   }
+
 }
