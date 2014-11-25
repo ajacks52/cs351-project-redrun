@@ -15,14 +15,14 @@ describe Map do
 
   # Create test case -- runs before all it statements
   before(:all) do
-    @attr = {}
+    @attr = {map_name: 'iceworld'}
     Map.create(@attr)
     p Map.all
   end
 
   it { should have_many :character }
   it { should have_many :kiosk }
-   it { should have_many :trap }
+  it { should have_many :trap }
   it { should have_many :button }
   it { should have_many :mapobject }
 end
