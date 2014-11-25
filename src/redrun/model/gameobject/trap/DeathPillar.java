@@ -5,6 +5,8 @@ import static org.lwjgl.opengl.GL11.*;
 import javax.vecmath.Quat4f;
 //import javax.vecmath.Vector3f;
 
+
+
 import org.lwjgl.util.vector.Vector3f;
 
 import redrun.model.physics.BoxPhysicsBody;
@@ -21,7 +23,7 @@ public class DeathPillar extends Trap
 {
 
   /**
-   * The Hammer constructor
+   * The DeathPillar constructor
    * 
    * @param x pos
    * @param y pos
@@ -33,111 +35,173 @@ public class DeathPillar extends Trap
     super(x, y, z, textureName);
     body = new BoxPhysicsBody(new Vector3f(x,y,z), new Vector3f(0.5f,1.0f,0.5f), new Quat4f(), 100.0f);
     
-    float height = 5f;
-    float radius = .5f;
-    float resolution = .1f;
 
     displayListId = glGenLists(1);
-    // cylinder
     glNewList(displayListId, GL_COMPILE);
     {
-      glColor3f(.301f, .207f, .007f);
-      /* top triangle */
-      glBegin(GL_TRIANGLE_FAN);
+      glEnable(GL_CULL_FACE);
+      glColor3f(1f, 1f, 1f);
+      for (int i = 0; i < 2; i++)
       {
-        glVertex3f(0, height, 0); /* center */
-        for (float i = 0; i <= 2 * Math.PI; i += resolution)
-          glVertex3f((float) (radius * Math.cos(i)), (float) height, (float) (radius * Math.sin(i)));
-      }
-      glEnd();
-
-      /* bottom triangle*/
-      glBegin(GL_TRIANGLE_FAN);
-      {
-        glVertex3f(0, 0, 0); /* center */
-        for (float i = (float) (2 * Math.PI); i >= 0; i -= resolution)
-          glVertex3f((float) (radius * Math.cos(i)), 0, (float) (radius * Math.sin(i)));
-        /* close the loop back to 0 degrees */
-        glVertex3f(radius, height, 0);
-      }
-      glEnd();
-
-      /* middle tube */
-      glBegin(GL_QUAD_STRIP);
-      {
-        for (float i = 0; i <= 2 * Math.PI; i += resolution)
+        if(i == 1) glTranslatef(0.0f, -2.0f, 0.0f);
+        glBegin(GL_QUADS);
         {
-          glVertex3f((float) (radius * Math.cos(i)), 0, (float) (radius * Math.sin(i)));
-          glVertex3f((float) (radius * Math.cos(i)), height, (float) (radius * Math.sin(i)));
+          // Top face...
+          glNormal3f(0.0f, 1.0f, 0.0f);
+          glVertex3f(1.0f, 1.0f, -1.0f);
+          glTexCoord2f(0, 0);
+          glVertex3f(-1.0f, 1.0f, -1.0f);
+          glTexCoord2f(0, 1);
+          glVertex3f(-1.0f, 1.0f, 1.0f);
+          glTexCoord2f(1, 1);
+          glVertex3f(1.0f, 1.0f, 1.0f);
+          glTexCoord2f(1, 0);
+          // Bottom face...
+          glNormal3f(0.0f, -1.0f, 0.0f);
+          glVertex3f(1.0f, -1.0f, 1.0f);
+          glTexCoord2f(0, 0);
+          glVertex3f(-1.0f, -1.0f, 1.0f);
+          glTexCoord2f(0, 1);
+          glVertex3f(-1.0f, -1.0f, -1.0f);
+          glTexCoord2f(1, 1);
+          glVertex3f(1.0f, -1.0f, -1.0f);
+          glTexCoord2f(1, 0);
+          // Front face...
+          glNormal3f(0.0f, 0.0f, -1.0f);
+          glVertex3f(1.0f, -1.0f, -1.0f);
+          glTexCoord2f(0, 0);
+          glVertex3f(-1.0f, -1.0f, -1.0f);
+          glTexCoord2f(0, 1);
+          glVertex3f(-1.0f, 1.0f, -1.0f);
+          glTexCoord2f(1, 1);
+          glVertex3f(1.0f, 1.0f, -1.0f);
+          glTexCoord2f(1, 0);
+          // Back face...
+          glNormal3f(0.0f, 0.0f, 1.0f);
+          glVertex3f(1.0f, 1.0f, 1.0f);
+          glTexCoord2f(0, 0);
+          glVertex3f(-1.0f, 1.0f, 1.0f);
+          glTexCoord2f(0, 1);
+          glVertex3f(-1.0f, -1.0f, 1.0f);
+          glTexCoord2f(1, 1);
+          glVertex3f(1.0f, -1.0f, 1.0f);
+          glTexCoord2f(1, 0);
+          // Left face...
+          glNormal3f(-1.0f, 0.0f, 0.0f);
+          glVertex3f(-1.0f, 1.0f, 1.0f);
+          glTexCoord2f(0, 0);
+          glVertex3f(-1.0f, 1.0f, -1.0f);
+          glTexCoord2f(0, 1);
+          glVertex3f(-1.0f, -1.0f, -1.0f);
+          glTexCoord2f(1, 1);
+          glVertex3f(-1.0f, -1.0f, 1.0f);
+          glTexCoord2f(1, 0);
+          // Right face...
+          glNormal3f(1.0f, 0.0f, 0.0f);
+          glVertex3f(1.0f, 1.0f, -1.0f);
+          glTexCoord2f(0, 0);
+          glVertex3f(1.0f, 1.0f, 1.0f);
+          glTexCoord2f(0, 1);
+          glVertex3f(1.0f, -1.0f, 1.0f);
+          glTexCoord2f(1, 1);
+          glVertex3f(1.0f, -1.0f, -1.0f);
+          glTexCoord2f(1, 0);
         }
-        /* close the loop back to zero degrees */
-        glVertex3f(radius, 0, 0);
-        glVertex3f(radius, height, 0);
+        glEnd();
+        glDisable(GL_CULL_FACE);
       }
-      glEnd();
-
-      glBegin(GL_QUADS);
-      {
-        //glNormal3f(0.0f, 1.0f, 0.0f);
-        glVertex3f(1.0f, 1.0f, -1.0f);
-        glTexCoord2f(0, 0);
-        glVertex3f(-1.0f, 1.0f, -1.0f);
-        glTexCoord2f(0, 1);
-        glVertex3f(-1.0f, 1.0f, 1.0f);
-        glTexCoord2f(1, 1);
-        glVertex3f(1.0f, 1.0f, 1.0f);
-        glTexCoord2f(1, 0);
-      }
-      glEnd();
-
     }
     glEndList();
-  }
+  }  
+      
+//      /* top triangle */
+//      glBegin(GL_TRIANGLE_FAN);
+//      {
+//        glVertex3f(0, height, 0); /* center */
+//        for (float i = 0; i <= 2 * Math.PI; i += resolution)
+//          glVertex3f((float) (radius * Math.cos(i)), (float) height, (float) (radius * Math.sin(i)));
+//      }
+//      glEnd();
+//
+//      /* bottom triangle*/
+//      glBegin(GL_TRIANGLE_FAN);
+//      {
+//        glVertex3f(0, 0, 0); /* center */
+//        for (float i = (float) (2 * Math.PI); i >= 0; i -= resolution)
+//          glVertex3f((float) (radius * Math.cos(i)), 0, (float) (radius * Math.sin(i)));
+//        /* close the loop back to 0 degrees */
+//        glVertex3f(radius, height, 0);
+//      }
+//      glEnd();
+//
+//      /* middle tube */
+//      glBegin(GL_QUAD_STRIP);
+//      {
+//        for (float i = 0; i <= 2 * Math.PI; i += resolution)
+//        {
+//          glVertex3f((float) (radius * Math.cos(i)), 0, (float) (radius * Math.sin(i)));
+//          glVertex3f((float) (radius * Math.cos(i)), height, (float) (radius * Math.sin(i)));
+//        }
+//        /* close the loop back to zero degrees */
+//        glVertex3f(radius, 0, 0);
+//        glVertex3f(radius, height, 0);
+//      }
+//      glEnd();
+//
+//      glBegin(GL_QUADS);
+//      {
+//        //glNormal3f(0.0f, 1.0f, 0.0f);
+//        glVertex3f(1.0f, 1.0f, -1.0f);
+//        glTexCoord2f(0, 0);
+//        glVertex3f(-1.0f, 1.0f, -1.0f);
+//        glTexCoord2f(0, 1);
+//        glVertex3f(-1.0f, 1.0f, 1.0f);
+//        glTexCoord2f(1, 1);
+//        glVertex3f(1.0f, 1.0f, 1.0f);
+//        glTexCoord2f(1, 0);
+//      }
+//      glEnd();
+
 
   @Override
   public void activate()
   {
     // TODO Auto-generated method stub
-
   }
 
   @Override
   public void reset()
   {
-    // TODO Auto-generated method stub
-
+    this.timer.reset();
+    this.timer.pause();
   }
 
   @Override
   public void interact()
   {
-    // TODO Auto-generated method stub
     this.timer.resume();
   }
 
   @Override
   public void update()
-  {   
-    if (this.timer.getTime() > 0)
+  {
+    if (this.timer.getTime() == 0)
+    {
+      body.clearForces();
+    }
+    else if (this.timer.getTime() < 2)
     {
       System.out.println("interactiong with game object: " + this.id);
-      body.push(new Vector3f(0.0f,-5000.0f,0.0f));
+      body.push(new Vector3f(0.0f, -5000.0f, 0.0f));
     }
-    
-//    if ((int) this.timer.getTime() == 0)
-//    {
-//      
-//    }
-//    else if ((int) this.timer.getTime() < 3)
-//    {
-//      System.out.println(this.timer.getTime());
-//      body.push(new Vector3f(0.0f,-500.0f,0.0f));
-//    }
-//    else
-//    {
-//      System.out.println("Resetting game object: " + this.id);
-//      reset();
-//    }
+    else if (this.timer.getTime() < 4)
+    {
+      body.push(new Vector3f(0.0f, 5000.0f, 0.0f));
+    }
+    else if (this.timer.getTime() == 4)
+    {
+      reset();
+    }
   }
 
 }

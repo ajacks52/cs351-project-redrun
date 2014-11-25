@@ -12,7 +12,6 @@ import redrun.graphics.camera.Camera;
 import redrun.main.LoadingScreen;
 import redrun.main.Menu;
 import redrun.model.constants.Direction;
-import redrun.model.constants.ScreenConstants;
 import redrun.model.gameobject.trap.*;
 import redrun.model.gameobject.world.*;
 import redrun.model.gameobject.map.Corridor;
@@ -59,6 +58,7 @@ public class MainTestAdam
   private Corridor hallway3;
   
   private PoleWall pWall;
+  private JailDoor jailDoor;
   
 
   // Used for controlling the camera with the keyboard and mouse...
@@ -81,7 +81,7 @@ public class MainTestAdam
     // ////// Initialize game objects
     spikes = new SpikeTrapDoor(10, 0, 30, "wood");
     trapDoor = new TrapDoor(30, 0, 10, "wood");
-    deathPillar = new DeathPillar(50, 0, 50, null);
+    deathPillar = new DeathPillar(20, 0, 30, "x17");
     spikeField = new SpikeField(30, 0, 20, "s11", new Dimension(10, 15));
 
     hallway1 = new Corridor(0, 0, 0, "x17", Direction.EAST , null);
@@ -89,7 +89,8 @@ public class MainTestAdam
     hallway3 = new Corridor(18, 0, 0, "x17", Direction.EAST , null);
     
     pWall = new PoleWall(5,5,5, null);
-    bs = new BallsSwing(-10,2, 5, null);
+    bs = new BallsSwing(-10,2, 5, "metal");
+    jailDoor = new JailDoor(15,2,15, null);
     
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
@@ -139,6 +140,7 @@ public class MainTestAdam
       hallway3.draw();
       
       pWall.draw();
+      jailDoor.draw();
 
       // if (Picker.mode == 2) Picker.stopPicking();
 
@@ -178,7 +180,7 @@ public class MainTestAdam
   {
     try
     {
-      Display.setDisplayMode(new DisplayMode(ScreenConstants.SCREEN_WIDTH, ScreenConstants.SCREEN_HEIGHT));
+      Display.setDisplayMode(new DisplayMode(800, 600));
       Display.create();
     }
     catch (LWJGLException ex)

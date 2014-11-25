@@ -16,32 +16,30 @@ import org.lwjgl.util.glu.Sphere;
 import org.lwjgl.util.vector.Vector3f;
 
 import redrun.model.gameobject.world.Ball;
+import redrun.model.physics.SpherePhysicsBody;
 
 public class BallsSwing extends Trap
 {
+  Sphere sphere;
 
   public BallsSwing(float x, float y, float z, String textureName)
   {
     super(x, y, z, textureName);
-    
-     
 
-    float radius = 2;
-    Vector3f color = new Vector3f(0.3f, 0.3f, 0.3f);
-    
-    Ball b1 = new Ball(x, y, z, null, radius, color);
-    Ball b2 = new Ball(x, y, z+10, null, radius, color);
-    Ball b3 = new Ball(x, y, z+20, null, radius, color);
-    Ball b4 = new Ball(x, y, z+30, null, radius, color);
+    float radius = 1;
+    sphere = new Sphere();
+
+    body = new SpherePhysicsBody(new Vector3f(x, y, z), radius, 1.0f);
 
     displayListId = glGenLists(1);
 
     glNewList(displayListId, GL_COMPILE);
     {
-      b1.draw();
-      b2.draw();
-      b3.draw();
-      b4.draw();
+      glBegin(GL_SPHERE_MAP);
+      {
+        sphere.draw(radius, 40, 40);
+      }
+      glEnd();
     }
     glEndList();
   }
