@@ -35,7 +35,7 @@ public class MapTest
    */
   public static void main(String[] args)
   {
-    MapTest MapTest = new MapTest();
-    if (MapTest.test() == true) System.out.println("Test passed.");
+    MapTest mapTest = new MapTest();
+    if (mapTest.test() == true) System.out.println("Test passed.");
   }
 }

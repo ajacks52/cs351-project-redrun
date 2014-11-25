@@ -128,6 +128,40 @@ public class RedRunDAO
   }
 
   /**
+   * Insert new character into the Character table
+   * 
+   * @param characterName name of new character
+   * @param image image associated with new character
+   * @param team team of new character
+   * @param startLocation starting location of new character
+   * @return true if character created, otherwise false
+   */
+  public static boolean insertMapObject(String objectName, String location, String texture, String direction, int mapId)
+  {
+    try
+    {
+      String sql = "INSERT INTO mapobjects(object_name, location, texture, direction, map_id) VALUES (?, ?, ?, ?, ?)";
+
+      /** F**k SQL Injections. */
+      PreparedStatement pstmt = c.prepareStatement(sql);
+      pstmt.setString(1, objectName);
+      pstmt.setString(2, location);
+      pstmt.setString(3, texture);
+      pstmt.setString(4, direction);
+      pstmt.setInt(5, mapId);
+      pstmt.executeUpdate();
+      pstmt.close();
+      return true;
+    }
+    catch (SQLException e)
+    {
+      System.err.println(e.getClass().getName() + ": " + e.getMessage());
+      System.exit(0);
+    }
+    return false;
+  }
+
+  /**
    * Get a list of all maps in the Map table
    * 
    * @return list of all items in the Map database
@@ -212,6 +246,52 @@ public class RedRunDAO
   }
 
   /**
+   * Get a list of all map objects in the MapObjects table
+   * 
+   * @return list of all items in the MapObjects database
+   */
+  public static ArrayList<MapObjectDB> getAllMapObjects()
+  {
+    ArrayList<MapObjectDB> mapObjectList = new ArrayList<MapObjectDB>();
+    try
+    {
+      Statement sqlStatement = c.createStatement();
+
+      ResultSet rs = sqlStatement.executeQuery("SELECT * FROM mapobjects;");
+      while (rs.next())
+      {
+        int id = rs.getInt("id");
+        String objectName = rs.getString("object_name");
+        String location = rs.getString("location");
+        String texture = rs.getString("texture");
+        String direction = rs.getString("direction");
+        int mapId = rs.getInt("map_id");
+        MapObjectDB mapObject = new MapObjectDB(id, objectName, location, texture, direction, mapId);
+
+        mapObjectList.add(mapObject);
+        if (DEBUG)
+        {
+          System.out.println(id);
+          System.out.println(objectName);
+          System.out.println(location);
+          System.out.println(texture);
+          System.out.println(direction);
+          System.out.println(mapId);
+        }
+      }
+      rs.close();
+      sqlStatement.close();
+      return mapObjectList;
+    }
+    catch (SQLException e)
+    {
+      System.err.println(e.getClass().getName() + ": " + e.getMessage());
+      System.exit(0);
+    }
+    return null;
+  }
+
+  /**
    * Delete a specified map out of the Map table
    * 
    * @param mapName name of map to delete
@@ -235,7 +315,7 @@ public class RedRunDAO
     }
     return false;
   }
-  
+
   /**
    * Delete a specified character out of the Character table
    * 
@@ -261,4 +341,28 @@ public class RedRunDAO
     return false;
   }
 
+  /**
+   * Delete a specified map object out of the MapObject table
+   * 
+   * @param mapName name of map to delete
+   * @return true if successfully deleted, false otherwise
+   */
+  public static boolean deleteMapObject(String location)
+  {
+    try
+    {
+      Statement sqlStatement = c.createStatement();
+      String sql = "DELETE FROM mapobjects WHERE location = " + "'" + location + "'";
+
+      sqlStatement.execute(sql);
+      sqlStatement.close();
+      return true;
+    }
+    catch (SQLException e)
+    {
+      System.err.println(e.getClass().getName() + ": " + e.getMessage());
+      System.exit(0);
+    }
+    return false;
+  }
 }
