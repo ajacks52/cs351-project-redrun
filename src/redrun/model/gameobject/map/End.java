@@ -1,11 +1,8 @@
 package redrun.model.gameobject.map;
 
-import static org.lwjgl.opengl.GL11.GL_COMPILE;
-import static org.lwjgl.opengl.GL11.glEndList;
-import static org.lwjgl.opengl.GL11.glGenLists;
-import static org.lwjgl.opengl.GL11.glNewList;
 import redrun.model.constants.Direction;
 import redrun.model.constants.Scale;
+import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.RectangularPrism;
@@ -19,20 +16,8 @@ import redrun.model.gameobject.world.RectangularPrism;
  * @version 1.0
  * @since 2014-11-22
  */
-public class End extends Map
+public class End extends MapObject
 {
-	/** The floor defined by a plane. */
-  private Plane floor;
-
-  /** The left wall. */
-  private RectangularPrism leftWall;
-  
-  /** The back wall. */
-  private RectangularPrism backWall;
-
-  /** The right wall. */
-  private RectangularPrism rightWall;
-
   /**
    * Creates a new ending at the specified location. If the texture name is not null, the specified
    * texture will be applied to the ending. In addition the orientation of the ending and the trap
@@ -55,34 +40,34 @@ public class End extends Map
     {
       case NORTH:
       {
-        floor = new Plane(x, y, z, textureName, size);
-        leftWall = new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size);
-        backWall = new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size - 2, 3.0f, 1.0f);
-        rightWall = new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size);
+        components.add(new Plane(x, y, z, textureName, size));
+        components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
+        components.add(new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size - 2, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
         break;
       }
       case EAST:
       {
-        floor = new Plane(x, y, z, textureName, size);
-        leftWall = new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size, 3.0f, 1.0f);
-        backWall = new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size - 2);
-        rightWall = new RectangularPrism(x, y + 1.5f, z + -(size / 2), textureName, size, 3.0f, 1.0f);
+        components.add(new Plane(x, y, z, textureName, size));
+        components.add(new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size - 2));
+        components.add(new RectangularPrism(x, y + 1.5f, z + -(size / 2), textureName, size, 3.0f, 1.0f));
         break;
       }
       case SOUTH:
       {
-        floor = new Plane(x, y, z, textureName, size);
-        leftWall = new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size);
-        backWall = new RectangularPrism(x, y + 1.5f, z + -(size / 2), textureName, size - 2, 3.0f, 1.0f);
-        rightWall = new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size);
+        components.add(new Plane(x, y, z, textureName, size));
+        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
+        components.add(new RectangularPrism(x, y + 1.5f, z + -(size / 2), textureName, size - 2, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
         break;
       }
       case WEST:
       {
-        floor = new Plane(x, y, z, textureName, size);
-        leftWall = new RectangularPrism(x, y + 1.5f, z + -(size / 2), textureName, size, 3.0f, 1.0f);
-        backWall = new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size - 2);
-        rightWall = new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size, 3.0f, 1.0f);
+        components.add(new Plane(x, y, z, textureName, size));
+        components.add(new RectangularPrism(x, y + 1.5f, z + -(size / 2), textureName, size, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size - 2));
+        components.add(new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size, 3.0f, 1.0f));
         break;
       }
       default:
@@ -97,16 +82,12 @@ public class End extends Map
         }
       }
     }
+  }
 
-    displayListId = glGenLists(1);
-
-    glNewList(displayListId, GL_COMPILE);
-    {
-      floor.draw();
-      leftWall.draw();
-      backWall.draw();
-      rightWall.draw();
-    }
-    glEndList();
+  @Override
+  public int compareTo(MapObject o)
+  {
+    // TODO Auto-generated method stub
+    return 0;
   }
 }

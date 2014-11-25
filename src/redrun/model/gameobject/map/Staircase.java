@@ -1,8 +1,8 @@
 package redrun.model.gameobject.map;
 
-import static org.lwjgl.opengl.GL11.*;
 import redrun.model.constants.Direction;
 import redrun.model.constants.Scale;
+import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.world.RectangularPrism;
 
@@ -15,17 +15,8 @@ import redrun.model.gameobject.world.RectangularPrism;
  * @version 1.0
  * @since 2014-11-22
  */
-public class Staircase extends Map
+public class Staircase extends MapObject
 {  
-	/** The left wall. */
-  private RectangularPrism leftWall;
-  
-  /** The right wall. */
-  private RectangularPrism rightWall;
-  
-  /** The steps. */
-  private RectangularPrism[] stairs;
-  
   /**
    * Creates a new staircase at the specified location. If the texture name is not null, the specified
    * texture will be applied to the staircase. In addition the orientation of the staircase and the trap
@@ -43,49 +34,47 @@ public class Staircase extends Map
     super(x, y, z, textureName, orientation, trap);
     
     int size = Scale.MAP_SCALE.scale();
-    
-    stairs = new RectangularPrism[size];
-        
+            
     switch (orientation)
     {
       case NORTH:
       {
-        leftWall = new RectangularPrism(x + (size / 2), y + (size / 2), z, textureName, 1.0f, size, size);
-        rightWall = new RectangularPrism(x + -(size / 2), y + (size / 2), z, textureName, 1.0f, size, size);
-        for (int i = 0; i < stairs.length; i++)
+        components.add(new RectangularPrism(x, y + (size / 2) + 0.5f, z + (size / 2), textureName, size, size, 1.0f));
+        components.add(new RectangularPrism(x, y + (size / 2) + 0.5f, z + -(size / 2), textureName, size, size, 1.0f));
+        for (int i = 0; i < size; i++)
         {
-          stairs[i] = new RectangularPrism(x, (y - (size / 2)) + i + (size / 2), (z - (size / 2)) + i, textureName, size - 2, 1.0f, 1.0f);
-        }        
+          components.add(new RectangularPrism((x - (size / 2)) + i, (y - (size / 2)) + i + (size / 2) + 0.5f, z, textureName, 1.0f, 1.0f, size - 2));
+        }  
         break;
       }
       case EAST:
       {
-        leftWall = new RectangularPrism(x, y + (size / 2) + 0.5f, z + (size / 2), textureName, size, size, 1.0f);
-        rightWall = new RectangularPrism(x, y + (size / 2) + 0.5f, z + -(size / 2), textureName, size, size, 1.0f);
-        for (int i = 0; i < stairs.length; i++)
+        components.add(new RectangularPrism(x + (size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size));
+        components.add(new RectangularPrism(x + -(size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size));
+        for (int i = 0; i < size; i++)
         {
-          stairs[i] = new RectangularPrism((x - (size / 2)) + i, (y - (size / 2)) + i + (size / 2) + 0.5f, z, textureName, 1.0f, 1.0f, size - 2);
-        }  
+          components.add(new RectangularPrism(x, (y - (size / 2)) + i + (size / 2) + 0.5f, (z - (size / 2)) + i, textureName, size - 2, 1.0f, 1.0f));
+        } 
         break;
       }
       case SOUTH:
       {
-        leftWall = new RectangularPrism(x + (size / 2), y + (size / 2), z, textureName, 1.0f, size, size);
-        rightWall = new RectangularPrism(x + -(size / 2), y + (size / 2), z, textureName, 1.0f, size, size);
-        for (int i = 0; i < stairs.length; i++)
+        components.add(new RectangularPrism(x, y + (size / 2) + 0.5f, z + (size / 2), textureName, size, size, 1.0f));
+        components.add(new RectangularPrism(x, y + (size / 2) + 0.5f, z + -(size / 2), textureName, size, size, 1.0f));
+        for (int i = 0; i < size; i++)
         {
-          stairs[i] = new RectangularPrism(x, (y - (size / 2)) + i + (size / 2), (z + (size / 2)) - i, textureName, size - 2, 1.0f, 1.0f);
+          components.add(new RectangularPrism((x + (size / 2)) - i, (y - (size / 2)) + i + (size / 2) + 0.5f, z, textureName, 1.0f, 1.0f, size - 2));
         } 
         break;
       }
       case WEST:
       {
-        leftWall = new RectangularPrism(x, y + (size / 2), z + (size / 2), textureName, size, size, 1.0f);
-        rightWall = new RectangularPrism(x, y + (size / 2), z + -(size / 2), textureName, size, size, 1.0f);
-        for (int i = 0; i < stairs.length; i++)
+        components.add(new RectangularPrism(x + (size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size));
+        components.add(new RectangularPrism(x + -(size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size));
+        for (int i = 0; i < size; i++)
         {
-          stairs[i] = new RectangularPrism((x + (size / 2)) - i, (y - (size / 2)) + i + (size / 2), z, textureName, 1.0f, 1.0f, size - 2);
-        }  
+          components.add(new RectangularPrism(x, (y - (size / 2)) + i + (size / 2) + 0.5f, (z + (size / 2)) - i, textureName, size - 2, 1.0f, 1.0f));
+        } 
         break;
       }
       default:
@@ -100,19 +89,12 @@ public class Staircase extends Map
         }
       }
     }
+  }
 
-    displayListId = glGenLists(1);
-
-    glNewList(displayListId, GL_COMPILE);
-    {
-      leftWall.draw();
-      rightWall.draw();
-
-      for (int i = 0; i < stairs.length; i++)
-      {
-        stairs[i].draw();
-      }
-    }
-    glEndList();
+  @Override
+  public int compareTo(MapObject o)
+  {
+    // TODO Auto-generated method stub
+    return 0;
   }
 }

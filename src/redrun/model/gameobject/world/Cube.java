@@ -28,7 +28,7 @@ public class Cube extends WorldObject
   {
     super(x, y, z, textureName);
     
-    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(1, 1, 1), new Quat4f(), 0);
+    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(1, 1, 1), new Quat4f(), 1);
 
     displayListId = glGenLists(1);
 

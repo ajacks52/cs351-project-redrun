@@ -1,8 +1,8 @@
 package redrun.model.gameobject.map;
 
-import static org.lwjgl.opengl.GL11.*;
 import redrun.model.constants.Direction;
 import redrun.model.constants.Scale;
+import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.world.RectangularPrism;
 
@@ -14,23 +14,8 @@ import redrun.model.gameobject.world.RectangularPrism;
  * @version 1.0
  * @since 2014-11-22
  */
-public class Pit extends Map
+public class Pit extends MapObject
 {  
-	/** The front wall. */
-  private RectangularPrism frontWall;
-  
-	/** The back wall. */
-  private RectangularPrism backWall;
-
-	/** The left wall. */
-  private RectangularPrism leftWall;
-  
-	/** The right wall. */
-  private RectangularPrism rightWall;
-  
-	/** The bottom wall. */
-  private RectangularPrism bottom;
-  
   /**
    * Creates a new pit at the specified location. If the texture name is not null, the specified
    * texture will be applied to the pit. In addition the orientation of the pit and the trap
@@ -53,38 +38,38 @@ public class Pit extends Map
     {
       case NORTH:
       {        
-        leftWall = new RectangularPrism(x + (size / 2), y - ((size + 3.0f) / 2) + 3.0f, z, textureName, 1.0f, size + 3.0f, size);
-        rightWall = new RectangularPrism(x + -(size / 2), y - ((size + 3.0f) / 2) + 3.0f, z, textureName, 1.0f, size + 3.0f, size);
-        frontWall = new RectangularPrism(x, y - (size / 2), z + (size / 2), textureName, size - 2.0f, size - 1.0f, 1.0f);
-        backWall = new RectangularPrism(x, y - (size / 2), z + -(size / 2), textureName, size - 2.0f, size - 1.0f, 1.0f);
-        bottom = new RectangularPrism(x, y - size + 0.5f, z, textureName, size - 2.0f, 1.0f, size);
+        components.add(new RectangularPrism(x + (size / 2), y - ((size + 3.0f) / 2) + 3.0f, z, textureName, 1.0f, size + 3.0f, size));
+        components.add(new RectangularPrism(x + -(size / 2), y - ((size + 3.0f) / 2) + 3.0f, z, textureName, 1.0f, size + 3.0f, size));
+        components.add(new RectangularPrism(x, y - (size / 2), z + (size / 2), textureName, size - 2.0f, size - 1.0f, 1.0f));
+        components.add(new RectangularPrism(x, y - (size / 2), z + -(size / 2), textureName, size - 2.0f, size - 1.0f, 1.0f));
+        components.add(new RectangularPrism(x, y - size + 0.5f, z, textureName, size - 2.0f, 1.0f, size));
         break;
       }
       case EAST:
       {
-        leftWall = new RectangularPrism(x, y - ((size + 3.0f) / 2) + 3.0f, z + (size / 2), textureName, size, size + 3.0f, 1.0f);
-        rightWall = new RectangularPrism(x, y - ((size + 3.0f) / 2) + 3.0f, z + -(size / 2), textureName, size, size + 3.0f, 1.0f);
-        frontWall = new RectangularPrism(x + (size / 2), y - (size / 2), z, textureName, 1.0f, size - 1.0f, size - 2.0f);
-        backWall = new RectangularPrism(x + -(size / 2), y - (size / 2), z, textureName, 1.0f, size - 1.0f, size - 2.0f);
-        bottom = new RectangularPrism(x, y - size + 0.5f, z, textureName, size, 1.0f, size - 2.0f);
+        components.add(new RectangularPrism(x, y - ((size + 3.0f) / 2) + 3.0f, z + (size / 2), textureName, size, size + 3.0f, 1.0f));
+        components.add(new RectangularPrism(x, y - ((size + 3.0f) / 2) + 3.0f, z + -(size / 2), textureName, size, size + 3.0f, 1.0f));
+        components.add(new RectangularPrism(x + (size / 2), y - (size / 2), z, textureName, 1.0f, size - 1.0f, size - 2.0f));
+        components.add(new RectangularPrism(x + -(size / 2), y - (size / 2), z, textureName, 1.0f, size - 1.0f, size - 2.0f));
+        components.add(new RectangularPrism(x, y - size + 0.5f, z, textureName, size, 1.0f, size - 2.0f));
         break;
       }
       case SOUTH:
       {
-        leftWall = new RectangularPrism(x + (size / 2), y - ((size + 3.0f) / 2) + 3.0f, z, textureName, 1.0f, size + 3.0f, size);
-        rightWall = new RectangularPrism(x + -(size / 2), y - ((size + 3.0f) / 2) + 3.0f, z, textureName, 1.0f, size + 3.0f, size);
-        frontWall = new RectangularPrism(x, y - (size / 2), z + (size / 2), textureName, size - 2.0f, size - 1.0f, 1.0f);
-        backWall = new RectangularPrism(x, y - (size / 2), z + -(size / 2), textureName, size - 2.0f, size - 1.0f, 1.0f);
-        bottom = new RectangularPrism(x, y - size + 0.5f, z, textureName, size - 2.0f, 1.0f, size);
+        components.add(new RectangularPrism(x + (size / 2), y - ((size + 3.0f) / 2) + 3.0f, z, textureName, 1.0f, size + 3.0f, size));
+        components.add(new RectangularPrism(x + -(size / 2), y - ((size + 3.0f) / 2) + 3.0f, z, textureName, 1.0f, size + 3.0f, size));
+        components.add(new RectangularPrism(x, y - (size / 2), z + (size / 2), textureName, size - 2.0f, size - 1.0f, 1.0f));
+        components.add(new RectangularPrism(x, y - (size / 2), z + -(size / 2), textureName, size - 2.0f, size - 1.0f, 1.0f));
+        components.add(new RectangularPrism(x, y - size + 0.5f, z, textureName, size - 2.0f, 1.0f, size));
         break;
       }
       case WEST:
       {
-        leftWall = new RectangularPrism(x, y - ((size + 3.0f) / 2) + 3.0f, z + (size / 2), textureName, size, size + 3.0f, 1.0f);
-        rightWall = new RectangularPrism(x, y - ((size + 3.0f) / 2) + 3.0f, z + -(size / 2), textureName, size, size + 3.0f, 1.0f);
-        frontWall = new RectangularPrism(x + (size / 2), y - (size / 2), z, textureName, 1.0f, size - 1.0f, size - 2.0f);
-        backWall = new RectangularPrism(x + -(size / 2), y - (size / 2), z, textureName, 1.0f, size - 1.0f, size - 2.0f);
-        bottom = new RectangularPrism(x, y - size + 0.5f, z, textureName, size, 1.0f, size - 2.0f);
+        components.add(new RectangularPrism(x, y - ((size + 3.0f) / 2) + 3.0f, z + (size / 2), textureName, size, size + 3.0f, 1.0f));
+        components.add(new RectangularPrism(x, y - ((size + 3.0f) / 2) + 3.0f, z + -(size / 2), textureName, size, size + 3.0f, 1.0f));
+        components.add(new RectangularPrism(x + (size / 2), y - (size / 2), z, textureName, 1.0f, size - 1.0f, size - 2.0f));
+        components.add(new RectangularPrism(x + -(size / 2), y - (size / 2), z, textureName, 1.0f, size - 1.0f, size - 2.0f));
+        components.add(new RectangularPrism(x, y - size + 0.5f, z, textureName, size, 1.0f, size - 2.0f));
         break;
       }
       default:
@@ -99,17 +84,12 @@ public class Pit extends Map
         }
       }
     }
+  }
 
-    displayListId = glGenLists(1);
-
-    glNewList(displayListId, GL_COMPILE);
-    {
-      frontWall.draw();
-      backWall.draw();
-      leftWall.draw();
-      rightWall.draw();
-      bottom.draw();
-    }
-    glEndList();
+  @Override
+  public int compareTo(MapObject o)
+  {
+    // TODO Auto-generated method stub
+    return 0;
   }
 }
