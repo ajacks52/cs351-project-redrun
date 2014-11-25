@@ -2,6 +2,7 @@ package redrun.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -66,7 +67,7 @@ public class RedRunDAO
   }
 
   /**
-   * Get a list of all characters in the Characters table
+   * Get a list of all characters in the Character table
    * 
    * @return list of all items in the Characters database
    */
@@ -107,5 +108,63 @@ public class RedRunDAO
       System.exit(0);
     }
     return null;
+  }
+
+  /**
+   * Insert new character into the Character table
+   * 
+   * @param characterName name of new character
+   * @param image image associated with new character
+   * @param team team of new character
+   * @param startLocation starting location of new character
+   * @return true if character created, otherwise false
+   */
+  public static boolean insertCharacter(String characterName, String image, String team, String startLocation)
+  {
+    try
+    {
+      String sql = "INSERT INTO characters(character_name, image, team, start_loc) VALUES (?, ?, ?, ?)";
+
+      /** F**k SQL Injections. */
+      PreparedStatement pstmt = c.prepareStatement(sql);
+      pstmt.setString(1, characterName);
+      pstmt.setString(2, image);
+      pstmt.setString(3, team);
+      pstmt.setString(4, startLocation);
+      pstmt.executeUpdate();
+      pstmt.close();
+      return true;
+    }
+    catch (SQLException e)
+    {
+      System.err.println(e.getClass().getName() + ": " + e.getMessage());
+      System.exit(0);
+    }
+    return false;
+  }
+
+  /**
+   * Delete a specified character out of the Character table
+   * 
+   * @param characterName name of character to delete
+   * @return true if successfully deleted, false otherwise
+   */
+  public static boolean deleteCharacter(String characterName)
+  {
+    try
+    {
+      Statement sqlStatement = c.createStatement();
+      String sql = "DELETE FROM characters WHERE character_name = " + "'" + characterName + "'";
+
+      sqlStatement.execute(sql);
+      sqlStatement.close();
+      return true;
+    }
+    catch (SQLException e)
+    {
+      System.err.println(e.getClass().getName() + ": " + e.getMessage());
+      System.exit(0);
+    }
+    return false;
   }
 }

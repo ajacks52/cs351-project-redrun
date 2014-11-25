@@ -1,13 +1,5 @@
 package redrun.test.database;
 
-import java.awt.Dimension;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-
 import redrun.database.RedRunDAO;
 import redrun.database.Character;
 
@@ -22,6 +14,7 @@ import redrun.database.Character;
 public class RedRunDAOTest
 {
   private static final boolean DEBUG = true;
+  private static RedRunDAO dao = new RedRunDAO();
 
   /**
    * Used to test the character SELECT functionality of the DAO
@@ -30,7 +23,7 @@ public class RedRunDAOTest
    */
   private boolean firstTest()
   {
-    RedRunDAO dao = new RedRunDAO();
+
     if (DEBUG)
     {
       for (Character c : RedRunDAO.getAllCharacters())
@@ -39,7 +32,6 @@ public class RedRunDAOTest
       }
     }
     assert (RedRunDAO.getAllCharacters() != null) : "We were unable to retrieve any characters from the Character table";
-    dao.closeConnection();
     return true;
   }
 
@@ -50,17 +42,32 @@ public class RedRunDAOTest
    */
   private boolean secondTest()
   {
-
+    assert (RedRunDAO.insertCharacter("Pally Jenkins", "Bdubz.png", "Doom Bringers", "50.0,12.2,23.2")) == true : "Unable to create new Character";
+    boolean found = false;
+    for (Character c : RedRunDAO.getAllCharacters())
+    {
+      if (DEBUG) System.out.println(c.toString());
+      if (c.toString().contains("Pally Jenkins")) found = true;
+    }
+    assert (found == true) : "Unable to find newly created character in Character table";
     return true;
   }
 
   /**
-   * Test specified Triangles for input
+   * Used to test the character DELETE functionality of the DAO
    * 
    * @return true if all tests pass
    */
   private boolean thirdTest()
   {
+    assert (RedRunDAO.deleteCharacter("Pally Jenkins") == true) : "Something went horribly wrong with our deletion method";
+    boolean found = false;
+    for (Character c : RedRunDAO.getAllCharacters())
+    {
+      if (DEBUG) System.out.println(c.toString());
+      if (c.toString().contains("Pally Jenkins")) found = true;
+    }
+    assert (found == false) : "Pally was not actually deleted from the database.";
 
     return true;
   }
@@ -77,6 +84,6 @@ public class RedRunDAOTest
     if (redRunDaoTest.firstTest() == true) System.out.println("First test passed.");
     if (redRunDaoTest.secondTest() == true) System.out.println("Second test passed.");
     if (redRunDaoTest.thirdTest() == true) System.out.println("Third test passed.");
-
+    dao.closeConnection();
   }
 }
