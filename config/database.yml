@@ -1,4 +1,4 @@
 redrun:
   adapter: sqlite3
-  database: db/redRun.db
+  database: src/redrun/database/redRun.db
   timeout: 5000
