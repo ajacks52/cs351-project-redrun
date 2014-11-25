@@ -86,7 +86,8 @@ public class RedRunDAO
         String image = rs.getString("image");
         String team = rs.getString("team");
         String startLocation = rs.getString("start_loc");
-        Character character = new Character(id, characterName, image, team, startLocation);
+        int mapId = rs.getInt("map_id");
+        Character character = new Character(id, characterName, image, team, startLocation, mapId);
 
         characterList.add(character);
         if (DEBUG)
@@ -96,6 +97,7 @@ public class RedRunDAO
           System.out.println(image);
           System.out.println(team);
           System.out.println(startLocation);
+          System.out.println(mapId);
         }
       }
       rs.close();
@@ -119,11 +121,11 @@ public class RedRunDAO
    * @param startLocation starting location of new character
    * @return true if character created, otherwise false
    */
-  public static boolean insertCharacter(String characterName, String image, String team, String startLocation)
+  public static boolean insertCharacter(String characterName, String image, String team, String startLocation, int mapId)
   {
     try
     {
-      String sql = "INSERT INTO characters(character_name, image, team, start_loc) VALUES (?, ?, ?, ?)";
+      String sql = "INSERT INTO characters(character_name, image, team, start_loc, map_id) VALUES (?, ?, ?, ?, ?)";
 
       /** F**k SQL Injections. */
       PreparedStatement pstmt = c.prepareStatement(sql);
@@ -131,6 +133,7 @@ public class RedRunDAO
       pstmt.setString(2, image);
       pstmt.setString(3, team);
       pstmt.setString(4, startLocation);
+      pstmt.setInt(5, mapId);
       pstmt.executeUpdate();
       pstmt.close();
       return true;

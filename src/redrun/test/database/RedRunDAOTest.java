@@ -17,11 +17,29 @@ public class RedRunDAOTest
   private static RedRunDAO dao = new RedRunDAO();
 
   /**
-   * Used to test the character SELECT functionality of the DAO
+   * Used to test the character INSERT functionality of the DAO
    * 
    * @return true if all tests pass
    */
   private boolean firstTest()
+  {
+    assert (RedRunDAO.insertCharacter("Pally Jenkins", "Bdubz.png", "Doom Bringers", "50.0,12.2,23.2", 1)) == true : "Unable to create new Character";
+    boolean found = false;
+    for (Character c : RedRunDAO.getAllCharacters())
+    {
+      if (DEBUG) System.out.println(c.toString());
+      if (c.toString().contains("Pally Jenkins")) found = true;
+    }
+    assert (found == true) : "Unable to find newly created character in Character table";
+    return true;
+  }
+
+  /**
+   * Used to test the character SELECT functionality of the DAO
+   * 
+   * @return true if all tests pass
+   */
+  private boolean secondTest()
   {
 
     if (DEBUG)
@@ -32,24 +50,6 @@ public class RedRunDAOTest
       }
     }
     assert (RedRunDAO.getAllCharacters() != null) : "We were unable to retrieve any characters from the Character table";
-    return true;
-  }
-
-  /**
-   * Used to test the character INSERT functionality of the DAO
-   * 
-   * @return true if all tests pass
-   */
-  private boolean secondTest()
-  {
-    assert (RedRunDAO.insertCharacter("Pally Jenkins", "Bdubz.png", "Doom Bringers", "50.0,12.2,23.2")) == true : "Unable to create new Character";
-    boolean found = false;
-    for (Character c : RedRunDAO.getAllCharacters())
-    {
-      if (DEBUG) System.out.println(c.toString());
-      if (c.toString().contains("Pally Jenkins")) found = true;
-    }
-    assert (found == true) : "Unable to find newly created character in Character table";
     return true;
   }
 
