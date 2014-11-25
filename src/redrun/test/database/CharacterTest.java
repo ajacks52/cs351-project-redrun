@@ -12,7 +12,7 @@ import redrun.database.Character;
  */
 public class CharacterTest
 {
-  private static final boolean DEBUG = false;
+  private static final boolean DEBUG = true;
 
   /**
    * First test for our Character DB class
@@ -21,7 +21,7 @@ public class CharacterTest
    */
   private boolean test()
   {
-    Character character = new Character(1, "Steve Madden", "oilyBro.png", "Victims", "1.1,2.6,3.2");
+    Character character = new Character(1, "Steve Madden", "oilyBro.png", "Victims", "1.1,2.6,3.2", 1);
     assert (character.toString() != null) : "Did not genereate character properly, fail sauce";
     assert (character.toString().contains("Steve Madden")) : "Character name not generated properly.";
     if (DEBUG)

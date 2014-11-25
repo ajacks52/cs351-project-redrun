@@ -16,6 +16,7 @@ public class Character
   private String characterName;
   private String image;
   private String team;
+  private int mapId;
   private StartLocation parsedStart;
 
   /**
@@ -27,12 +28,13 @@ public class Character
    * @param team team this character is associated with
    * @param startLocation starting location of this player
    */
-  public Character(int id, String characterName, String image, String team, String startLocation)
+  public Character(int id, String characterName, String image, String team, String startLocation, int mapId)
   {
     this.id = id;
     this.characterName = characterName;
     this.image = image;
     this.team = team;
+    this.mapId = mapId;
     this.parsedStart = new StartLocation(startLocation);
   }
 
@@ -43,7 +45,7 @@ public class Character
   {
     return "=== Character === " + "ID:" + this.id + " Name:" + this.characterName + " Image:" + this.image + " Team:"
         + this.team + " Start Location:" + parsedStart.getX() + ", " + parsedStart.getY() + ", " + parsedStart.getZ()
-        + " ===";
+        + " Map ID:" + this.mapId + " ===";
   }
 
   /**
