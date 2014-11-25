@@ -144,7 +144,7 @@ public class GraphicsTestTroy
     
     for (int i = 0; i < 10; i++)
     {
-      balls.add(new Ball(0.0f, i + 100.0f, 15.0f + (i * 0.1f), null, 0.5f, null));
+      balls.add(new Ball(0.0f, i + 100.0f, 15.0f + (i * 0.1f), null, 0.5f));
     }
     
     Cube testCube = new Cube(0.0f, 50.0f, 0f, null);
