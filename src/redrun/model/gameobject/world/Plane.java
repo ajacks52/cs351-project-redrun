@@ -1,10 +1,13 @@
 package redrun.model.gameobject.world;
 
+import java.nio.FloatBuffer;
+
 import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
 import redrun.model.physics.BoxPhysicsBody;
+import redrun.model.toolkit.BufferConverter;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -35,6 +38,14 @@ public class Plane extends WorldObject
     {
       glBegin(GL_QUADS);
       {
+        FloatBuffer materialColor = BufferConverter.asFloatBuffer(new float[] {0.2f, 0.2f, 1.0f, 1.0f});
+        FloatBuffer materialSpecular = BufferConverter.asFloatBuffer(new float[] {1.0f, 1.0f, 1.0f, 1.0f});
+        FloatBuffer materialEmission = BufferConverter.asFloatBuffer(new float[] {0.05f, 0.05f, 0.05f, 1.0f});
+        
+        glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, materialColor);
+        glMaterial(GL_FRONT, GL_SPECULAR, materialSpecular);
+        glMaterial(GL_FRONT, GL_EMISSION, materialEmission);
+      	
         glNormal3f(0.0f, -1.0f, 0.0f);
         glColor3f(1.0f, 0.5f, 0.0f);
         glVertex3f(size / 2, 0.0f, size / 2);

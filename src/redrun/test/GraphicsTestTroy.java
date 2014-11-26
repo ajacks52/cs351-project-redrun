@@ -1,7 +1,6 @@
 package redrun.test;
 
 import java.nio.FloatBuffer;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +26,6 @@ import redrun.model.gameobject.map.Platform;
 import redrun.model.gameobject.map.Staircase;
 import redrun.model.gameobject.map.Start;
 import redrun.model.gameobject.map.Tunnel;
-import redrun.model.gameobject.world.Ball;
 import redrun.model.gameobject.world.Cube;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
@@ -79,7 +77,7 @@ public class GraphicsTestTroy
     glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
     
-    FontTools.loadFonts(15);
+    FontTools.loadFonts();
   }
 
   /**
@@ -96,64 +94,51 @@ public class GraphicsTestTroy
     // Create the map...
     LinkedList<MapObject> worldMap = new LinkedList<MapObject>();
     
-    //TODO Tests...
-    worldMap.add(new Staircase(0.0f, 0.0f, 0.0f, "brickwall5", Direction.NORTH, null));
-    worldMap.add(new Staircase(0.0f, 0.0f, 15.0f, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Staircase(0.0f, 0.0f, 30.0f, "brickwall5", Direction.SOUTH, null));
-    worldMap.add(new Staircase(0.0f, 0.0f, 45.0f, "brickwall5", Direction.WEST, null));
-    
     // Add the starting point...
-    worldMap.add(new Start(20, 0.0f, 20, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Start(0.0f, 0.0f, 0.0f, "brickwall5", Direction.NORTH, null));
     
     // Add a walkway...
-    worldMap.add(new Corridor(20, 0.0f, 27.5f, "brickwall5", Direction.NORTH, null));
-    worldMap.add(new Corridor(20, 0.0f, 35, "brickwall5", Direction.NORTH, null));
-    worldMap.add(new Corridor(20, 0.0f, 42.5f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corridor(0.0f, 0.0f, 15.0f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corridor(0.0f, 0.0f, 30.0f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corridor(0.0f, 0.0f, 45.0f, "brickwall5", Direction.NORTH, null));
     
     // Add a corner...
-    worldMap.add(new Corner(20, 0.0f, 50, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corner(0.0f, 0.0f, 60.0f, "brickwall5", Direction.NORTH, null));
     
     // Add a staircase...
-    worldMap.add(new Staircase(27.5f, 0.0f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Staircase(15.0f, 0.0f, 60.0f, "brickwall5", Direction.NORTH, null));
     
     // Add a walkway...
-    worldMap.add(new Corridor(35, 7.5f, 50, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Corridor(42.5f, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(30.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(45.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     // Add a field...
-    worldMap.add(new Field(57.5f, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Field(75.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     // Add a walkway...
-    worldMap.add(new Corridor(72.5f, 7.5f, 50, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Corridor(80, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(105.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(120.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     // Add a tunnel...
-    worldMap.add(new Tunnel(87.5f, 7.5f, 50, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Tunnel(95, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Tunnel(135.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Tunnel(150.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     // Add a walkway...
-    worldMap.add(new Corridor(102.5f, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(165.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     // Add a pit...
-    worldMap.add(new Pit(110.0f, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Pit(180.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     // Add a walkway...
-    worldMap.add(new Corridor(117.5f, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(195.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     // Add a platform...
-    worldMap.add(new Platform(125.0f, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Platform(210.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
     // Add the ending point...
-    worldMap.add(new End(132.5f, 7.5f, 50, "brickwall5", Direction.EAST, null));
+    worldMap.add(new End(225.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
     
-    ArrayList<Ball> balls = new ArrayList<Ball>();
-    
-    for (int i = 0; i < 10; i++)
-    {
-      balls.add(new Ball(0.0f, i + 1000.0f, 15.0f + (i * 0.1f), null, 0.5f, null));
-    }
-    
-    Cube testCube = new Cube(0.0f, 50.0f, -8.0f, null);
+    Cube testCube = new Cube(0.0f, 50.0f, 0f, "wood");
     
 //    Corridor corridor1 = new Corridor(20, 0.5f, 20, "wood", Direction.NORTH, null);
 //    Corridor corridor2 = new Corridor(30, 0.5f, 20, "wood", Direction.EAST, null);
@@ -225,14 +210,14 @@ public class GraphicsTestTroy
       
       // Add positional light...
       FloatBuffer lightColor0 = BufferConverter.asFloatBuffer(new float[] { 1.5f, 1.5f, 1.5f, 1.0f });
-      FloatBuffer lightPosition0 = BufferConverter.asFloatBuffer(new float[] { 15.0f, 0.0f, 5.0f, 1.0f });
+      FloatBuffer lightPosition0 = BufferConverter.asFloatBuffer(new float[] { -15.0f, 10.0f, 5.0f, 1.0f });
       glLight(GL_LIGHT0, GL_DIFFUSE, lightColor0);
       glLight(GL_LIGHT0, GL_SPECULAR, lightColor0);
       glLight(GL_LIGHT0, GL_POSITION, lightPosition0);
       
       // Add directional light...
       FloatBuffer lightColor1 = BufferConverter.asFloatBuffer(new float[] { 0.5f, 0.5f, 0.5f, 1.0f });
-      FloatBuffer lightPosition1 = BufferConverter.asFloatBuffer(new float[] { 0.0f, 15.0f, 0.0f, 0.0f });
+      FloatBuffer lightPosition1 = BufferConverter.asFloatBuffer(new float[] { -15.0f, 10.0f, 5.0f, 0.0f });
       glLight(GL_LIGHT1, GL_DIFFUSE, lightColor1);
       glLight(GL_LIGHT1, GL_POSITION, lightPosition1);
       
@@ -244,10 +229,8 @@ public class GraphicsTestTroy
         }
         Picker.stopPicking();
       }
-
-      // Draw the checker-board...
-      //board.draw();
       
+      // Draw the floor...
       plane.draw();
       
       // Draw the world map...
@@ -256,15 +239,11 @@ public class GraphicsTestTroy
         mapObject.draw();
       }
       
-      for (Ball ball : balls)
-      {
-        ball.draw();
-      }
       testCube.draw();
       
       // Draw text to the screen...
       FontTools.draw2D();
-      FontTools.renderText("Position: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10, Color.orange, 0);
+      FontTools.renderText("Position: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10, Color.orange, 1);
       FontTools.draw3D();
       
       PhysicsWorld.stepSimulation(1 / 60.0f);
@@ -324,7 +303,6 @@ public class GraphicsTestTroy
    */
   private static void destroyOpenGL()
   {
-    FontTools.cleanUpFonts();
     Display.destroy();
   }
 

@@ -3,12 +3,8 @@ package redrun.model.gameobject.trap;
 import redrun.model.toolkit.ShaderLoader;
 import static org.lwjgl.opengl.GL11.*;
 
-/**
- * 
- * Class to make trap doors.  To make a new trap door make a new object of this class. 
- * 
- * objectName.update(); when you are rendering graphics. 
- * 
+/** 
+ * Class to make trap doors.  To make a new trap door make a new object of this class.  
  * 
  * @author Adam Mitchell
  * @version 1.0
@@ -17,9 +13,10 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class TrapDoor extends Trap
 {
-
   ShaderLoader sl;
+  boolean forward = true;
   float occilate = 0;
+  float movementSpeed = 0.15f;
 
   /**
    * Constructor to make a new trap door give the starting position 
@@ -30,7 +27,7 @@ public class TrapDoor extends Trap
    */
   public TrapDoor(float x, float y, float z, String textureName)
   {
-    super(x, y, z, textureName);
+    super(x, y-1.95f, z, textureName);
 
     displayListId = glGenLists(1);
 
@@ -53,39 +50,32 @@ public class TrapDoor extends Trap
     glEndList();
   }
 
-  /**
-   * Draws a trap door to the screen at the given position
-   *  
-   * @param the x coord 
-   * @param the y coord 
-   * @param the z coord
-   */
-  public void render(float x, float y,  float z)
-  {
+  
+  @Override
+  public void draw()
+  {           
     glPushMatrix();
     {
-      glPushName(this.id);
-      {
         glColor3f(0.5f, 0.5f, 0.5f);
-        glTranslatef((x - occilate), -2.98f, z);
+        glTranslatef((body.getX() - occilate), body.getY(), body.getZ());
         glScalef(3f, 1f, 3f);
-        this.draw();
-      }
-      glPopName();
+        glEnable(GL_TEXTURE_2D);
+        texture.bind(); 
+        glCallList(displayListId);
+        glDisable(GL_TEXTURE_2D);
     }
     glPopMatrix();
     glPushMatrix();
     {
-      glPushName(this.id);
       {
         glColor3f(0.0f, 0.0f, 0.0f);
-        glTranslatef(x, -2.99f, z);
+        glTranslatef(body.getX()+0.05f, body.getY()-0.001f, body.getZ()-0.05f);
         glScalef(2.9f, 1f, 2.9f);
-        this.draw();
+        glCallList(displayListId);
       }
-      glPopName();
     }
     glPopMatrix();
+    update();
   }
 
   @Override
@@ -93,6 +83,7 @@ public class TrapDoor extends Trap
   {
     this.timer.reset();
     this.timer.pause();
+    this.forward = true;
   }
 
   @Override
@@ -109,14 +100,19 @@ public class TrapDoor extends Trap
     {
       occilate = 0;
     }
-    else if (occilate < 6)
+    else if (occilate < 5.8 && forward)
     {
-      occilate += 0.15f;
+      occilate += movementSpeed;
     }
-    if ((int) this.timer.getTime() == 2)
+    else forward = false;
+    if ((int) this.timer.getTime() == 4)
     {
       System.out.println("Resetting game object: " + this.id);
       reset();
+    }
+    else if ((int) this.timer.getTime() > 2 && occilate > 0)
+    {
+      occilate -= movementSpeed;
     }
   }
 

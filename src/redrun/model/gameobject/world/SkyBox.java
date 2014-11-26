@@ -8,7 +8,6 @@ import org.newdawn.slick.opengl.Texture;
 import redrun.graphics.camera.Camera;
 import redrun.model.toolkit.Tools;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.util.glu.GLU.*;
 
 /**
  * This class represents a skybox for an OpenGl scene.
@@ -140,9 +139,11 @@ public class SkyBox extends WorldObject
             glVertex3f(1.0f, 1.0f, 1.0f);
           }
           glEnd();
-
-          glDisable(GL_TEXTURE_2D);
+          
           glEnable(GL_DEPTH_TEST);
+          glEnable(GL_LIGHTING);
+          glEnable(GL_BLEND);
+          glDisable(GL_TEXTURE_2D);
         }
         glPopAttrib();
       }
@@ -151,7 +152,9 @@ public class SkyBox extends WorldObject
     glEndList();
   }
 
-  // clamp textures, that edges get dont create a line in between
+  /**
+   * Aligns textures to edges correctly. Helper method...
+   */
   private void clampToEdge()
   {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
