@@ -196,7 +196,8 @@ public class GraphicsTestTroy
       {
         glDepthMask(false);
         //TODO Fix rotations along X and Z axis.
-        glRotatef(camera.getYaw(), 0, 1, 0);
+        glRotatef(camera.getPitch(), 1.0f, 0.0f, 0.0f);
+        glRotatef(camera.getYaw(), 0.0f, 1.0f, 0.0f);
         skybox.draw();
         glDepthMask(true);
       }
@@ -296,7 +297,6 @@ public class GraphicsTestTroy
 
     return delta;
   }
-
 
   /**
    * Cleans up resources.
