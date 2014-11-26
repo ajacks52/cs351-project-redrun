@@ -49,15 +49,6 @@ import redrun.model.toolkit.Tools;
  */
 public class GraphicsTestJake
 {
-  /** time at last frame */
-  long lastFrame;
-
-  /** frames per second */
-  int fps;
-
-  /** last fps time */
-  long lastFPS;
-
   /**
    * Performs OpenGL initialization.
    */
@@ -309,8 +300,8 @@ public class GraphicsTestJake
   public int getDelta()
   {
     long time = Tools.getTime();
-    int delta = (int) (time - lastFrame);
-    lastFrame = time;
+    int delta = (int) (time - Tools.lastFrame);
+    Tools.lastFrame = time;
 
     return delta;
   }
@@ -320,12 +311,12 @@ public class GraphicsTestJake
    */
   public void updateFPS()
   {
-    if (Tools.getTime() - lastFPS > 1000)
+    if (Tools.getTime() - Tools.lastFPS > 1000)
     {
-      fps = 0;
-      lastFPS += 1000;
+      Tools.fps = 0;
+      Tools.lastFPS += 1000;
     }
-    fps++;
+    Tools.fps++;
   }
 
   // Taken from Jordan's test.

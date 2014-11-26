@@ -15,19 +15,27 @@ import static org.lwjgl.opengl.GL11.*;
  * This class contains a variety of tools that assist other classes in
  * constructing an OpenGL scene.
  * 
- * @author Troy Squillaci
- * @author J. Jake Nichol
+ * @author Troy Squillaci, J. Jake Nichol
  * @version 1.0
  * @since 2014-11-03
  */
 public class Tools
 {
+  /** Time at last frame */
+  public static long lastFrame;
+
+  /** Frames per second */
+  public static int fps;
+
+  /** Last FPS time */
+  public static long lastFPS;
+
   /**
    * Loads a texture from a file for OpenGL.
    * 
    * @param filename the name of the file located in the res (resources)
    *          directory
-   * @return the loaded tecture
+   * @return the loaded texture
    */
   public static Texture loadTexture(String filename, String filetype)
   {
