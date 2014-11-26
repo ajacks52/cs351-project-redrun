@@ -74,7 +74,7 @@ public class GraphicsTestJake
     glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
 
-    FontTools.loadFonts(15);
+    FontTools.loadFonts();
   }
 
   /**
@@ -330,7 +330,6 @@ public class GraphicsTestJake
    */
   private void destroyOpenGL()
   {
-    FontTools.cleanUpFonts();
     Display.destroy();
   }
 

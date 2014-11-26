@@ -19,7 +19,7 @@ public class Camera
   private Vector3f position = null;
 
   /** The rotation of the camera around the Y axis. */
-  private float yaw = 0.0f;
+  private float yaw = 90.0f;
 
   /** The rotation of the camera around the X axis. */
   private float pitch = 0.0f;

@@ -1,7 +1,6 @@
 package redrun.test;
 
 import java.awt.Dimension;
-import java.util.Random;
 
 import org.lwjgl.*;
 import org.lwjgl.input.*;
@@ -10,28 +9,29 @@ import org.lwjgl.util.Timer;
 import org.newdawn.slick.Color;
 
 import redrun.graphics.camera.Camera;
+import redrun.main.LoadingScreen;
+import redrun.main.Menu;
+import redrun.model.constants.Direction;
 import redrun.model.gameobject.trap.*;
 import redrun.model.gameobject.world.*;
+import redrun.model.gameobject.map.Corridor;
+import redrun.model.gameobject.player.*;
+import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.*;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
  * 
- * Renders a scene so show how the traps work. To activate a trap press the r or
- * f keys. Loads and uses fonts, and applies textures to the walls
- * 
  * @author Adam Mitchell
  * @version 1.0
- * @since 2014-11-10
- * 
+ * @since 2014-19-10
+ *
  */
-public class GraphicsTestAdam
+public class MainTestAdam
 {
+
   // the camera object
   private Camera cam;
-  @SuppressWarnings("unused")
-  private Random rand;
-
   /** time at last frame */
   private long lastFrame;
   /** frames per second */
@@ -39,67 +39,92 @@ public class GraphicsTestAdam
   /** last fps time */
   private long lastFPS;
 
+  // Game objects...
   // the traps in display
   private SpikeTrapDoor spikes;
   private TrapDoor trapDoor;
   private DeathPillar deathPillar;
   private SpikeField spikeField;
-  
+
   // the walls
-  private CheckerBoard board;
-  private CheckerBoard wallT;
-  private CheckerBoard wallR;
+//  private CheckerBoard board;
+//  private CheckerBoard wallT;
+//  private CheckerBoard wallR;
+  
+  private BallsSwing bs;
+  
+  private Corridor hallway1;
+  private Corridor hallway2;
+  private Corridor hallway3;
+  
+  private PoleWall pWall;
+  private JailDoor jailDoor;
+  
 
   // Used for controlling the camera with the keyboard and mouse...
   private float dx, dy, dt;
-  @SuppressWarnings("unused")
-  private float previousTime, currentTime;
   // Set the mouse sensitivity...
   private float mouseSensitivity = 0.05f;
   private float movementSpeed = 0.005f;
 
-  private GraphicsTestAdam()
+  private static BackgroundLoader backgroundLoader;
+
+  private MainTestAdam()
   {
     this.initDisplay();
-    // load font takes a about 2 seconds
-    redrun.model.toolkit.FontTools.loadFonts();
+    Display.setVSyncEnabled(true);
 
     cam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, -10f, -3f, -10f);
 
+    Menu menu = new Menu();
+
+    // ////// Initialize game objects
     spikes = new SpikeTrapDoor(10, 0, 30, "wood");
-    trapDoor = new TrapDoor(30, -2, 10, "wood");
-    deathPillar = new DeathPillar(50, 0, 50, null);
+    trapDoor = new TrapDoor(30, 0, 10, "wood");
+    deathPillar = new DeathPillar(20, 0, 30, "x17");
     spikeField = new SpikeField(30, 0, 20, "s11", new Dimension(10, 15));
 
-
+    hallway1 = new Corridor(0, 0, 0, "x17", Direction.EAST , null);
+    hallway2 = new Corridor(9, 0, 0, "x17", Direction.EAST , null);
+    hallway3 = new Corridor(18, 0, 0, "x17", Direction.EAST , null);
     
-    board = new CheckerBoard(0, 0, 0, "x17", new Dimension(50, 50));
-    wallT = new CheckerBoard(0, 10, 0, "x11", new Dimension(50, 50));
-    wallR = new CheckerBoard(0, 0, 0, "24", new Dimension(50, 11));
-
+    pWall = new PoleWall(5,5,5, null);
+    bs = new BallsSwing(-10,2, 5, "metal");
+    jailDoor = new JailDoor(15,2,15, null);
+    
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
-    getDelta(); // call once before loop to initialize lastFrame
-    lastFPS = getTime(); // call before loop to initialize fps timer
+    // call once before loop to initialize lastFrame
+    getDelta();
+    // call before loop to initialize fps timer
+    lastFPS = getTime();
 
-    this.mainLoop();
-    this.exit();
+    while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+    {
+      mainLoop();
+      menu.stateControl();
+
+      Timer.tick();
+      updateFPS();
+      Display.sync(65);
+      Display.update();
+    }
+    exit();
   }
 
   /**
    * Scene rendering loop
-   * 
    */
   private void mainLoop()
   {
     glEnable(GL_DEPTH_TEST);
-    while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+    // while (!Display.isCloseRequested() &&
+    // !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
-
-      keyBoard();
+      keyBoardControls();
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
       glLoadIdentity();
+
       // if (Picker.mode == 2) Picker.startPicking();
       cam.lookThrough();
 
@@ -109,38 +134,27 @@ public class GraphicsTestAdam
       trapDoor.draw();
       spikeField.draw();
 
-
+      bs.draw();
+      hallway1.draw();
+      hallway2.draw();
+      hallway3.draw();
+      
+      pWall.draw();
+      jailDoor.draw();
 
       // if (Picker.mode == 2) Picker.stopPicking();
 
-      // draw the floor
-      board.draw();
-      // draw a left wall
-      glPushMatrix();
-      glTranslatef(0, -1, -1);
-      glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
-      wallR.draw();
-      glPopMatrix();
-      // draw the ceiling
-      wallT.draw();
-
+  
       // drawing 2d text
       FontTools.draw2D();
-      FontTools.renderText("x: " + cam.getX() + " y: " + cam.getY() + " z: " + cam.getZ(), 10, 10, Color.white, 0);
+      FontTools.renderText("x: " + cam.getX() + " y: " + cam.getY() + " z: " + cam.getZ(), 10, 10, Color.white, 1);
       FontTools.draw3D();
-      Timer.tick();
-      updateFPS();
-      Display.sync(65);
-      Display.update();
     }
   }
 
-  private void keyBoard()
+  private void keyBoardControls()
   {
-    currentTime = Sys.getTime();
     dt = getDelta();
-    previousTime = currentTime;
-
     dx = Mouse.getDX();
     dy = Mouse.getDY();
 
@@ -151,10 +165,12 @@ public class GraphicsTestAdam
     if (Keyboard.isKeyDown(Keyboard.KEY_S)) cam.moveBackward(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_A)) cam.moveLeft(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_D)) cam.moveRight(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_SPACE) || Keyboard.isKeyDown(Keyboard.KEY_UP)) cam.moveUp(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_X) || Keyboard.isKeyDown(Keyboard.KEY_DOWN)) cam.moveDown(movementSpeed * dt);
+    if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) cam.moveUp(movementSpeed * dt);
+    if (Keyboard.isKeyDown(Keyboard.KEY_X)) cam.moveDown(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_F)) spikes.interact();
     if (Keyboard.isKeyDown(Keyboard.KEY_R)) trapDoor.interact();
+    if (Keyboard.isKeyDown(Keyboard.KEY_C)) deathPillar.interact();
+
   }
 
   /**
@@ -170,6 +186,31 @@ public class GraphicsTestAdam
     catch (LWJGLException ex)
     {
       ex.printStackTrace();
+    }
+
+    backgroundLoader = new BackgroundLoader()
+    {
+      protected Drawable getDrawable() throws LWJGLException
+      {
+        return new SharedDrawable(Display.getDrawable());
+      }
+    };
+    try
+    {
+      backgroundLoader.start();
+    }
+    catch (LWJGLException e)
+    {
+    }
+    // set up the loading screen
+    LoadingScreen spashScreen = new LoadingScreen("loading_screen");
+    FontTools.draw2D();
+    while (backgroundLoader.isRunning())
+    {
+      glClear(GL_COLOR_BUFFER_BIT);
+      spashScreen.draw();
+      Display.sync(65);
+      Display.update();
     }
   }
 
@@ -203,6 +244,7 @@ public class GraphicsTestAdam
   {
     if (getTime() - lastFPS > 1000)
     {
+      PhysicsWorld.stepSimulation(1.0f/fps);
       Display.setTitle("My test level FPS: " + fps);
       fps = 0;
       lastFPS += 1000;
@@ -225,7 +267,7 @@ public class GraphicsTestAdam
    */
   public static void main(String[] args)
   {
-    new GraphicsTestAdam();
+    new MainTestAdam();
 
   }
 }

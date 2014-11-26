@@ -53,7 +53,7 @@ public class Tools
   }
 
   /**
-   * Get the accurate system time for LWJGL
+   * Get the accurate system time for LWJGL.
    * 
    * @return The system time in milliseconds
    */
