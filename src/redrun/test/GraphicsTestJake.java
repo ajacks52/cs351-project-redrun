@@ -51,6 +51,7 @@ public class GraphicsTestJake
 {
   /**
    * Performs OpenGL initialization.
+   * TODO Test comment
    */
   private void createOpenGL()
   {
