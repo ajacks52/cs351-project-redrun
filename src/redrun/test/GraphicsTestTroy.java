@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -32,6 +34,7 @@ import redrun.model.gameobject.map.Tunnel;
 import redrun.model.gameobject.world.Cube;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
+import redrun.model.gameobject.world.WorldObject;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
@@ -83,6 +86,111 @@ public class GraphicsTestTroy
     FontTools.loadFonts();
   }
 
+  public static MapObject createMapObjectFromDB(String mapDBForm)
+  {
+    // System.out.println(mapDBForm);
+    Pattern getMapObject = Pattern
+        .compile("===\\sMap\\sObject\\s===\\sID:(\\d+)\\sName:(\\w+)\\sLocation:\\((\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\)\\sTexture:(\\w+)\\sDirection:(\\w+\\.\\w+)\\sMap\\sID:(\\d+)\\s===");
+
+    Matcher matchMapObject = getMapObject.matcher(mapDBForm);
+
+    if (matchMapObject.find())
+    {
+      float x = Float.parseFloat(matchMapObject.group(3));
+      float y = Float.parseFloat(matchMapObject.group(4));
+      float z = Float.parseFloat(matchMapObject.group(5));
+      String textureName = matchMapObject.group(6);
+
+      Direction orientation = null;
+      switch (matchMapObject.group(7))
+      {
+        case "Direction.NORTH":
+        {
+          orientation = Direction.NORTH;
+          break;
+        }
+        case "Direction.EAST":
+        {
+          orientation = Direction.EAST;
+          break;
+        }
+        case "Direction.SOUTH":
+        {
+          orientation = Direction.SOUTH;
+          break;
+        }
+        case "Direction.WEST":
+        {
+          orientation = Direction.WEST;
+          break;
+        }
+        default:
+        {
+          try
+          {
+            throw new IllegalArgumentException();
+          }
+          catch (IllegalArgumentException e)
+          {
+            e.printStackTrace();
+          }
+        }
+      }
+
+      switch (matchMapObject.group(2))
+      {
+        case "Corner":
+        {
+          return new Corner(x, y, z, textureName, orientation, null);
+        }
+        case "Corridor":
+        {
+          return new Corridor(x, y, z, textureName, orientation, null);
+        }
+        case "End":
+        {
+          return new End(x, y, z, textureName, orientation, null);
+        }
+        case "Field":
+        {
+          return new Field(x, y, z, textureName, orientation, null);
+        }
+        case "Pit":
+        {
+          return new Pit(x, y, z, textureName, orientation, null);
+        }
+        case "Platform":
+        {
+          return new Platform(x, y, z, textureName, orientation, null);
+        }
+        case "Staircase":
+        {
+          return new Staircase(x, y, z, textureName, orientation, null);
+        }
+        case "Start":
+        {
+          return new Start(x, y, z, textureName, orientation, null);
+        }
+        case "Tunnel":
+        {
+          return new Tunnel(x, y, z, textureName, orientation, null);
+        }
+        default:
+        {
+          try
+          {
+            throw new IllegalArgumentException();
+          }
+          catch (IllegalArgumentException e)
+          {
+            e.printStackTrace();
+          }
+        }
+      }
+    }
+    return null;
+  }
+
   /**
    * The main loop where the logic occurs. Stopped when the escape key is
    * pressed or the window is closed.
@@ -102,8 +210,7 @@ public class GraphicsTestTroy
 
     for (MapObjectDB object : mapStuff)
     {
-      
-      System.out.println(object);
+      worldMap.add(createMapObjectFromDB(object.toString()));
     }
 
     // // Add the starting point...
