@@ -41,33 +41,33 @@ public class Tunnel extends MapObject
       case NORTH:
       {   
         components.add(new Plane(x, y, z, textureName, size));
-        components.add(new RectangularPrism(x + (size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size));
-        components.add(new RectangularPrism(x + -(size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size));
-        components.add(new RectangularPrism(x, y + size - 1.0f, z, textureName, size - 2.0f, 1.0f, size));
-        break;
-      }
-      case EAST:
-      {
-        components.add(new Plane(x, y, z, textureName, size));
         components.add(new RectangularPrism(x, y + (size / 2) + 0.5f, z + (size / 2), textureName, size, size, 1.0f));
         components.add(new RectangularPrism(x, y + (size / 2) + 0.5f, z + -(size / 2), textureName, size, size, 1.0f));
         components.add(new RectangularPrism(x, y + size - 0.5f, z, textureName, size, 1.0f, size - 2.0f));
         break;
       }
-      case SOUTH:
+      case EAST:
       {
         components.add(new Plane(x, y, z, textureName, size));
         components.add(new RectangularPrism(x + (size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size));
         components.add(new RectangularPrism(x + -(size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size));
-        components.add(new RectangularPrism(x, y + size - 1.0f, z, textureName, size - 2.0f, 1.0f, size));
+        components.add(new RectangularPrism(x, y + size - 0.5f, z, textureName, size - 2.0f, 1.0f, size));        
+        break;
+      }
+      case SOUTH:
+      {
+        components.add(new Plane(x, y, z, textureName, size));
+        components.add(new RectangularPrism(x, y + + (size / 2) + 0.5f, z + (size / 2), textureName, size, size, 1.0f));
+        components.add(new RectangularPrism(x, y + + (size / 2) + 0.5f, z + -(size / 2), textureName, size, size, 1.0f));
+        components.add(new RectangularPrism(x, y + size - 0.5f, z, textureName, size, 1.0f, size - 2.0f));
         break;
       }
       case WEST:
       {
         components.add(new Plane(x, y, z, textureName, size));
-        components.add(new RectangularPrism(x, y + + (size / 2) + 0.5f, z + (size / 2), textureName, size, size, 1.0f));
-        components.add(new RectangularPrism(x, y + + (size / 2) + 0.5f, z + -(size / 2), textureName, size, size, 1.0f));
-        components.add(new RectangularPrism(x, y + size - 1.0f, z, textureName, size, 1.0f, size - 2.0f));
+        components.add(new RectangularPrism(x + (size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size));
+        components.add(new RectangularPrism(x + -(size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size));
+        components.add(new RectangularPrism(x, y + size - 0.5f, z, textureName, size - 2.0f, 1.0f, size));        
         break;
       }
       default:
