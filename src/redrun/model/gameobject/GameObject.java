@@ -11,8 +11,8 @@ import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.opengl.Texture;
 
 import redrun.model.physics.PhysicsBody;
-import redrun.model.physics.PhysicsTools;
 import redrun.model.toolkit.Tools;
+
 import static org.lwjgl.opengl.GL11.*;
 
 /**
