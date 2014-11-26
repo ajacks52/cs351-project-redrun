@@ -203,8 +203,7 @@ public class RedRunDAOTest
     // MapObject Tests
     if (redRunDaoTest.seventhTest() == true) System.out.println("Seventh test passed.");
     if (redRunDaoTest.eighthTest() == true) System.out.println("Eighth test passed");
-//    if (redRunDaoTest.ninthTest() == true) System.out.println("Ninth test passed");
+    if (redRunDaoTest.ninthTest() == true) System.out.println("Ninth test passed");
     dao.closeConnection();
   }
-
 }
