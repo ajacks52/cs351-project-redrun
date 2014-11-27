@@ -38,11 +38,11 @@ public class Corner extends MapObject
     switch (orientation)
     {
       case NORTH:
-      {        
+      {                
         components.add(new Plane(x, y, z, textureName, size));
-        components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
-        components.add(new RectangularPrism(x + 0.5f, y + 1.5f, z + ((size - 1.0f) / 2.0f), textureName, size - 1.0f, 3.0f, 1.0f));
-        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z + -(size / 2), textureName, 1.0f, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
+        components.add(new RectangularPrism(x - 0.5f, y + 1.5f, z + -((size - 1.0f) / 2), textureName, size - 1.0f, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z + (size / 2), textureName, 1.0f, 3.0f, 1.0f));
         break;
       }
       case EAST:
@@ -56,9 +56,9 @@ public class Corner extends MapObject
       case SOUTH:
       {
         components.add(new Plane(x, y, z, textureName, size));
-        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
-        components.add(new RectangularPrism(x - 0.5f, y + 1.5f, z + -((size - 1.0f) / 2), textureName, size - 1.0f, 3.0f, 1.0f));
-        components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z + (size / 2), textureName, 1.0f, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
+        components.add(new RectangularPrism(x + 0.5f, y + 1.5f, z + ((size - 1.0f) / 2.0f), textureName, size - 1.0f, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z + -(size / 2), textureName, 1.0f, 3.0f, 1.0f));
         break;
       }
       case WEST:
