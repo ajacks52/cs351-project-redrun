@@ -27,7 +27,7 @@ public class Tools
    * 
    * @param filename the name of the file located in the res (resources)
    *          directory
-   * @return the loaded tecture
+   * @return the loaded texture
    */
   public static Texture loadTexture(String filename, String filetype)
   {
@@ -45,7 +45,7 @@ public class Tools
   }
 
   /**
-   * Get the accurate system time for LWJGL
+   * Get the accurate system time for LWJGL.
    * 
    * @return The system time in milliseconds
    */

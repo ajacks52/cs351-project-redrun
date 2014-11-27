@@ -38,15 +38,24 @@ public class Pit extends MapObject
     {
       case NORTH:
       {        
-        components.add(new RectangularPrism(x + (size / 2), y - ((size + 3.0f) / 2) + 3.0f, z, textureName, 1.0f, size + 3.0f, size));
-        components.add(new RectangularPrism(x + -(size / 2), y - ((size + 3.0f) / 2) + 3.0f, z, textureName, 1.0f, size + 3.0f, size));
-        components.add(new RectangularPrism(x, y - (size / 2), z + (size / 2), textureName, size - 2.0f, size - 1.0f, 1.0f));
-        components.add(new RectangularPrism(x, y - (size / 2), z + -(size / 2), textureName, size - 2.0f, size - 1.0f, 1.0f));
-        components.add(new RectangularPrism(x, y - size + 0.5f, z, textureName, size - 2.0f, 1.0f, size));
+        components.add(new RectangularPrism(x, y - ((size + 3.0f) / 2) + 3.0f, z + (size / 2), textureName, size, size + 3.0f, 1.0f));
+        components.add(new RectangularPrism(x, y - ((size + 3.0f) / 2) + 3.0f, z + -(size / 2), textureName, size, size + 3.0f, 1.0f));
+        components.add(new RectangularPrism(x + (size / 2), y - (size / 2), z, textureName, 1.0f, size - 1.0f, size - 2.0f));
+        components.add(new RectangularPrism(x + -(size / 2), y - (size / 2), z, textureName, 1.0f, size - 1.0f, size - 2.0f));
+        components.add(new RectangularPrism(x, y - size + 0.5f, z, textureName, size, 1.0f, size - 2.0f));
         break;
       }
       case EAST:
       {
+        components.add(new RectangularPrism(x + (size / 2), y - ((size + 3.0f) / 2) + 3.0f, z, textureName, 1.0f, size + 3.0f, size));
+        components.add(new RectangularPrism(x + -(size / 2), y - ((size + 3.0f) / 2) + 3.0f, z, textureName, 1.0f, size + 3.0f, size));
+        components.add(new RectangularPrism(x, y - (size / 2), z + (size / 2), textureName, size - 2.0f, size - 1.0f, 1.0f));
+        components.add(new RectangularPrism(x, y - (size / 2), z + -(size / 2), textureName, size - 2.0f, size - 1.0f, 1.0f));
+        components.add(new RectangularPrism(x, y - size + 0.5f, z, textureName, size - 2.0f, 1.0f, size));        
+        break;
+      }
+      case SOUTH:
+      {
         components.add(new RectangularPrism(x, y - ((size + 3.0f) / 2) + 3.0f, z + (size / 2), textureName, size, size + 3.0f, 1.0f));
         components.add(new RectangularPrism(x, y - ((size + 3.0f) / 2) + 3.0f, z + -(size / 2), textureName, size, size + 3.0f, 1.0f));
         components.add(new RectangularPrism(x + (size / 2), y - (size / 2), z, textureName, 1.0f, size - 1.0f, size - 2.0f));
@@ -54,22 +63,13 @@ public class Pit extends MapObject
         components.add(new RectangularPrism(x, y - size + 0.5f, z, textureName, size, 1.0f, size - 2.0f));
         break;
       }
-      case SOUTH:
+      case WEST:
       {
         components.add(new RectangularPrism(x + (size / 2), y - ((size + 3.0f) / 2) + 3.0f, z, textureName, 1.0f, size + 3.0f, size));
         components.add(new RectangularPrism(x + -(size / 2), y - ((size + 3.0f) / 2) + 3.0f, z, textureName, 1.0f, size + 3.0f, size));
         components.add(new RectangularPrism(x, y - (size / 2), z + (size / 2), textureName, size - 2.0f, size - 1.0f, 1.0f));
         components.add(new RectangularPrism(x, y - (size / 2), z + -(size / 2), textureName, size - 2.0f, size - 1.0f, 1.0f));
         components.add(new RectangularPrism(x, y - size + 0.5f, z, textureName, size - 2.0f, 1.0f, size));
-        break;
-      }
-      case WEST:
-      {
-        components.add(new RectangularPrism(x, y - ((size + 3.0f) / 2) + 3.0f, z + (size / 2), textureName, size, size + 3.0f, 1.0f));
-        components.add(new RectangularPrism(x, y - ((size + 3.0f) / 2) + 3.0f, z + -(size / 2), textureName, size, size + 3.0f, 1.0f));
-        components.add(new RectangularPrism(x + (size / 2), y - (size / 2), z, textureName, 1.0f, size - 1.0f, size - 2.0f));
-        components.add(new RectangularPrism(x + -(size / 2), y - (size / 2), z, textureName, 1.0f, size - 1.0f, size - 2.0f));
-        components.add(new RectangularPrism(x, y - size + 0.5f, z, textureName, size, 1.0f, size - 2.0f));
         break;
       }
       default:
