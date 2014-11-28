@@ -21,7 +21,7 @@ public class MapTest
    */
   private boolean test()
   {
-    Map map = new Map(1, "Ice World");
+    Map map = new Map(1, "Ice World", "Some Skybox", "Some Floor");
     assert (map.toString() != null) : "Did not genereate Map properly, fail sauce";
     assert (map.toString().contains("Ice World")) : "Map name not generated properly.";
     if (DEBUG) System.out.println(map.toString());
