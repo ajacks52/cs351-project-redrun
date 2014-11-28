@@ -1,3 +1,4 @@
+
 Start, (0.0f, 0.0f, 0.0f), brickwall5, Direction.WEST, 1
 Corridor, (0.0f, 0.0f, 15.0f), brickwall5, Direction.EAST, 1
 Corridor, (0.0f, 0.0f, 30.0f), brickwall5, Direction.EAST, 1
