@@ -8,7 +8,6 @@ import org.lwjgl.util.vector.Vector3f;
 import redrun.graphics.camera.Camera;
 import redrun.model.constants.Team;
 import redrun.model.gameobject.GameObject;
-import redrun.model.interactable.Interactable;
 import redrun.model.physics.BoxPhysicsBody;
 
 /**
@@ -18,7 +17,7 @@ import redrun.model.physics.BoxPhysicsBody;
  * @version 1.0
  * @since 2014-11-07
  */
-public class Player extends GameObject implements Interactable
+public class Player extends GameObject
 {
   /** This player's camera. */
   private Camera camera;

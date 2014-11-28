@@ -34,7 +34,6 @@ import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
 import redrun.model.toolkit.Timing;
-import redrun.model.toolkit.Tools;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
