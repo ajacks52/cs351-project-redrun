@@ -6,7 +6,11 @@ class CreateMaps < ActiveRecord::Migration
   def change
     create_table :maps do |t|
       t.column :map_name, :string, null: false, unique: true
+      t.column :sky_box, :string, null: false, unique: true
+      t.column :floor, :string, null: false, unique: true
     end
     add_index :maps, [:map_name], :name => "index_maps_on_map_name"
+    add_index :maps, [:sky_box], :name => "index_maps_on_sky_box"
+    add_index :maps, [:floor], :name => "index_maps_on_floor"
   end
 end
