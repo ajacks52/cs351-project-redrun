@@ -200,7 +200,7 @@ public class GraphicsTestTroy
 //    worldMap.add(new Field(100.0f, 0.0f, 180.0f, "wood", Direction.SOUTH, null));
 //    worldMap.add(new Field(150.0f, 0.0f, 180.0f, "wood", Direction.WEST, null));
     
-
+    GameObject.printAll();
     
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
@@ -245,7 +245,11 @@ public class GraphicsTestTroy
       {
         Picker.startPicking();
         {
-        
+          // Draw the game objects...
+          for (GameObject gameObject : gameObjects)
+          {
+          	gameObject.draw();
+          }
         }
         Picker.stopPicking();
       }

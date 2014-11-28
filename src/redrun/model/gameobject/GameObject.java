@@ -153,6 +153,14 @@ public abstract class GameObject
   {
     return gameObjects.get(id);
   }
+  
+  public static void printAll()
+  {
+  	for (GameObject gameObject : GameObject.gameObjects.values())
+  	{
+  		System.out.println(gameObject);
+  	}
+  }
 
   /**
    * Gets the X position of the game object.
