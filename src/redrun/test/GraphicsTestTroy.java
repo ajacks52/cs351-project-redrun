@@ -39,6 +39,7 @@ import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
 import redrun.model.toolkit.Tools;
+import redrun.network.Client;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -52,9 +53,15 @@ public class GraphicsTestTroy
 {
   // TODO Move this shit.
   private static long lastFrame;
+  
+  /** Used to interface with the network client. */
+  private static Client client = null;
 
   /** The camera associated with the client. */
   private static Camera camera = null;
+  
+  /** The map objects that make up the level. */
+  private static LinkedList<MapObject> mapObjects = new LinkedList<MapObject>();
 
   /**
    * Performs OpenGL initialization.
@@ -83,7 +90,11 @@ public class GraphicsTestTroy
     glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
 
+    // Load the fonts...
     FontTools.loadFonts();
+    
+    // Connect to the server...
+    client = new Client("127.0.0.1", 7777, mapObjects);
   }
 
   public static MapObject createMapObjectFromDB(String mapDBForm)
