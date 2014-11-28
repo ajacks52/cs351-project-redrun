@@ -4,6 +4,12 @@ import static org.lwjgl.opengl.GL11.*;
 
 import java.awt.Dimension;
 
+import javax.vecmath.Quat4f;
+
+import org.lwjgl.util.vector.Vector3f;
+
+import redrun.model.physics.BoxPhysicsBody;
+
 /**
  * This class represents a checker-board that can be drawn in an OpenGL scene.
  * 
@@ -25,6 +31,8 @@ public class CheckerBoard extends WorldObject
   public CheckerBoard(float x, float y, float z, String textureName, Dimension dimensions)
   {
     super(x, y, z, textureName);
+    
+    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(dimensions.width / 2, 0, dimensions.height / 2), new Quat4f(), 0);
 
     this.dimensions = dimensions;
 

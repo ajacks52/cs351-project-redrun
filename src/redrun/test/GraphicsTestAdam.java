@@ -3,18 +3,15 @@ package redrun.test;
 import java.awt.Dimension;
 import java.util.Random;
 
-import org.lwjgl.LWJGLException;
-import org.lwjgl.Sys;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.*;
+import org.lwjgl.input.*;
+import org.lwjgl.opengl.*;
 import org.lwjgl.util.Timer;
 import org.newdawn.slick.Color;
 
 import redrun.graphics.camera.Camera;
 import redrun.model.gameobject.trap.*;
-import redrun.model.gameobject.world.CheckerBoard;
+import redrun.model.gameobject.world.*;
 import redrun.model.toolkit.*;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -43,11 +40,11 @@ public class GraphicsTestAdam
   private long lastFPS;
 
   // the traps in display
-  private Spikes spikes;
+  private SpikeTrapDoor spikes;
   private TrapDoor trapDoor;
-  private Hammer hammer;
+  private DeathPillar deathPillar;
   private SpikeField spikeField;
-  private SpikeTrench spikeTrench;
+  
   // the walls
   private CheckerBoard board;
   private CheckerBoard wallT;
@@ -55,29 +52,30 @@ public class GraphicsTestAdam
 
   // Used for controlling the camera with the keyboard and mouse...
   private float dx, dy, dt;
+  @SuppressWarnings("unused")
   private float previousTime, currentTime;
   // Set the mouse sensitivity...
   private float mouseSensitivity = 0.05f;
-  private float movementSpeed = 10.0f;
+  private float movementSpeed = 0.005f;
 
   private GraphicsTestAdam()
   {
     this.initDisplay();
     // load font takes a about 2 seconds
-    redrun.model.toolkit.FontTools.loadFonts(15);
+    redrun.model.toolkit.FontTools.loadFonts();
 
     cam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, -10f, -3f, -10f);
 
-    spikes = new Spikes(1, 1, 1, "wood");
-    trapDoor = new TrapDoor(1, 1, 1, "wood");
-    hammer = new Hammer(50, 0, 50, null);
-    spikeField = new SpikeField(0, 0, 0, "s11", new Dimension(10, 15));
-    spikeTrench = new SpikeTrench(0, 0, 0, "s11", new Dimension(10, 5));
+    spikes = new SpikeTrapDoor(10, 0, 30, "wood");
+    trapDoor = new TrapDoor(30, -2, 10, "wood");
+    deathPillar = new DeathPillar(50, 0, 50, null);
+    spikeField = new SpikeField(30, 0, 20, "s11", new Dimension(10, 15));
 
+
+    
     board = new CheckerBoard(0, 0, 0, "x17", new Dimension(50, 50));
     wallT = new CheckerBoard(0, 10, 0, "x11", new Dimension(50, 50));
     wallR = new CheckerBoard(0, 0, 0, "24", new Dimension(50, 11));
-
 
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
@@ -106,11 +104,12 @@ public class GraphicsTestAdam
       cam.lookThrough();
 
       // draw the trap objects
-      hammer.render();
-      spikes.render(10, 0, 10);
-      trapDoor.render(30, 0, 10);
-      spikeField.render(30, 0, 20);
-      spikeTrench.render(0, 0, 20);
+      deathPillar.draw();
+      spikes.draw();
+      trapDoor.draw();
+      spikeField.draw();
+
+
 
       // if (Picker.mode == 2) Picker.stopPicking();
 
@@ -139,7 +138,7 @@ public class GraphicsTestAdam
   private void keyBoard()
   {
     currentTime = Sys.getTime();
-    dt = (currentTime - previousTime) / 1000.0f;
+    dt = getDelta();
     previousTime = currentTime;
 
     dx = Mouse.getDX();
@@ -216,7 +215,6 @@ public class GraphicsTestAdam
    */
   private void exit()
   {
-    FontTools.cleanUpFonts();
     Display.destroy();
   }
 

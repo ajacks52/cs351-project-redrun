@@ -13,7 +13,7 @@ describe Trap do
   # Create test case -- runs before all it statements
   before(:all) do
     @attr = {trap_type: 'spikey',
-        kiosk_id: 1}
+        kiosk_id: 1, map_id: 1}
     Trap.create(@attr)
     p Trap.all
   end

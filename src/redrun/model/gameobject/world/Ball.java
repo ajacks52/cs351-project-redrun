@@ -5,28 +5,27 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.util.glu.Sphere;
 import org.lwjgl.util.vector.Vector3f;
 
-public class Ball extends WorldObject
-{
+import redrun.model.physics.SpherePhysicsBody;
 
-  public Ball(float x, float y, float z, String textureName, float radius, Vector3f color)
+public class Ball extends WorldObject
+{  
+  private Sphere sphere;
+
+  public Ball(float x, float y, float z, String textureName, float radius)
   {
     super(x, y, z, textureName);
-
-    displayListId = glGenLists(1);
     
+    this.sphere = new Sphere();
+    
+    this.body = new SpherePhysicsBody(new Vector3f(x, y, z), radius, 1.0f);
+    
+    displayListId = glGenLists(1);
+
     glNewList(displayListId, GL_COMPILE);
     {
       glBegin(GL_SPHERE_MAP);
       {
-        if (color != null)
-        {
-          glEnable(GL_COLOR_MATERIAL);
-          glColor3f(color.x, color.y, color.z);
-          new Sphere().draw(radius, 40, 40);
-          glColor3f(1.0f, 1.0f, 1.0f);
-          glDisable(GL_COLOR_MATERIAL);
-        }
-        else new Sphere().draw(radius, 40, 40);
+        sphere.draw(radius, 40, 40);
       }
       glEnd();
     }
@@ -53,5 +52,4 @@ public class Ball extends WorldObject
     // TODO Auto-generated method stub
 
   }
-
 }

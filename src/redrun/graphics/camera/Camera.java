@@ -14,30 +14,31 @@ import static org.lwjgl.util.glu.GLU.*;
  * @since 2014-11-03
  */
 public class Camera
-{ 
+{
   /** The position of the camera in 3D space. */
   private Vector3f position = null;
 
   /** The rotation of the camera around the Y axis. */
-  private float yaw = 0.0f;
+  private float yaw = 90.0f;
 
   /** The rotation of the camera around the X axis. */
   private float pitch = 0.0f;
-  
+
   /** The field of view. */
   private float fov = 0;
-  
+
   /** The aspect ratio. */
   private float aspectRatio = 0;
-  
+
   /** The near clipping plane. */
   private float nearClippingPlane = 0;
-  
+
   /** The far clipping plane. */
   private float farClippingPlane = 0;
 
   /**
-   * Creates a new camera with an initial field of view, aspect ratio, near clipping plane, far clipping place, and position in 3D space.
+   * Creates a new camera with an initial field of view, aspect ratio, near
+   * clipping plane, far clipping place, and position in 3D space.
    * 
    * @param fov the field of view
    * @param aspectRatio the aspect ratio
@@ -50,19 +51,17 @@ public class Camera
   public Camera(float fov, float aspectRatio, float nearClippingPlane, float farClippingPlane, float x, float y, float z)
   {
     position = new Vector3f(x, y, z);
-    
+
     this.fov = fov;
     this.aspectRatio = aspectRatio;
     this.nearClippingPlane = nearClippingPlane;
     this.farClippingPlane = farClippingPlane;
-    
+
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(fov, aspectRatio, nearClippingPlane, farClippingPlane);
     glMatrixMode(GL_MODELVIEW);
   }
-  
-
 
   // Rotation methods...
   /**
@@ -87,14 +86,32 @@ public class Camera
 
   // Movement methods...
   /**
+   * Updates the camera's position to fit the given parameters. In this project,
+   * this will primarily be used for having the camera follow player movement.
+   * 
+   * @param x the x position
+   * @param y the y position
+   * @param z the z position
+   */
+  public void updatePosition(float x, float y, float z, float pitch, float yaw)
+  {
+    position.x = x;
+    position.y = y;
+    position.z = z;
+    
+//    this.yaw = yaw;
+//    this.pitch = pitch;
+  }
+
+  /**
    * Moves the camera forward relative to its current yaw.
    * 
    * @param distance the distance to move
    */
   public void moveForward(float distance)
   {
-    position.x -= distance * (float) Math.sin(Math.toRadians(yaw));
-    position.z += distance * (float) Math.cos(Math.toRadians(yaw));
+    position.x += distance * (float) Math.sin(Math.toRadians(yaw));
+    position.z -= distance * (float) Math.cos(Math.toRadians(yaw));
   }
 
   /**
@@ -104,8 +121,8 @@ public class Camera
    */
   public void moveBackward(float distance)
   {
-    position.x += distance * (float) Math.sin(Math.toRadians(yaw));
-    position.z -= distance * (float) Math.cos(Math.toRadians(yaw));
+    position.x -= distance * (float) Math.sin(Math.toRadians(yaw));
+    position.z += distance * (float) Math.cos(Math.toRadians(yaw));
   }
 
   /**
@@ -115,8 +132,8 @@ public class Camera
    */
   public void moveLeft(float distance)
   {
-    position.x -= distance * (float) Math.sin(Math.toRadians(yaw - 90));
-    position.z += distance * (float) Math.cos(Math.toRadians(yaw - 90));
+    position.x += distance * (float) Math.sin(Math.toRadians(yaw - 90));
+    position.z -= distance * (float) Math.cos(Math.toRadians(yaw - 90));
   }
 
   /**
@@ -126,10 +143,10 @@ public class Camera
    */
   public void moveRight(float distance)
   {
-    position.x -= distance * (float) Math.sin(Math.toRadians(yaw + 90));
-    position.z += distance * (float) Math.cos(Math.toRadians(yaw + 90));
+    position.x += distance * (float) Math.sin(Math.toRadians(yaw + 90));
+    position.z -= distance * (float) Math.cos(Math.toRadians(yaw + 90));
   }
-  
+
   /**
    * Moves the camera up.
    * 
@@ -137,9 +154,9 @@ public class Camera
    */
   public void moveUp(float distance)
   {
-    position.y -= distance;
+    position.y += distance;
   }
-  
+
   /**
    * Moves the camera down.
    * 
@@ -147,13 +164,11 @@ public class Camera
    */
   public void moveDown(float distance)
   {
-    position.y += distance;
-    
-    if (position.y > 0) position.y = 0;
+    position.y -= distance;
+
+    if (position.y < 0) position.y = 0;
   }
-  
-  
-  
+
   // Getter methods...
   /**
    * Gets the X position of the camera.
@@ -164,7 +179,7 @@ public class Camera
   {
     return position.x;
   }
-  
+
   /**
    * Gets the Y position of the camera.
    * 
@@ -174,7 +189,7 @@ public class Camera
   {
     return position.y;
   }
-  
+
   /**
    * Gets the Z position of the camera.
    * 
@@ -184,7 +199,7 @@ public class Camera
   {
     return position.z;
   }
-  
+
   /**
    * Gets the yaw of the camera.
    * 
@@ -194,7 +209,7 @@ public class Camera
   {
     return yaw;
   }
-  
+
   /**
    * Gets the pitch of the camera.
    * 
@@ -204,7 +219,7 @@ public class Camera
   {
     return pitch;
   }
-  
+
   /**
    * Gets the field of view of the camera.
    * 
@@ -214,7 +229,7 @@ public class Camera
   {
     return fov;
   }
-  
+
   /**
    * Gets the aspect ratio of the camera.
    * 
@@ -224,7 +239,7 @@ public class Camera
   {
     return aspectRatio;
   }
-  
+
   /**
    * Gets the near clipping plane of the camera.
    * 
@@ -234,7 +249,7 @@ public class Camera
   {
     return nearClippingPlane;
   }
-  
+
   /**
    * Gets the far clipping plane of the camera.
    * 
@@ -244,17 +259,15 @@ public class Camera
   {
     return farClippingPlane;
   }
-  
-  
-  
+
   /**
-   * Adjusts the camera to view the next frame properly. Should be called before the scene
-   * is drawn.
+   * Adjusts the camera to view the next frame properly. Should be called before
+   * the scene is drawn.
    */
   public void lookThrough()
   {
-      GL11.glRotatef(pitch, 1.0f, 0.0f, 0.0f);
-      GL11.glRotatef(yaw, 0.0f, 1.0f, 0.0f);
-      GL11.glTranslatef(position.x, position.y, position.z);
+    GL11.glRotatef(pitch, 1.0f, 0.0f, 0.0f);
+    GL11.glRotatef(yaw, 0.0f, 1.0f, 0.0f);
+    GL11.glTranslatef(-position.x, -position.y, -position.z);
   }
 }

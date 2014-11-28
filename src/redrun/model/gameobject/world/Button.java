@@ -2,6 +2,8 @@ package redrun.model.gameobject.world;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import org.lwjgl.util.glu.GLU;
+import org.lwjgl.util.glu.Sphere;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -13,15 +15,22 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class Button extends WorldObject
 {
-  private Vector3f defaultButtonPosition;
-  private Ball button;
+  Sphere sphere = new Sphere();
+  private Vector3f defaultButtonPosition; // See todo below.
+  private Vector3f currentButtonPosition; // See todo below.
+  Vector3f color;
 
-  public Button(float x, float y, float z, String textureName)
+  public Button(float x, float y, float z, String textureName, Vector3f color)
   {
     super(x, y, z, textureName);
-    defaultButtonPosition = new Vector3f(x, y + 0.8f, z);
 
-    button = new Ball(x, y + 0.8f, z, 0.5f, new Vector3f(1.0f, 0.0f, 0.0f));
+    defaultButtonPosition = new Vector3f(x, y, z); // See todo below.
+    currentButtonPosition = defaultButtonPosition;
+    this.color = color;
+
+    sphere.setDrawStyle(GLU.GLU_FILL);
+    if (textureName != null) sphere.setTextureFlag(true);
+    sphere.setNormals(GLU.GLU_SMOOTH);
   }
 
   @Override
@@ -34,10 +43,13 @@ public class Button extends WorldObject
   @Override
   public void update()
   {
-    if (this.timer.getTime() >= 0.1f) reset();
+    if (this.timer.getTime() >= 0.8f) reset();
 
-    if (timer.isPaused() && button.getY() < defaultButtonPosition.y) button.setY(button.getY() + 0.02f);
-    else if (!timer.isPaused()) button.setY(button.getY() - 0.02f);
+    // TODO: For animation, under construction.
+    // if (timer.isPaused() && this.getY() < defaultButtonPosition.y)
+    // this.currentButtonPosition.y = this.getY() + 0.02f;
+    // else if (!timer.isPaused()) this.currentButtonPosition.y = this.getY() -
+    // 0.02f;
 
     displayListId = glGenLists(1);
 
@@ -45,8 +57,18 @@ public class Button extends WorldObject
     {
       glPushMatrix();
       {
-        glTranslatef(button.getX(), button.getY(), button.getZ());
-        button.draw();
+        glBegin(GL_SPHERE_MAP);
+        {
+          // glTranslatef(0, defaultButtonPosition.y - currentButtonPosition.y,
+          // 0); // See todo above
+          if (color != null)
+          {
+            glColor3f(color.x, color.y, color.z);
+            sphere.draw(0.5f, 40, 40);
+          }
+          else sphere.draw(0.5f, 40, 40);
+        }
+        glEnd();
       }
       glPopMatrix();
     }

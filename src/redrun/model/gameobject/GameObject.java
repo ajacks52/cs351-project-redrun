@@ -12,17 +12,12 @@ import org.newdawn.slick.opengl.Texture;
 
 import redrun.model.physics.PhysicsBody;
 import redrun.model.toolkit.Tools;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glCallList;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glTranslatef;
+
+import static org.lwjgl.opengl.GL11.*;
 
 /**
- * This abstract class represents a game object. Every object in the 3D scene will extend
- * this class.
+ * This abstract class represents a game object. Every object in the 3D scene
+ * will extend this class.
  * 
  * @author Troy Squillaci, Jake Nichol
  * @version 1.0
@@ -33,45 +28,52 @@ public abstract class GameObject
   // Identification related fields...
   /** The ID of the game object. */
   public final int id;
-  
+
+  /** The ID counter. */
+  private static int counter = 0;
+
   /** All game objects in existence. */
   private static HashMap<Integer, GameObject> gameObjects = new HashMap<Integer, GameObject>();
-  
+
   // OpenGL related fields...
   /** A timer associated with this game object. */
   protected Timer timer = null;
-  
+
   /** A texture associated with this game object. */
   protected Texture texture = null;
-  
-  /** The display list for the game object.  */
+
+  /** The display list for the game object. */
   protected int displayListId = -1;
-  
+
   // Physics related fields...
-  /** The variable that holds all of the information needed for the physics calculations. */
+  /**
+   * The variable that holds all of the information needed for the physics
+   * calculations.
+   */
   protected PhysicsBody body = null;
-  
+
   /**
    * Creates a new game object at the specified position.
    * 
    * @param x the x position of the game object
    * @param y the y position of the game object
    * @param z the z position of the game object
+   * @param textureName the name of the texture to apply to the game object
    */
   public GameObject(float x, float y, float z, String textureName)
   {
     body = new PhysicsBody(0, new Quat4f(0, 0, 0, 1), new Vector3f(x, y, z), null);
-    
+
     if (textureName != null)
     {
       texture = Tools.loadTexture(textureName, "png");
     }
-    
+
     timer = new Timer();
     timer.pause();
-    
-    id = System.identityHashCode(this);
-    
+
+    id = counter++;
+
     if (gameObjects.containsKey(id))
     {
       try
@@ -83,12 +85,10 @@ public abstract class GameObject
         Logger.getLogger(GameObject.class.getName()).log(Level.SEVERE, null, ex);
       }
     }
-    
+
     gameObjects.put(id, this);
   }
-  
-  
-  
+
   // OpenGL related methods...
   /**
    * Draws the game object to the OpenGL scene.
@@ -100,7 +100,10 @@ public abstract class GameObject
       glPushMatrix();
       {
         glEnable(GL_TEXTURE_2D);
-        texture.bind();  
+        texture.bind();
+        glRotatef(body.getYaw(), 1, 0, 0);
+        glRotatef(body.getPitch(), 0, 1, 0);
+        glRotatef(body.getRoll(), 0, 0, 1);
         glTranslatef(body.getX(), body.getY(), body.getZ());
         glCallList(displayListId);
         glDisable(GL_TEXTURE_2D);
@@ -111,36 +114,37 @@ public abstract class GameObject
     {
       glPushMatrix();
       {
+        glRotatef(body.getYaw(), 1, 0, 0);
+        glRotatef(body.getPitch(), 0, 1, 0);
+        glRotatef(body.getRoll(), 0, 0, 1);
         glTranslatef(body.getX(), body.getY(), body.getZ());
         glCallList(displayListId);
       }
       glPopMatrix();
     }
-    
+
     update();
   }
-  
+
   /**
    * Interacts with the game object.
    */
   public abstract void interact();
-  
+
   /**
    * Updates the game object to reflect the state of the timer.
    */
   public abstract void update();
-  
+
   /**
    * Reset the game object.
    */
   public abstract void reset();
-  
-  
-  
+
   // Getter methods...
   /**
-   * Gets an active game object with the specified ID. Returns null if no such game
-   * object is associated with the specified ID.
+   * Gets an active game object with the specified ID. Returns null if no such
+   * game object is associated with the specified ID.
    * 
    * @param id the ID of the game object
    * @return the game object with the specified ID
@@ -149,7 +153,7 @@ public abstract class GameObject
   {
     return gameObjects.get(id);
   }
-  
+
   /**
    * Gets the X position of the game object.
    * 
@@ -159,7 +163,7 @@ public abstract class GameObject
   {
     return body.getX();
   }
-  
+
   /**
    * Gets the Y position of the game object.
    * 
@@ -169,7 +173,7 @@ public abstract class GameObject
   {
     return body.getY();
   }
-  
+
   /**
    * Gets the Z position of the game object.
    * 
@@ -179,7 +183,7 @@ public abstract class GameObject
   {
     return body.getZ();
   }
-  
+
   /**
    * Gets the physics rigid body.
    * 
@@ -189,34 +193,28 @@ public abstract class GameObject
   {
     return body;
   }
-  
-  
-  
+
   // Overridden methods from Object...
   @Override
-  public boolean equals(Object obj) 
+  public boolean equals(Object obj)
   {
     GameObject other = (GameObject) obj;
-     
+
     return id == other.id;
   }
 
   @Override
-  public int hashCode() 
+  public int hashCode()
   {
     return id;
   }
-  
+
   @Override
   public String toString()
   {
-    //@formatter:off
-    return 
-      "=== Game Object ===\n" +
-      "ID: " + id + "\n" +
-      "Position: (" + body.getX() + ", " + body.getY() + ", " + body.getZ() + ")\n" +
-      "Physics: " + body.toString() + "\n" +
-      "===================\n";
-    //@formatter:on
+    // @formatter:off
+    return "=== Game Object ===\n" + "ID: " + id + "\n" + "Position: (" + body.getX() + ", " + body.getY() + ", "
+        + body.getZ() + ")\n" + "Physics: " + body.toString() + "\n" + "===================\n";
+    // @formatter:on
   }
 }

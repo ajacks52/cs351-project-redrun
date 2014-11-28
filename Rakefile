@@ -1,7 +1,6 @@
 #!usr/bin/env ruby
 require 'active_record'
 require 'yaml'
-require 'ruby-debug'
 require 'logger'
 
 # Rakefile to create and drop tables from the database with ease
@@ -23,7 +22,7 @@ namespace :db do
 
   task :configure_connection => :configuration do
     ActiveRecord::Base.establish_connection @config
-    ActiveRecord::Base.logger = Logger.new(File.open('logs/database.log', 'a'))
+    ActiveRecord::Base.logger = Logger.new(File.open('src/redrun/database/logs/database.log', 'a'))
   end
 
   desc 'Migrate the database (options: VERSION=x, VERBOSE=false).'

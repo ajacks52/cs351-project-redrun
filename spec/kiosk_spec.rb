@@ -15,7 +15,7 @@ describe Kiosk do
   # Create test case -- runs before all it statements
   before(:all) do
     @attr = {location: '12,50,77',
-        cooldown: '280.39'}
+        cooldown: '280.39', map_id: 1}
     Kiosk.create(@attr)
     p Kiosk.all
   end
