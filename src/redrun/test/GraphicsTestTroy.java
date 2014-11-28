@@ -84,7 +84,7 @@ public class GraphicsTestTroy
   private static void gameLoop()
   {    
     // Create the skybox...
-    SkyBox skybox = new SkyBox(0, 0, 0, "blood_sport", camera);
+    SkyBox skybox = new SkyBox(0, 0, 0, "iceflats", camera);
     
     // Create the ground...
     Plane plane = new Plane(0, -1.0f, 0, "flopyflopy2", Direction.EAST, 1000);
