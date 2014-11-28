@@ -149,7 +149,10 @@ public class GraphicsTestTroy
 
     
     // Add cubes at staircase...
-    gameObjects.add(new Cube(15.0f, 50.0f, 60.0f, "wood"));
+    for (int i = 0; i < 50; i++)
+    {
+      gameObjects.add(new Cube(15.0f, 50.0f + (2 * i), 60.0f, "wood"));
+    }
     
     // Add balls at staircase...
 //    for (int i = 0; i < 10; i++)
