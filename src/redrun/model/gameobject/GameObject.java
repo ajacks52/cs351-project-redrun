@@ -1,6 +1,5 @@
 package redrun.model.gameobject;
 
-import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -17,10 +17,7 @@ import static org.lwjgl.opengl.GL11.*;
  * @since 2014-11-12
  */
 public class SkyBox extends WorldObject
-{  
-  /** The camera associated with this skybox. */
-  private Camera camera = null;
-  
+{    
   /** The list of textures. */
   private ArrayList<Texture> textures = new ArrayList<Texture>();;
 
@@ -33,7 +30,7 @@ public class SkyBox extends WorldObject
    * @param z the z position of the skybox
    * @param skybox the name of the directory containing the skybox textures
    */
-  public SkyBox(float x, float y, float z, String skybox, Camera camera)
+  public SkyBox(float x, float y, float z, String skybox)
   {
     super(x, y, z, null);
     

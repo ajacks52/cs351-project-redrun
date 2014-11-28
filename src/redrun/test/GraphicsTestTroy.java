@@ -84,10 +84,10 @@ public class GraphicsTestTroy
   private static void gameLoop()
   {    
     // Create the skybox...
-    SkyBox skybox = new SkyBox(0, 0, 0, "iceflats", camera);
+    SkyBox skybox = new SkyBox(0, 0, 0, "iceflats");
     
     // Create the ground...
-    Plane plane = new Plane(0, -1.0f, 0, "flopyflopy2", Direction.EAST, 1000);
+    Plane plane = new Plane(0, -1.0f, 0, "snow", Direction.EAST, 1000);
     
     // Create the map...
     LinkedList<MapObject> worldMap = new LinkedList<MapObject>();
