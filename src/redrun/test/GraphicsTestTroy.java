@@ -16,6 +16,7 @@ import org.newdawn.slick.Color;
 import redrun.graphics.camera.Camera;
 import redrun.graphics.selection.Picker;
 import redrun.model.constants.Direction;
+import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.map.Corner;
 import redrun.model.gameobject.map.Corridor;
@@ -26,13 +27,14 @@ import redrun.model.gameobject.map.Platform;
 import redrun.model.gameobject.map.Staircase;
 import redrun.model.gameobject.map.Start;
 import redrun.model.gameobject.map.Tunnel;
+import redrun.model.gameobject.world.Cube;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
+import redrun.model.toolkit.Timing;
 import redrun.model.toolkit.Tools;
-
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -44,9 +46,6 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class GraphicsTestTroy
 {
-  //TODO Move this shit.
-  private static long lastFrame;
-  
   /** The camera associated with the client. */
   private static Camera camera = null;
 
@@ -89,99 +88,118 @@ public class GraphicsTestTroy
     SkyBox skybox = new SkyBox(0, 0, 0, "blood_sport", camera);
     
     // Create the ground...
-    Plane plane = new Plane(0, 0, 0, "direction", Direction.EAST, 20);
+    Plane plane = new Plane(0, -1.0f, 0, "flopyflopy2", Direction.EAST, 1000);
     
     // Create the map...
     LinkedList<MapObject> worldMap = new LinkedList<MapObject>();
     
-////    // Add the starting point...
-////    worldMap.add(new Start(0.0f, 0.0f, 0.0f, "brickwall5", Direction.NORTH, null));
-////    
-////    // Add a walkway...
-////    worldMap.add(new Corridor(0.0f, 0.0f, 15.0f, "brickwall5", Direction.NORTH, null));
-////    worldMap.add(new Corridor(0.0f, 0.0f, 30.0f, "brickwall5", Direction.NORTH, null));
-////    worldMap.add(new Corridor(0.0f, 0.0f, 45.0f, "brickwall5", Direction.NORTH, null));
-////    
-////    // Add a corner...
-////    worldMap.add(new Corner(0.0f, 0.0f, 60.0f, "brickwall5", Direction.NORTH, null));
-////    
-////    // Add a staircase...
-////    worldMap.add(new Staircase(15.0f, 0.0f, 60.0f, "brickwall5", Direction.NORTH, null));
-////    
-////    // Add a walkway...
-////    worldMap.add(new Corridor(30.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-////    worldMap.add(new Corridor(45.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-////    
-////    // Add a field...
-////    worldMap.add(new Field(75.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-////    
-////    // Add a walkway...
-////    worldMap.add(new Corridor(105.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-////    worldMap.add(new Corridor(120.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-////    
-////    // Add a tunnel...
-////    worldMap.add(new Tunnel(135.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-////    worldMap.add(new Tunnel(150.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-////    
-////    // Add a walkway...
-////    worldMap.add(new Corridor(165.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-////    
-////    // Add a pit...
-////    worldMap.add(new Pit(180.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-////    
-////    // Add a walkway...
-////    worldMap.add(new Corridor(195.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-////    
-////    // Add a platform...
-////    worldMap.add(new Platform(210.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-////    
-////    // Add the ending point...
-////    worldMap.add(new End(225.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-//    
-//    //Cube testCube = new Cube(0.0f, 50.0f, 0f, "wood");
+    // Add the starting point...
+    worldMap.add(new Start(0.0f, 0.0f, 0.0f, "brickwall5", Direction.WEST, null));
     
-    //TODO - Testing for map objects...
-    worldMap.add(new Corridor(0.0f, 0.0f, 0.0f, "wood", Direction.NORTH, null));
-    worldMap.add(new Corridor(20.0f, 0.0f, 0.0f, "wood", Direction.EAST, null));
-    worldMap.add(new Corridor(40.0f, 0.0f, 0.0f, "wood", Direction.SOUTH, null));
-    worldMap.add(new Corridor(60.0f, 0.0f, 0.0f, "wood", Direction.WEST, null));
+    // Add a walkway...
+    worldMap.add(new Corridor(0.0f, 0.0f, 15.0f, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(0.0f, 0.0f, 30.0f, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(0.0f, 0.0f, 45.0f, "brickwall5", Direction.EAST, null));
     
-    worldMap.add(new Corner(0.0f, 0.0f, 20.0f, "wood", Direction.NORTH, null));
-    worldMap.add(new Corner(20.0f, 0.0f, 20.0f, "wood", Direction.EAST, null));
-    worldMap.add(new Corner(40.0f, 0.0f, 20.0f, "wood", Direction.SOUTH, null));
-    worldMap.add(new Corner(60.0f, 0.0f, 20.0f, "wood", Direction.WEST, null));
+    // Add a corner...
+    worldMap.add(new Corner(0.0f, 0.0f, 60.0f, "brickwall5", Direction.SOUTH, null));
+    
+    // Add a staircase...
+    worldMap.add(new Staircase(15.0f, 0.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    
+    // Add a walkway...
+    worldMap.add(new Corridor(30.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corridor(45.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    
+    // Add a field...
+    worldMap.add(new Field(75.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    
+    // Add a walkway...
+    worldMap.add(new Corridor(105.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corridor(120.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    
+    // Add a tunnel...
+    worldMap.add(new Tunnel(135.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Tunnel(150.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    
+    // Add a walkway...
+    worldMap.add(new Corridor(165.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    
+    // Add a pit...
+    worldMap.add(new Pit(180.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    
+    // Add a walkway...
+    worldMap.add(new Corridor(195.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    
+    // Add a platform...
+    worldMap.add(new Platform(210.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    
+    // Add the ending point...
+    worldMap.add(new End(225.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    
+    // Add game objects to test physics...
+    LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
 
-    worldMap.add(new End(0.0f, 0.0f, 40.0f, "wood", Direction.NORTH, null));
-    worldMap.add(new End(20.0f, 0.0f, 40.0f, "wood", Direction.EAST, null));
-    worldMap.add(new End(40.0f, 0.0f, 40.0f, "wood", Direction.SOUTH, null));
-    worldMap.add(new End(60.0f, 0.0f, 40.0f, "wood", Direction.WEST, null));
+    // Add cubes at start...
+    gameObjects.add(new Cube(0.0f, 10.0f, 0.0f, "wood"));
+    gameObjects.add(new Cube(0.0f, 20.0f, 0.0f, "wood"));
+    gameObjects.add(new Cube(1.0f, 30.0f, 0.0f, "wood"));
+    gameObjects.add(new Cube(-0.75f, 40.0f, 0.0f, "wood"));
     
-    worldMap.add(new Start(0.0f, 0.0f, 60.0f, "wood", Direction.NORTH, null));
-    worldMap.add(new Start(20.0f, 0.0f, 60.0f, "wood", Direction.EAST, null));
-    worldMap.add(new Start(40.0f, 0.0f, 60.0f, "wood", Direction.SOUTH, null));
-    worldMap.add(new Start(60.0f, 0.0f, 60.0f, "wood", Direction.WEST, null));
+    gameObjects.add(new Cube(7.75f, 50.0f, 0.0f, "wood"));
+
     
-    worldMap.add(new Pit(0.0f, 0.0f, 80.0f, "wood", Direction.NORTH, null));
-    worldMap.add(new Pit(20.0f, 0.0f, 80.0f, "wood", Direction.EAST, null));
-    worldMap.add(new Pit(40.0f, 0.0f, 80.0f, "wood", Direction.SOUTH, null));
-    worldMap.add(new Pit(60.0f, 0.0f, 80.0f, "wood", Direction.WEST, null));
+    // Add cubes at staircase...
+    gameObjects.add(new Cube(15.0f, 50.0f, 60.0f, "wood"));
     
-    worldMap.add(new Tunnel(0.0f, 0.0f, 100.0f, "wood", Direction.NORTH, null));
-    worldMap.add(new Tunnel(20.0f, 0.0f, 100.0f, "wood", Direction.EAST, null));
-    worldMap.add(new Tunnel(40.0f, 0.0f, 100.0f, "wood", Direction.SOUTH, null));
-    worldMap.add(new Tunnel(60.0f, 0.0f, 100.0f, "wood", Direction.WEST, null));
-    
-    worldMap.add(new Staircase(0.0f, 0.0f, 120.0f, "wood", Direction.NORTH, null));
-    worldMap.add(new Staircase(20.0f, 0.0f, 120.0f, "wood", Direction.EAST, null));
-    worldMap.add(new Staircase(40.0f, 0.0f, 120.0f, "wood", Direction.SOUTH, null));
-    worldMap.add(new Staircase(60.0f, 0.0f, 120.0f, "wood", Direction.WEST, null));
-     
-    worldMap.add(new Platform(0.0f, 0.0f, 140.0f, "wood", null, null));
-    
-    worldMap.add(new Field(0.0f, 0.0f, 180.0f, "wood", Direction.NORTH, null));
-    worldMap.add(new Field(50.0f, 0.0f, 180.0f, "wood", Direction.EAST, null));
-    worldMap.add(new Field(100.0f, 0.0f, 180.0f, "wood", Direction.SOUTH, null));
-    worldMap.add(new Field(150.0f, 0.0f, 180.0f, "wood", Direction.WEST, null));
+    // Add balls at staircase...
+//    for (int i = 0; i < 10; i++)
+//    {
+//    	gameObjects.add(new Ball(15.0f, 10.0f + i, 60.0f, "wood", 1.5f));
+//    }
+  
+//    //TODO - Testing for map object orientations...
+//    worldMap.add(new Corridor(0.0f, 0.0f, 0.0f, "wood", Direction.NORTH, null));
+//    worldMap.add(new Corridor(20.0f, 0.0f, 0.0f, "wood", Direction.EAST, null));
+//    worldMap.add(new Corridor(40.0f, 0.0f, 0.0f, "wood", Direction.SOUTH, null));
+//    worldMap.add(new Corridor(60.0f, 0.0f, 0.0f, "wood", Direction.WEST, null));
+//    
+//    worldMap.add(new Corner(0.0f, 0.0f, 20.0f, "wood", Direction.NORTH, null));
+//    worldMap.add(new Corner(20.0f, 0.0f, 20.0f, "wood", Direction.EAST, null));
+//    worldMap.add(new Corner(40.0f, 0.0f, 20.0f, "wood", Direction.SOUTH, null));
+//    worldMap.add(new Corner(60.0f, 0.0f, 20.0f, "wood", Direction.WEST, null));
+//
+//    worldMap.add(new End(0.0f, 0.0f, 40.0f, "wood", Direction.NORTH, null));
+//    worldMap.add(new End(20.0f, 0.0f, 40.0f, "wood", Direction.EAST, null));
+//    worldMap.add(new End(40.0f, 0.0f, 40.0f, "wood", Direction.SOUTH, null));
+//    worldMap.add(new End(60.0f, 0.0f, 40.0f, "wood", Direction.WEST, null));
+//    
+//    worldMap.add(new Start(0.0f, 0.0f, 60.0f, "wood", Direction.NORTH, null));
+//    worldMap.add(new Start(20.0f, 0.0f, 60.0f, "wood", Direction.EAST, null));
+//    worldMap.add(new Start(40.0f, 0.0f, 60.0f, "wood", Direction.SOUTH, null));
+//    worldMap.add(new Start(60.0f, 0.0f, 60.0f, "wood", Direction.WEST, null));
+//    
+//    worldMap.add(new Pit(0.0f, 0.0f, 80.0f, "wood", Direction.NORTH, null));
+//    worldMap.add(new Pit(20.0f, 0.0f, 80.0f, "wood", Direction.EAST, null));
+//    worldMap.add(new Pit(40.0f, 0.0f, 80.0f, "wood", Direction.SOUTH, null));
+//    worldMap.add(new Pit(60.0f, 0.0f, 80.0f, "wood", Direction.WEST, null));
+//    
+//    worldMap.add(new Tunnel(0.0f, 0.0f, 100.0f, "wood", Direction.NORTH, null));
+//    worldMap.add(new Tunnel(20.0f, 0.0f, 100.0f, "wood", Direction.EAST, null));
+//    worldMap.add(new Tunnel(40.0f, 0.0f, 100.0f, "wood", Direction.SOUTH, null));
+//    worldMap.add(new Tunnel(60.0f, 0.0f, 100.0f, "wood", Direction.WEST, null));
+//    
+//    worldMap.add(new Staircase(0.0f, 0.0f, 120.0f, "wood", Direction.NORTH, null));
+//    worldMap.add(new Staircase(20.0f, 0.0f, 120.0f, "wood", Direction.EAST, null));
+//    worldMap.add(new Staircase(40.0f, 0.0f, 120.0f, "wood", Direction.SOUTH, null));
+//    worldMap.add(new Staircase(60.0f, 0.0f, 120.0f, "wood", Direction.WEST, null));
+//     
+//    worldMap.add(new Platform(0.0f, 0.0f, 140.0f, "wood", null, null));
+//    
+//    worldMap.add(new Field(0.0f, 0.0f, 180.0f, "wood", Direction.NORTH, null));
+//    worldMap.add(new Field(50.0f, 0.0f, 180.0f, "wood", Direction.EAST, null));
+//    worldMap.add(new Field(100.0f, 0.0f, 180.0f, "wood", Direction.SOUTH, null));
+//    worldMap.add(new Field(150.0f, 0.0f, 180.0f, "wood", Direction.WEST, null));
     
 
     
@@ -242,8 +260,12 @@ public class GraphicsTestTroy
         mapObject.draw();
       }
       
-      //testCube.draw();
-      
+      // Draw the game objects...
+      for (GameObject gameObject : gameObjects)
+      {
+      	gameObject.draw();
+      }
+            
       // Draw text to the screen...
       FontTools.draw2D();
       FontTools.renderText("Position: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10, Color.orange, 1);
@@ -272,11 +294,12 @@ public class GraphicsTestTroy
         
     dx = Mouse.getDX();
     dy = Mouse.getDY();
-    dt = getDelta();
+    dt = Timing.getDelta();
     
     camera.yaw(dx * mouseSensitivity);
     camera.pitch(-dy * mouseSensitivity);
     
+    // Move at different speeds...
     if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) camera.moveForward(movementSpeed * dt * 2);
     else if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed * dt);
@@ -284,20 +307,6 @@ public class GraphicsTestTroy
     if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_UP)) camera.moveUp(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) camera.moveDown(movementSpeed * dt);
-  }
-  
-  /**
-   * Calculate how many milliseconds have passed since last frame.
-   * 
-   * @return milliseconds passed since last frame
-   */
-  public static int getDelta()
-  {
-    long time = Tools.getTime();
-    int delta = (int) (time - lastFrame);
-    lastFrame = time;
-
-    return delta;
   }
 
   /**
