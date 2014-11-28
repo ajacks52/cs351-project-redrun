@@ -94,7 +94,7 @@ public class GraphicsTestTroy
     FontTools.loadFonts();
     
     // Connect to the server...
-    client = new Client("127.0.0.1", 7777, mapObjects);
+    //client = new Client("127.0.0.1", 7777, mapObjects);
   }
 
   public static MapObject createMapObjectFromDB(String mapDBForm)

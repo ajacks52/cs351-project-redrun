@@ -35,7 +35,7 @@ public class MapObjectTextToDB
     Pattern getMapObject = Pattern
         .compile("(\\w+),\\s(\\(\\d+\\.\\d+f,\\s\\d+\\.\\d+f,\\s\\d+\\.\\d+f\\)),\\s(\\w+),\\s(\\w+\\.\\w+),\\s(\\d+)");
 
-    BufferedReader br = new BufferedReader(new FileReader("src/redrun/test/database/Parseable.txt"));
+    BufferedReader br = new BufferedReader(new FileReader("res/maps/BloodMoon.txt"));
 
     String line = br.readLine();
     try
