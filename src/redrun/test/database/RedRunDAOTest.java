@@ -4,7 +4,6 @@ import redrun.database.Map;
 import redrun.database.MapObjectDB;
 import redrun.database.RedRunDAO;
 import redrun.database.Character;
-import redrun.model.gameobject.GameObject;
 
 /**
  * Testing class for the RedRunDAO class
