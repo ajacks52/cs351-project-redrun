@@ -5,8 +5,13 @@ import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.gameobject.player.Player;
+import redrun.model.gameobject.player.Runner;
 import redrun.model.physics.BoxPhysicsBody;
+import redrun.model.physics.PhysicsBody;
 import redrun.model.physics.PhysicsTools;
+import redrun.model.physics.PhysicsWorld;
+import redrun.model.physics.PlanePhysicsBody;
 
 import com.bulletphysics.collision.broadphase.BroadphaseInterface;
 import com.bulletphysics.collision.broadphase.DbvtBroadphase;
@@ -30,59 +35,18 @@ public class PhysicsTestJordan
 
   public static void main(String[] args)
   {
-    System.out.println("Hello World!");
-    // Build the broadphase
-    BroadphaseInterface broadphase = new DbvtBroadphase();
+    Player p1 = new Runner(0, 4, 0.75f, null);
+    Player p = new Runner(0, 2, 0, null);
+//    PhysicsBody p = new BoxPhysicsBody(new Vector3f(0,0,0), new Vector3f(0.5f,1.0f,0.5f), new Quat4f(), 100.0f);
 
-    // Set up the collision configuration and dispatcher
-    DefaultCollisionConfiguration collisionConfiguration = new DefaultCollisionConfiguration();
-    CollisionDispatcher dispatcher = new CollisionDispatcher(collisionConfiguration);
-
-    // The actual physics solver
-    SequentialImpulseConstraintSolver solver = new SequentialImpulseConstraintSolver();
-
-    // The world.
-    DiscreteDynamicsWorld dynamicsWorld = new DiscreteDynamicsWorld(dispatcher, broadphase, solver,
-        collisionConfiguration);
-    dynamicsWorld.setGravity(vec(new Vector3f(0, -10, 0)));// Vector3(0, -10,
-                                                           // 0));
-
-    // Do_everything_else_here
-    CollisionShape groundShape = new StaticPlaneShape(vec(new Vector3f(0, 1, 0)), 1);
-
-    DefaultMotionState groundMotionState = new DefaultMotionState(btTransform(new Quat4f(0, 0, 0, 1), new Vector3f(0,
-        -1, 0)));
-
-    RigidBodyConstructionInfo groundRigidBodyCI = new RigidBodyConstructionInfo(0, groundMotionState, groundShape,
-        vec(new Vector3f(0, 0, 0)));
-    RigidBody groundRigidBody = new RigidBody(groundRigidBodyCI);
-
-    dynamicsWorld.addRigidBody(groundRigidBody);
-
-    float mass = 60f;
-    BoxPhysicsBody fallRigidBody = new BoxPhysicsBody(new Vector3f(0, 1, 0), new Vector3f(0.5f, 1.0f, 0.5f),
-        new Quat4f(0, 0, 0, 1), mass);
-    fallRigidBody.getCollisionShape().calculateLocalInertia(mass, vec(new Vector3f(0, 0, 0)));
-    dynamicsWorld.addRigidBody(fallRigidBody);
-
-    fallRigidBody.jump();
-
+    PhysicsBody floor = new PlanePhysicsBody(new Vector3f(0,0,0), new Vector3f(0,1,0), 0);
+    
+    p.jump();
     for (int i = 0; i < 300; i++)
     {
-
-      fallRigidBody.push(new Vector3f(1, 0, 0));
-
-      dynamicsWorld.stepSimulation(1 / 60.0f, 10);
-
-      Transform trans = new Transform();
-      trans = fallRigidBody.getMotionState().getWorldTransform(trans);
-
-      System.out.println("sphere x: " + trans.origin.x + " y: " + trans.origin.y);
+      PhysicsWorld.stepSimulation(1.0f/60.0f);
+      System.out.println(p.getY() + " " + p1.getY());
     }
   }
 
-  private static Transform btTransform(Quat4f quat4f, Vector3f vector3f)
-  {
-    return new Transform(new Matrix4f(quat4f, vec(vector3f), 1.0f));
-  }
 }
