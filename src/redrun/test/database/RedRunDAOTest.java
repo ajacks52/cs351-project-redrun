@@ -26,7 +26,7 @@ public class RedRunDAOTest
    */
   private boolean firstTest()
   {
-    assert (RedRunDAO.insertMap("Ice World") == true) : "Unable to create new Map";
+    assert (RedRunDAO.insertMap("Ice World", "iceflats", "snow") == true) : "Unable to create new Map";
     boolean found = false;
     for (Map map : RedRunDAO.getAllMaps())
     {

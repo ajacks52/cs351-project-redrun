@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import redrun.database.Character;
+import redrun.database.Map;
 import redrun.database.MapObjectDB;
 import redrun.database.RedRunDAO;
 
@@ -25,11 +26,16 @@ public class MapObjectTextToDB
 
   public static void main(String[] args) throws IOException
   {
-    int mapId;
-    // Create Maps Table for database stuff
-    // return foreign key, to be used with our parsing of the text file
+
     
-    
+    RedRunDAO.insertMap("Ice World", "iceflats", "snow");
+    Map currentMap = null;
+    for (Map map : RedRunDAO.getAllMaps())
+    {
+      if (DEBUG) System.out.println(map.toString());
+      if (map.toString().contains("Ice World")) currentMap = map;
+    }
+    int mapId = currentMap.getId();
     // System.out.println("Working Directory = " +
     // System.getProperty("user.dir"));
     Pattern getMapObject = Pattern
@@ -47,7 +53,7 @@ public class MapObjectTextToDB
         if (matchMapObject.find())
         {
           RedRunDAO.insertMapObject(matchMapObject.group(1), matchMapObject.group(2), matchMapObject.group(3),
-              matchMapObject.group(4), 1);
+              matchMapObject.group(4), mapId);
           if (DEBUG)
           {
             for (int i = 1; i <= matchMapObject.groupCount(); i++)

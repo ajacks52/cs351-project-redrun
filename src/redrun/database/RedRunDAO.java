@@ -62,17 +62,21 @@ public class RedRunDAO
    * Insert new map into Maps table
    * 
    * @param mapName name of map
+   * @param floor
+   * @param skybox
    * @return true if map created, false otherwise
    */
-  public static boolean insertMap(String mapName)
+  public static boolean insertMap(String mapName, String skyBox, String floor)
   {
     try
     {
-      String sql = "INSERT INTO maps(map_name) VALUES (?)";
+      String sql = "INSERT INTO maps(map_name,sky_box,floor) VALUES (?,?,?)";
 
       /** F**k SQL Injections. */
       PreparedStatement pstmt = c.prepareStatement(sql);
       pstmt.setString(1, mapName);
+      pstmt.setString(2, skyBox);
+      pstmt.setString(3, floor);
       pstmt.executeUpdate();
       pstmt.close();
       return true;
@@ -170,13 +174,16 @@ public class RedRunDAO
       {
         int id = rs.getInt("id");
         String mapName = rs.getString("map_name");
-        Map map = new Map(id, mapName);
-
+        String skyBox = rs.getString("sky_box");
+        String floor = rs.getString("floor");
+        Map map = new Map(id, mapName, skyBox, floor);
         mapList.add(map);
         if (DEBUG)
         {
           System.out.println(id);
           System.out.println(mapName);
+          System.out.println(skyBox);
+          System.out.println(floor);
         }
       }
       rs.close();
