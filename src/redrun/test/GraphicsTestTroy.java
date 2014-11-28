@@ -89,56 +89,56 @@ public class GraphicsTestTroy
     SkyBox skybox = new SkyBox(0, 0, 0, "blood_sport", camera);
     
     // Create the ground...
-    Plane plane = new Plane(0, 0, 0, "flopy12", 1000);
+    Plane plane = new Plane(0, 0, 0, "direction", Direction.EAST, 20);
     
     // Create the map...
     LinkedList<MapObject> worldMap = new LinkedList<MapObject>();
     
-//    // Add the starting point...
-//    worldMap.add(new Start(0.0f, 0.0f, 0.0f, "brickwall5", Direction.NORTH, null));
+////    // Add the starting point...
+////    worldMap.add(new Start(0.0f, 0.0f, 0.0f, "brickwall5", Direction.NORTH, null));
+////    
+////    // Add a walkway...
+////    worldMap.add(new Corridor(0.0f, 0.0f, 15.0f, "brickwall5", Direction.NORTH, null));
+////    worldMap.add(new Corridor(0.0f, 0.0f, 30.0f, "brickwall5", Direction.NORTH, null));
+////    worldMap.add(new Corridor(0.0f, 0.0f, 45.0f, "brickwall5", Direction.NORTH, null));
+////    
+////    // Add a corner...
+////    worldMap.add(new Corner(0.0f, 0.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+////    
+////    // Add a staircase...
+////    worldMap.add(new Staircase(15.0f, 0.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+////    
+////    // Add a walkway...
+////    worldMap.add(new Corridor(30.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+////    worldMap.add(new Corridor(45.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+////    
+////    // Add a field...
+////    worldMap.add(new Field(75.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+////    
+////    // Add a walkway...
+////    worldMap.add(new Corridor(105.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+////    worldMap.add(new Corridor(120.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+////    
+////    // Add a tunnel...
+////    worldMap.add(new Tunnel(135.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+////    worldMap.add(new Tunnel(150.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+////    
+////    // Add a walkway...
+////    worldMap.add(new Corridor(165.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+////    
+////    // Add a pit...
+////    worldMap.add(new Pit(180.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+////    
+////    // Add a walkway...
+////    worldMap.add(new Corridor(195.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+////    
+////    // Add a platform...
+////    worldMap.add(new Platform(210.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
+////    
+////    // Add the ending point...
+////    worldMap.add(new End(225.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
 //    
-//    // Add a walkway...
-//    worldMap.add(new Corridor(0.0f, 0.0f, 15.0f, "brickwall5", Direction.NORTH, null));
-//    worldMap.add(new Corridor(0.0f, 0.0f, 30.0f, "brickwall5", Direction.NORTH, null));
-//    worldMap.add(new Corridor(0.0f, 0.0f, 45.0f, "brickwall5", Direction.NORTH, null));
-//    
-//    // Add a corner...
-//    worldMap.add(new Corner(0.0f, 0.0f, 60.0f, "brickwall5", Direction.NORTH, null));
-//    
-//    // Add a staircase...
-//    worldMap.add(new Staircase(15.0f, 0.0f, 60.0f, "brickwall5", Direction.NORTH, null));
-//    
-//    // Add a walkway...
-//    worldMap.add(new Corridor(30.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-//    worldMap.add(new Corridor(45.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-//    
-//    // Add a field...
-//    worldMap.add(new Field(75.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-//    
-//    // Add a walkway...
-//    worldMap.add(new Corridor(105.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-//    worldMap.add(new Corridor(120.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-//    
-//    // Add a tunnel...
-//    worldMap.add(new Tunnel(135.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-//    worldMap.add(new Tunnel(150.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-//    
-//    // Add a walkway...
-//    worldMap.add(new Corridor(165.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-//    
-//    // Add a pit...
-//    worldMap.add(new Pit(180.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-//    
-//    // Add a walkway...
-//    worldMap.add(new Corridor(195.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-//    
-//    // Add a platform...
-//    worldMap.add(new Platform(210.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-//    
-//    // Add the ending point...
-//    worldMap.add(new End(225.0f, 15.0f, 60.0f, "brickwall5", Direction.EAST, null));
-    
-    //Cube testCube = new Cube(0.0f, 50.0f, 0f, "wood");
+//    //Cube testCube = new Cube(0.0f, 50.0f, 0f, "wood");
     
     //TODO - Testing for map objects...
     worldMap.add(new Corridor(0.0f, 0.0f, 0.0f, "wood", Direction.NORTH, null));
