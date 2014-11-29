@@ -134,7 +134,7 @@ public class RedRunDAOTest
    * 
    * @return true if all tests pass
    */
-  private boolean seventhTest()
+  private boolean insertMapObject()
   {
     assert (RedRunDAO.insertMapObject("Start", "(0.0f, 0.0f, 0.0f)", "brickwall5", "Direction.NORTH", 1)) == true : "Unable to create new MapObject";
     boolean found = false;
@@ -152,7 +152,7 @@ public class RedRunDAOTest
    * 
    * @return true if all tests pass
    */
-  private boolean eighthTest()
+  private boolean selectMapObject()
   {
     if (DEBUG)
     {
@@ -170,7 +170,7 @@ public class RedRunDAOTest
    * 
    * @return true if all tests pass
    */
-  private boolean ninthTest()
+  private boolean deleteMapObject()
   {
     assert (RedRunDAO.deleteMapObject("(0.0f, 0.0f, 0.0f)") == true) : "Something went horribly wrong with our deletion method";
     boolean found = false;
@@ -237,9 +237,9 @@ public class RedRunDAOTest
     if (redRunDaoTest.selectCharacter() == true) System.out.println("Select character test passed.");
     if (redRunDaoTest.deleteCharacter() == true) System.out.println("Delete character test passed.");
     // MapObject Tests
-    if (redRunDaoTest.seventhTest() == true) System.out.println("Seventh test passed.");
-    if (redRunDaoTest.eighthTest() == true) System.out.println("Eighth test passed.");
-    if (redRunDaoTest.ninthTest() == true) System.out.println("Ninth test passed.");
+    if (redRunDaoTest.insertMapObject() == true) System.out.println("Seventh test passed.");
+    if (redRunDaoTest.selectMapObject() == true) System.out.println("Eighth test passed.");
+    if (redRunDaoTest.deleteMapObject() == true) System.out.println("Ninth test passed.");
     // Kiosk Tests
     if (redRunDaoTest.insertKiosk() == true) System.out.println("Insert kiosk test passed.");
     if (redRunDaoTest.selectKiosk() == true) System.out.println("Select kiosk test passed.");
