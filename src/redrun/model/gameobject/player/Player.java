@@ -13,6 +13,7 @@ import com.bulletphysics.collision.shapes.CollisionShape;
 import com.bulletphysics.dynamics.character.KinematicCharacterController;
 
 import redrun.graphics.camera.Camera;
+import redrun.model.constants.CameraType;
 import redrun.model.constants.Team;
 import redrun.model.gameobject.GameObject;
 import redrun.model.physics.BoxPhysicsBody;
@@ -63,7 +64,7 @@ public class Player extends GameObject
     super(x, y, z, textureName);
     
 //    body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.5f, 1.0f, 0.5f), new Quat4f(), 100.0f);
-    camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, -x, -y, -z);
+    camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, -x, -y, -z, CameraType.PLAYER);
 
     
     this.name = name;

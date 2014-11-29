@@ -87,7 +87,7 @@ public class GraphicsPhysicsTestJordan
   private static void gameLoop()
   {    
     // Create the skybox...
-    SkyBox skybox = new SkyBox(0, 0, 0, "blood_sport", player.getCamera());
+    SkyBox skybox = new SkyBox(0, 0, 0, "blood_sport");
     
     // Create the ground...
     Plane plane = new Plane(0, -1.0f, 0, "flopyflopy2", Direction.EAST, 1000);
