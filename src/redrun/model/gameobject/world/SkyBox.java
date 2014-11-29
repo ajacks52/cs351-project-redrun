@@ -2,12 +2,10 @@ package redrun.model.gameobject.world;
 
 import java.util.ArrayList;
 
+import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.opengl.GL12;
 import org.newdawn.slick.opengl.Texture;
-
-import redrun.graphics.camera.Camera;
 import redrun.model.toolkit.Tools;
-import static org.lwjgl.opengl.GL11.*;
 
 /**
  * This class represents a skybox for an OpenGl scene.
