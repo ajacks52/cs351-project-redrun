@@ -1,8 +1,5 @@
 package redrun.database;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * Represent a Character from the RedRun DB
  * 
