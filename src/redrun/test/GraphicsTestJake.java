@@ -43,7 +43,7 @@ import redrun.model.toolkit.Tools;
 /**
  * Test class for Jake's work.
  * 
- * @author JakeNichol
+ * @author J. Jake Nichol
  * @since 11-2014
  * @version 1.0
  */
