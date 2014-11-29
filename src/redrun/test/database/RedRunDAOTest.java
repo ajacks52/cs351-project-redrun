@@ -184,6 +184,42 @@ public class RedRunDAOTest
   }
 
   /**
+   * Used to test the kiosk INSERT functionality of the DAO
+   * 
+   * @return true if all tests pass
+   */
+  private boolean testTen()
+  {
+    assert (RedRunDAO.insertCharacter("Bob Jenkins", "bobthebuilder", "victims", "0.0f, 0.2f, 0.10f", 1) == true) : "Unable to create new Character";
+    boolean found = false;
+    for (Character character : RedRunDAO.getAllCharacters())
+    {
+      if (DEBUG) System.out.println(character.toString());
+      if (character.toString().contains("Bob Jenkins")) found = true;
+    }
+    assert (found == true) : "Unable to find newly created character in Character table";
+    return true;
+  }
+
+  /**
+   * Used to test the kiosk SELECT functionality of the DAO
+   * 
+   * @return true if all tests pass
+   */
+  private boolean testEleven()
+  {
+    if (DEBUG)
+    {
+      for (Character character : RedRunDAO.getAllCharacters())
+      {
+        System.out.println(character.toString());
+      }
+    }
+    assert (RedRunDAO.getAllCharacters() != null) : "We were unable to retrieve any characters from the Character table";
+    return true;
+  }
+
+  /**
    * Main statement for test cases
    * 
    * @param args
@@ -201,8 +237,12 @@ public class RedRunDAOTest
     if (redRunDaoTest.sixthTest() == true) System.out.println("Sixth test passed.");
     // MapObject Tests
     if (redRunDaoTest.seventhTest() == true) System.out.println("Seventh test passed.");
-    if (redRunDaoTest.eighthTest() == true) System.out.println("Eighth test passed");
-    if (redRunDaoTest.ninthTest() == true) System.out.println("Ninth test passed");
+    if (redRunDaoTest.eighthTest() == true) System.out.println("Eighth test passed.");
+    if (redRunDaoTest.ninthTest() == true) System.out.println("Ninth test passed.");
+    // Kiosk Tests
+    if (redRunDaoTest.testTen() == true) System.out.println("Test 10 passed.");
+    if (redRunDaoTest.testEleven() == true) System.out.println("Test 11 passed.");
     dao.closeConnection();
   }
+
 }
