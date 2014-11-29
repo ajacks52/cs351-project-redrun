@@ -147,6 +147,9 @@ public abstract class GameObject
     return gameObjects.get(id);
   }
   
+  /**
+   * Prints all active game objects.
+   */
   public static void printAll()
   {
   	for (GameObject gameObject : GameObject.gameObjects.values())

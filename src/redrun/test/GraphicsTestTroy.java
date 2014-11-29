@@ -16,6 +16,7 @@ import org.newdawn.slick.Color;
 import redrun.graphics.camera.Camera;
 import redrun.graphics.selection.Picker;
 import redrun.model.constants.Direction;
+import redrun.model.constants.Team;
 import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.map.Corner;
@@ -27,6 +28,7 @@ import redrun.model.gameobject.map.Platform;
 import redrun.model.gameobject.map.Staircase;
 import redrun.model.gameobject.map.Start;
 import redrun.model.gameobject.map.Tunnel;
+import redrun.model.gameobject.player.Player;
 import redrun.model.gameobject.world.Cube;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
@@ -45,8 +47,11 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class GraphicsTestTroy
 {
-  /** The camera associated with the client. */
+  /** The spectator camera associated with the client. */
   private static Camera camera = null;
+  
+  /** The player associated with the client. */
+  private static Player player = null;
   
   /** The list of most active map objects. */
   private static LinkedList<MapObject> worldMap = new LinkedList<MapObject>();
@@ -91,6 +96,7 @@ public class GraphicsTestTroy
   private static void gameLoop()
   {    
     // Create the map objects...
+  	
     // Add the starting point...
     worldMap.add(new Start(0.0f, 0.0f, 0.0f, "brickwall5", Direction.WEST, null));
     // Add a walkway...
@@ -125,6 +131,9 @@ public class GraphicsTestTroy
   	
     // Create the game objects...
     
+    // Create the player...
+    player = new Player(0.0f, 0.0f, 0.0f, "Linvala, Keeper of Silence", null, Team.BLUE);
+    
     // Create the skybox...
     SkyBox skybox = new SkyBox(0, 0, 0, "iceflats");
     
@@ -134,7 +143,7 @@ public class GraphicsTestTroy
     // Create cubes above the staircase...
     for (int i = 0; i < 500; i++)
     {
-      gameObjects.add(new Cube(15.0f, 50.0f + (2 * i), 60.0f, "wood"));
+      gameObjects.add(new Cube(15.0f, 50.0f + (2 * i), 60.0f, "crate1"));
     }
         
     // Hide the mouse cursor...
@@ -197,6 +206,9 @@ public class GraphicsTestTroy
         }
         Picker.stopPicking();
       }
+      
+      // Draw the player...
+      player.draw();
       
       // Draw the floor...
       floor.draw();
