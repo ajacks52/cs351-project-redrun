@@ -11,6 +11,7 @@ import org.newdawn.slick.Color;
 import redrun.graphics.camera.Camera;
 import redrun.main.LoadingScreen;
 import redrun.main.Menu;
+import redrun.model.constants.CameraType;
 import redrun.model.constants.Direction;
 import redrun.model.gameobject.trap.*;
 import redrun.model.gameobject.world.*;
@@ -74,7 +75,7 @@ public class MainTestAdam
     this.initDisplay();
     Display.setVSyncEnabled(true);
 
-    cam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, -10f, -3f, -10f);
+    cam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, -10f, -3f, -10f, CameraType.SPECTATOR);
 
     Menu menu = new Menu();
 

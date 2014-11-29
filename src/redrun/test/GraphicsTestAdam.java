@@ -10,6 +10,7 @@ import org.lwjgl.util.Timer;
 import org.newdawn.slick.Color;
 
 import redrun.graphics.camera.Camera;
+import redrun.model.constants.CameraType;
 import redrun.model.gameobject.trap.*;
 import redrun.model.gameobject.world.*;
 import redrun.model.toolkit.*;
@@ -64,7 +65,7 @@ public class GraphicsTestAdam
     // load font takes a about 2 seconds
     redrun.model.toolkit.FontTools.loadFonts();
 
-    cam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, -10f, -3f, -10f);
+    cam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, -10f, -3f, -10f, CameraType.SPECTATOR);
 
     spikes = new SpikeTrapDoor(10, 0, 30, "wood");
     trapDoor = new TrapDoor(30, -2, 10, "wood");
