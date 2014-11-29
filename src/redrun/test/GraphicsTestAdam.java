@@ -1,5 +1,6 @@
 package redrun.test;
 
+import java.awt.Dimension;
 import java.nio.FloatBuffer;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -30,6 +31,7 @@ import redrun.model.gameobject.map.Tunnel;
 import redrun.model.gameobject.trap.ExplodingBox;
 import redrun.model.gameobject.trap.JailDoor;
 import redrun.model.gameobject.trap.RockSmash;
+import redrun.model.gameobject.trap.SpikeField;
 import redrun.model.gameobject.trap.SpikeTrapDoor;
 import redrun.model.gameobject.world.Ball;
 import redrun.model.gameobject.world.Cube;
@@ -89,62 +91,101 @@ public class GraphicsTestAdam
   private static void gameLoop()
   {    
     // Create the skybox...
-    SkyBox skybox = new SkyBox(0, 0, 0, "blood_sport", camera);
+    SkyBox skybox = new SkyBox(0, 0, 0, "blood_sport");
     
     // Create the ground...
     Plane plane = new Plane(0, -1.0f, 0, "flopyflopy2", Direction.EAST, 1000);
     
     // Create the map...
-    LinkedList<MapObject> worldMap = new LinkedList<MapObject>();
+    LinkedList<MapObject> worldMap = new LinkedList<MapObject>();  
     
-    // Add the starting point...
-    worldMap.add(new Start(0.0f, 0.0f, 0.0f, "brickwall5", Direction.WEST, null));
+    worldMap.add(new Corridor(0.0f, 0f, 0.0f, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(20.0f, 0.0f, 0.0f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corridor(40.0f, 0.0f, 0.0f, "brickwall5", Direction.SOUTH, null));
+    worldMap.add(new Corridor(60.0f, 0.0f, 0.0f, "brickwall5", Direction.WEST, null));
     
-    // Add a walkway...
-    worldMap.add(new Corridor(0.0f, 0.0f, 15.0f, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Corridor(0.0f, 0.0f, 30.0f, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Corridor(0.0f, 0.0f, 45.0f, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Tunnel(0f, 0f, 60.0f, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Tunnel(0f, 0f, 75.0f, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Tunnel(0f, 0f, 90.0f, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Tunnel(0f, 0f, 105.0f, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Tunnel(0f, 0f, 120.0f, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Tunnel(0f, 0f, 135.0f, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Tunnel(0f, 0f, 150.0f, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Corner(0f, 0f, 165.0f, "brickwall5", Direction.SOUTH, null));
+    worldMap.add(new Corridor(0.0f, 0f, 30.0f, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(20.0f, 0.0f, 30.0f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corridor(40.0f, 0.0f, 30.0f, "brickwall5", Direction.SOUTH, null));
+    worldMap.add(new Corridor(60.0f, 0.0f, 30.0f, "brickwall5", Direction.WEST, null));
+    
+    worldMap.add(new Corridor(0.0f, 0f, 60.0f, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(20.0f, 0.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corridor(40.0f, 0.0f, 60.0f, "brickwall5", Direction.SOUTH, null));
+    worldMap.add(new Corridor(60.0f, 0.0f, 60.0f, "brickwall5", Direction.WEST, null));
+    
+    worldMap.add(new Corridor(0.0f, 0f, 90.0f, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Corridor(20.0f, 0.0f, 90.0f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Corridor(40.0f, 0.0f, 90.0f, "brickwall5", Direction.SOUTH, null));
+    worldMap.add(new Corridor(60.0f, 0.0f, 90.0f, "brickwall5", Direction.WEST, null));   
+    
+    worldMap.add(new Pit(0.0f, 15.0f, 120.0f, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Pit(20.0f, 15.0f, 120.0f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Pit(40.0f, 15.0f, 120.0f, "brickwall5", Direction.SOUTH, null));
+    worldMap.add(new Pit(60.0f, 15.0f, 120.0f, "brickwall5", Direction.WEST, null));
+    
+    worldMap.add(new Pit(0.0f, 15.0f, 150.0f, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Pit(20.0f, 15.0f, 150.0f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Pit(40.0f, 15.0f, 150.0f, "brickwall5", Direction.SOUTH, null));
+    worldMap.add(new Pit(60.0f, 15.0f, 150.0f, "brickwall5", Direction.WEST, null));
+    
+    worldMap.add(new Pit(0.0f, 15.0f, 180.0f, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Pit(20.0f, 15.0f, 180.0f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Pit(40.0f, 15.0f, 180.0f, "brickwall5", Direction.SOUTH, null));
+    worldMap.add(new Pit(60.0f, 15.0f, 180.0f, "brickwall5", Direction.WEST, null));
+    
+    
+    worldMap.add(new Tunnel(0.0f, 0f, 210.0f, "brickwall5", Direction.EAST, null));
+    worldMap.add(new Tunnel(20.0f, 0.0f, 210.0f, "brickwall5", Direction.NORTH, null));
+    worldMap.add(new Tunnel(40.0f, 0.0f, 210.0f, "brickwall5", Direction.SOUTH, null));
+    worldMap.add(new Tunnel(60.0f, 0.0f, 210.0f, "brickwall5", Direction.WEST, null));
+    
+    
     
 
     // Add game objects to test physics...
     LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
     
+    gameObjects.add(new JailDoor(0.0f, 0.0f, 0.0f, Direction.EAST, null));
+    gameObjects.add(new JailDoor(20.0f, 0.0f, 0.0f, Direction.NORTH, null));
+    gameObjects.add(new JailDoor(40.0f, 0.0f, 0.0f, Direction.SOUTH, null));
+    gameObjects.add(new JailDoor(60.0f, 0.0f, 0.0f, Direction.WEST, null));
     
-    // Add cubes at start...
-    gameObjects.add(new Cube(0.0f, 10.0f, 0.0f, "wood"));
-    gameObjects.add(new Cube(0.0f, 20.0f, 0.0f, "wood"));
-    gameObjects.add(new Cube(1.0f, 30.0f, 0.0f, "wood"));
-    gameObjects.add(new Cube(-0.75f, 40.0f, 0.0f, "wood"));
+    gameObjects.add(new RockSmash(0.0f, 2.0f, 30.0f, "rock1"));
+    gameObjects.add(new RockSmash(20.0f, 2.0f, 30.0f, "rock2"));
+    gameObjects.add(new RockSmash(40.0f, 2.0f, 30.0f,  "rock3"));
+    gameObjects.add(new RockSmash(60.0f, 2.0f, 30.0f, "rock1"));
     
-    gameObjects.add(new Cube(7.75f, 50.0f, 0.0f, "wood"));
+    gameObjects.add(new SpikeField(0.0f, 0.0f, 60.0f, "s11", new Dimension(10, 15), true));
+    gameObjects.add(new SpikeField(20.0f, 0.0f, 60.0f, "s11", new Dimension(10, 15), true));
+    gameObjects.add(new SpikeField(40.0f, 0.0f, 60.0f, "s11", new Dimension(10, 15), true));
+    gameObjects.add(new SpikeField(60.0f, 0.0f, 60.0f, "s11", new Dimension(10, 15), true));
     
-    gameObjects.add(new RockSmash(0.0f, 50.0f, 15.0f, "rock3"));
-    gameObjects.add(new RockSmash(0.0f, 30.0f, 30.0f, "rock2"));
-    gameObjects.add(new RockSmash(0.0f, 50.0f, 45.0f, "rock1"));
-    gameObjects.add(new ExplodingBox(0.0f, 5.0f, 60.0f, "crate1"));
-    gameObjects.add(new JailDoor(0.0f, 0.0f, 50.0f, Direction.EAST, null));
+    gameObjects.add(new JailDoor(0.0f, 0.0f, 90.0f, Direction.EAST, null));
+    gameObjects.add(new JailDoor(20.0f, 0.0f, 90.0f, Direction.NORTH, null));
+    gameObjects.add(new JailDoor(40.0f, 0.0f, 90.0f, Direction.SOUTH, null));
+    gameObjects.add(new JailDoor(60.0f, 0.0f, 90.0f, Direction.WEST, null));
     
-    gameObjects.add(new RockSmash(0.0f, 0.0f, 60.0f, "cat"));
+    gameObjects.add(new SpikeField(0.0f, 15.0f, 120.0f, "s11", new Dimension(10, 15), false));
+    gameObjects.add(new SpikeField(20.0f, 15.0f, 120.0f, "s11", new Dimension(10, 15), false));
+    gameObjects.add(new SpikeField(40.0f, 15.0f, 120.0f, "s11", new Dimension(10, 15), false));
+    gameObjects.add(new SpikeField(60.0f, 15.0f, 120.0f, "s11", new Dimension(10, 15), false));
     
-    // Add cubes at staircase...
-    for (int i = 0; i < 50; i++)
-    {
-      gameObjects.add(new Cube(0.0f, 50.0f + (2 * i), 20.0f, "wood"));
-    }
+    gameObjects.add(new JailDoor(0.0f, 0.0f, 150.0f, Direction.EAST, null));
+    gameObjects.add(new JailDoor(20.0f, 0.0f, 150.0f, Direction.NORTH, null));
+    gameObjects.add(new JailDoor(40.0f, 0.0f, 150.0f, Direction.SOUTH, null));
+    gameObjects.add(new JailDoor(60.0f, 0.0f, 150.0f, Direction.WEST, null));
     
-    // Add balls at staircase...
-    for (int i = 0; i < 10; i++)
-    {
-    	gameObjects.add(new Ball(15.0f, 10.0f + i, 60.0f, "wood", 1.5f));
-    }
+    gameObjects.add(new ExplodingBox(0.0f, 0.0f, 180.0f, Direction.EAST, null));
+    gameObjects.add(new ExplodingBox(20.0f, 0.0f, 180.0f, Direction.NORTH, null));
+    gameObjects.add(new ExplodingBox(40.0f, 0.0f, 180.0f, Direction.SOUTH, null));
+    gameObjects.add(new ExplodingBox(60.0f, 0.0f, 180.0f, Direction.WEST, null));
+    
+    gameObjects.add(new JailDoor(0.0f, 0.0f, 210.0f, Direction.EAST, null));
+    gameObjects.add(new JailDoor(20.0f, 0.0f, 210.0f, Direction.NORTH, null));
+    gameObjects.add(new JailDoor(40.0f, 0.0f, 210.0f, Direction.SOUTH, null));
+    gameObjects.add(new JailDoor(60.0f, 0.0f, 210.0f, Direction.WEST, null));
+    
     
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);

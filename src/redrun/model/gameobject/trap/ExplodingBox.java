@@ -1,13 +1,17 @@
 package redrun.model.gameobject.trap;
 
 import static org.lwjgl.opengl.GL11.*;
+
 import javax.vecmath.Quat4f;
+
 import org.lwjgl.util.vector.Vector3f;
+
+import redrun.model.constants.Direction;
 import redrun.model.physics.BoxPhysicsBody;
 
 public class ExplodingBox extends Trap
 {
-  public ExplodingBox(float x, float y, float z, String textureName)
+  public ExplodingBox(float x, float y, float z,  Direction dir, String textureName)
   {
     super(x, y, z, textureName);
 

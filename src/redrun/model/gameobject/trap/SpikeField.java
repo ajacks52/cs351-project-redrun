@@ -27,9 +27,10 @@ public class SpikeField extends Trap
    * @param textureName
    * @param dimension of the trap x,z (not x y)
    */
-  public SpikeField(float x, float y, float z, String textureName, Dimension dim)
+  public SpikeField(float x, float y, float z, String textureName, Dimension dim, boolean low)
   {
     super(x, y, z, textureName);
+
     body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(dim.width, 1, dim.height), new Quat4f(0, 0, 0, 1), 0);
     this.dim = dim;
 
@@ -44,57 +45,106 @@ public class SpikeField extends Trap
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
     {
+      glTranslatef(-5.0f, 1.1f, -7.0f);
       glBegin(GL_QUADS);
       glNormal3f(0.0f, 1.0f, 0.0f);
       for (int width = 0; width < dim.width - 1; width++)
         for (int height = 0; height < dim.height - 1; height++)
         {
           glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-          glVertex3d(width, -0.999f, height);
+          if(low)glVertex3d(width, -0.999f, height);
+          if(!low)glVertex3d(width, -15.0, height);
           glTexCoord2f(0, 0);
-          glVertex3d(width + 1, -0.999f, height);
+          if(low)glVertex3d(width + 1, -0.999f, height);
+          if(!low)glVertex3d(width + 1, -15.0, height);
           glTexCoord2f(0, 1);
-          glVertex3d(width + 1, -0.999f, height + 1);
+          if(low)glVertex3d(width + 1, -0.999f, height + 1);
+          if(!low)glVertex3d(width + 1, -15.0, height + 1);
           glTexCoord2f(1, 1);
-          glVertex3d(width, -0.999f, height + 1);
+          if(low)glVertex3d(width, -0.999f, height + 1);
+          if(!low)glVertex3d(width, -15.0f, height + 1);
           glTexCoord2f(1, 0);
         }
       glEnd();
 
-      glScalef(0.05f, 1f, 0.05f);
-      for (float z_axis = 2f; z_axis < dim.height * 20; z_axis += 25f)
-        for (float x_axis = 2f; x_axis < dim.width * 20; x_axis += 25f)
+      if (low)
+      {
+        glScalef(0.05f, 1.0f, 0.05f);
+        for (float z_axis = 2f; z_axis < dim.height * 20; z_axis += 25f)
         {
-          glUseProgram(sl.getShaderProgram());
+          for (float x_axis = 2f; x_axis < dim.width * 20; x_axis += 25f)
+          {
+            glUseProgram(sl.getShaderProgram());
 
-          glBegin(GL_TRIANGLES);
-          // Front
-          glVertexAttrib3f(program, 0.6f, 0f, 0f);
-          glVertex3f(0.0f + x_axis, 0.1f, 0.0f + z_axis);
-          glVertexAttrib3f(program, 0f, 0f, 0f);
-          glVertex3f(-1.0f + x_axis, -1.0f, 1.0f + z_axis);
-          glVertex3f(1.0f + x_axis, -1.0f, 1.0f + z_axis);
-          // Right
-          glVertexAttrib3f(program, 0.6f, 0f, 0f);
-          glVertex3f(0.0f + x_axis, 0.1f, 0.0f + z_axis);
-          glVertexAttrib3f(program, 0f, 0f, 0f);
-          glVertex3f(1.0f + x_axis, -1.0f, 1.0f + z_axis);
-          glVertex3f(1.0f + x_axis, -1.0f, -1.0f + z_axis);
-          // Back
-          glVertexAttrib3f(program, 0.6f, 0f, 0f);
-          glVertex3f(0.0f + x_axis, 0.1f, 0.0f + z_axis);
-          glVertexAttrib3f(program, 0f, 0f, 0f);
-          glVertex3f(1.0f + x_axis, -1.0f, -1.0f + z_axis);
-          glVertex3f(-1.0f + x_axis, -1.0f, -1.0f + z_axis);
-          // Left
-          glVertexAttrib3f(program, 0.6f, 0f, 0f);
-          glVertex3f(0.0f + x_axis, 0.1f, 0.0f + z_axis);
-          glVertexAttrib3f(program, 0f, 0f, 0f);
-          glVertex3f(-1.0f + x_axis, -1.0f, -1.0f + z_axis);
-          glVertex3f(-1.0f + x_axis, -1.0f, 1.0f + z_axis);
-          glEnd();
-          glUseProgram(0);
+            glBegin(GL_TRIANGLES);
+            // Front
+            glVertexAttrib3f(program, 0.6f, 0f, 0f);
+            glVertex3f(0.0f + x_axis, 0.1f, 0.0f + z_axis);
+            glVertexAttrib3f(program, 0f, 0f, 0f);
+            glVertex3f(-1.0f + x_axis, -1.0f, 1.0f + z_axis);
+            glVertex3f(1.0f + x_axis, -1.0f, 1.0f + z_axis);
+            // Right
+            glVertexAttrib3f(program, 0.6f, 0f, 0f);
+            glVertex3f(0.0f + x_axis, 0.1f, 0.0f + z_axis);
+            glVertexAttrib3f(program, 0f, 0f, 0f);
+            glVertex3f(1.0f + x_axis, -1.0f, 1.0f + z_axis);
+            glVertex3f(1.0f + x_axis, -1.0f, -1.0f + z_axis);
+            // Back
+            glVertexAttrib3f(program, 0.6f, 0f, 0f);
+            glVertex3f(0.0f + x_axis, 0.1f, 0.0f + z_axis);
+            glVertexAttrib3f(program, 0f, 0f, 0f);
+            glVertex3f(1.0f + x_axis, -1.0f, -1.0f + z_axis);
+            glVertex3f(-1.0f + x_axis, -1.0f, -1.0f + z_axis);
+            // Left
+            glVertexAttrib3f(program, 0.6f, 0f, 0f);
+            glVertex3f(0.0f + x_axis, 0.1f, 0.0f + z_axis);
+            glVertexAttrib3f(program, 0f, 0f, 0f);
+            glVertex3f(-1.0f + x_axis, -1.0f, -1.0f + z_axis);
+            glVertex3f(-1.0f + x_axis, -1.0f, 1.0f + z_axis);
+            glEnd();
+            glUseProgram(0);
+          }
         }
+      }
+      else if (!low)
+      {
+        glScalef(0.5f, 10f, 0.5f);
+        for (float z_axis = 2f; z_axis < dim.height*2; z_axis += 5f)
+        {
+          for (float x_axis = 2f; x_axis < dim.width*2; x_axis += 5f)
+          {
+            glUseProgram(sl.getShaderProgram());
+
+            glBegin(GL_TRIANGLES);
+            // Front
+            glVertexAttrib3f(program, 0.6f, 0f, 0f);
+            glVertex3f(0.0f + x_axis, 0.1f, 0.0f + z_axis);
+            glVertexAttrib3f(program, 0f, 0f, 0f);
+            glVertex3f(-1.0f + x_axis, -1.0f, 1.0f + z_axis);
+            glVertex3f(1.0f + x_axis, -1.0f, 1.0f + z_axis);
+            // Right
+            glVertexAttrib3f(program, 0.6f, 0f, 0f);
+            glVertex3f(0.0f + x_axis, 0.1f, 0.0f + z_axis);
+            glVertexAttrib3f(program, 0f, 0f, 0f);
+            glVertex3f(1.0f + x_axis, -1.0f, 1.0f + z_axis);
+            glVertex3f(1.0f + x_axis, -1.0f, -1.0f + z_axis);
+            // Back
+            glVertexAttrib3f(program, 0.6f, 0f, 0f);
+            glVertex3f(0.0f + x_axis, 0.1f, 0.0f + z_axis);
+            glVertexAttrib3f(program, 0f, 0f, 0f);
+            glVertex3f(1.0f + x_axis, -1.0f, -1.0f + z_axis);
+            glVertex3f(-1.0f + x_axis, -1.0f, -1.0f + z_axis);
+            // Left
+            glVertexAttrib3f(program, 0.6f, 0f, 0f);
+            glVertex3f(0.0f + x_axis, 0.1f, 0.0f + z_axis);
+            glVertexAttrib3f(program, 0f, 0f, 0f);
+            glVertex3f(-1.0f + x_axis, -1.0f, -1.0f + z_axis);
+            glVertex3f(-1.0f + x_axis, -1.0f, 1.0f + z_axis);
+            glEnd();
+            glUseProgram(0);
+          }
+        }
+      }
     }
     glEndList();
   }

@@ -86,7 +86,7 @@ public class MainTestAdam
     spikes = new SpikeTrapDoor(10, 0, 30, "wood");
     trapDoor = new TrapDoor(30, 0, 10, "wood");
     deathPillar = new DeathPillar(20, 0, 30, "x17");
-    spikeField = new SpikeField(30, 0, 20, "s11", new Dimension(10, 15));
+    spikeField = new SpikeField(30, 0, 20, "s11", new Dimension(10, 15), true);
 
     hallway1 = new Corridor(0, 0, 0, "x17", Direction.EAST , null);
     hallway2 = new Corridor(9, 0, 0, "x17", Direction.EAST , null);
@@ -100,7 +100,7 @@ public class MainTestAdam
     rocks1 = new RockSmash(-5, 5, 5, "rock3"); 
      rocks2 = new RockSmash(-5, 0, 40, "rock2");
      rocks3 = new RockSmash(-5, 0, 30, "rock1");
-     xbox = new ExplodingBox(-5, 0, -30, "crate1");
+    // xbox = new ExplodingBox(-5, 0, -30, "crate1");
      
      
     

@@ -31,7 +31,7 @@ public class RockSmash extends Trap
    * @param x
    * @param y
    * @param z
-   * @param modelName
+   * @param modeln name rock1, rock2, rock3
    */
   public RockSmash(float x, float y, float z, String modelName)
   {
