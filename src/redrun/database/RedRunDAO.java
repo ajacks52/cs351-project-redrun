@@ -162,6 +162,45 @@ public class RedRunDAO
    * 
    * @return list of all items in the Map database
    */
+  public static Map getMap(int mapId)
+  {
+    try
+    {
+      Statement sqlStatement = c.createStatement();
+
+      ResultSet rs = sqlStatement.executeQuery("SELECT * FROM maps WHERE id = " + mapId + ";");
+//      while (rs.next())
+//      {
+        int id = rs.getInt("id");
+        String mapName = rs.getString("map_name");
+        String skyBox = rs.getString("sky_box");
+        String floor = rs.getString("floor");
+        Map map = new Map(id, mapName, skyBox, floor);
+        if (DEBUG)
+        {
+          System.out.println(id);
+          System.out.println(mapName);
+          System.out.println(skyBox);
+          System.out.println(floor);
+        }
+//      }
+      rs.close();
+      sqlStatement.close();
+      return map;
+    }
+    catch (SQLException e)
+    {
+      System.err.println(e.getClass().getName() + ": " + e.getMessage());
+      System.exit(0);
+    }
+    return null;
+  }
+  
+  /**
+   * Get a list of all maps in the Map table
+   * 
+   * @return list of all items in the Map database
+   */
   public static ArrayList<Map> getAllMaps()
   {
     ArrayList<Map> mapList = new ArrayList<Map>();

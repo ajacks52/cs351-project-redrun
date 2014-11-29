@@ -16,11 +16,14 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.Timer;
 import org.newdawn.slick.Color;
 
+import redrun.database.GameObjectDB;
+import redrun.database.Map;
 import redrun.database.MapObjectDB;
 import redrun.database.RedRunDAO;
 import redrun.graphics.camera.Camera;
 import redrun.graphics.selection.Picker;
 import redrun.model.constants.Direction;
+import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.map.Corner;
 import redrun.model.gameobject.map.Corridor;
@@ -53,15 +56,18 @@ public class GraphicsTestTroy
 {
   // TODO Move this shit.
   private static long lastFrame;
-  
+
   /** Used to interface with the network client. */
   private static Client client = null;
 
   /** The camera associated with the client. */
   private static Camera camera = null;
-  
+
   /** The map objects that make up the level. */
   private static LinkedList<MapObject> mapObjects = new LinkedList<MapObject>();
+
+  /** The game objects that are in the level. */
+  private static LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
 
   /**
    * Performs OpenGL initialization.
@@ -92,9 +98,9 @@ public class GraphicsTestTroy
 
     // Load the fonts...
     FontTools.loadFonts();
-    
+
     // Connect to the server...
-    //client = new Client("127.0.0.1", 7777, mapObjects);
+    // client = new Client("127.0.0.1", 7777, mapObjects);
   }
 
   public static MapObject createMapObjectFromDB(String mapDBForm)
@@ -202,6 +208,32 @@ public class GraphicsTestTroy
     return null;
   }
 
+  public static SkyBox createSkyBoxGameObjectFromDB(String map, int mapID)
+  {
+    System.out.println(map);
+    // System.out.println(mapDBForm);
+    Pattern getGameObject = Pattern
+        .compile("===\\sMap\\s===\\sID:(\\d+)\\sName:(\\w+\\s\\w+)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\s===");
+
+    Matcher matchGameObject = getGameObject.matcher(map);
+
+    if (matchGameObject.find())
+    {
+      if (Integer.parseInt(matchGameObject.group(1)) == mapID)
+      {
+        for (int i = 1; i <= matchGameObject.groupCount(); i++)
+        {
+          System.out.println(matchGameObject.group(i));
+        }
+        String mapName = matchGameObject.group(2);
+        String skyBox = matchGameObject.group(3);
+        String floor = matchGameObject.group(4);
+        return new SkyBox(0, 0, 0, skyBox, camera);
+      }
+    }
+    return null;
+  }
+
   /**
    * The main loop where the logic occurs. Stopped when the escape key is
    * pressed or the window is closed.
@@ -209,20 +241,21 @@ public class GraphicsTestTroy
   private static void gameLoop()
   {
     // Create the skybox...
-    SkyBox skybox = new SkyBox(0, 0, 0, "blood_sport", camera);
-
-    // Create the ground...
-    Plane plane = new Plane(0, 0, 0, "flopy12", 1000);
-
-    // Create the map...
-    LinkedList<MapObject> worldMap = new LinkedList<MapObject>();
+    SkyBox skybox = null;
 
     ArrayList<MapObjectDB> mapStuff = RedRunDAO.getAllMapObjects();
 
     for (MapObjectDB object : mapStuff)
     {
-      worldMap.add(createMapObjectFromDB(object.toString()));
+      mapObjects.add(createMapObjectFromDB(object.toString()));
     }
+
+//    ArrayList<Map> gameDB = RedRunDAO.getAllMaps();
+
+    Map map = RedRunDAO.getMap(1);
+
+    skybox = createSkyBoxGameObjectFromDB(map.toString(), 1);
+    // gameObjects.add(createGameObjectFromDB(map.toString()));
 
     // // Add the starting point...
     // worldMap.add(new Start(0.0f, 0.0f, 0.0f, "brickwall5", Direction.NORTH,
@@ -386,13 +419,16 @@ public class GraphicsTestTroy
         Picker.stopPicking();
       }
 
-      // Draw the floor...
-      plane.draw();
-
       // Draw the world map...
-      for (MapObject mapObject : worldMap)
+      for (MapObject mapObject : mapObjects)
       {
         mapObject.draw();
+      }
+
+      // Draw the world map...
+      for (GameObject gameObject : gameObjects)
+      {
+        gameObject.draw();
       }
 
       testCube.draw();

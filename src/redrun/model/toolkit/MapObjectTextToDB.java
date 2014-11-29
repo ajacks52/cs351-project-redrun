@@ -26,8 +26,6 @@ public class MapObjectTextToDB
 
   public static void main(String[] args) throws IOException
   {
-
-    
     RedRunDAO.insertMap("Ice World", "iceflats", "snow");
     Map currentMap = null;
     for (Map map : RedRunDAO.getAllMaps())
