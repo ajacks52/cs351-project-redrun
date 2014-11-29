@@ -14,8 +14,7 @@ import static org.lwjgl.opengl.GL11.*;
  * This class contains a variety of tools that assist other classes in
  * constructing an OpenGL scene.
  * 
- * @author Troy Squillaci
- * @author J. Jake Nichol
+ * @author Troy Squillaci, J. Jake Nichol
  * @version 1.0
  * @since 2014-11-03
  */

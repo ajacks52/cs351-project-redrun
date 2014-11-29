@@ -12,8 +12,14 @@ import org.lwjgl.Sys;
  */
 public class Timing
 {
-	/** Time of last frame. Used for finding delta time. */
-  private static long lastFrame;
+  /** Time at last frame */
+  public static long lastFrame;
+
+  /** Frames per second */
+  public static int fps;
+
+  /** Last FPS time */
+  public static long lastFPS;
 
   /**
    * Get the accurate system time for LWJGL.
@@ -24,7 +30,7 @@ public class Timing
   {
     return (Sys.getTime() * 1000) / Sys.getTimerResolution();
   }
-  
+
   /**
    * Calculate how many milliseconds have passed since last frame.
    * 
