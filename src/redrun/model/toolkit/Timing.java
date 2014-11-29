@@ -2,8 +2,17 @@ package redrun.model.toolkit;
 
 import org.lwjgl.Sys;
 
+/**
+ * This class manages timing data for movement and mouse controls.
+ * 
+ * @author Troy Squillaci
+ * @author Jake Nichol
+ * @version 1.0
+ * @since 2014-10-23
+ */
 public class Timing
 {
+	/** Time of last frame. Used for finding delta time. */
   private static long lastFrame;
 
   /**
