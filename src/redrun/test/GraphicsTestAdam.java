@@ -15,8 +15,10 @@ import org.lwjgl.util.Timer;
 import org.newdawn.slick.Color;
 
 import redrun.graphics.camera.Camera;
+import redrun.graphics.camera.CameraManager;
 import redrun.graphics.selection.Picker;
 import redrun.model.constants.Direction;
+import redrun.model.constants.Team;
 import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.map.Corner;
@@ -28,6 +30,7 @@ import redrun.model.gameobject.map.Platform;
 import redrun.model.gameobject.map.Staircase;
 import redrun.model.gameobject.map.Start;
 import redrun.model.gameobject.map.Tunnel;
+import redrun.model.gameobject.player.Player;
 import redrun.model.gameobject.trap.ExplodingBox;
 import redrun.model.gameobject.trap.JailDoor;
 import redrun.model.gameobject.trap.RockSmash;
@@ -41,6 +44,10 @@ import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
 import redrun.model.toolkit.Timing;
+import redrun.model.constants.CameraType;
+import redrun.model.gameobject.trap.*;
+import redrun.model.gameobject.world.*;
+import redrun.model.toolkit.*;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -54,25 +61,36 @@ public class GraphicsTestAdam
 {
   /** The camera associated with the client. */
   private static Camera camera = null;
+  static CameraManager cameraManager = null;
+  
+  static Player player = null;
 
   /**
    * Performs OpenGL initialization.
    */
+  
+   
   private static void createOpenGL()
   {
     try
     {
       Display.setDisplayMode(new DisplayMode(1280, 720));
-      Display.setTitle("An Awesome OpenGL Scene");
+      //TODO - Need to have the name of the active map be in the title...
+      Display.setTitle("RedRun Ice World");
       Display.create();
       Display.setVSyncEnabled(true);
     }
     catch (LWJGLException ex)
     {
-      Logger.getLogger(GraphicsTestAdam.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(GraphicsTestTroy.class.getName()).log(Level.SEVERE, null, ex);
     }
     
-    camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f, 1.0f, 0.0f);
+    player = new Player(0.0f, 1.0f, 0.0f, "Linvala, Keeper of Silence", null, Team.BLUE);
+    
+    Camera spectatorCam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f, 1.0f, 0.0f, CameraType.SPECTATOR);
+    Camera playerCam = player.getCamera();
+    
+    cameraManager = new CameraManager(spectatorCam, playerCam);
     
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_COLOR_MATERIAL);
@@ -192,6 +210,7 @@ public class GraphicsTestAdam
     
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
+      camera = cameraManager.getActiveCamera();
       getInput();
       
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -256,6 +275,7 @@ public class GraphicsTestAdam
       FontTools.draw3D();
       
       PhysicsWorld.stepSimulation(1 / 60.0f);
+      cameraManager.update();
       Timer.tick();
       Display.update();
       Display.sync(60);
@@ -282,6 +302,12 @@ public class GraphicsTestAdam
     
     camera.yaw(dx * mouseSensitivity);
     camera.pitch(-dy * mouseSensitivity);
+    
+    // Camera related input...
+    if (Keyboard.isKeyDown(Keyboard.KEY_R))
+    {
+        cameraManager.chooseNextCamera();
+    }
     
     // Move at different speeds...
     if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) camera.moveForward(movementSpeed * dt * 2);

@@ -3,6 +3,7 @@ package redrun.graphics.camera;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.constants.CameraType;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.util.glu.GLU.*;
 
@@ -15,6 +16,9 @@ import static org.lwjgl.util.glu.GLU.*;
  */
 public class Camera
 {
+	/** The type of camera. */
+	private final CameraType type;
+	
   /** The position of the camera in 3D space. */
   private Vector3f position = null;
 
@@ -48,7 +52,7 @@ public class Camera
    * @param y the initial y position
    * @param z the initial z position
    */
-  public Camera(float fov, float aspectRatio, float nearClippingPlane, float farClippingPlane, float x, float y, float z)
+  public Camera(float fov, float aspectRatio, float nearClippingPlane, float farClippingPlane, float x, float y, float z, CameraType type)
   {
     position = new Vector3f(x, y, z);
 
@@ -56,6 +60,7 @@ public class Camera
     this.aspectRatio = aspectRatio;
     this.nearClippingPlane = nearClippingPlane;
     this.farClippingPlane = farClippingPlane;
+    this.type = type;
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -258,6 +263,16 @@ public class Camera
   public float getFarClippingPlane()
   {
     return farClippingPlane;
+  }
+  
+  /**
+   * Gets the type of the camera.
+   * 
+   * @return the type of the camera
+   */
+  public CameraType getType()
+  {
+  	return type;
   }
 
   /**

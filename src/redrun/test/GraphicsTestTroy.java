@@ -14,8 +14,11 @@ import org.lwjgl.util.Timer;
 import org.newdawn.slick.Color;
 
 import redrun.graphics.camera.Camera;
+import redrun.graphics.camera.CameraManager;
 import redrun.graphics.selection.Picker;
+import redrun.model.constants.CameraType;
 import redrun.model.constants.Direction;
+import redrun.model.constants.Team;
 import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.map.Corner;
@@ -27,6 +30,7 @@ import redrun.model.gameobject.map.Platform;
 import redrun.model.gameobject.map.Staircase;
 import redrun.model.gameobject.map.Start;
 import redrun.model.gameobject.map.Tunnel;
+import redrun.model.gameobject.player.Player;
 import redrun.model.gameobject.world.Cube;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
@@ -45,8 +49,14 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class GraphicsTestTroy
 {
-  /** The camera associated with the client. */
-  private static Camera camera = null;
+  /** The active camera manager. */
+	private static CameraManager cameraManager = null;
+	
+	/** The active camera. */
+	private static Camera camera = null;
+  
+  /** The player associated with the client. */
+  private static Player player = null;
   
   /** The list of most active map objects. */
   private static LinkedList<MapObject> worldMap = new LinkedList<MapObject>();
@@ -72,7 +82,12 @@ public class GraphicsTestTroy
       Logger.getLogger(GraphicsTestTroy.class.getName()).log(Level.SEVERE, null, ex);
     }
     
-    camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f, 1.0f, 0.0f);
+    player = new Player(0.0f, 1.0f, 0.0f, "Linvala, Keeper of Silence", null, Team.BLUE);
+    
+    Camera spectatorCam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f, 1.0f, 0.0f, CameraType.SPECTATOR);
+    Camera playerCam = player.getCamera();
+    
+    cameraManager = new CameraManager(spectatorCam, playerCam);
     
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_COLOR_MATERIAL);
@@ -91,6 +106,7 @@ public class GraphicsTestTroy
   private static void gameLoop()
   {    
     // Create the map objects...
+  	
     // Add the starting point...
     worldMap.add(new Start(0.0f, 0.0f, 0.0f, "brickwall5", Direction.WEST, null));
     // Add a walkway...
@@ -125,6 +141,8 @@ public class GraphicsTestTroy
   	
     // Create the game objects...
     
+    // Create the player...
+    
     // Create the skybox...
     SkyBox skybox = new SkyBox(0, 0, 0, "iceflats");
     
@@ -134,7 +152,7 @@ public class GraphicsTestTroy
     // Create cubes above the staircase...
     for (int i = 0; i < 500; i++)
     {
-      gameObjects.add(new Cube(15.0f, 50.0f + (2 * i), 60.0f, "wood"));
+      gameObjects.add(new Cube(15.0f, 50.0f + (2 * i), 60.0f, "crate1"));
     }
         
     // Hide the mouse cursor...
@@ -142,6 +160,8 @@ public class GraphicsTestTroy
     
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
+    	camera = cameraManager.getActiveCamera();
+    	
     	// Get input from the user...
       getInput();
       
@@ -198,6 +218,9 @@ public class GraphicsTestTroy
         Picker.stopPicking();
       }
       
+      // Draw the player...
+      player.draw();
+      
       // Draw the floor...
       floor.draw();
       
@@ -215,10 +238,21 @@ public class GraphicsTestTroy
             
       // Draw text to the screen...
       FontTools.draw2D();
-      FontTools.renderText("Position: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10, Color.orange, 1);
+      if (camera.getType() == CameraType.SPECTATOR)
+      {
+        FontTools.renderText("Spectator Camera: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10, Color.black, 1);
+      }
+      else
+      {
+      	FontTools.renderText("Player: " + player.getName(), 10, 10, Color.black, 1);
+      	FontTools.renderText("Team: " + player.getTeam(), 10, 30, Color.black, 1);
+      	FontTools.renderText("Lives: " + player.getLives(), 10, 50, Color.black, 1);
+        FontTools.renderText("Player Camera: (" + player.getCamera().getX() + ", " + player.getCamera().getY() + ", " + player.getCamera().getZ() + ")", 10, 70, Color.black, 1);
+      }
       FontTools.draw3D();
       
       // Update...
+      cameraManager.update();
       PhysicsWorld.stepSimulation(1 / 60.0f);
       Timer.tick();
       Display.update();
@@ -247,8 +281,17 @@ public class GraphicsTestTroy
     camera.yaw(dx * mouseSensitivity);
     camera.pitch(-dy * mouseSensitivity);
     
-    // Move at different speeds...
-    if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) camera.moveForward(movementSpeed * dt * 2);
+    // Camera related input...
+    if (Keyboard.isKeyDown(Keyboard.KEY_R))
+    {
+    	cameraManager.chooseNextCamera();
+    }
+    
+    // Movement related input...
+    if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+    {
+    	camera.moveForward(movementSpeed * dt * 2);
+    }
     else if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed * dt);
@@ -256,7 +299,7 @@ public class GraphicsTestTroy
     if (Keyboard.isKeyDown(Keyboard.KEY_UP)) camera.moveUp(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) camera.moveDown(movementSpeed * dt);
   }
-
+  
   /**
    * Cleans up resources.
    */
