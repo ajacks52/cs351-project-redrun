@@ -98,9 +98,7 @@ public class PhysicsBody
   {
     direction.normalise();
     float mass = getMass();
-    direction.x *= mass;
-    direction.y *= mass;
-    direction.z *= mass;
+    System.out.println("push: " + direction);
     body.applyCentralForce(PhysicsTools.openGLToBullet(direction));
   }
   
@@ -137,12 +135,12 @@ public class PhysicsBody
  
   public void pitch(float pitch)
   {
-    body.applyTorque(PhysicsTools.openGLToBullet(new Vector3f(0,pitch,0)));
+    body.setAngularVelocity(PhysicsTools.openGLToBullet(new Vector3f(0,pitch*10,0)));
   }
   
   public void yaw(float yaw)
   {
-    body.applyTorque(PhysicsTools.openGLToBullet(new Vector3f(0,0,yaw)));
+    body.setAngularVelocity(PhysicsTools.openGLToBullet(new Vector3f(0,0,yaw*10)));
   }
 
   public void moveForward(float speed)
@@ -150,8 +148,8 @@ public class PhysicsBody
     trans = body.getMotionState().getWorldTransform(trans);
     Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
     float x = - (float) (Math.sin(PhysicsTools.yawFromQuat(q)) * speed);
-    float y = (float) (Math.cos(PhysicsTools.yawFromQuat(q)) * speed);
-    push(new Vector3f(x,y,0));
+    float z = (float) (Math.cos(PhysicsTools.yawFromQuat(q)) * speed);
+    push(new Vector3f(x,0,z));
   }
 
   public void moveBackward(float speed)
@@ -159,8 +157,8 @@ public class PhysicsBody
     trans = body.getMotionState().getWorldTransform(trans);
     Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
     float x = (float) (Math.sin(PhysicsTools.yawFromQuat(q)) * speed);
-    float y = - (float) (Math.cos(PhysicsTools.yawFromQuat(q)) * speed);
-    push(new Vector3f(x,y,0));
+    float z = - (float) (Math.cos(PhysicsTools.yawFromQuat(q)) * speed);
+    push(new Vector3f(x,0,z));
   }
 
   public void moveLeft(float speed)
@@ -168,8 +166,8 @@ public class PhysicsBody
     trans = body.getMotionState().getWorldTransform(trans);
     Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
     float x = - (float) (Math.cos(PhysicsTools.yawFromQuat(q)) * speed);
-    float y = (float) (Math.sin(PhysicsTools.yawFromQuat(q)) * speed);
-    push(new Vector3f(x,y,0));
+    float z = (float) (Math.sin(PhysicsTools.yawFromQuat(q)) * speed);
+    push(new Vector3f(x,0,z));
   }
 
   public void moveRight(float speed)
@@ -196,5 +194,10 @@ public class PhysicsBody
   public void translate(float x, float y, float z)
   {
     body.translate(PhysicsTools.openGLToBullet(new Vector3f(x,y,z)));
+  }
+  
+  public CollisionShape getCollisionShape()
+  {
+    return body.getCollisionShape();
   }
 }
