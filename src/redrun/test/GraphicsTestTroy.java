@@ -23,6 +23,7 @@ import redrun.database.RedRunDAO;
 import redrun.graphics.camera.Camera;
 import redrun.graphics.selection.Picker;
 import redrun.model.constants.Direction;
+import redrun.model.constants.MapConstants;
 import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.map.Corner;
@@ -63,6 +64,10 @@ public class GraphicsTestTroy
   /** The camera associated with the client. */
   private static Camera camera = null;
 
+  /** Used to keep track of the current map. */
+  // formerly: RedRunDAO.getMap(1);
+  private static Map map = null;
+
   /** The map objects that make up the level. */
   private static LinkedList<MapObject> mapObjects = new LinkedList<MapObject>();
 
@@ -74,10 +79,15 @@ public class GraphicsTestTroy
    */
   private static void createOpenGL()
   {
+    // Connect to the server...
+    // client = new Client("127.0.0.1", 7777, mapObjects);
+    int mapID = 1;
+    map = RedRunDAO.getMap(mapID);
+
     try
     {
       Display.setDisplayMode(new DisplayMode(1280, 720));
-      Display.setTitle("An Awesome OpenGL Scene");
+      Display.setTitle(getTitleFromDB(map.toString(), mapID));
       Display.create();
       Display.setVSyncEnabled(true);
     }
@@ -98,9 +108,6 @@ public class GraphicsTestTroy
 
     // Load the fonts...
     FontTools.loadFonts();
-
-    // Connect to the server...
-    // client = new Client("127.0.0.1", 7777, mapObjects);
   }
 
   public static MapObject createMapObjectFromDB(String mapDBForm)
@@ -209,7 +216,7 @@ public class GraphicsTestTroy
   }
 
   // May not need to match on as much stuff
-  public static SkyBox createSkyBoxGameObjectFromDB(String map, int mapID)
+  public static SkyBox createSkyBoxFromDB(String map, int mapID)
   {
     System.out.println(map);
     // System.out.println(mapDBForm);
@@ -226,11 +233,45 @@ public class GraphicsTestTroy
         {
           System.out.println(matchGameObject.group(i));
         }
-//        String mapName = matchGameObject.group(2);
+        // MapConstants mapName = matchGameObject.group(2);
         String skyBox = matchGameObject.group(3);
-//        String floor = matchGameObject.group(4);
+        // String floor = matchGameObject.group(4);
         return new SkyBox(0, 0, 0, skyBox, camera);
       }
+    }
+    return null;
+  }
+
+  public static Plane createFloorFromDB(String map, int mapID)
+  {
+    System.out.println(map);
+    // System.out.println(mapDBForm);
+    Pattern getGameObject = Pattern
+        .compile("===\\sMap\\s===\\sID:(\\d+)\\sName:(\\w+\\s\\w+)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\s===");
+
+    Matcher matchGameObject = getGameObject.matcher(map);
+
+    if (matchGameObject.find())
+    {
+      if (Integer.parseInt(matchGameObject.group(1)) == mapID)
+        return new Plane(0, 0, 0, matchGameObject.group(4), 1000);
+    }
+    return null;
+  }
+
+  // May not need to match on as much stuff
+  public static String getTitleFromDB(String map, int mapID)
+  {
+    System.out.println(map);
+    // System.out.println(mapDBForm);
+    Pattern getGameObject = Pattern
+        .compile("===\\sMap\\s===\\sID:(\\d+)\\sName:(\\w+\\s\\w+)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\s===");
+
+    Matcher matchGameObject = getGameObject.matcher(map);
+
+    if (matchGameObject.find())
+    {
+      if (Integer.parseInt(matchGameObject.group(1)) == mapID) return matchGameObject.group(2);
     }
     return null;
   }
@@ -250,13 +291,14 @@ public class GraphicsTestTroy
     {
       mapObjects.add(createMapObjectFromDB(object.toString()));
     }
+    
+    gameObjects.add(createFloorFromDB(map.toString(), map.getId()));
 
-//    ArrayList<Map> gameDB = RedRunDAO.getAllMaps();
+    // ArrayList<Map> gameDB = RedRunDAO.getAllMaps();
 
-    Map map = RedRunDAO.getMap(1);
-//    String bla = RedRunDAO.getMapNameByID(1);
+    // String bla = RedRunDAO.getMapNameByID(1);
 
-    skybox = createSkyBoxGameObjectFromDB(map.toString(), 1);
+    skybox = createSkyBoxFromDB(map.toString(), 1);
     // gameObjects.add(createGameObjectFromDB(map.toString()));
 
     // // Add the starting point...

@@ -169,7 +169,7 @@ public class RedRunDAO
   {
     try
     {
-      String sql = "INSERT INTO kiosks(location, cooldown, map_id VALUES(?,?,?)";
+      String sql = "INSERT INTO kiosks(location, cooldown, map_id) VALUES (?,?,?)";
 
       /** F**k SQL Injections. */
       PreparedStatement pstmt = c.prepareStatement(sql);

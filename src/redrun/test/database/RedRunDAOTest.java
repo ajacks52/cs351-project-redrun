@@ -1,5 +1,6 @@
 package redrun.test.database;
 
+import redrun.database.Kiosk;
 import redrun.database.Map;
 import redrun.database.MapObjectDB;
 import redrun.database.RedRunDAO;
@@ -23,7 +24,7 @@ public class RedRunDAOTest
    * 
    * @return true if all tests pass
    */
-  private boolean firstTest()
+  private boolean insertMap()
   {
     assert (RedRunDAO.insertMap("Ice World", "iceflats", "snow") == true) : "Unable to create new Map";
     boolean found = false;
@@ -41,7 +42,7 @@ public class RedRunDAOTest
    * 
    * @return true if all tests pass
    */
-  private boolean secondTest()
+  private boolean selectMap()
   {
     if (DEBUG)
     {
@@ -59,7 +60,7 @@ public class RedRunDAOTest
    * 
    * @return true if all tests pass
    */
-  private boolean thirdTest()
+  private boolean deleteMap()
   {
     assert (RedRunDAO.deleteMap("Ice World") == true) : "Something went horribly wrong with our deletion method";
     boolean found = false;
@@ -78,7 +79,7 @@ public class RedRunDAOTest
    * 
    * @return true if all tests pass
    */
-  private boolean fourthTest()
+  private boolean insertCharacter()
   {
     assert (RedRunDAO.insertCharacter("Pally Jenkins", "Bdubz.png", "Doom Bringers", "50.0,12.2,23.2", 1)) == true : "Unable to create new Character";
     boolean found = false;
@@ -96,7 +97,7 @@ public class RedRunDAOTest
    * 
    * @return true if all tests pass
    */
-  private boolean fifthTest()
+  private boolean selectCharacter()
   {
     if (DEBUG)
     {
@@ -114,7 +115,7 @@ public class RedRunDAOTest
    * 
    * @return true if all tests pass
    */
-  private boolean sixthTest()
+  private boolean deleteCharacter()
   {
     assert (RedRunDAO.deleteCharacter("Pally Jenkins") == true) : "Something went horribly wrong with our deletion method";
     boolean found = false;
@@ -188,16 +189,16 @@ public class RedRunDAOTest
    * 
    * @return true if all tests pass
    */
-  private boolean testTen()
+  private boolean insertKiosk()
   {
-    assert (RedRunDAO.insertCharacter("Bob Jenkins", "bobthebuilder", "victims", "0.0f, 0.2f, 0.10f", 1) == true) : "Unable to create new Character";
+    assert (RedRunDAO.insertKiosk("0.0f, 0.10f, 0.5f", "200.01", 1) == true) : "Unable to create new Kiosk";
     boolean found = false;
-    for (Character character : RedRunDAO.getAllCharacters())
+    for (Kiosk kiosk : RedRunDAO.getAllKiosks())
     {
-      if (DEBUG) System.out.println(character.toString());
-      if (character.toString().contains("Bob Jenkins")) found = true;
+      if (DEBUG) System.out.println(kiosk.toString());
+      if (kiosk.toString().contains("200.01")) found = true;
     }
-    assert (found == true) : "Unable to find newly created character in Character table";
+    assert (found == true) : "Unable to find newly created kiosk in Kiosk table";
     return true;
   }
 
@@ -206,16 +207,16 @@ public class RedRunDAOTest
    * 
    * @return true if all tests pass
    */
-  private boolean testEleven()
+  private boolean selectKiosk()
   {
     if (DEBUG)
     {
-      for (Character character : RedRunDAO.getAllCharacters())
+      for (Kiosk kiosk: RedRunDAO.getAllKiosks())
       {
-        System.out.println(character.toString());
+        System.out.println(kiosk.toString());
       }
     }
-    assert (RedRunDAO.getAllCharacters() != null) : "We were unable to retrieve any characters from the Character table";
+    assert (RedRunDAO.getAllKiosks() != null) : "We were unable to retrieve any kiosks from the Kiosk table";
     return true;
   }
 
@@ -228,20 +229,20 @@ public class RedRunDAOTest
   {
     RedRunDAOTest redRunDaoTest = new RedRunDAOTest();
     // Map Tests
-    if (redRunDaoTest.firstTest() == true) System.out.println("First test passed.");
-    if (redRunDaoTest.secondTest() == true) System.out.println("Second test passed.");
-    if (redRunDaoTest.thirdTest() == true) System.out.println("Third test passed.");
+    if (redRunDaoTest.insertMap() == true) System.out.println("Insert map test passed.");
+    if (redRunDaoTest.selectMap() == true) System.out.println("Select map test passed.");
+    if (redRunDaoTest.deleteMap() == true) System.out.println("Delete map test passed.");
     // Character Tests
-    if (redRunDaoTest.fourthTest() == true) System.out.println("Fourth test passed.");
-    if (redRunDaoTest.fifthTest() == true) System.out.println("Five test passed.");
-    if (redRunDaoTest.sixthTest() == true) System.out.println("Sixth test passed.");
+    if (redRunDaoTest.insertCharacter() == true) System.out.println("Insert character test passed.");
+    if (redRunDaoTest.selectCharacter() == true) System.out.println("Select character test passed.");
+    if (redRunDaoTest.deleteCharacter() == true) System.out.println("Delete character test passed.");
     // MapObject Tests
     if (redRunDaoTest.seventhTest() == true) System.out.println("Seventh test passed.");
     if (redRunDaoTest.eighthTest() == true) System.out.println("Eighth test passed.");
     if (redRunDaoTest.ninthTest() == true) System.out.println("Ninth test passed.");
     // Kiosk Tests
-    if (redRunDaoTest.testTen() == true) System.out.println("Test 10 passed.");
-    if (redRunDaoTest.testEleven() == true) System.out.println("Test 11 passed.");
+    if (redRunDaoTest.insertKiosk() == true) System.out.println("Insert kiosk test passed.");
+    if (redRunDaoTest.selectKiosk() == true) System.out.println("Select kiosk test passed.");
     dao.closeConnection();
   }
 

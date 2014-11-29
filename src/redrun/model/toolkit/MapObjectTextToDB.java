@@ -1,13 +1,11 @@
 package redrun.model.toolkit;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import redrun.database.Character;
 import redrun.database.Map;
 import redrun.database.MapObjectDB;
 import redrun.database.RedRunDAO;
@@ -27,7 +25,7 @@ public class MapObjectTextToDB
   /**
    * Generate map
    * 
-   * @param br bufferreader to read map input
+   * @param br bufferedreader to read map input
    * @return map created
    */
   private static Map generateMap(BufferedReader br)
