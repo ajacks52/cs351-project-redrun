@@ -59,7 +59,11 @@ public class MainTestAdam
   
   private PoleWall pWall;
   private JailDoor jailDoor;
+  private RockSmash rocks1;
+  private RockSmash rocks2;
+  private RockSmash rocks3;
   
+  private ExplodingBox xbox;
 
   // Used for controlling the camera with the keyboard and mouse...
   private float dx, dy, dt;
@@ -90,7 +94,15 @@ public class MainTestAdam
     
     pWall = new PoleWall(5,5,5, null);
     bs = new BallsSwing(-10,2, 5, "metal");
-    jailDoor = new JailDoor(15,2,15, null);
+    jailDoor = new JailDoor(15,2,15, Direction.EAST, null);
+    
+  
+    rocks1 = new RockSmash(-5, 5, 5, "rock3"); 
+     rocks2 = new RockSmash(-5, 0, 40, "rock2");
+     rocks3 = new RockSmash(-5, 0, 30, "rock1");
+     xbox = new ExplodingBox(-5, 0, -30, "crate1");
+     
+     
     
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
@@ -141,6 +153,11 @@ public class MainTestAdam
       
       pWall.draw();
       jailDoor.draw();
+      
+      rocks1.draw();
+      rocks2.draw();
+      rocks3.draw();
+      xbox.draw();
 
       // if (Picker.mode == 2) Picker.stopPicking();
 
@@ -170,7 +187,6 @@ public class MainTestAdam
     if (Keyboard.isKeyDown(Keyboard.KEY_F)) spikes.interact();
     if (Keyboard.isKeyDown(Keyboard.KEY_R)) trapDoor.interact();
     if (Keyboard.isKeyDown(Keyboard.KEY_C)) deathPillar.interact();
-
   }
 
   /**

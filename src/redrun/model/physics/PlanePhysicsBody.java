@@ -7,6 +7,7 @@ import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import com.bulletphysics.collision.shapes.BoxShape;
 import com.bulletphysics.collision.shapes.StaticPlaneShape;
 
 /**
@@ -22,9 +23,8 @@ public class PlanePhysicsBody extends PhysicsBody
    * @param normal the vector that is perpendicular to the plane
    * @param mass in kg
    */
-  public PlanePhysicsBody(Vector3f center, Vector3f normal, float mass)
+  public PlanePhysicsBody(Vector3f center, Vector3f radiuses, float mass)
   {
-    super(mass, new Quat4f(0,0,0,1), center, 
-        new StaticPlaneShape(PhysicsTools.openGLToBullet(normal), 1)); // im not sure what the "1" represents
+    super(mass, new Quat4f(0,0,0,1), center,  new BoxShape(PhysicsTools.openGLToBullet(radiuses))); // im not sure what the "1" represents
   }
 }

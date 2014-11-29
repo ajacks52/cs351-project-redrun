@@ -33,7 +33,7 @@ public class DeathPillar extends Trap
   public DeathPillar(float x, float y, float z, String textureName)
   {
     super(x, y, z, textureName);
-    body = new BoxPhysicsBody(new Vector3f(x,y,z), new Vector3f(0.5f,1.0f,0.5f), new Quat4f(), 100.0f);
+    this.body = new BoxPhysicsBody(new Vector3f(x,y,z), new Vector3f(0.5f,1.0f,0.5f), new Quat4f(), 1000.0f);
     
 
     displayListId = glGenLists(1);
@@ -112,56 +112,7 @@ public class DeathPillar extends Trap
       }
     }
     glEndList();
-  }  
-      
-//      /* top triangle */
-//      glBegin(GL_TRIANGLE_FAN);
-//      {
-//        glVertex3f(0, height, 0); /* center */
-//        for (float i = 0; i <= 2 * Math.PI; i += resolution)
-//          glVertex3f((float) (radius * Math.cos(i)), (float) height, (float) (radius * Math.sin(i)));
-//      }
-//      glEnd();
-//
-//      /* bottom triangle*/
-//      glBegin(GL_TRIANGLE_FAN);
-//      {
-//        glVertex3f(0, 0, 0); /* center */
-//        for (float i = (float) (2 * Math.PI); i >= 0; i -= resolution)
-//          glVertex3f((float) (radius * Math.cos(i)), 0, (float) (radius * Math.sin(i)));
-//        /* close the loop back to 0 degrees */
-//        glVertex3f(radius, height, 0);
-//      }
-//      glEnd();
-//
-//      /* middle tube */
-//      glBegin(GL_QUAD_STRIP);
-//      {
-//        for (float i = 0; i <= 2 * Math.PI; i += resolution)
-//        {
-//          glVertex3f((float) (radius * Math.cos(i)), 0, (float) (radius * Math.sin(i)));
-//          glVertex3f((float) (radius * Math.cos(i)), height, (float) (radius * Math.sin(i)));
-//        }
-//        /* close the loop back to zero degrees */
-//        glVertex3f(radius, 0, 0);
-//        glVertex3f(radius, height, 0);
-//      }
-//      glEnd();
-//
-//      glBegin(GL_QUADS);
-//      {
-//        //glNormal3f(0.0f, 1.0f, 0.0f);
-//        glVertex3f(1.0f, 1.0f, -1.0f);
-//        glTexCoord2f(0, 0);
-//        glVertex3f(-1.0f, 1.0f, -1.0f);
-//        glTexCoord2f(0, 1);
-//        glVertex3f(-1.0f, 1.0f, 1.0f);
-//        glTexCoord2f(1, 1);
-//        glVertex3f(1.0f, 1.0f, 1.0f);
-//        glTexCoord2f(1, 0);
-//      }
-//      glEnd();
-
+  }        
 
   @Override
   public void activate()
@@ -187,8 +138,8 @@ public class DeathPillar extends Trap
   {
     if (this.timer.getTime() == 0)
     {
-      body.clearForces();
     }
+    
     else if (this.timer.getTime() < 2)
     {
       System.out.println("interactiong with game object: " + this.id);
