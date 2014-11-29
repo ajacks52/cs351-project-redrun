@@ -169,21 +169,18 @@ public class RedRunDAO
       Statement sqlStatement = c.createStatement();
 
       ResultSet rs = sqlStatement.executeQuery("SELECT * FROM maps WHERE id = " + mapId + ";");
-//      while (rs.next())
-//      {
-        int id = rs.getInt("id");
-        String mapName = rs.getString("map_name");
-        String skyBox = rs.getString("sky_box");
-        String floor = rs.getString("floor");
-        Map map = new Map(id, mapName, skyBox, floor);
-        if (DEBUG)
-        {
-          System.out.println(id);
-          System.out.println(mapName);
-          System.out.println(skyBox);
-          System.out.println(floor);
-        }
-//      }
+      int id = rs.getInt("id");
+      String mapName = rs.getString("map_name");
+      String skyBox = rs.getString("sky_box");
+      String floor = rs.getString("floor");
+      Map map = new Map(id, mapName, skyBox, floor);
+      if (DEBUG)
+      {
+        System.out.println(id);
+        System.out.println(mapName);
+        System.out.println(skyBox);
+        System.out.println(floor);
+      }
       rs.close();
       sqlStatement.close();
       return map;
@@ -195,7 +192,28 @@ public class RedRunDAO
     }
     return null;
   }
-  
+
+  public static String getMapNameByID(int mapId)
+  {
+    try
+    {
+      Statement sqlStatement = c.createStatement();
+
+      ResultSet rs = sqlStatement.executeQuery("SELECT map_name FROM maps WHERE id = " + mapId + ";");
+      String mapName = rs.getString("map_name");
+      if (DEBUG) System.out.println(mapName);
+      rs.close();
+      sqlStatement.close();
+      return mapName;
+    }
+    catch (SQLException e)
+    {
+      System.err.println(e.getClass().getName() + ": " + e.getMessage());
+      System.exit(0);
+    }
+    return null;
+  }
+
   /**
    * Get a list of all maps in the Map table
    * 
