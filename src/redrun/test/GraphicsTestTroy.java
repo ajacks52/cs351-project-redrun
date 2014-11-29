@@ -225,9 +225,9 @@ public class GraphicsTestTroy
         {
           System.out.println(matchGameObject.group(i));
         }
-        String mapName = matchGameObject.group(2);
+//        String mapName = matchGameObject.group(2);
         String skyBox = matchGameObject.group(3);
-        String floor = matchGameObject.group(4);
+//        String floor = matchGameObject.group(4);
         return new SkyBox(0, 0, 0, skyBox, camera);
       }
     }
@@ -253,6 +253,7 @@ public class GraphicsTestTroy
 //    ArrayList<Map> gameDB = RedRunDAO.getAllMaps();
 
     Map map = RedRunDAO.getMap(1);
+//    String bla = RedRunDAO.getMapNameByID(1);
 
     skybox = createSkyBoxGameObjectFromDB(map.toString(), 1);
     // gameObjects.add(createGameObjectFromDB(map.toString()));
