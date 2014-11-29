@@ -12,7 +12,6 @@ import org.newdawn.slick.opengl.Texture;
 
 import redrun.model.physics.PhysicsBody;
 import redrun.model.toolkit.Tools;
-
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -101,10 +100,7 @@ public abstract class GameObject
       {
         glEnable(GL_TEXTURE_2D);
         texture.bind();
-        glRotatef(body.getYaw(), 1, 0, 0);
-        glRotatef(body.getPitch(), 0, 1, 0);
-        glRotatef(body.getRoll(), 0, 0, 1);
-        glTranslatef(body.getX(), body.getY(), body.getZ());
+        glMultMatrix(body.getOpenGLTransformMatrix());
         glCallList(displayListId);
         glDisable(GL_TEXTURE_2D);
       }
@@ -114,10 +110,7 @@ public abstract class GameObject
     {
       glPushMatrix();
       {
-        glRotatef(body.getYaw(), 1, 0, 0);
-        glRotatef(body.getPitch(), 0, 1, 0);
-        glRotatef(body.getRoll(), 0, 0, 1);
-        glTranslatef(body.getX(), body.getY(), body.getZ());
+        glMultMatrix(body.getOpenGLTransformMatrix());
         glCallList(displayListId);
       }
       glPopMatrix();
@@ -152,6 +145,14 @@ public abstract class GameObject
   public static GameObject getGameObject(int id)
   {
     return gameObjects.get(id);
+  }
+  
+  public static void printAll()
+  {
+  	for (GameObject gameObject : GameObject.gameObjects.values())
+  	{
+  		System.out.println(gameObject);
+  	}
   }
 
   /**
