@@ -1,3 +1,5 @@
+Ice World, iceflats, snow
+
 Start, (0.0f, 0.0f, 0.0f), brickwall5, Direction.NORTH, 1
 Corridor, (0.0f, 0.0f, 15.0f), brickwall5, Direction.NORTH, 1
 Corridor, (0.0f, 0.0f, 30.0f), brickwall5, Direction.NORTH, 1

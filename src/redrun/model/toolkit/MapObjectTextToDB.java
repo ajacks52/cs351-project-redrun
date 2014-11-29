@@ -24,29 +24,56 @@ public class MapObjectTextToDB
 {
   private static final boolean DEBUG = false;
 
-  public static void main(String[] args) throws IOException
+  /**
+   * Generate map
+   * 
+   * @param br bufferreader to read map input
+   * @return map created
+   */
+  private static Map generateMap(BufferedReader br)
   {
-    RedRunDAO.insertMap("Ice World", "iceflats", "snow");
-    Map currentMap = null;
+    Pattern getMap = Pattern.compile("(\\w+\\s\\w+),\\s(\\w+),\\s(\\w+)");
+    String mapName = null;
+    try
+    {
+      String firstLine = br.readLine();
+      Matcher matchMap = getMap.matcher(firstLine);
+      if (matchMap.find())
+      {
+        mapName = matchMap.group(1);
+        RedRunDAO.insertMap(matchMap.group(1), matchMap.group(2), matchMap.group(3));
+        if (DEBUG)
+        {
+          for (int i = 1; i <= matchMap.groupCount(); i++)
+            System.out.println(i + " " + matchMap.group(i));
+        }
+      }
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
     for (Map map : RedRunDAO.getAllMaps())
     {
       if (DEBUG) System.out.println(map.toString());
-      if (map.toString().contains("Ice World")) currentMap = map;
+      if (map.toString().contains(mapName)) return map;
     }
+    return null;
+  }
+
+  private static void generateMapObjects(BufferedReader br, Map currentMap) throws IOException
+  {
     int mapId = currentMap.getId();
     // System.out.println("Working Directory = " +
     // System.getProperty("user.dir"));
     Pattern getMapObject = Pattern
         .compile("(\\w+),\\s(\\(\\d+\\.\\d+f,\\s\\d+\\.\\d+f,\\s\\d+\\.\\d+f\\)),\\s(\\w+),\\s(\\w+\\.\\w+),\\s(\\d+)");
 
-    BufferedReader br = new BufferedReader(new FileReader("res/maps/BloodMoon.txt"));
-
     String line = br.readLine();
     try
     {
       while (null != (line = br.readLine()))
       {
-        // System.out.println(line);
         Matcher matchMapObject = getMapObject.matcher(line);
         if (matchMapObject.find())
         {
@@ -68,9 +95,21 @@ public class MapObjectTextToDB
     {
       br.close();
     }
-    for (MapObjectDB mo : RedRunDAO.getAllMapObjects())
+    if (DEBUG)
     {
-      System.out.println(mo.toString());
+      for (MapObjectDB mo : RedRunDAO.getAllMapObjects())
+      {
+        System.out.println(mo.toString());
+      }
     }
+  }
+
+  public static void main(String[] args) throws IOException
+  {
+    BufferedReader br = new BufferedReader(new FileReader("res/maps/IceWorld.txt"));
+
+    Map currentMap = generateMap(br);
+    generateMapObjects(br, currentMap);
+    System.out.println("Database successfully populated!");
   }
 }

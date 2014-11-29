@@ -208,6 +208,7 @@ public class GraphicsTestTroy
     return null;
   }
 
+  // May not need to match on as much stuff
   public static SkyBox createSkyBoxGameObjectFromDB(String map, int mapID)
   {
     System.out.println(map);
