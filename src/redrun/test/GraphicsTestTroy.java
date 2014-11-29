@@ -47,6 +47,12 @@ public class GraphicsTestTroy
 {
   /** The camera associated with the client. */
   private static Camera camera = null;
+  
+  /** The list of most active map objects. */
+  private static LinkedList<MapObject> worldMap = new LinkedList<MapObject>();
+  
+  /** The list of most active game objects. */
+  private static LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
 
   /**
    * Performs OpenGL initialization.
@@ -56,7 +62,8 @@ public class GraphicsTestTroy
     try
     {
       Display.setDisplayMode(new DisplayMode(1280, 720));
-      Display.setTitle("An Awesome OpenGL Scene");
+      //TODO - Need to have the name of the active map be in the title...
+      Display.setTitle("RedRun – Ice World");
       Display.create();
       Display.setVSyncEnabled(true);
     }
@@ -83,138 +90,66 @@ public class GraphicsTestTroy
    */
   private static void gameLoop()
   {    
-    // Create the skybox...
-    SkyBox skybox = new SkyBox(0, 0, 0, "blood_sport", camera);
-    
-    // Create the ground...
-    Plane plane = new Plane(0, -1.0f, 0, "flopyflopy2", Direction.EAST, 1000);
-    
-    // Create the map...
-    LinkedList<MapObject> worldMap = new LinkedList<MapObject>();
-    
+    // Create the map objects...
     // Add the starting point...
     worldMap.add(new Start(0.0f, 0.0f, 0.0f, "brickwall5", Direction.WEST, null));
-    
     // Add a walkway...
     worldMap.add(new Corridor(0.0f, 0.0f, 15.0f, "brickwall5", Direction.EAST, null));
     worldMap.add(new Corridor(0.0f, 0.0f, 30.0f, "brickwall5", Direction.EAST, null));
     worldMap.add(new Corridor(0.0f, 0.0f, 45.0f, "brickwall5", Direction.EAST, null));
-    
     // Add a corner...
     worldMap.add(new Corner(0.0f, 0.0f, 60.0f, "brickwall5", Direction.SOUTH, null));
-    
     // Add a staircase...
     worldMap.add(new Staircase(15.0f, 0.0f, 60.0f, "brickwall5", Direction.NORTH, null));
-    
     // Add a walkway...
     worldMap.add(new Corridor(30.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
     worldMap.add(new Corridor(45.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
-    
     // Add a field...
     worldMap.add(new Field(75.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
-    
     // Add a walkway...
     worldMap.add(new Corridor(105.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
     worldMap.add(new Corridor(120.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
-    
     // Add a tunnel...
     worldMap.add(new Tunnel(135.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
     worldMap.add(new Tunnel(150.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
-    
     // Add a walkway...
     worldMap.add(new Corridor(165.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
-    
     // Add a pit...
     worldMap.add(new Pit(180.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
-    
     // Add a walkway...
     worldMap.add(new Corridor(195.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
-    
     // Add a platform...
     worldMap.add(new Platform(210.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
-    
     // Add the ending point...
     worldMap.add(new End(225.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+  	
+    // Create the game objects...
     
-    // Add game objects to test physics...
-    LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
+    // Create the skybox...
+    SkyBox skybox = new SkyBox(0, 0, 0, "iceflats");
+    
+    // Create the floor...
+    Plane floor = new Plane(0, -1.0f, 0, "snow", Direction.EAST, 1000);
 
-    // Add cubes at start...
-    gameObjects.add(new Cube(0.0f, 10.0f, 0.0f, "wood"));
-    gameObjects.add(new Cube(0.0f, 20.0f, 0.0f, "wood"));
-    gameObjects.add(new Cube(1.0f, 30.0f, 0.0f, "wood"));
-    gameObjects.add(new Cube(-0.75f, 40.0f, 0.0f, "wood"));
-    
-    gameObjects.add(new Cube(7.75f, 50.0f, 0.0f, "wood"));
-
-    
-    // Add cubes at staircase...
-    for (int i = 0; i < 50; i++)
+    // Create cubes above the staircase...
+    for (int i = 0; i < 500; i++)
     {
       gameObjects.add(new Cube(15.0f, 50.0f + (2 * i), 60.0f, "wood"));
     }
-    
-    // Add balls at staircase...
-//    for (int i = 0; i < 10; i++)
-//    {
-//    	gameObjects.add(new Ball(15.0f, 10.0f + i, 60.0f, "wood", 1.5f));
-//    }
-  
-//    //TODO - Testing for map object orientations...
-//    worldMap.add(new Corridor(0.0f, 0.0f, 0.0f, "wood", Direction.NORTH, null));
-//    worldMap.add(new Corridor(20.0f, 0.0f, 0.0f, "wood", Direction.EAST, null));
-//    worldMap.add(new Corridor(40.0f, 0.0f, 0.0f, "wood", Direction.SOUTH, null));
-//    worldMap.add(new Corridor(60.0f, 0.0f, 0.0f, "wood", Direction.WEST, null));
-//    
-//    worldMap.add(new Corner(0.0f, 0.0f, 20.0f, "wood", Direction.NORTH, null));
-//    worldMap.add(new Corner(20.0f, 0.0f, 20.0f, "wood", Direction.EAST, null));
-//    worldMap.add(new Corner(40.0f, 0.0f, 20.0f, "wood", Direction.SOUTH, null));
-//    worldMap.add(new Corner(60.0f, 0.0f, 20.0f, "wood", Direction.WEST, null));
-//
-//    worldMap.add(new End(0.0f, 0.0f, 40.0f, "wood", Direction.NORTH, null));
-//    worldMap.add(new End(20.0f, 0.0f, 40.0f, "wood", Direction.EAST, null));
-//    worldMap.add(new End(40.0f, 0.0f, 40.0f, "wood", Direction.SOUTH, null));
-//    worldMap.add(new End(60.0f, 0.0f, 40.0f, "wood", Direction.WEST, null));
-//    
-//    worldMap.add(new Start(0.0f, 0.0f, 60.0f, "wood", Direction.NORTH, null));
-//    worldMap.add(new Start(20.0f, 0.0f, 60.0f, "wood", Direction.EAST, null));
-//    worldMap.add(new Start(40.0f, 0.0f, 60.0f, "wood", Direction.SOUTH, null));
-//    worldMap.add(new Start(60.0f, 0.0f, 60.0f, "wood", Direction.WEST, null));
-//    
-//    worldMap.add(new Pit(0.0f, 0.0f, 80.0f, "wood", Direction.NORTH, null));
-//    worldMap.add(new Pit(20.0f, 0.0f, 80.0f, "wood", Direction.EAST, null));
-//    worldMap.add(new Pit(40.0f, 0.0f, 80.0f, "wood", Direction.SOUTH, null));
-//    worldMap.add(new Pit(60.0f, 0.0f, 80.0f, "wood", Direction.WEST, null));
-//    
-//    worldMap.add(new Tunnel(0.0f, 0.0f, 100.0f, "wood", Direction.NORTH, null));
-//    worldMap.add(new Tunnel(20.0f, 0.0f, 100.0f, "wood", Direction.EAST, null));
-//    worldMap.add(new Tunnel(40.0f, 0.0f, 100.0f, "wood", Direction.SOUTH, null));
-//    worldMap.add(new Tunnel(60.0f, 0.0f, 100.0f, "wood", Direction.WEST, null));
-//    
-//    worldMap.add(new Staircase(0.0f, 0.0f, 120.0f, "wood", Direction.NORTH, null));
-//    worldMap.add(new Staircase(20.0f, 0.0f, 120.0f, "wood", Direction.EAST, null));
-//    worldMap.add(new Staircase(40.0f, 0.0f, 120.0f, "wood", Direction.SOUTH, null));
-//    worldMap.add(new Staircase(60.0f, 0.0f, 120.0f, "wood", Direction.WEST, null));
-//     
-//    worldMap.add(new Platform(0.0f, 0.0f, 140.0f, "wood", null, null));
-//    
-//    worldMap.add(new Field(0.0f, 0.0f, 180.0f, "wood", Direction.NORTH, null));
-//    worldMap.add(new Field(50.0f, 0.0f, 180.0f, "wood", Direction.EAST, null));
-//    worldMap.add(new Field(100.0f, 0.0f, 180.0f, "wood", Direction.SOUTH, null));
-//    worldMap.add(new Field(150.0f, 0.0f, 180.0f, "wood", Direction.WEST, null));
-    
-
-    
+        
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
     
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
+    	// Get input from the user...
       getInput();
       
+      // Prepare for rendering...
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
       glLoadIdentity();
       
+      // Draw the skybox...
       glPushMatrix();
       {
         glDepthMask(false);
@@ -225,6 +160,7 @@ public class GraphicsTestTroy
       }
       glPopMatrix();
       
+      // Orient the camera...
       camera.lookThrough();
 
       // Add ambient light...
@@ -244,17 +180,26 @@ public class GraphicsTestTroy
       glLight(GL_LIGHT1, GL_DIFFUSE, lightColor1);
       glLight(GL_LIGHT1, GL_POSITION, lightPosition1);
       
+      // Picking code for 3D selection of game objects...
       if (Keyboard.isKeyDown(Keyboard.KEY_F))
       {
         Picker.startPicking();
         {
-        
+          // Draw the game objects...
+          for (GameObject gameObject : gameObjects)
+          {
+          	glPushName(gameObject.id);
+          	{
+            	gameObject.draw();
+          	}
+          	glPopName();
+          }
         }
         Picker.stopPicking();
       }
       
       // Draw the floor...
-      plane.draw();
+      floor.draw();
       
       // Draw the map objects...
       for (MapObject mapObject : worldMap)
@@ -273,6 +218,7 @@ public class GraphicsTestTroy
       FontTools.renderText("Position: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10, Color.orange, 1);
       FontTools.draw3D();
       
+      // Update...
       PhysicsWorld.stepSimulation(1 / 60.0f);
       Timer.tick();
       Display.update();

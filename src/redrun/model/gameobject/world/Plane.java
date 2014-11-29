@@ -48,7 +48,7 @@ public class Plane extends WorldObject
         glMaterial(GL_FRONT, GL_EMISSION, materialEmission);
         
         glNormal3f(0.0f, -1.0f, 0.0f);
-        glColor3f(1.0f, 0.5f, 0.0f);
+        glColor3f(1.0f, 1.0f, 1.0f);
         
         switch (orientation)
         {

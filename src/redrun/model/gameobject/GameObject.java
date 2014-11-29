@@ -1,6 +1,5 @@
 package redrun.model.gameobject;
 
-import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -146,6 +145,14 @@ public abstract class GameObject
   public static GameObject getGameObject(int id)
   {
     return gameObjects.get(id);
+  }
+  
+  public static void printAll()
+  {
+  	for (GameObject gameObject : GameObject.gameObjects.values())
+  	{
+  		System.out.println(gameObject);
+  	}
   }
 
   /**

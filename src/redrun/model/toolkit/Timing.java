@@ -2,9 +2,24 @@ package redrun.model.toolkit;
 
 import org.lwjgl.Sys;
 
+/**
+ * This class manages timing data for movement and mouse controls.
+ * 
+ * @author Troy Squillaci
+ * @author Jake Nichol
+ * @version 1.0
+ * @since 2014-10-23
+ */
 public class Timing
 {
-  private static long lastFrame;
+  /** Time at last frame */
+  public static long lastFrame;
+
+  /** Frames per second */
+  public static int fps;
+
+  /** Last FPS time */
+  public static long lastFPS;
 
   /**
    * Get the accurate system time for LWJGL.
@@ -15,7 +30,7 @@ public class Timing
   {
     return (Sys.getTime() * 1000) / Sys.getTimerResolution();
   }
-  
+
   /**
    * Calculate how many milliseconds have passed since last frame.
    * 
