@@ -20,15 +20,6 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class Tools
 {
-  /** Time at last frame */
-  public static long lastFrame;
-
-  /** Frames per second */
-  public static int fps;
-
-  /** Last FPS time */
-  public static long lastFPS;
-
   /**
    * Loads a texture from a file for OpenGL.
    * 
