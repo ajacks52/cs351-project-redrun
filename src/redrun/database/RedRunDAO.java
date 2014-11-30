@@ -202,7 +202,7 @@ public class RedRunDAO
   {
     try
     {
-      String sql = "INSERT INTO trap(trap_type, kiosk_ID, map_id) VALUES (?,?,?)";
+      String sql = "INSERT INTO traps(trap_type, kiosk_id, map_id) VALUES (?,?,?)";
 
       /** F**k SQL Injections. */
       PreparedStatement pstmt = c.prepareStatement(sql);
@@ -257,7 +257,7 @@ public class RedRunDAO
   /**
    * Get a list of all maps in the Map table
    * 
-   * @param mapID associated map
+   * @param mapId associated map
    * @return list of all items in the Map database
    */
   public static Map getMap(int mapId)
