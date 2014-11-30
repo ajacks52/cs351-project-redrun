@@ -21,7 +21,7 @@ public class RedRunDAO
   private static Connection c = RedRunDAO.connectToDB();
 
   /**
-   * Generate a connectino to the database
+   * Generate a connecting to the database
    * 
    * @return the established connection
    */
@@ -62,8 +62,8 @@ public class RedRunDAO
    * Insert new map into Maps table
    * 
    * @param mapName name of map
-   * @param floor
-   * @param skybox
+   * @param skyBox skyBox image
+   * @param floor floor image
    * @return true if map created, false otherwise
    */
   public static boolean insertMap(String mapName, String skyBox, String floor)
@@ -234,7 +234,7 @@ public class RedRunDAO
   {
     try
     {
-      String sql = "INSERT INTO kiosks(state, kiosk_id, trap_id, map_id) VALUES (?,?,?,?)";
+      String sql = "INSERT INTO buttons(state, kiosk_id, trap_id, map_id) VALUES (?,?,?,?)";
 
       /** F**k SQL Injections. */
       PreparedStatement pstmt = c.prepareStatement(sql);
