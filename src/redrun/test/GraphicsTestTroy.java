@@ -32,6 +32,7 @@ import redrun.model.gameobject.map.Staircase;
 import redrun.model.gameobject.map.Start;
 import redrun.model.gameobject.map.Tunnel;
 import redrun.model.gameobject.player.Player;
+import redrun.model.gameobject.world.Ball;
 import redrun.model.gameobject.world.Cube;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
@@ -71,7 +72,7 @@ public class GraphicsTestTroy
     {
       Display.setDisplayMode(new DisplayMode(1280, 720));
       //TODO - Need to have the name of the active map be in the title...
-      Display.setTitle("RedRun – Ice World");
+      Display.setTitle("RedRun - Ice World");
       Display.create();
       Display.setVSyncEnabled(true);
     }
@@ -152,6 +153,12 @@ public class GraphicsTestTroy
     {
       data.addGameObject(new Cube(15.0f, 50.0f + (2 * i), 60.0f, "crate1"));
     }
+    
+    // Create balls above the staircase...
+    for (int i = 0; i < 10; i++)
+    {
+      data.addGameObject(new Ball(30.0f, 50.0f + (2 * i), 60.0f, "crate1", 1.5f));
+    }
         
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
@@ -181,20 +188,44 @@ public class GraphicsTestTroy
       // Orient the camera...
       camera.lookThrough();
 
-      // Add ambient light...
+      // Global Ambient Light Model...
       FloatBuffer ambientColor = BufferConverter.asFloatBuffer(new float[] { 0.2f, 0.2f, 0.2f, 1.0f });
       glLightModel(GL_LIGHT_MODEL_AMBIENT, ambientColor);
       
+      // Local Viewport Model...
+      glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+      
+//      // Add positional light...
+//      FloatBuffer lightColor0 = BufferConverter.asFloatBuffer(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
+//      FloatBuffer lightPosition0 = BufferConverter.asFloatBuffer(new float[] { 0.0f, 100.0f, 1000.0f, 1.0f });
+//      glLight(GL_LIGHT0, GL_DIFFUSE, lightColor0);
+//      glLight(GL_LIGHT0, GL_SPECULAR, lightColor0);
+//      glLight(GL_LIGHT0, GL_POSITION, lightPosition0);
+      
       // Add positional light...
-      FloatBuffer lightColor0 = BufferConverter.asFloatBuffer(new float[] { 1.5f, 1.5f, 1.5f, 1.0f });
-      FloatBuffer lightPosition0 = BufferConverter.asFloatBuffer(new float[] { -15.0f, 10.0f, 5.0f, 1.0f });
-      glLight(GL_LIGHT0, GL_DIFFUSE, lightColor0);
-      glLight(GL_LIGHT0, GL_SPECULAR, lightColor0);
-      glLight(GL_LIGHT0, GL_POSITION, lightPosition0);
+      FloatBuffer lightAmibent = BufferConverter.asFloatBuffer(new float[] { 0.2f, 0.2f, 0.2f, 1.0f });
+      FloatBuffer lightDiffuse = BufferConverter.asFloatBuffer(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
+      FloatBuffer lightSpecular = BufferConverter.asFloatBuffer(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
+      FloatBuffer lightPosition = BufferConverter.asFloatBuffer(new float[] { 0.0f, 100.0f, 1000.0f, 1.0f });
+      FloatBuffer spotDirection = BufferConverter.asFloatBuffer(new float[] { 0.0f, 100.0f, 1000.0f, 1.0f });
+      
+      //glLight(GL_LIGHT0, GL_AMBIENT, lightAmibent);
+      glLight(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
+      glLight(GL_LIGHT0, GL_SPECULAR, lightSpecular);
+      glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+      
+//      glLight(GL_LIGHT0, GL_CONSTANT_ATTENUATION, BufferConverter.asFloatBuffer(new float[] { 1.5f, 0.0f, 0.0f, 0.0f }));
+//      glLight(GL_LIGHT0, GL_LINEAR_ATTENUATION, BufferConverter.asFloatBuffer(new float[] { 0.5f, 0.0f, 0.0f, 0.0f }));
+//      glLight(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, BufferConverter.asFloatBuffer(new float[] { 0.2f, 0.0f, 0.0f, 0.0f }));
+//
+//      glLight(GL_LIGHT0, GL_SPOT_CUTOFF, BufferConverter.asFloatBuffer(new float[] { 45.0f, 0.0f, 0.0f, 0.0f }));
+//      glLight(GL_LIGHT0, GL_SPOT_DIRECTION, spotDirection);
+//      glLight(GL_LIGHT0, GL_SPOT_EXPONENT, BufferConverter.asFloatBuffer(new float[] { 2.0f, 0.0f, 0.0f, 0.0f }));
+
       
       // Add directional light...
       FloatBuffer lightColor1 = BufferConverter.asFloatBuffer(new float[] { 0.5f, 0.5f, 0.5f, 1.0f });
-      FloatBuffer lightPosition1 = BufferConverter.asFloatBuffer(new float[] { -15.0f, 10.0f, 5.0f, 0.0f });
+      FloatBuffer lightPosition1 = BufferConverter.asFloatBuffer(new float[] { 0.0f, 100.0f, 1000.0f, 0.0f });
       glLight(GL_LIGHT1, GL_DIFFUSE, lightColor1);
       glLight(GL_LIGHT1, GL_POSITION, lightPosition1);
       

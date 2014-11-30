@@ -39,13 +39,13 @@ public class Cube extends WorldObject
     {
       glBegin(GL_QUADS);
       {
-        FloatBuffer materialColor = BufferConverter.asFloatBuffer(new float[] {0.2f, 0.2f, 1.0f, 1.0f});
-        FloatBuffer materialSpecular = BufferConverter.asFloatBuffer(new float[] {1.0f, 1.0f, 1.0f, 1.0f});
-        FloatBuffer materialEmission = BufferConverter.asFloatBuffer(new float[] {0.05f, 0.05f, 0.05f, 1.0f});
+        FloatBuffer materialColor = BufferConverter.asFloatBuffer(new float[] {0.7f, 0.7f, 0.7f, 1.0f});
+        FloatBuffer materialSpecular = BufferConverter.asFloatBuffer(new float[] {1.0f, 0.75f, 0.75f, 1.0f});
+        FloatBuffer materialShininess = BufferConverter.asFloatBuffer(new float[] {30.0f, 0.0f, 0.0f, 0.0f});
         
         glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, materialColor);
         glMaterial(GL_FRONT, GL_SPECULAR, materialSpecular);
-        glMaterial(GL_FRONT, GL_EMISSION, materialEmission);
+        glMaterial(GL_FRONT, GL_SHININESS, materialShininess);
       	
         // Top face...
         glNormal3f(0.0f, 1.0f, 0.0f);
