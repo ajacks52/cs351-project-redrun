@@ -1,5 +1,12 @@
 package redrun.database;
 
+/**
+ * Represent a MapObject from the RedRun DB
+ * 
+ * @author Jayson Grace
+ * @version 1.0
+ * @since 2014-11-25
+ */
 public class MapObjectDB
 {
   private int id;
@@ -10,6 +17,16 @@ public class MapObjectDB
   private int mapId;
 //  private StartLocation parsedStart;
 
+  /**
+   * MapObject instantiation
+   * 
+   * @param id database id
+   * @param objectName name of the map object
+   * @param location location of the map object
+   * @param texture texture to use with the map object
+   * @param direction orientation of the map object
+   * @param mapId associated map
+   */
   public MapObjectDB(int id, String objectName, String location, String texture, String direction, int mapId)
   {
     this.id = id;

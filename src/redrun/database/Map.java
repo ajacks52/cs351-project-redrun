@@ -13,12 +13,13 @@ public class Map
   private String mapName;
   private String skyBox;
   private String floor;
-
+  
   /**
    * Map instantiation
-   * 
    * @param id database id
-   * @param mapName name of the map
+   * @param mapName name of map
+   * @param skyBox skybox file used
+   * @param floor floor file used
    */
   public Map(int id, String mapName, String skyBox, String floor)
   {
