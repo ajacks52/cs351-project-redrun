@@ -10,9 +10,10 @@ package redrun.database;
 public class Kiosk
 {
   private int id;
-  private String location;
+  // private String location;
   private String cooldown;
   private int mapId;
+  private StartLocation parsedLocation;
 
   /**
    * Kiosk instantiation
@@ -26,9 +27,10 @@ public class Kiosk
   public Kiosk(int id, String location, String cooldown, int mapId)
   {
     this.id = id;
-    this.location = location;
+    // this.location = location;
     this.cooldown = cooldown;
     this.mapId = mapId;
+    this.parsedLocation = new StartLocation(location);
   }
 
   /**
@@ -36,6 +38,7 @@ public class Kiosk
    */
   public String toString()
   {
-    return "=== Kiosk === " + "ID:" + this.id + " Location:" + this.location + " Cooldown:" + this.cooldown +" Map ID:" + this.mapId + " ===";
+    return "=== Kiosk === " + "ID:" + this.id + " Location:" + parsedLocation.getX() + ", " + parsedLocation.getY()
+        + ", " + parsedLocation.getZ() + " Cooldown:" + this.cooldown + " Map ID:" + this.mapId + " ===";
   }
 }
