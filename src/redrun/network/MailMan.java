@@ -5,8 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import redrun.database.MapObjectDB;
+import redrun.database.RedRunDAO;
 
 /**
  * Directs the flow of information between a client and the server
@@ -69,21 +73,31 @@ public class MailMan extends Thread
   public void run()
   {
     Pattern quitServer = Pattern.compile("quit$", Pattern.CASE_INSENSITIVE);
+    Pattern matchMapObject = Pattern.compile("MapObjects");
 
     while (true)
     {
       try
       {
-        System.out.println(clientReader);
         String incomingMessage = clientReader.readLine();
-//        System.out.println(incomingMessage);
+         System.out.println(incomingMessage);
 
+        Matcher matchmatchMapObject = matchMapObject.matcher(incomingMessage);
         Matcher matchQuitServer = quitServer.matcher(incomingMessage);
         if (matchQuitServer.find())
         {
           System.out.println("Quitting!");
           send("Disconnecting client...");
           Server.deleteClientFromList(this);
+          break;
+        }
+        else if (matchmatchMapObject.find())
+        {
+          ArrayList<MapObjectDB> mapStuff = RedRunDAO.getAllMapObjects();
+          for (MapObjectDB mapObject : mapStuff)
+          {
+            send(mapObject.toString());
+          }
           break;
         }
         else
