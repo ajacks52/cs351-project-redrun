@@ -1,8 +1,5 @@
 package redrun.database;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * Represent a Character from the RedRun DB
  * 
@@ -27,6 +24,7 @@ public class Character
    * @param image path to image associated with this character
    * @param team team this character is associated with
    * @param startLocation starting location of this player
+   * @param mapId the associated map
    */
   public Character(int id, String characterName, String image, String team, String startLocation, int mapId)
   {
@@ -43,63 +41,8 @@ public class Character
    */
   public String toString()
   {
-    return "=== Character === " + "ID:" + this.id + " Name:" + this.characterName + " Image:" + this.image + " Team:"
+    return "=== Character === " + "id:" + this.id + " Name:" + this.characterName + " Image:" + this.image + " Team:"
         + this.team + " Start Location:" + parsedStart.getX() + ", " + parsedStart.getY() + ", " + parsedStart.getZ()
-        + " Map ID:" + this.mapId + " ===";
-  }
-
-  /**
-   * Convert start location from string to floats that can be used as
-   * coordinates
-   * 
-   * @author Jayson Grace
-   * @version 1.0
-   * @since 2014-11-24
-   */
-  private class StartLocation
-  {
-    private float x, y, z;
-
-    private StartLocation(String startLocation)
-    {
-      Pattern parsed = Pattern.compile("(\\d+\\.\\d+),(\\d+\\.\\d+),(\\d+\\.\\d+)");
-      Matcher matchParsed = parsed.matcher(startLocation);
-      if (matchParsed.find())
-      {
-        this.x = Float.parseFloat(matchParsed.group(1));
-        this.y = Float.parseFloat(matchParsed.group(2));
-        this.z = Float.parseFloat(matchParsed.group(3));
-      }
-    }
-
-    /**
-     * Getter for x
-     * 
-     * @return x value
-     */
-    private float getX()
-    {
-      return x;
-    }
-
-    /**
-     * Getter for y
-     * 
-     * @return y value
-     */
-    private float getY()
-    {
-      return y;
-    }
-
-    /**
-     * Getter for z
-     * 
-     * @return z value
-     */
-    private float getZ()
-    {
-      return z;
-    }
+        + " Map Id:" + this.mapId + " ===";
   }
 }
