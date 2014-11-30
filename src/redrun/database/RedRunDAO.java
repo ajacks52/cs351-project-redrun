@@ -96,9 +96,10 @@ public class RedRunDAO
    * @param image image associated with new character
    * @param team team of new character
    * @param startLocation starting location of new character
+   * @param mapId associated map id
    * @return true if character created, otherwise false
    */
-  public static boolean insertCharacter(String characterName, String image, String team, String startLocation, int mapID)
+  public static boolean insertCharacter(String characterName, String image, String team, String startLocation, int mapId)
   {
     try
     {
@@ -110,7 +111,7 @@ public class RedRunDAO
       pstmt.setString(2, image);
       pstmt.setString(3, team);
       pstmt.setString(4, startLocation);
-      pstmt.setInt(5, mapID);
+      pstmt.setInt(5, mapId);
       pstmt.executeUpdate();
       pstmt.close();
       return true;
@@ -124,15 +125,16 @@ public class RedRunDAO
   }
 
   /**
-   * Insert new character into the Character table
+   * Insert new map object into the MapObject table
    * 
-   * @param characterName name of new character
-   * @param image image associated with new character
-   * @param team team of new character
-   * @param startLocation starting location of new character
+   * @param objectName name of map object
+   * @param location location of map object
+   * @param texture texture to use with map object
+   * @param direction orientation of the map object
+   * @param mapId associated map
    * @return true if character created, otherwise false
    */
-  public static boolean insertMapObject(String objectName, String location, String texture, String direction, int mapID)
+  public static boolean insertMapObject(String objectName, String location, String texture, String direction, int mapId)
   {
     try
     {
@@ -144,7 +146,7 @@ public class RedRunDAO
       pstmt.setString(2, location);
       pstmt.setString(3, texture);
       pstmt.setString(4, direction);
-      pstmt.setInt(5, mapID);
+      pstmt.setInt(5, mapId);
       pstmt.executeUpdate();
       pstmt.close();
       return true;
@@ -162,10 +164,10 @@ public class RedRunDAO
    * 
    * @param location location of kiosk
    * @param cooldown cooldown time for kiosk
-   * @param mapID associated map
+   * @param mapId associated map
    * @return true if successfully created, false otherwise
    */
-  public static boolean insertKiosk(String location, String cooldown, int mapID)
+  public static boolean insertKiosk(String location, String cooldown, int mapId)
   {
     try
     {
@@ -175,7 +177,71 @@ public class RedRunDAO
       PreparedStatement pstmt = c.prepareStatement(sql);
       pstmt.setString(1, location);
       pstmt.setString(2, cooldown);
-      pstmt.setInt(3, mapID);
+      pstmt.setInt(3, mapId);
+      pstmt.executeUpdate();
+      pstmt.close();
+      return true;
+    }
+    catch (SQLException e)
+    {
+      System.err.println(e.getClass().getName() + ": " + e.getMessage());
+      System.exit(0);
+    }
+    return false;
+  }
+
+  /**
+   * Insert new trap into the Trap table
+   * 
+   * @param trapType type of trap
+   * @param kioskId associated kiosk
+   * @param mapId associated map
+   * @return true if successfully created, false otherwise
+   */
+  public static boolean insertTrap(String trapType, int kioskId, int mapId)
+  {
+    try
+    {
+      String sql = "INSERT INTO trap(trap_type, kiosk_ID, map_id) VALUES (?,?,?)";
+
+      /** F**k SQL Injections. */
+      PreparedStatement pstmt = c.prepareStatement(sql);
+      pstmt.setString(1, trapType);
+      pstmt.setInt(2, kioskId);
+      pstmt.setInt(3, mapId);
+      pstmt.executeUpdate();
+      pstmt.close();
+      return true;
+    }
+    catch (SQLException e)
+    {
+      System.err.println(e.getClass().getName() + ": " + e.getMessage());
+      System.exit(0);
+    }
+    return false;
+  }
+
+  /**
+   * Insert new button into the Button table
+   * 
+   * @param state activated or not
+   * @param kioskId associated kiosk
+   * @param trapId associated trap
+   * @param mapId associated map
+   * @return true if successfully created, false otherwise
+   */
+  public static boolean insertButton(boolean state, int kioskId, int trapId, int mapId)
+  {
+    try
+    {
+      String sql = "INSERT INTO kiosks(state, kiosk_id, trap_id, map_id) VALUES (?,?,?,?)";
+
+      /** F**k SQL Injections. */
+      PreparedStatement pstmt = c.prepareStatement(sql);
+      pstmt.setBoolean(1, state);
+      pstmt.setInt(2, kioskId);
+      pstmt.setInt(3, trapId);
+      pstmt.setInt(4, mapId);
       pstmt.executeUpdate();
       pstmt.close();
       return true;
@@ -191,15 +257,16 @@ public class RedRunDAO
   /**
    * Get a list of all maps in the Map table
    * 
+   * @param mapID associated map
    * @return list of all items in the Map database
    */
-  public static Map getMap(int mapID)
+  public static Map getMap(int mapId)
   {
     try
     {
       Statement sqlStatement = c.createStatement();
 
-      ResultSet rs = sqlStatement.executeQuery("SELECT * FROM maps WHERE id = " + mapID + ";");
+      ResultSet rs = sqlStatement.executeQuery("SELECT * FROM maps WHERE id = " + mapId + ";");
       int id = rs.getInt("id");
       String mapName = rs.getString("map_name");
       String skyBox = rs.getString("sky_box");
@@ -224,13 +291,19 @@ public class RedRunDAO
     return null;
   }
 
-  public static String getMapNameByID(int mapID)
+  /**
+   * Get a map name by its id
+   * 
+   * @param mapId associated map id
+   * @return the map name
+   */
+  public static String getMapNameById(int mapId)
   {
     try
     {
       Statement sqlStatement = c.createStatement();
 
-      ResultSet rs = sqlStatement.executeQuery("SELECT map_name FROM maps WHERE id = " + mapID + ";");
+      ResultSet rs = sqlStatement.executeQuery("SELECT map_name FROM maps WHERE id = " + mapId + ";");
       String mapName = rs.getString("map_name");
       if (DEBUG) System.out.println(mapName);
       rs.close();
@@ -306,8 +379,8 @@ public class RedRunDAO
         String image = rs.getString("image");
         String team = rs.getString("team");
         String startLocation = rs.getString("start_loc");
-        int mapID = rs.getInt("map_id");
-        Character character = new Character(id, characterName, image, team, startLocation, mapID);
+        int mapId = rs.getInt("map_id");
+        Character character = new Character(id, characterName, image, team, startLocation, mapId);
 
         characterList.add(character);
         if (DEBUG)
@@ -317,7 +390,7 @@ public class RedRunDAO
           System.out.println(image);
           System.out.println(team);
           System.out.println(startLocation);
-          System.out.println(mapID);
+          System.out.println(mapId);
         }
       }
       rs.close();
@@ -352,8 +425,8 @@ public class RedRunDAO
         String location = rs.getString("location");
         String texture = rs.getString("texture");
         String direction = rs.getString("direction");
-        int mapID = rs.getInt("map_id");
-        MapObjectDB mapObject = new MapObjectDB(id, objectName, location, texture, direction, mapID);
+        int mapId = rs.getInt("map_id");
+        MapObjectDB mapObject = new MapObjectDB(id, objectName, location, texture, direction, mapId);
 
         mapObjectList.add(mapObject);
         if (DEBUG)
@@ -363,7 +436,7 @@ public class RedRunDAO
           System.out.println(location);
           System.out.println(texture);
           System.out.println(direction);
-          System.out.println(mapID);
+          System.out.println(mapId);
         }
       }
       rs.close();
@@ -379,9 +452,9 @@ public class RedRunDAO
   }
 
   /**
-   * Get a list of all map objects in the MapObjects table
+   * Get a list of all map objects in the Kiosks table
    * 
-   * @return list of all items in the MapObjects database
+   * @return list of all items in the Kiosks database
    */
   public static ArrayList<Kiosk> getAllKiosks()
   {
@@ -396,8 +469,8 @@ public class RedRunDAO
         int id = rs.getInt("id");
         String location = rs.getString("location");
         String cooldown = rs.getString("cooldown");
-        int mapID = rs.getInt("map_id");
-        Kiosk kiosk = new Kiosk(id, location, cooldown, mapID);
+        int mapId = rs.getInt("map_id");
+        Kiosk kiosk = new Kiosk(id, location, cooldown, mapId);
 
         kioskList.add(kiosk);
         if (DEBUG)
@@ -405,12 +478,98 @@ public class RedRunDAO
           System.out.println(id);
           System.out.println(location);
           System.out.println(cooldown);
-          System.out.println(mapID);
+          System.out.println(mapId);
         }
       }
       rs.close();
       sqlStatement.close();
       return kioskList;
+    }
+    catch (SQLException e)
+    {
+      System.err.println(e.getClass().getName() + ": " + e.getMessage());
+      System.exit(0);
+    }
+    return null;
+  }
+
+  /**
+   * Get a list of all map objects in the Traps table
+   * 
+   * @return list of all items in the Traps database
+   */
+  public static ArrayList<TrapDB> getAllTraps()
+  {
+    ArrayList<TrapDB> trapList = new ArrayList<TrapDB>();
+    try
+    {
+      Statement sqlStatement = c.createStatement();
+
+      ResultSet rs = sqlStatement.executeQuery("SELECT * FROM traps;");
+      while (rs.next())
+      {
+        int id = rs.getInt("id");
+        String trapType = rs.getString("trap_type");
+        int kioskId = rs.getInt("kiosk_id");
+        int mapId = rs.getInt("map_id");
+        TrapDB trap = new TrapDB(id, trapType, kioskId, mapId);
+
+        trapList.add(trap);
+        if (DEBUG)
+        {
+          System.out.println(id);
+          System.out.println(trapType);
+          System.out.println(kioskId);
+          System.out.println(mapId);
+        }
+      }
+      rs.close();
+      sqlStatement.close();
+      return trapList;
+    }
+    catch (SQLException e)
+    {
+      System.err.println(e.getClass().getName() + ": " + e.getMessage());
+      System.exit(0);
+    }
+    return null;
+  }
+
+  /**
+   * Get a list of all map objects in the Buttons table
+   * 
+   * @return list of all items in the Buttons database
+   */
+  public static ArrayList<ButtonDB> getAllButtons()
+  {
+    ArrayList<ButtonDB> buttonList = new ArrayList<ButtonDB>();
+    try
+    {
+      Statement sqlStatement = c.createStatement();
+
+      ResultSet rs = sqlStatement.executeQuery("SELECT * FROM buttons;");
+      while (rs.next())
+      {
+        int id = rs.getInt("id");
+        boolean state = rs.getBoolean("state");
+        int kioskId = rs.getInt("kiosk_id");
+        int trapId = rs.getInt("trap_id");
+        int mapId = rs.getInt("map_id");
+        ButtonDB button = new ButtonDB(id, state, kioskId, trapId, mapId);
+
+        buttonList.add(button);
+        if (DEBUG)
+        {
+          System.out.println(id);
+          System.out.println(state);
+          System.out.println(kioskId);
+          System.out.println(trapId);
+          System.out.println(mapId);
+        }
+      }
+      rs.close();
+      sqlStatement.close();
+      return buttonList;
     }
     catch (SQLException e)
     {
@@ -473,7 +632,7 @@ public class RedRunDAO
   /**
    * Delete a specified map object out of the MapObject table
    * 
-   * @param mapName name of map to delete
+   * @param location location of the map object to delete
    * @return true if successfully deleted, false otherwise
    */
   public static boolean deleteMapObject(String location)
