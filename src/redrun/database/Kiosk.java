@@ -19,10 +19,9 @@ public class Kiosk
    * Kiosk instantiation
    * 
    * @param id database id
-   * @param KioskName default database Kiosk name
-   * @param image path to image associated with this Kiosk
-   * @param team team this Kiosk is associated with
-   * @param startLocation starting location of this player
+   * @param location location of kiosk on map
+   * @param cooldown cooldown time for kiosk
+   * @param mapId
    */
   public Kiosk(int id, String location, String cooldown, int mapId)
   {
@@ -38,7 +37,17 @@ public class Kiosk
    */
   public String toString()
   {
-    return "=== Kiosk === " + "ID:" + this.id + " Location:" + parsedLocation.getX() + ", " + parsedLocation.getY()
-        + ", " + parsedLocation.getZ() + " Cooldown:" + this.cooldown + " Map ID:" + this.mapId + " ===";
+    return "=== Kiosk === " + "id:" + this.id + " Location:" + parsedLocation.getX() + ", " + parsedLocation.getY()
+        + ", " + parsedLocation.getZ() + " Cooldown:" + this.cooldown + " Map Id:" + this.mapId + " ===";
+  }
+
+  /**
+   * Get id of kiosk
+   * 
+   * @return kiosk id
+   */
+  public int getId()
+  {
+    return id;
   }
 }

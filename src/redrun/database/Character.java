@@ -24,6 +24,7 @@ public class Character
    * @param image path to image associated with this character
    * @param team team this character is associated with
    * @param startLocation starting location of this player
+   * @param mapId the associated map
    */
   public Character(int id, String characterName, String image, String team, String startLocation, int mapId)
   {
@@ -40,8 +41,8 @@ public class Character
    */
   public String toString()
   {
-    return "=== Character === " + "ID:" + this.id + " Name:" + this.characterName + " Image:" + this.image + " Team:"
+    return "=== Character === " + "id:" + this.id + " Name:" + this.characterName + " Image:" + this.image + " Team:"
         + this.team + " Start Location:" + parsedStart.getX() + ", " + parsedStart.getY() + ", " + parsedStart.getZ()
-        + " Map ID:" + this.mapId + " ===";
+        + " Map Id:" + this.mapId + " ===";
   }
 }

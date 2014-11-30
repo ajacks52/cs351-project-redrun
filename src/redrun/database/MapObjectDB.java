@@ -8,7 +8,7 @@ public class MapObjectDB
   private String texture;
   private String direction;
   private int mapId;
-  private StartLocation parsedStart;
+//  private StartLocation parsedStart;
 
   public MapObjectDB(int id, String objectName, String location, String texture, String direction, int mapId)
   {
@@ -18,7 +18,7 @@ public class MapObjectDB
     this.texture = texture;
     this.direction = direction;
     this.mapId = mapId;
-    this.parsedStart = new StartLocation(location);
+//    this.parsedStart = new StartLocation(location);
   }
 
   /**

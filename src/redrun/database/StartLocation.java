@@ -14,6 +14,12 @@ public class StartLocation
 {
   private float x, y, z;
 
+  /**
+   * Instantiate a Start location
+   * 
+   * @param startLocation input location to be translated to StartLocation
+   *          object
+   */
   public StartLocation(String startLocation)
   {
     Pattern parsed = Pattern.compile("(\\d+\\.\\d+),(\\d+\\.\\d+),(\\d+\\.\\d+)");

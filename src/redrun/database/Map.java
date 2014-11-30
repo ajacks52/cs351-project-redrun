@@ -33,7 +33,7 @@ public class Map
    */
   public String toString()
   {
-    return "=== Map === " + "ID:" + this.id + " Name:" + this.mapName + " SkyBox:" + this.skyBox + " Floor:"
+    return "=== Map === " + "id:" + this.id + " Name:" + this.mapName + " SkyBox:" + this.skyBox + " Floor:"
         + this.floor + " ===";
   }
 
