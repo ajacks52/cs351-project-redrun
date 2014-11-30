@@ -218,7 +218,8 @@ public abstract class GameObject
   {
     // @formatter:off
     return "=== Game Object ===\n" + "ID: " + id + "\n" + "Position: (" + body.getX() + ", " + body.getY() + ", "
-        + body.getZ() + ")\n" + "Physics: " + body.toString() + "\n" + "===================\n";
+        + body.getZ() + ")\n" + "Physics: " + body.toString() + "\n" + "Type: " + this.getClass().getName() + "\n"
+        + "===================\n";
     // @formatter:on
   }
 }

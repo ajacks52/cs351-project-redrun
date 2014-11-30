@@ -1,7 +1,6 @@
 package redrun.test;
 
 import java.nio.FloatBuffer;
-import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,6 +18,8 @@ import redrun.graphics.selection.Picker;
 import redrun.model.constants.CameraType;
 import redrun.model.constants.Direction;
 import redrun.model.constants.Team;
+import redrun.model.constants.TrapType;
+import redrun.model.game.GameData;
 import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.map.Corner;
@@ -58,11 +59,8 @@ public class GraphicsTestTroy
   /** The player associated with the client. */
   private static Player player = null;
   
-  /** The list of most active map objects. */
-  private static LinkedList<MapObject> worldMap = new LinkedList<MapObject>();
-  
-  /** The list of most active game objects. */
-  private static LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
+  /** The list of map objects and game objects. */
+  public static GameData data = new GameData();
 
   /**
    * Performs OpenGL initialization.
@@ -108,36 +106,36 @@ public class GraphicsTestTroy
     // Create the map objects...
   	
     // Add the starting point...
-    worldMap.add(new Start(0.0f, 0.0f, 0.0f, "brickwall5", Direction.WEST, null));
+    data.addMapObject(new Start(0.0f, 0.0f, 0.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
     // Add a walkway...
-    worldMap.add(new Corridor(0.0f, 0.0f, 15.0f, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Corridor(0.0f, 0.0f, 30.0f, "brickwall5", Direction.EAST, null));
-    worldMap.add(new Corridor(0.0f, 0.0f, 45.0f, "brickwall5", Direction.EAST, null));
+    data.addMapObject(new Corridor(0.0f, 0.0f, 15.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
+    data.addMapObject(new Corridor(0.0f, 0.0f, 30.0f, "brickwall5", Direction.EAST, TrapType.ROCK_SMASH));    
+    data.addMapObject(new Corridor(0.0f, 0.0f, 45.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
     // Add a corner...
-    worldMap.add(new Corner(0.0f, 0.0f, 60.0f, "brickwall5", Direction.SOUTH, null));
+    data.addMapObject(new Corner(0.0f, 0.0f, 60.0f, "brickwall5", Direction.SOUTH, TrapType.JAIL_DOOR));
     // Add a staircase...
-    worldMap.add(new Staircase(15.0f, 0.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    data.addMapObject(new Staircase(15.0f, 0.0f, 60.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
     // Add a walkway...
-    worldMap.add(new Corridor(30.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
-    worldMap.add(new Corridor(45.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    data.addMapObject(new Corridor(30.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
+    data.addMapObject(new Corridor(45.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
     // Add a field...
-    worldMap.add(new Field(75.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    data.addMapObject(new Field(75.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
     // Add a walkway...
-    worldMap.add(new Corridor(105.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
-    worldMap.add(new Corridor(120.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    data.addMapObject(new Corridor(105.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
+    data.addMapObject(new Corridor(120.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
     // Add a tunnel...
-    worldMap.add(new Tunnel(135.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
-    worldMap.add(new Tunnel(150.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    data.addMapObject(new Tunnel(135.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
+    data.addMapObject(new Tunnel(150.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
     // Add a walkway...
-    worldMap.add(new Corridor(165.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    data.addMapObject(new Corridor(165.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
     // Add a pit...
-    worldMap.add(new Pit(180.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    data.addMapObject(new Pit(180.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
     // Add a walkway...
-    worldMap.add(new Corridor(195.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    data.addMapObject(new Corridor(195.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
     // Add a platform...
-    worldMap.add(new Platform(210.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    data.addMapObject(new Platform(210.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
     // Add the ending point...
-    worldMap.add(new End(225.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, null));
+    data.addMapObject(new End(225.0f, 15.0f, 60.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
   	
     // Create the game objects...
     
@@ -152,7 +150,7 @@ public class GraphicsTestTroy
     // Create cubes above the staircase...
     for (int i = 0; i < 500; i++)
     {
-      gameObjects.add(new Cube(15.0f, 50.0f + (2 * i), 60.0f, "crate1"));
+      data.addGameObject(new Cube(15.0f, 50.0f + (2 * i), 60.0f, "crate1"));
     }
         
     // Hide the mouse cursor...
@@ -206,7 +204,7 @@ public class GraphicsTestTroy
         Picker.startPicking();
         {
           // Draw the game objects...
-          for (GameObject gameObject : gameObjects)
+          for (GameObject gameObject : data.getGameObjects())
           {
           	glPushName(gameObject.id);
           	{
@@ -225,13 +223,13 @@ public class GraphicsTestTroy
       floor.draw();
       
       // Draw the map objects...
-      for (MapObject mapObject : worldMap)
+      for (MapObject mapObject : data.getMapObjects())
       {
         mapObject.draw();
       }
       
       // Draw the game objects...
-      for (GameObject gameObject : gameObjects)
+      for (GameObject gameObject : data.getGameObjects())
       {
       	gameObject.draw();
       }
