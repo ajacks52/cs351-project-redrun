@@ -64,6 +64,9 @@ public class GraphicsTestTroy
   /** The camera associated with the client. */
   private static Camera camera = null;
 
+  /** The network data that is to be turned into map objects or game objects. */
+  public static volatile LinkedList<ArrayList<String>> networkData = new LinkedList<ArrayList<String>>();
+
   /** Used to keep track of the current map. */
   // formerly: RedRunDAO.getMap(1);
   private static Map map = null;
@@ -80,7 +83,8 @@ public class GraphicsTestTroy
   private static void createOpenGL()
   {
     // Connect to the server...
-    // client = new Client("127.0.0.1", 7777, mapObjects);
+    client = new Client("127.0.0.1", 7777, mapObjects);
+    client.requestMapObjects();
     int mapID = 1;
     map = RedRunDAO.getMap(mapID);
 
@@ -291,7 +295,7 @@ public class GraphicsTestTroy
     {
       mapObjects.add(createMapObjectFromDB(object.toString()));
     }
-    
+
     gameObjects.add(createFloorFromDB(map.toString(), map.getId()));
 
     // ArrayList<Map> gameDB = RedRunDAO.getAllMaps();
@@ -420,6 +424,9 @@ public class GraphicsTestTroy
 
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
+      // TODO - Might move this.
+      createObjects();
+
       getInput();
 
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -487,6 +494,120 @@ public class GraphicsTestTroy
       Timer.tick();
       Display.update();
       Display.sync(60);
+    }
+  }
+
+  private static void createObjects()
+  {
+    if (!networkData.isEmpty())
+    {
+      ArrayList<String> nextFrameData = networkData.pop();
+      GraphicsTestTroy.createMapObject(nextFrameData);
+      // System.out.println("Here's some fucking data: " + nextFrameData);
+      // Make map and game objects...
+    }
+  }
+
+  private static void createMapObject(ArrayList<String> data)
+  {
+    Pattern getMapObject = Pattern
+        .compile("===\\sMap\\sObject\\s===\\sID:(\\d+)\\sName:(\\w+)\\sLocation:\\((\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\)\\sTexture:(\\w+)\\sDirection:(\\w+\\.\\w+)\\sMap\\sID:(\\d+)\\s===");
+
+    for (String item : data)
+    {
+      System.out.println(item);
+      Matcher matchMapObject = getMapObject.matcher(item);
+      float x = Float.parseFloat(matchMapObject.group(3));
+      float y = Float.parseFloat(matchMapObject.group(4));
+      float z = Float.parseFloat(matchMapObject.group(5));
+      String textureName = matchMapObject.group(6);
+
+      Direction orientation = null;
+      switch (matchMapObject.group(7))
+      {
+        case "Direction.NORTH":
+        {
+          orientation = Direction.NORTH;
+          break;
+        }
+        case "Direction.EAST":
+        {
+          orientation = Direction.EAST;
+          break;
+        }
+        case "Direction.SOUTH":
+        {
+          orientation = Direction.SOUTH;
+          break;
+        }
+        case "Direction.WEST":
+        {
+          orientation = Direction.WEST;
+          break;
+        }
+        default:
+        {
+          try
+          {
+            throw new IllegalArgumentException();
+          }
+          catch (IllegalArgumentException e)
+          {
+            e.printStackTrace();
+          }
+        }
+      }
+
+      switch (matchMapObject.group(2))
+      {
+        case "Corner":
+        {
+          mapObjects.add(new Corner(x, y, z, textureName, orientation, null));
+        }
+        case "Corridor":
+        {
+          mapObjects.add(new Corridor(x, y, z, textureName, orientation, null));
+        }
+        case "End":
+        {
+          mapObjects.add(new End(x, y, z, textureName, orientation, null));
+        }
+        case "Field":
+        {
+          mapObjects.add(new Field(x, y, z, textureName, orientation, null));
+        }
+        case "Pit":
+        {
+          mapObjects.add(new Pit(x, y, z, textureName, orientation, null));
+        }
+        case "Platform":
+        {
+          mapObjects.add(new Platform(x, y, z, textureName, orientation, null));
+        }
+        case "Staircase":
+        {
+          mapObjects.add(new Staircase(x, y, z, textureName, orientation, null));
+        }
+        case "Start":
+        {
+          mapObjects.add(new Start(x, y, z, textureName, orientation, null));
+        }
+        case "Tunnel":
+        {
+          mapObjects.add(new Tunnel(x, y, z, textureName, orientation, null));
+        }
+        default:
+        {
+          try
+          {
+            throw new IllegalArgumentException();
+          }
+          catch (IllegalArgumentException e)
+          {
+            e.printStackTrace();
+          }
+        }
+      }
     }
   }
 
