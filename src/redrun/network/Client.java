@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,7 +22,7 @@ import redrun.model.gameobject.map.Platform;
 import redrun.model.gameobject.map.Staircase;
 import redrun.model.gameobject.map.Start;
 import redrun.model.gameobject.map.Tunnel;
-import redrun.model.gameobject.player.Player;
+import redrun.test.GraphicsTestTroy;
 
 /**
  * Facilitate client interaction with the server
@@ -37,7 +38,6 @@ public class Client
   private BufferedReader reader;
   private long startNanoSec;
   private ClientListener listener;
-  private Player player = null;
   private LinkedList<MapObject> mapObjects = null;
 
   /**
@@ -53,23 +53,15 @@ public class Client
     System.out.println("Starting Client: " + timeDiff());
 
     this.mapObjects = mapObjects;
-    
-    // Try to connect until a connection is established
-    while (!openConnection(host, portNumber))
-    {
-    }
 
-    // Start listening thread
+    // Try to connect until a connection is established...
+    while (!openConnection(host, portNumber))
+      ;
+
+    // Start listening thread...
     listener = new ClientListener();
     System.out.println("Client(): Starting listener = : " + listener);
     listener.start();
-
-//    this.getInformationFromDB();
-//    this.generateRunner();
-    // this.generatePhysics();
-//     listenToUserRequests();
-
-    closeAll();
   }
 
   /**
@@ -159,26 +151,10 @@ public class Client
   /**
    * Parse input commands to send out to server
    */
-//  private void listenToUserRequests()
-//  {
-//    // Get player object
-//    Pattern quit = Pattern.compile("quit$", Pattern.CASE_INSENSITIVE);
-//
-//    while (true)
-//    {
-//      String data;
-//      data = (this.player.toNetworkString());
-//
-//      Matcher matchQuit = quit.matcher(data);
-//
-//      if (matchQuit.find())
-//      {
-//        write.println(data);
-//        break;
-//      }
-//      else write.println(data);
-//    }
-//  }
+  public void requestMapObjects()
+  {
+    write.println("MapObjects");
+  }
 
   /**
    * Get difference in time between the start of the client's runtime and the
@@ -193,11 +169,6 @@ public class Client
     return String.format("%.6f", secDiff);
   }
 
-  /**
-   * Main statement for Clients
-   * 
-   * @param args
-   */
   public static void main(String[] args)
   {
     new Client(Server.HOST, Server.PORT, new LinkedList<MapObject>());
@@ -213,149 +184,80 @@ public class Client
    */
   class ClientListener extends Thread
   {
+    /** For closing the thread gracefully. */
     private volatile boolean destroy = false;
 
+    /**
+     * Gracefully closes the thread.
+     */
     public void destroyThread()
     {
       this.destroy = true;
     }
 
     /**
-     * Run the client listener
+     * Listen for incoming data from the server.
      */
+    @Override
     public void run()
     {
+      ArrayList<String> mapObjects = new ArrayList<String>();
+      ArrayList<String> gameObjects = new ArrayList<String>();
       System.out.println("ClientListener.run()");
+
       while (!destroy)
       {
-        read();
-      }
-    }
+        Pattern getMapObject = Pattern
+            .compile("===\\sMap\\sObject\\s===\\sID:(\\d+)\\sName:(\\w+)\\sLocation:\\((\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\)\\sTexture:(\\w+)\\sDirection:(\\w+\\.\\w+)\\sMap\\sID:(\\d+)\\s===");
 
-    /**
-     * Receive information about the game such as other players and the state of
-     * the map
-     */
-    private void read()
-    {
-      Pattern getMapObject = Pattern
-          .compile("===\\sMap\\sObject\\s===\\sID:(\\d+)\\sName:(\\w+)\\sLocation:\\((\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\)\\sTexture:(\\w+)\\sDirection:(\\w+\\.\\w+)\\sMap\\sID:(\\d+)\\s===");
-
-      Pattern getGameObject = Pattern
-          .compile(".*Game\\sObject.*ID:(\\d+)\\sPosition:(\\d+\\.\\d+),\\s(\\d+\\.\\d+),\\s(\\d+\\.\\d+)\\sPhysics:\\sMass:(-?\\d+\\.\\d+)\\sName:\\s(\\w+)\\s===");
-      try
-      {
-        System.out.println("Client: listening to socket");
-        String msg = reader.readLine();
-
-        Matcher matchGameObject = getGameObject.matcher(msg);
-        Matcher matchMapObject = getMapObject.matcher(msg);
-
-        if (matchMapObject.find())
+        Pattern getGameObject = Pattern
+            .compile(".*Game\\sObject.*ID:(\\d+)\\sPosition:(\\d+\\.\\d+),\\s(\\d+\\.\\d+),\\s(\\d+\\.\\d+)\\sPhysics:\\sMass:(-?\\d+\\.\\d+)\\sName:\\s(\\w+)\\s===");
+        try
         {
-          float x = Float.parseFloat(matchMapObject.group(3));
-          float y = Float.parseFloat(matchMapObject.group(4));
-          float z = Float.parseFloat(matchMapObject.group(5));
-          String textureName = matchMapObject.group(6);
+          System.out.println("Client: Listening to socket...");
 
-          Direction orientation = null;
-          switch (matchMapObject.group(7))
-          {
-            case "Direction.NORTH":
-            {
-              orientation = Direction.NORTH;
-              break;
-            }
-            case "Direction.EAST":
-            {
-              orientation = Direction.EAST;
-              break;
-            }
-            case "Direction.SOUTH":
-            {
-              orientation = Direction.SOUTH;
-              break;
-            }
-            case "Direction.WEST":
-            {
-              orientation = Direction.WEST;
-              break;
-            }
-            default:
-            {
-              try
-              {
-                throw new IllegalArgumentException();
-              }
-              catch (IllegalArgumentException e)
-              {
-                e.printStackTrace();
-              }
-            }
-          }
+          // Wait for the next message from the server...
+          String msg = reader.readLine();
 
-          switch (matchMapObject.group(2))
+          
+          System.out.println("???" + msg + "???");
+
+          Matcher matchGameObject = getGameObject.matcher(msg);
+          Matcher matchMapObject = getMapObject.matcher(msg);
+
+          if (matchMapObject.find())
           {
-            case "Corner":
+            
+//            mapObjects.add("MapObject Start");
+            for (int i = 1; i <= matchMapObject.groupCount(); i++)
             {
-              mapObjects.add(new Corner(x, y, z, textureName, orientation, null));
+              mapObjects.add(matchMapObject.group(i));
             }
-            case "Corridor":
-            {
-              mapObjects.add(new Corridor(x, y, z, textureName, orientation, null));
-            }
-            case "End":
-            {
-              mapObjects.add(new End(x, y, z, textureName, orientation, null));
-            }
-            case "Field":
-            {
-              mapObjects.add(new Field(x, y, z, textureName, orientation, null));
-            }
-            case "Pit":
-            {
-              mapObjects.add(new Pit(x, y, z, textureName, orientation, null));
-            }
-            case "Platform":
-            {
-              mapObjects.add(new Platform(x, y, z, textureName, orientation, null));
-            }
-            case "Staircase":
-            {
-              mapObjects.add(new Staircase(x, y, z, textureName, orientation, null));
-            }
-            case "Start":
-            {
-              mapObjects.add(new Start(x, y, z, textureName, orientation, null));
-            }
-            case "Tunnel":
-            {
-              mapObjects.add(new Tunnel(x, y, z, textureName, orientation, null));
-            }
-            default:
-            {
-              try
-              {
-                throw new IllegalArgumentException();
-              }
-              catch (IllegalArgumentException e)
-              {
-                e.printStackTrace();
-              }
-            }
+//            mapObjects.add("MapObject Finish");
+            GraphicsTestTroy.networkData.add(mapObjects);
+            System.out.println(GraphicsTestTroy.networkData);
           }
-        }    
-        if (matchGameObject.find())
-        {
-          System.out.println("Current Server time: " + Server.getElapsedTime());
-          for (int i = 1; i <= matchGameObject.groupCount(); i++)
-            System.out.println("matched text: " + matchGameObject.group(i));
+          else if (matchGameObject.find())
+          {
+//            gameObjects.add("GameObject Start");
+            for (int i = 1; i <= matchGameObject.groupCount(); i++)
+            {
+              gameObjects.add(matchGameObject.group(i));
+            }
+//            gameObjects.add("GameObject Finish");
+            GraphicsTestTroy.networkData.add(gameObjects);
+          }
+          else
+          {
+            System.out.println("Unrecognized message " + msg + " sent, error!");
+          }
+          // System.out.println("Current Server time: " +
+          // Server.getElapsedTime());
         }
-        // otherwise if it's a physics item
-      }
-      catch (IOException e)
-      {
-        e.printStackTrace();
+        catch (IOException e)
+        {
+          e.printStackTrace();
+        }
       }
     }
   }
