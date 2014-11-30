@@ -1,10 +1,12 @@
 package redrun.test.database;
 
+import redrun.database.ButtonDB;
 import redrun.database.Kiosk;
 import redrun.database.Map;
 import redrun.database.MapObjectDB;
 import redrun.database.RedRunDAO;
 import redrun.database.Character;
+import redrun.database.TrapDB;
 
 /**
  * Testing class for the RedRunDAO class
@@ -211,12 +213,79 @@ public class RedRunDAOTest
   {
     if (DEBUG)
     {
-      for (Kiosk kiosk: RedRunDAO.getAllKiosks())
+      for (Kiosk kiosk : RedRunDAO.getAllKiosks())
       {
         System.out.println(kiosk.toString());
       }
     }
     assert (RedRunDAO.getAllKiosks() != null) : "We were unable to retrieve any kiosks from the Kiosk table";
+    return true;
+  }
+
+  /**
+   * Used to test the trap INSERT functionality of the DAO
+   * 
+   * @return true if all tests pass
+   */
+  private boolean insertTrap()
+  {
+    assert (RedRunDAO.insertTrap("spikey", 1, 1) == true) : "Unable to create new Trap";
+    boolean found = false;
+    for (TrapDB trap : RedRunDAO.getAllTraps())
+    {
+      if (DEBUG) System.out.println(trap.toString());
+      if (trap.toString().contains("spikey")) found = true;
+    }
+    assert (found == true) : "Unable to find newly created trap in Trap table";
+    return true;
+  }
+
+  /**
+   * Used to test the trap SELECT functionality of the DAO
+   * 
+   * @return true if all tests pass
+   */
+  private boolean selectTrap()
+  {
+    if (DEBUG)
+    {
+      for (TrapDB trap : RedRunDAO.getAllTraps())
+      {
+        System.out.println(trap.toString());
+      }
+    }
+    assert (RedRunDAO.getAllTraps() != null) : "We were unable to retrieve any traps from the Trap table";
+    return true;
+  }
+
+  private boolean insertButton()
+  {
+    assert (RedRunDAO.insertButton(false, 1, 1, 1) == true) : "Unable to create new Button";
+    boolean found = false;
+    for (ButtonDB button : RedRunDAO.getAllButtons())
+    {
+      if (DEBUG) System.out.println(button.toString());
+      if (button.toString().contains("false")) found = true;
+    }
+    assert (found == true) : "Unable to find newly created button in Button table";
+    return true;
+  }
+
+  /**
+   * Used to test the trap SELECT functionality of the DAO
+   * 
+   * @return true if all tests pass
+   */
+  private boolean selectButton()
+  {
+    if (DEBUG)
+    {
+      for (ButtonDB button : RedRunDAO.getAllButtons())
+      {
+        System.out.println(button.toString());
+      }
+    }
+    assert (RedRunDAO.getAllButtons() != null) : "We were unable to retrieve any buttons from the Button table";
     return true;
   }
 
@@ -243,7 +312,13 @@ public class RedRunDAOTest
     // Kiosk Tests
     if (redRunDaoTest.insertKiosk() == true) System.out.println("Insert kiosk test passed.");
     if (redRunDaoTest.selectKiosk() == true) System.out.println("Select kiosk test passed.");
+    // Trap Tests
+    if (redRunDaoTest.insertTrap() == true) System.out.println("Insert trap test passed.");
+    if (redRunDaoTest.selectTrap() == true) System.out.println("Select trap test passed.");
+    // Button Tests
+    if (redRunDaoTest.insertButton() == true) System.out.println("Insert button test passed.");
+    if (redRunDaoTest.selectButton() == true) System.out.println("Select button test passed.");
+
     dao.closeConnection();
   }
-
 }
