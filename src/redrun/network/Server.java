@@ -65,8 +65,6 @@ public class Server
 //        {
 //          worker.send(mapObject.toString());
 //        }
-        worker.send("Hello");
-        // send client game object
       }
       catch (IOException e)
       {
