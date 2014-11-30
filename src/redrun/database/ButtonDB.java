@@ -18,6 +18,7 @@ public class ButtonDB
   /**
    * Button instantiation
    * 
+   * @param id database id
    * @param state state of the button
    * @param kioskId associated kiosk
    * @param trapId associated trap
