@@ -2,60 +2,128 @@ package redrun.model.gameobject.world;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import org.lwjgl.util.glu.GLU;
-import org.lwjgl.util.glu.Sphere;
+import java.nio.FloatBuffer;
+
+import javax.vecmath.Quat4f;
+
 import org.lwjgl.util.vector.Vector3f;
 
-import redrun.model.physics.SpherePhysicsBody;
+import redrun.model.physics.BoxPhysicsBody;
+import redrun.model.toolkit.BufferConverter;
 
 /**
- * Creates a button object. This button sits on a pedestal and reacts to clicks.
+ * This class represents a interactable button that can be drawn in an OpenGL scene.
  * 
- * @author J. Jake Nichol
- * @since 11-11-2014
+ * @author Troy Squillaci
  * @version 1.0
+ * @since 2014-11-03
  */
 public class Button extends WorldObject
 {
-  Sphere sphere = new Sphere();
-//  private Vector3f defaultButtonPosition; // See todo below.
-//  private Vector3f currentButtonPosition; // See todo below.
-  Vector3f color;
-
-  public Button(float x, float y, float z, String textureName, Vector3f color)
+  /**
+   * Creates a new button at the specified position.
+   * 
+   * @param x the x position of the button
+   * @param y the y position of the button
+   * @param z the z position of the button
+   */
+  public Button(float x, float y, float z, String textureName)
   {
     super(x, y, z, textureName);
-
-    this.body = new SpherePhysicsBody(new Vector3f(x, y, z), 0.5f, 1.0f);
-
-//    defaultButtonPosition = new Vector3f(x, y, z); // See todo below.
-//    currentButtonPosition = defaultButtonPosition;
-    this.color = color;
-
-    sphere.setDrawStyle(GLU.GLU_FILL);
-    if (textureName != null) sphere.setTextureFlag(true);
-    sphere.setNormals(GLU.GLU_SMOOTH);
+    
+    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.25f, 0.25f, 0.25f), new Quat4f(), 1);
 
     displayListId = glGenLists(1);
 
     glNewList(displayListId, GL_COMPILE);
     {
-      glPushMatrix();
+      glBegin(GL_QUADS);
       {
-        glBegin(GL_SPHERE_MAP);
-        {
-          // glTranslatef(0, defaultButtonPosition.y - currentButtonPosition.y,
-          // 0); // See todo below
-          if (color != null)
-          {
-            glColor3f(color.x, color.y, color.z);
-            sphere.draw(0.5f, 40, 40);
-          }
-          else sphere.draw(0.5f, 40, 40);
-        }
-        glEnd();
+        FloatBuffer materialAmbient = BufferConverter.asFloatBuffer(new float[] {0.2f, 0.2f, 0.2f, 1.0f});
+        FloatBuffer materialDiffuse = BufferConverter.asFloatBuffer(new float[] {0.8f, 0.8f, 0.8f, 1.0f});
+        FloatBuffer materialSpecular = BufferConverter.asFloatBuffer(new float[] {1.0f, 0.75f, 0.75f, 1.0f});
+        FloatBuffer materialShininess = BufferConverter.asFloatBuffer(new float[] {30.0f, 0.0f, 0.0f, 0.0f});
+        FloatBuffer materialEmission = BufferConverter.asFloatBuffer(new float[] {0.0f, 0.0f, 0.1f, 0.0f});
+        
+        glMaterial(GL_FRONT, GL_AMBIENT, materialAmbient);
+        glMaterial(GL_FRONT, GL_DIFFUSE, materialDiffuse);
+        glMaterial(GL_FRONT, GL_SPECULAR, materialSpecular);
+        glMaterial(GL_FRONT, GL_SHININESS, materialShininess);
+        glMaterial(GL_FRONT, GL_EMISSION, materialEmission);
+      	
+        // Top face...
+        glNormal3f(0.0f, 0.25f, 0.0f);
+        glColor3f(0.0f, 0.25f, 0.0f);
+        glVertex3f(0.25f, 0.25f, -0.25f);
+        glTexCoord2f(0, 0);
+        glVertex3f(-0.25f, 0.25f, -0.25f);
+        glTexCoord2f(0, 1);
+        glVertex3f(-0.25f, 0.25f, 0.25f);
+        glTexCoord2f(1, 1);
+        glVertex3f(0.25f, 0.25f, 0.25f);
+        glTexCoord2f(1, 0);
+
+        // Bottom face...
+        glNormal3f(0.0f, -0.25f, 0.0f);
+        glColor3f(0.25f, 0.5f, 0.0f);
+        glVertex3f(0.25f, -0.25f, 0.25f);
+        glTexCoord2f(0, 0);
+        glVertex3f(-0.25f, -0.25f, 0.25f);
+        glTexCoord2f(0, 1);
+        glVertex3f(-0.25f, -0.25f, -0.25f);
+        glTexCoord2f(1, 1);
+        glVertex3f(0.25f, -0.25f, -0.25f);
+        glTexCoord2f(1, 0);
+
+        // Front face...
+        glNormal3f(0.0f, 0.0f, -0.25f);
+        glColor3f(0.25f, 0.25f, 0.0f);
+        glVertex3f(0.25f, -0.25f, -0.25f);
+        glTexCoord2f(0, 0);
+        glVertex3f(-0.25f, -0.25f, -0.25f);
+        glTexCoord2f(0, 1);
+        glVertex3f(-0.25f, 0.25f, -0.25f);
+        glTexCoord2f(1, 1);
+        glVertex3f(0.25f, 0.25f, -0.25f);
+        glTexCoord2f(1, 0);
+
+        // Back face...
+        glNormal3f(0.0f, 0.0f, 0.25f);
+        glColor3f(0.25f, 0.0f, 0.0f);
+        glVertex3f(0.25f, 0.25f, 0.25f);
+        glTexCoord2f(0, 0);
+        glVertex3f(-0.25f, 0.25f, 0.25f);
+        glTexCoord2f(0, 1);
+        glVertex3f(-0.25f, -0.25f, 0.25f);
+        glTexCoord2f(1, 1);
+        glVertex3f(0.25f, -0.25f, 0.25f);
+        glTexCoord2f(1, 0);
+
+        // Left face...
+        glNormal3f(-0.25f, 0.0f, 0.0f);
+        glColor3f(0.0f, 0.0f, 0.25f);
+        glVertex3f(-0.25f, 0.25f, 0.25f);
+        glTexCoord2f(0, 0);
+        glVertex3f(-0.25f, 0.25f, -0.25f);
+        glTexCoord2f(0, 1);
+        glVertex3f(-0.25f, -0.25f, -0.25f);
+        glTexCoord2f(1, 1);
+        glVertex3f(-0.25f, -0.25f, 0.25f);
+        glTexCoord2f(1, 0);
+
+        // Right face...
+        glNormal3f(0.25f, 0.0f, 0.0f);
+        glColor3f(0.25f, 0.0f, 0.25f);
+        glVertex3f(0.25f, 0.25f, -0.25f);
+        glTexCoord2f(0, 0);
+        glVertex3f(0.25f, 0.25f, 0.25f);
+        glTexCoord2f(0, 1);
+        glVertex3f(0.25f, -0.25f, 0.25f);
+        glTexCoord2f(1, 1);
+        glVertex3f(0.25f, -0.25f, -0.25f);
+        glTexCoord2f(1, 0);
       }
-      glPopMatrix();
+      glEnd();
     }
     glEndList();
   }
@@ -64,27 +132,19 @@ public class Button extends WorldObject
   public void interact()
   {
     System.out.println("Interacting with the game object: " + this.id);
-    this.timer.resume();
   }
 
   @Override
   public void update()
   {
-    if (this.timer.getTime() >= 0.8f) reset();
-
-    // TODO: For animation, under construction.
-    // if (timer.isPaused() && this.getY() < defaultButtonPosition.y)
-    // this.currentButtonPosition.y = this.getY() + 0.02f;
-    // else if (!timer.isPaused()) this.currentButtonPosition.y = this.getY() -
-    // 0.02f;
+    // TODO Auto-generated method stub
 
   }
 
   @Override
   public void reset()
   {
-    System.out.println("Resetting game object: " + this.id);
-    this.timer.reset();
-    this.timer.pause();
+    // TODO Auto-generated method stub
+
   }
 }
