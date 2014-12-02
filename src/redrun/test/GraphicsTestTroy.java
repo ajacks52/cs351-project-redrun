@@ -28,7 +28,6 @@ import redrun.model.gameobject.map.End;
 import redrun.model.gameobject.map.Field;
 import redrun.model.gameobject.map.Kiosk;
 import redrun.model.gameobject.map.Pit;
-import redrun.model.gameobject.map.Platform;
 import redrun.model.gameobject.map.Staircase;
 import redrun.model.gameobject.map.Start;
 import redrun.model.gameobject.map.Tunnel;
@@ -282,7 +281,7 @@ public class GraphicsTestTroy
     // Create balls above the staircase...
     for (int i = 0; i < 10; i++)
     {
-      data.addGameObject(new Ball(45.0f, 50.0f + (2 * i), 15.0f, "crate1", 1.5f));
+      data.addGameObject(new Ball(45.0f, 50.0f + (5 * i), 15.0f, "crate1", 1.5f));
     }
         
     // Hide the mouse cursor...
