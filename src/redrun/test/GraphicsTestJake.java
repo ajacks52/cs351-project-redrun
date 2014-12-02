@@ -45,7 +45,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * This class is for testing OpenGL scenes.
  * 
- * @author Troy Squillaci
+ * @author J. Jake Nichol
  * @version 1.0
  * @since 2014-11-03
  */
