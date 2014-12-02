@@ -8,6 +8,7 @@ import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.constants.Direction;
 import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.physics.SpherePhysicsBody;
 import redrun.model.toolkit.ShaderLoader;
@@ -21,9 +22,9 @@ public class Spike extends Trap
   float occilate2 = 0;
   float movementSpeed = 0.15f;
 
-  public Spike(float x, float y, float z, String textureName)
+  public Spike(float x, float y, float z, Direction orientation, String textureName)
   {
-    super(x, y, z, null);
+    super(x, y, z, orientation, null);
 
     // Physics body...
     this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(1, 1, 1), new Quat4f(), 1);
@@ -82,6 +83,8 @@ public class Spike extends Trap
   public void activate()
   {
     // TODO Auto-generated method stub
+    System.out.println("Interacting with the game object: " + this.id);
+    this.timer.resume();
   }
 
   @Override
@@ -95,8 +98,6 @@ public class Spike extends Trap
   public void interact()
   {
     // TODO Auto-generated method stub
-    System.out.println("Interacting with the game object: " + this.id);
-    this.timer.resume();
   }
 
   @Override

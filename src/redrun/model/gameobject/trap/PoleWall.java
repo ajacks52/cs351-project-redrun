@@ -22,7 +22,7 @@ public class PoleWall extends Trap
 
   public PoleWall(float x, float y, float z, Direction orientation, String textureName)
   {
-    super(x, y, z, textureName);
+    super(x, y, z, orientation, textureName);
     float height = 17f;
     float radius = .6f;
     float resolution = .1f;

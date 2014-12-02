@@ -11,9 +11,9 @@ import redrun.model.physics.BoxPhysicsBody;
 
 public class ExplosiveBox extends Trap
 {
-  public ExplosiveBox(float x, float y, float z, String textureName)
+  public ExplosiveBox(float x, float y, float z, Direction orientation, String textureName)
   {
-    super(x, y, z, textureName);
+    super(x, y, z, orientation, textureName);
 
     this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(1, 1, 1), new Quat4f(), 0);
 

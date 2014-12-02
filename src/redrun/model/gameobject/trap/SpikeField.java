@@ -1,8 +1,12 @@
 package redrun.model.gameobject.trap;
 
 import java.awt.Dimension;
+
 import javax.vecmath.Quat4f;
+
 import org.lwjgl.util.vector.Vector3f;
+
+import redrun.model.constants.Direction;
 import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.toolkit.ShaderLoader;
 import static org.lwjgl.opengl.GL11.*;
@@ -27,9 +31,9 @@ public class SpikeField extends Trap
    * @param textureName
    * @param dimension of the trap x,z (not x y)
    */
-  public SpikeField(float x, float y, float z, String textureName, Dimension dim, boolean low)
+  public SpikeField(float x, float y, float z, String textureName, Direction orientation, Dimension dim, boolean low)
   {
-    super(x, y, z, textureName);
+    super(x, y, z, orientation, textureName);
 
     if (low)
     {
