@@ -133,7 +133,9 @@ public class SpikeTrapDoor extends Trap
   @Override
   public void activate()
   {
-
+    System.out.println("Interacting with the game object: " + this.id);
+    td1.interact();
+    this.timer.resume();
   }
 
   @Override
@@ -146,9 +148,7 @@ public class SpikeTrapDoor extends Trap
   @Override
   public void interact()
   {
-    System.out.println("Interacting with the game object: " + this.id);
-    td1.interact();
-    this.timer.resume();
+
   }
 
   @Override

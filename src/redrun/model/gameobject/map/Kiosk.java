@@ -3,11 +3,11 @@ package redrun.model.gameobject.map;
 import redrun.model.constants.Direction;
 import redrun.model.constants.Scale;
 import redrun.model.constants.TrapType;
+import redrun.model.game.GameData;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.world.Button;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.RectangularPrism;
-import redrun.test.GraphicsTestTroy;
 
 public class Kiosk extends MapObject
 {
@@ -16,6 +16,8 @@ public class Kiosk extends MapObject
     super(x, y, z, textureName, orientation, type);
 
     int size = Scale.MAP_SCALE.scale();
+    
+    Button button = null;
         
     switch (orientation)
     {
@@ -24,7 +26,9 @@ public class Kiosk extends MapObject
         components.add(new Plane(x, y, z, textureName, Direction.NORTH, size));
         components.add(new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size, 3.0f, 1.0f));
         components.add(new RectangularPrism(x, y + 1.5f, z + -(size / 2), textureName, size, 3.0f, 1.0f));  
-        GraphicsTestTroy.data.addGameObject(new Button(x, y + 3.25f, z - (size / 2), "button"));  
+        button = new Button(x, y + 3.25f, z - (size / 2), "button");
+        GameData.addGameObject(button);  
+        GameData.addButton(button);
         break;
       }
       case EAST:
@@ -32,7 +36,9 @@ public class Kiosk extends MapObject
         components.add(new Plane(x, y, z, textureName, Direction.EAST, size));
         components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
         components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
-        GraphicsTestTroy.data.addGameObject(new Button(x + (size / 2), y + 3.25f, z, "button"));  
+        button = new Button(x + (size / 2), y + 3.25f, z, "button");  
+        GameData.addGameObject(button);  
+        GameData.addButton(button);
         break;
       }
       case SOUTH:
@@ -40,7 +46,9 @@ public class Kiosk extends MapObject
         components.add(new Plane(x, y, z, textureName, Direction.SOUTH, size));
         components.add(new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size, 3.0f, 1.0f));
         components.add(new RectangularPrism(x, y + 1.5f, z + -(size / 2), textureName, size, 3.0f, 1.0f));
-        GraphicsTestTroy.data.addGameObject(new Button(x, y + 3.25f, z + (size / 2), "button"));  
+        button = new Button(x, y + 3.25f, z + (size / 2), "button");  
+        GameData.addGameObject(button);  
+        GameData.addButton(button);
         break;
       }
       case WEST:
@@ -48,7 +56,9 @@ public class Kiosk extends MapObject
         components.add(new Plane(x, y, z, textureName, Direction.WEST, size));
         components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
         components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
-        GraphicsTestTroy.data.addGameObject(new Button(x - (size / 2), y + 3.25f, z, "button"));  
+        button = new Button(x - (size / 2), y + 3.25f, z, "button");  
+        GameData.addGameObject(button);  
+        GameData.addButton(button);
         break;
       }
       default:

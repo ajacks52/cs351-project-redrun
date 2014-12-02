@@ -6,6 +6,7 @@ import java.util.List;
 
 import redrun.model.constants.Constants;
 import redrun.model.constants.Direction;
+import redrun.model.constants.Scale;
 import redrun.model.constants.TrapType;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.map.Corridor;
@@ -20,6 +21,7 @@ import redrun.model.gameobject.trap.RockSmash;
 import redrun.model.gameobject.trap.SpikeField;
 import redrun.model.gameobject.trap.SpikeTrapDoor;
 import redrun.model.gameobject.trap.Trap;
+import redrun.model.gameobject.world.Button;
 import redrun.test.GraphicsTestAdam;
 import redrun.test.GraphicsTestTroy;
 
@@ -143,6 +145,7 @@ public abstract class MapObject implements Comparable<MapObject>
     if (type != TrapType.EMPTY)
     {
       GameData.addGameObject(trap);
+      GameData.addTrap(trap);
     }
   }
 

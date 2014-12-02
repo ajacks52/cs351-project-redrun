@@ -8,6 +8,7 @@ import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.game.GameData;
 import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.toolkit.BufferConverter;
 
@@ -131,6 +132,7 @@ public class Button extends WorldObject
   @Override
   public void interact()
   {
+    GameData.getTrap(this).activate();
     timer.resume();
   }
 
