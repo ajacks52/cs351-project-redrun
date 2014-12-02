@@ -1,6 +1,7 @@
 package redrun.test;
 
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,8 +40,13 @@ import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
+import redrun.model.toolkit.ShaderTools;
 import redrun.model.toolkit.Timing;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
+import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 
 /**
  * This class is for testing OpenGL scenes.
@@ -49,16 +55,34 @@ import static org.lwjgl.opengl.GL11.*;
  * @version 1.0
  * @since 2014-11-03
  */
-public class GraphicsTestTroy
+public class ShadowsTest
 {
   /** The active camera manager. */
   private static CameraManager cameraManager = null;
-	
+    
   /** The active camera. */
   private static Camera camera = null;
   
   /** The player associated with the client. */
   private static Player player = null;
+  
+  private static int projectionMatrixID;
+  private static int viewMatrixID;
+  private static int modelMatrixID;
+  private static int depthMatrixID;
+  private static int depthModelMatrixID;
+  private static int depthBiasMatrixID;
+  private static int shadowMapID;
+  
+  private static int lightPositionID;
+  private static int ambientID;
+  private static int lightRangeID;
+  private static int attenConstantID;
+  private static int attenLinearID;
+  private static int attenExponentID;
+  
+  private static int shaderProgram;
+  private static int shadowShaderProgram;
 
   /**
    * Performs OpenGL initialization.
@@ -92,7 +116,61 @@ public class GraphicsTestTroy
     glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
     
+    // Look into these
+    //glFrontFace(GL_CW);
+    //glEnable(GL_CULL_FACE);
+    //glCullFace(GL_BACK);
+    
+    //glEnable(GL_DEPTH_CLAMP);
+
+    glEnable(GL_BLEND);
+
     FontTools.loadFonts();
+  }
+  
+  private static void initGLStates()
+  {
+    glFrontFace(GL_CW);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_CLAMP);
+    glEnable(GL_BLEND);
+    glEnable(GL_TEXTURE_2D);
+  }
+  
+  private static void setUpBasicShaders() 
+  {
+    ArrayList<Integer> shaderList = new ArrayList<>();
+    shaderList.add(ShaderTools.loadShader(GL_VERTEX_SHADER, "basicShader.vs"));
+    shaderList.add(ShaderTools.loadShader(GL_FRAGMENT_SHADER, "basicShader.fs"));
+
+    shaderProgram = ShaderTools.createProgram(shaderList);
+
+    projectionMatrixID = glGetUniformLocation(shaderProgram, "projectionMatrix");
+    viewMatrixID = glGetUniformLocation(shaderProgram, "viewMatrix");
+    modelMatrixID = glGetUniformLocation(shaderProgram, "modelMatrix");
+    depthBiasMatrixID = glGetUniformLocation(shaderProgram, "depthBiasMatrix");
+    shadowMapID = glGetUniformLocation(shaderProgram, "shadowMap");
+    
+    lightPositionID = glGetUniformLocation(shaderProgram, "lightPosition");
+    ambientID = glGetUniformLocation(shaderProgram, "ambient");
+    lightRangeID = glGetUniformLocation(shaderProgram, "lightRange");
+    attenConstantID = glGetUniformLocation(shaderProgram, "attenConstant");
+    attenLinearID = glGetUniformLocation(shaderProgram, "attenLinear");
+    attenExponentID = glGetUniformLocation(shaderProgram, "attenExponent");
+  }
+  
+  private static void setUpShadowShaders() 
+  {
+    ArrayList<Integer> shaderList = new ArrayList<>();
+    shaderList.add(ShaderTools.loadShader(GL_VERTEX_SHADER, "shadowShader.vs"));
+    shaderList.add(ShaderTools.loadShader(GL_FRAGMENT_SHADER, "shadowShader.fs"));
+
+    shadowShaderProgram = ShaderTools.createProgram(shaderList);
+    
+    depthMatrixID = glGetUniformLocation(shadowShaderProgram, "depthMatrix");
+    depthModelMatrixID = glGetUniformLocation(shadowShaderProgram, "depthModelMatrix");
   }
 
   /**
@@ -101,7 +179,7 @@ public class GraphicsTestTroy
   private static void gameLoop()
   {    
     // Create the map objects...
-  	
+    
     // Make the obstacle course...
     GameData.addMapObject(new Start(0.0f, 0.0f, 0.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
     
@@ -288,7 +366,7 @@ public class GraphicsTestTroy
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
       camera = cameraManager.getActiveCamera();
-    	
+        
       // Get input from the user...
       getInput();
       
@@ -335,11 +413,11 @@ public class GraphicsTestTroy
           // Draw the game objects...
           for (GameObject gameObject : GameData.getGameObjects())
           {
-          	glPushName(gameObject.id);
-          	{
-            	gameObject.draw();
-          	}
-          	glPopName();
+            glPushName(gameObject.id);
+            {
+                gameObject.draw();
+            }
+            glPopName();
           }
         }
         Picker.stopPicking();
@@ -360,7 +438,7 @@ public class GraphicsTestTroy
       // Draw the game objects...
       for (GameObject gameObject : GameData.getGameObjects())
       {
-      	gameObject.draw();
+        gameObject.draw();
       }
             
       // Draw text to the screen...
@@ -371,9 +449,9 @@ public class GraphicsTestTroy
       }
       else
       {
-      	FontTools.renderText("Player: " + player.getName(), 10, 10, Color.black, 1);
-      	FontTools.renderText("Team: " + player.getTeam(), 10, 30, Color.black, 1);
-      	FontTools.renderText("Lives: " + player.getLives(), 10, 50, Color.black, 1);
+        FontTools.renderText("Player: " + player.getName(), 10, 10, Color.black, 1);
+        FontTools.renderText("Team: " + player.getTeam(), 10, 30, Color.black, 1);
+        FontTools.renderText("Lives: " + player.getLives(), 10, 50, Color.black, 1);
         FontTools.renderText("Player Camera: (" + player.getCamera().getX() + ", " + player.getCamera().getY() + ", " + player.getCamera().getZ() + ")", 10, 70, Color.black, 1);
       }
       FontTools.draw3D();
@@ -411,13 +489,13 @@ public class GraphicsTestTroy
     // Camera related input...
     if (Keyboard.isKeyDown(Keyboard.KEY_R))
     {
-    	cameraManager.chooseNextCamera();
+        cameraManager.chooseNextCamera();
     }
     
     // Movement related input...
     if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
     {
-    	camera.moveForward(movementSpeed * dt * 2);
+        camera.moveForward(movementSpeed * dt * 2);
     }
     else if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed * dt);
@@ -437,8 +515,8 @@ public class GraphicsTestTroy
 
   public static void main(String[] args)
   {
-    GraphicsTestTroy.createOpenGL();
-    GraphicsTestTroy.gameLoop();
-    GraphicsTestTroy.destroyOpenGL();
+    ShadowsTest.createOpenGL();
+    ShadowsTest.gameLoop();
+    ShadowsTest.destroyOpenGL();
   }
 }
