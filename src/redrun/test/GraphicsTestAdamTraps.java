@@ -49,11 +49,11 @@ import static org.lwjgl.opengl.GL11.*;
  * @version 1.0
  * @since 2014-11-03
  */
-public class GraphicsTestTroy
+public class GraphicsTestAdamTraps
 {
   /** The active camera manager. */
   private static CameraManager cameraManager = null;
-	
+    
   /** The active camera. */
   private static Camera camera = null;
   
@@ -75,7 +75,7 @@ public class GraphicsTestTroy
     }
     catch (LWJGLException ex)
     {
-      Logger.getLogger(GraphicsTestTroy.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(GraphicsTestAdamTraps.class.getName()).log(Level.SEVERE, null, ex);
     }
     
     player = new Player(0.0f, 1.0f, 0.0f, "Linvala, Keeper of Silence", null, Team.BLUE);
@@ -101,7 +101,7 @@ public class GraphicsTestTroy
   private static void gameLoop()
   {    
     // Create the map objects...
-  	
+    
     // Make the obstacle course...
     GameData.addMapObject(new Start(0.0f, 0.0f, 0.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
     
@@ -287,9 +287,9 @@ public class GraphicsTestTroy
     
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
-    	camera = cameraManager.getActiveCamera();
-    	
-    	// Get input from the user...
+        camera = cameraManager.getActiveCamera();
+        
+        // Get input from the user...
       getInput();
       
       // Prepare for rendering...
@@ -335,11 +335,11 @@ public class GraphicsTestTroy
           // Draw the game objects...
           for (GameObject gameObject : GameData.getGameObjects())
           {
-          	glPushName(gameObject.id);
-          	{
-            	gameObject.draw();
-          	}
-          	glPopName();
+            glPushName(gameObject.id);
+            {
+                gameObject.draw();
+            }
+            glPopName();
           }
         }
         Picker.stopPicking();
@@ -360,7 +360,7 @@ public class GraphicsTestTroy
       // Draw the game objects...
       for (GameObject gameObject : GameData.getGameObjects())
       {
-      	gameObject.draw();
+        gameObject.draw();
       }
             
       // Draw text to the screen...
@@ -371,9 +371,9 @@ public class GraphicsTestTroy
       }
       else
       {
-      	FontTools.renderText("Player: " + player.getName(), 10, 10, Color.black, 1);
-      	FontTools.renderText("Team: " + player.getTeam(), 10, 30, Color.black, 1);
-      	FontTools.renderText("Lives: " + player.getLives(), 10, 50, Color.black, 1);
+        FontTools.renderText("Player: " + player.getName(), 10, 10, Color.black, 1);
+        FontTools.renderText("Team: " + player.getTeam(), 10, 30, Color.black, 1);
+        FontTools.renderText("Lives: " + player.getLives(), 10, 50, Color.black, 1);
         FontTools.renderText("Player Camera: (" + player.getCamera().getX() + ", " + player.getCamera().getY() + ", " + player.getCamera().getZ() + ")", 10, 70, Color.black, 1);
       }
       FontTools.draw3D();
@@ -411,13 +411,13 @@ public class GraphicsTestTroy
     // Camera related input...
     if (Keyboard.isKeyDown(Keyboard.KEY_R))
     {
-    	cameraManager.chooseNextCamera();
+        cameraManager.chooseNextCamera();
     }
     
     // Movement related input...
     if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
     {
-    	camera.moveForward(movementSpeed * dt * 2);
+        camera.moveForward(movementSpeed * dt * 2);
     }
     else if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed * dt);
@@ -437,8 +437,8 @@ public class GraphicsTestTroy
 
   public static void main(String[] args)
   {
-    GraphicsTestTroy.createOpenGL();
-    GraphicsTestTroy.gameLoop();
-    GraphicsTestTroy.destroyOpenGL();
+    GraphicsTestAdamTraps.createOpenGL();
+    GraphicsTestAdamTraps.gameLoop();
+    GraphicsTestAdamTraps.destroyOpenGL();
   }
 }

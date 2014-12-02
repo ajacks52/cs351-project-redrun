@@ -1,4 +1,4 @@
-package redrun.model.gameobject;
+package redrun.model.mesh;
 
 import java.util.ArrayList;
 import java.util.List;

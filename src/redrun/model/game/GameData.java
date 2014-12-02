@@ -1,26 +1,46 @@
 package redrun.model.game;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
+import redrun.model.gameobject.trap.Trap;
+import redrun.model.gameobject.world.Button;
 
 public class GameData
 {
   /** The list of most active map objects. */
-  private LinkedList<MapObject> mapObjects = new LinkedList<MapObject>();
+  private static LinkedList<MapObject> mapObjects = new LinkedList<MapObject>();
   
   /** The list of most active game objects. */
-  private LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
+  private static LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
+  
+  private static ArrayList<Button> buttons = new ArrayList<Button>();
+  private static ArrayList<Trap> traps = new ArrayList<Trap>();
+
+  /** The mapping of buttons to traps. */
+  private static HashMap<Button, Trap> connections = new HashMap<Button, Trap>();
   
   // Add methods...
+  
+  public static void addButton(Button button)
+  {
+    buttons.add(button);
+  }
+  
+  public static void addTrap(Trap trap)
+  {
+    traps.add(trap);
+  }
   
   /**
    * Adds a map object to the list of map objects.
    * 
    * @param mapObject a map object
    */
-  public void addMapObject(MapObject mapObject)
+  public static void addMapObject(MapObject mapObject)
   {
   	mapObjects.add(mapObject);
   }
@@ -30,9 +50,20 @@ public class GameData
    * 
    * @param gameObject a game object
    */
-  public void addGameObject(GameObject gameObject)
+  public static void addGameObject(GameObject gameObject)
   {
   	gameObjects.add(gameObject);
+  }
+  
+  /**
+   * Associates a button and trap.
+   * 
+   * @param button the button
+   * @param trap the trap
+   */
+  public static void addConnection(Button button, Trap trap)
+  {
+    connections.put(button, trap);
   }
   
   // Getter methods...
@@ -42,7 +73,7 @@ public class GameData
    * 
    * @return the list of map objects
    */
-  public LinkedList<MapObject> getMapObjects()
+  public static LinkedList<MapObject> getMapObjects()
   {
   	return mapObjects;
   }
@@ -52,8 +83,43 @@ public class GameData
    * 
    * @return the list of game objects
    */
-  public LinkedList<GameObject> getGameObjects()
+  public static LinkedList<GameObject> getGameObjects()
   {
   	return gameObjects;
+  }
+  
+  /**
+   * Gets the trap associated with the specified button.
+   * 
+   * @param button the button
+   * @return the trap associated with the button
+   */
+  public static Trap getTrap(Button button)
+  {
+    return connections.get(button);
+  }
+  
+  public static void bindConnections()
+  {
+    System.out.println("Buttons Size: " + buttons.size() + ", Traps Size: " + traps.size());
+    
+    if (buttons.size() != traps.size())
+    {
+      try
+      {
+        throw new IllegalStateException();
+      }
+      catch (IllegalStateException ex)
+      {
+        ex.printStackTrace();
+      }
+    }
+    else
+    {
+      for (int i = 0; i < buttons.size(); i ++)
+      {
+        connections.put(buttons.get(i), traps.get(i));
+      }
+    }
   }
 }

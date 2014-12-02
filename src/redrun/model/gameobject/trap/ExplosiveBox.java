@@ -9,13 +9,13 @@ import org.lwjgl.util.vector.Vector3f;
 import redrun.model.constants.Direction;
 import redrun.model.physics.BoxPhysicsBody;
 
-public class ExplodingBox extends Trap
+public class ExplosiveBox extends Trap
 {
-  public ExplodingBox(float x, float y, float z,  Direction dir, String textureName)
+  public ExplosiveBox(float x, float y, float z, String textureName)
   {
     super(x, y, z, textureName);
 
-    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(1, 1, 1), new Quat4f(), 1);
+    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(1, 1, 1), new Quat4f(), 0);
 
     displayListId = glGenLists(1);
 
@@ -99,14 +99,12 @@ public class ExplodingBox extends Trap
   public void activate()
   {
     // TODO Auto-generated method stub
-
   }
 
   @Override
   public void reset()
   {
     // TODO Auto-generated method stub
-
   }
 
   @Override

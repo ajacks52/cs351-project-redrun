@@ -1,4 +1,4 @@
-package redrun.model.gameobject;
+package redrun.model.mesh;
 
 import org.lwjgl.util.vector.Vector3f;
 

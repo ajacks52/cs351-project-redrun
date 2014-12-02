@@ -64,7 +64,7 @@ public class MainTestAdam
   private RockSmash rocks2;
   private RockSmash rocks3;
   
-  private ExplodingBox xbox;
+  private ExplosiveBox xbox;
 
   // Used for controlling the camera with the keyboard and mouse...
   private float dx, dy, dt;
@@ -84,8 +84,8 @@ public class MainTestAdam
     Menu menu = new Menu();
 
     // ////// Initialize game objects
-    spikes = new SpikeTrapDoor(10, 0, 30, "wood");
-    trapDoor = new TrapDoor(30, 0, 10, "wood");
+    //spikes = new SpikeTrapDoor(10, 0, 30, "wood");
+    //trapDoor = new TrapDoor(30, 0, 10, "wood");
     deathPillar = new DeathPillar(20, 0, 30, "x17");
     spikeField = new SpikeField(30, 0, 20, "s11", new Dimension(10, 15), true);
 
@@ -93,7 +93,7 @@ public class MainTestAdam
     hallway2 = new Corridor(9, 0, 0, "x17", Direction.EAST , null);
     hallway3 = new Corridor(18, 0, 0, "x17", Direction.EAST , null);
     
-    pWall = new PoleWall(5,5,5, null);
+    //pWall = new PoleWall(5,5,5, null);
     bs = new BallsSwing(-10,2, 5, "metal");
     jailDoor = new JailDoor(15,2,15, Direction.EAST, null);
     
