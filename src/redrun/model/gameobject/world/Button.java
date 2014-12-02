@@ -31,7 +31,7 @@ public class Button extends WorldObject
   {
     super(x, y, z, textureName);
     
-    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.25f, 0.25f, 0.25f), new Quat4f(), 1);
+    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.25f, 0.25f, 0.25f), new Quat4f(), 0);
 
     displayListId = glGenLists(1);
 

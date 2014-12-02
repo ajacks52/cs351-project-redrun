@@ -31,6 +31,7 @@ public class Kiosk extends MapObject
         components.add(new Plane(x, y, z, textureName, Direction.EAST, size));
         components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
         components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
+        components.add(new Button(x + (size / 2), y + 3.5f, z, "button"));  
         break;
       }
       case SOUTH:
@@ -38,6 +39,7 @@ public class Kiosk extends MapObject
         components.add(new Plane(x, y, z, textureName, Direction.SOUTH, size));
         components.add(new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size, 3.0f, 1.0f));
         components.add(new RectangularPrism(x, y + 1.5f, z + -(size / 2), textureName, size, 3.0f, 1.0f));
+        components.add(new Button(x, y + 3.5f, z + (size / 2), "button"));  
         break;
       }
       case WEST:
@@ -45,6 +47,7 @@ public class Kiosk extends MapObject
         components.add(new Plane(x, y, z, textureName, Direction.WEST, size));
         components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
         components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
+        components.add(new Button(x - (size / 2), y + 3.5f, z, "button"));  
         break;
       }
       default:

@@ -58,26 +58,26 @@ public class Plane extends WorldObject
         {
           case NORTH:
           {
-            glVertex3f(-size / 2, 0.0f, -size / 2);
-            glTexCoord2f(0, 0);
-            glVertex3f(size / 2, 0.0f, -size / 2);
-            glTexCoord2f(1, 0);
             glVertex3f(size / 2, 0.0f, size / 2);
-            glTexCoord2f(1, 1);
+            glTexCoord2f(0, 0);
             glVertex3f(-size / 2, 0.0f, size / 2);
             glTexCoord2f(0, 1);
+            glVertex3f(-size / 2, 0.0f, -size / 2);
+            glTexCoord2f(1, 1);
+            glVertex3f(size / 2, 0.0f, -size / 2);
+            glTexCoord2f(1, 0);
             break;
           }
           case EAST:
           {
             glVertex3f(size / 2, 0.0f, size / 2);
-            glTexCoord2f(0, 1);
-            glVertex3f(-size / 2, 0.0f, size / 2);
-            glTexCoord2f(1, 1);
-            glVertex3f(-size / 2, 0.0f, -size / 2);
-            glTexCoord2f(1, 0);
-            glVertex3f(size / 2, 0.0f, -size / 2);
             glTexCoord2f(0, 0);
+            glVertex3f(-size / 2, 0.0f, size / 2);
+            glTexCoord2f(0, 1);
+            glVertex3f(-size / 2, 0.0f, -size / 2);
+            glTexCoord2f(1, 1);
+            glVertex3f(size / 2, 0.0f, -size / 2);
+            glTexCoord2f(1, 0);
             break;
           }
           case SOUTH:
