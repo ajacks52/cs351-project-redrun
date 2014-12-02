@@ -18,6 +18,7 @@ import redrun.model.gameobject.trap.JailDoor;
 import redrun.model.gameobject.trap.PoleDance;
 import redrun.model.gameobject.trap.PoleWall;
 import redrun.model.gameobject.trap.RockSmash;
+import redrun.model.gameobject.trap.Spear;
 import redrun.model.gameobject.trap.SpikeField;
 import redrun.model.gameobject.trap.SpikeTrapDoor;
 import redrun.model.gameobject.trap.Trap;
@@ -79,14 +80,14 @@ public abstract class MapObject implements Comparable<MapObject>
       }
       case SPIKE_FIELD:
       {
-        if (this.getClass() == Pit.class) this.trap = new SpikeField(x, y, z, "s11", new Dimension(10, 15), false);
-        else this.trap = new SpikeField(x, y, z, "s11", new Dimension(10, 15), true);
+        if (this.getClass() == Pit.class) this.trap = new SpikeField(x, y, z, "s11", orientation, new Dimension(10, 15),  false);
+        else this.trap = new SpikeField(x, y, z,"s11",  orientation, new Dimension(10, 15), true);
         break;
       }
       case SPIKE_TRAP_DOOR:
       {
-        if (this.getClass() == Pit.class) this.trap = new SpikeTrapDoor(x, y + 0.8f, z, textureName, orientation, true);
-        else this.trap = new SpikeTrapDoor(x, y + 0.8f, z, "wood", orientation, false);
+        if (this.getClass() == Pit.class) this.trap = new SpikeTrapDoor(x, y + 0.8f, z, orientation, textureName, true);
+        else this.trap = new SpikeTrapDoor(x, y + 0.8f, z, orientation, "wood", false);
         break;
       }
       case POLE_WALL:
@@ -103,18 +104,23 @@ public abstract class MapObject implements Comparable<MapObject>
       }
       case POLE_DANCE:
       {
-        this.trap = new PoleDance(x, y + 1, z, textureName);
+        this.trap = new PoleDance(x, y+ 0.05f, z, orientation, textureName);
         break;
       }
       case DEATH_PILLAR:
       {
-        this.trap = new DeathPillar(x, y + 10, z, "24");
+        this.trap = new DeathPillar(x, y + 10, z, orientation, "24");
         break;
       }
       case ROCK_SMASH:
       {
-        this.trap = new RockSmash(x, y + 5, z, "rock" + Constants.random.nextInt(3));
+        this.trap = new RockSmash(x, y + 5, z, orientation, "rock" + Constants.random.nextInt(3));
         
+        break;
+      }
+      case SPEAR:
+      {
+        this.trap = new Spear(x, y, z, orientation, null);
         break;
       }
       case EXPLODING_BOX_FIELD:

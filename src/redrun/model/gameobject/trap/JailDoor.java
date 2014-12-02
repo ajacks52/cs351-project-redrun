@@ -26,12 +26,12 @@ public class JailDoor extends Trap
    * @param same direction as the map object
    * @param just use null
    */
-  public JailDoor(float x, float y, float z, Direction dir, String textureName)
+  public JailDoor(float x, float y, float z, Direction orientation, String textureName)
   {
-    super(x, y, z, null);
+    super(x, y, z, orientation, null);
     // zero in the axis that is flat
-    if (dir == Direction.EAST || dir == Direction.WEST) this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(5, 10, 0), new Quat4f(), 0.0f);
-    if (dir == Direction.SOUTH || dir == Direction.NORTH) this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0, 10, 5), new Quat4f(), 0.0f);
+    if (orientation == Direction.EAST || orientation == Direction.WEST) this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(5, 10, 0), new Quat4f(), 0.0f);
+    if (orientation == Direction.SOUTH || orientation == Direction.NORTH) this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0, 10, 5), new Quat4f(), 0.0f);
     float height = 7f;
     float radius = .5f;
     float resolution = .1f;
@@ -43,14 +43,14 @@ public class JailDoor extends Trap
       // glRotatef(90, 1, 0, 0);
       glScalef(0.3f, 2f, 0.3f);
       glColor3f(.1f, .1f, .1f);
-      if (dir == Direction.EAST || dir == Direction.WEST) glTranslatef(-18, 0, 0);
-      if (dir == Direction.NORTH || dir == Direction.SOUTH) glTranslatef(0, 0, -18);
+      if (orientation == Direction.EAST || orientation == Direction.WEST) glTranslatef(-18, 0, 0);
+      if (orientation == Direction.NORTH || orientation == Direction.SOUTH) glTranslatef(0, 0, -18);
       for (int poles = 0; poles < 8; poles++)
       {
         if (poles > 0)
         {
-          if (dir == Direction.EAST || dir == Direction.WEST) glTranslatef(5, 0, 0);
-          if (dir == Direction.NORTH || dir == Direction.SOUTH) glTranslatef(0, 0, 5);
+          if (orientation == Direction.EAST || orientation == Direction.WEST) glTranslatef(5, 0, 0);
+          if (orientation == Direction.NORTH || orientation == Direction.SOUTH) glTranslatef(0, 0, 5);
         }
         /* top triangle */
         glBegin(GL_TRIANGLE_FAN);
@@ -85,12 +85,12 @@ public class JailDoor extends Trap
       glPopMatrix();
       glPushMatrix();
       {
-        if (dir == Direction.NORTH || dir == Direction.SOUTH)
+        if (orientation == Direction.NORTH || orientation == Direction.SOUTH)
         {
           glTranslatef(0.0f, 0.0f, -5.5f);
           glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
         }
-        else if (dir == Direction.EAST || dir == Direction.WEST)
+        else if (orientation == Direction.EAST || orientation == Direction.WEST)
         {
           glTranslatef(5.0f, 0.0f, 0.0f);
           glRotatef(90.0f, 0.0f, 0.0f, 1.0f);
@@ -98,11 +98,11 @@ public class JailDoor extends Trap
         glScalef(0.3f, 1.5f, 0.3f);
         for (int j = 0; j < 5; j++)
         {
-          if (dir == Direction.NORTH || dir == Direction.SOUTH)
+          if (orientation == Direction.NORTH || orientation == Direction.SOUTH)
           {
             glTranslatef(0.0f, 0.0f, -8.0f);
           }
-          else if (dir == Direction.EAST || dir == Direction.WEST)
+          else if (orientation == Direction.EAST || orientation == Direction.WEST)
           {
             glTranslatef(8.0f, 0.0f, 0.0f);
           }

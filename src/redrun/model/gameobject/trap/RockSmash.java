@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.constants.Direction;
 import redrun.model.mesh.Face;
 import redrun.model.mesh.Model;
 import redrun.model.physics.BoxPhysicsBody;
@@ -36,9 +37,9 @@ public class RockSmash extends Trap
    * @param z
    * @param modeln name rock1, rock2, rock3
    */
-  public RockSmash(float x, float y, float z, String modelName)
+  public RockSmash(float x, float y, float z, Direction orientation, String modelName)
   {
-    super(x, y, z, null);
+    super(x, y, z, orientation, null);
 
     this.body = new SpherePhysicsBody(new Vector3f(x, y, z), 4.5f, 10.0f);
     //this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(4, 4, 4), new Quat4f(), 100);
