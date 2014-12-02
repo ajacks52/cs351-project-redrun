@@ -93,7 +93,6 @@ public class GraphicsTestTroy
     glDisable(GL_COLOR_MATERIAL);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHT1);
     glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
     
@@ -277,13 +276,13 @@ public class GraphicsTestTroy
     // Create cubes above the staircase...
     for (int i = 0; i < 500; i++)
     {
-      data.addGameObject(new Cube(15.0f, 50.0f + (2 * i), 60.0f, "crate1"));
+      data.addGameObject(new Cube(45.0f, 50.0f + (2 * i), 45.0f, "crate1"));
     }
     
     // Create balls above the staircase...
     for (int i = 0; i < 10; i++)
     {
-      data.addGameObject(new Ball(30.0f, 50.0f + (2 * i), 60.0f, "crate1", 1.5f));
+      data.addGameObject(new Ball(45.0f, 50.0f + (2 * i), 15.0f, "crate1", 1.5f));
     }
         
     // Hide the mouse cursor...

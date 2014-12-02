@@ -131,20 +131,20 @@ public class Button extends WorldObject
   @Override
   public void interact()
   {
-    System.out.println("Interacting with the game object: " + this.id);
+    timer.resume();
   }
 
   @Override
   public void update()
   {
-    // TODO Auto-generated method stub
-
+    if (this.timer.getTime() >= 5.0f) reset();
   }
 
   @Override
   public void reset()
   {
-    // TODO Auto-generated method stub
-
+    System.out.println("Resetting game object: " + this.id);
+    this.timer.reset();
+    this.timer.pause();
   }
 }
