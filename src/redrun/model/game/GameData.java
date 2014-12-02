@@ -8,10 +8,10 @@ import redrun.model.gameobject.MapObject;
 public class GameData
 {
   /** The list of most active map objects. */
-  private LinkedList<MapObject> mapObjects = new LinkedList<MapObject>();
+  private static LinkedList<MapObject> mapObjects = new LinkedList<MapObject>();
   
   /** The list of most active game objects. */
-  private LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
+  private static LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
   
   // Add methods...
   
@@ -20,7 +20,7 @@ public class GameData
    * 
    * @param mapObject a map object
    */
-  public void addMapObject(MapObject mapObject)
+  public static void addMapObject(MapObject mapObject)
   {
   	mapObjects.add(mapObject);
   }
@@ -30,7 +30,7 @@ public class GameData
    * 
    * @param gameObject a game object
    */
-  public void addGameObject(GameObject gameObject)
+  public static void addGameObject(GameObject gameObject)
   {
   	gameObjects.add(gameObject);
   }
@@ -42,7 +42,7 @@ public class GameData
    * 
    * @return the list of map objects
    */
-  public LinkedList<MapObject> getMapObjects()
+  public static LinkedList<MapObject> getMapObjects()
   {
   	return mapObjects;
   }
@@ -52,7 +52,7 @@ public class GameData
    * 
    * @return the list of game objects
    */
-  public LinkedList<GameObject> getGameObjects()
+  public static LinkedList<GameObject> getGameObjects()
   {
   	return gameObjects;
   }

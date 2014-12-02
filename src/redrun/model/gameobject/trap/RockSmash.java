@@ -6,12 +6,15 @@ import static org.lwjgl.opengl.GL11.glNewList;
 
 import java.io.File;
 
+import javax.vecmath.Quat4f;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import redrun.model.gameobject.Face;
-import redrun.model.gameobject.Model;
+import redrun.model.mesh.Face;
+import redrun.model.mesh.Model;
+import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.physics.SpherePhysicsBody;
 import redrun.model.toolkit.OBJLoader;
 
@@ -37,8 +40,8 @@ public class RockSmash extends Trap
   {
     super(x, y, z, null);
 
-    this.body = new SpherePhysicsBody(new Vector3f(x, y, z), 4.5f, 1000.0f);
-    
+    this.body = new SpherePhysicsBody(new Vector3f(x, y, z), 4.5f, 10.0f);
+    //this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(4, 4, 4), new Quat4f(), 100);
     // load in model
     model = OBJLoader.loadModel(new File("res/models/" + modelName + ".obj"));
 

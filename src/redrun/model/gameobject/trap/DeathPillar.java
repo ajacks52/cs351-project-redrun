@@ -33,7 +33,7 @@ public class DeathPillar extends Trap
   public DeathPillar(float x, float y, float z, String textureName)
   {
     super(x, y, z, textureName);
-    this.body = new BoxPhysicsBody(new Vector3f(x,y,z), new Vector3f(0.5f,1.0f,0.5f), new Quat4f(), 1000.0f);
+    this.body = new BoxPhysicsBody(new Vector3f(x,y,z), new Vector3f(1.5f,8.0f,1.5f), new Quat4f(), 1000.0f);
     
 
     displayListId = glGenLists(1);
@@ -41,6 +41,7 @@ public class DeathPillar extends Trap
     {
       glEnable(GL_CULL_FACE);
       glColor3f(1f, 1f, 1f);
+      glScalef(1.5f, 3.0f, 1.5f);
       for (int i = 0; i < 2; i++)
       {
         if(i == 1) glTranslatef(0.0f, -2.0f, 0.0f);

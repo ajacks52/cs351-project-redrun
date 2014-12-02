@@ -3,15 +3,12 @@ package redrun.model.gameobject.trap;
 import static org.lwjgl.opengl.GL11.*;
 
 import javax.vecmath.Quat4f;
-
 import org.lwjgl.util.vector.Vector3f;
-
-import redrun.model.constants.Direction;
 import redrun.model.physics.BoxPhysicsBody;
 
-public class ExplosiveBox extends Trap
+public class NonExplosiveBox extends Trap
 {
-  public ExplosiveBox(float x, float y, float z, String textureName)
+  public NonExplosiveBox(float x, float y, float z, String textureName)
   {
     super(x, y, z, textureName);
 
@@ -99,12 +96,14 @@ public class ExplosiveBox extends Trap
   public void activate()
   {
     // TODO Auto-generated method stub
+
   }
 
   @Override
   public void reset()
   {
     // TODO Auto-generated method stub
+
   }
 
   @Override

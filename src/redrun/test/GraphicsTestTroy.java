@@ -71,7 +71,7 @@ public class GraphicsTestTroy
     {
       Display.setDisplayMode(new DisplayMode(1280, 720));
       //TODO - Need to have the name of the active map be in the title...
-      Display.setTitle("RedRun – Ice World");
+      Display.setTitle("RedRun Ice World");
       Display.create();
       Display.setVSyncEnabled(true);
     }

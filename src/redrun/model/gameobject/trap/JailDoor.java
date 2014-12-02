@@ -1,14 +1,18 @@
 package redrun.model.gameobject.trap;
 
 import static org.lwjgl.opengl.GL11.*;
+
+import javax.vecmath.Quat4f;
+
 import org.lwjgl.util.vector.Vector3f;
+
 import redrun.model.constants.Direction;
+import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.physics.PlanePhysicsBody;
 
 /**
  *  Creates a jail door to block the path of players
  * @author Adam Mitchell
- *
  *
  */
 public class JailDoor extends Trap
@@ -25,8 +29,9 @@ public class JailDoor extends Trap
   public JailDoor(float x, float y, float z, Direction dir, String textureName)
   {
     super(x, y, z, null);
-    this.body = new PlanePhysicsBody(new Vector3f(x, y, z), new Vector3f(1, 1, 1), 1000.0f);
-    
+    // zero in the axis that is flat
+    if (dir == Direction.EAST || dir == Direction.WEST) this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(5, 10, 0), new Quat4f(), 0.0f);
+    if (dir == Direction.SOUTH || dir == Direction.NORTH) this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0, 10, 5), new Quat4f(), 0.0f);
     float height = 7f;
     float radius = .5f;
     float resolution = .1f;

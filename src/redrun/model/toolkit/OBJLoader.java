@@ -12,8 +12,8 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
-import redrun.model.gameobject.Face;
-import redrun.model.gameobject.Model;
+import redrun.model.mesh.Face;
+import redrun.model.mesh.Model;
 
 /**
  * 
