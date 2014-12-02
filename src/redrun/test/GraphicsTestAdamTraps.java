@@ -1,6 +1,7 @@
 package redrun.test;
 
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,8 +15,10 @@ import org.newdawn.slick.Color;
 
 import redrun.graphics.camera.Camera;
 import redrun.graphics.camera.CameraManager;
+import redrun.graphics.camera.HUD_Manager;
 import redrun.graphics.selection.Picker;
 import redrun.model.constants.CameraType;
+import redrun.model.constants.Constants;
 import redrun.model.constants.Direction;
 import redrun.model.constants.Team;
 import redrun.model.constants.TrapType;
@@ -59,6 +62,7 @@ public class GraphicsTestAdamTraps
   
   /** The player associated with the client. */
   private static Player player = null;
+  
 
   /**
    * Performs OpenGL initialization.
@@ -67,7 +71,7 @@ public class GraphicsTestAdamTraps
   {
     try
     {
-      Display.setDisplayMode(new DisplayMode(1280, 720));
+      Display.setDisplayMode(new DisplayMode(Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT));
       //TODO - Need to have the name of the active map be in the title...
       Display.setTitle("RedRun Ice World");
       Display.create();
@@ -364,19 +368,10 @@ public class GraphicsTestAdamTraps
       }
             
       // Draw text to the screen...
-      FontTools.draw2D();
-      if (camera.getType() == CameraType.SPECTATOR)
-      {
-        FontTools.renderText("Spectator Camera: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10, Color.black, 1);
-      }
-      else
-      {
-        FontTools.renderText("Player: " + player.getName(), 10, 10, Color.black, 1);
-        FontTools.renderText("Team: " + player.getTeam(), 10, 30, Color.black, 1);
-        FontTools.renderText("Lives: " + player.getLives(), 10, 50, Color.black, 1);
-        FontTools.renderText("Player Camera: (" + player.getCamera().getX() + ", " + player.getCamera().getY() + ", " + player.getCamera().getZ() + ")", 10, 70, Color.black, 1);
-      }
-      FontTools.draw3D();
+      
+      // pass the cameras to the hud
+      HUD_Manager.huds(camera, player);
+     
       
       // Update...
       cameraManager.update();

@@ -1,6 +1,7 @@
 package redrun.test;
 
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,6 +44,7 @@ public class GraphicsTestAdam
   /** The player associated with the client. */
   private static Player player = null;
 
+  
   /** The list of map objects and game objects. */
   // public static GameData data = new GameData();
 
@@ -244,7 +246,7 @@ public class GraphicsTestAdam
 
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
-    
+
     Menu menu = new Menu();
 
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
@@ -326,24 +328,10 @@ public class GraphicsTestAdam
         gameObject.draw();
       }
 
-      // Draw text to the screen...
-      FontTools.draw2D();
-      if (camera.getType() == CameraType.SPECTATOR)
-      {
-        FontTools.renderText("Spectator Camera: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")",
-            10, 10, Color.black, 1);
-      }
-      else
-      {
-        FontTools.renderText("Player: " + player.getName(), 10, 10, Color.black, 1);
-        FontTools.renderText("Team: " + player.getTeam(), 10, 30, Color.black, 1);
-        FontTools.renderText("Lives: " + player.getLives(), 10, 50, Color.black, 1);
-        FontTools.renderText("Player Camera: (" + player.getCamera().getX() + ", " + player.getCamera().getY() + ", "
-            + player.getCamera().getZ() + ")", 10, 70, Color.black, 1);
-      }
-      FontTools.draw3D();
       
+
       menu.stateControl();
+      HUD_Manager.huds(camera, player);
 
       // Update...
       cameraManager.update();
