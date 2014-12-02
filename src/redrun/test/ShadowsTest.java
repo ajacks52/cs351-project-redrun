@@ -15,10 +15,8 @@ import org.newdawn.slick.Color;
 
 import redrun.graphics.camera.Camera;
 import redrun.graphics.camera.CameraManager;
-import redrun.graphics.camera.HUD_Manager;
 import redrun.graphics.selection.Picker;
 import redrun.model.constants.CameraType;
-import redrun.model.constants.Constants;
 import redrun.model.constants.Direction;
 import redrun.model.constants.Team;
 import redrun.model.constants.TrapType;
@@ -42,8 +40,13 @@ import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
+import redrun.model.toolkit.ShaderTools;
 import redrun.model.toolkit.Timing;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.GL_FRAGMENT_SHADER;
+import static org.lwjgl.opengl.GL20.GL_VERTEX_SHADER;
+import static org.lwjgl.opengl.GL20.glGetUniformLocation;
+import static org.lwjgl.opengl.GL32.GL_DEPTH_CLAMP;
 
 /**
  * This class is for testing OpenGL scenes.
@@ -52,7 +55,7 @@ import static org.lwjgl.opengl.GL11.*;
  * @version 1.0
  * @since 2014-11-03
  */
-public class GraphicsTestAdamTraps
+public class ShadowsTest
 {
   /** The active camera manager. */
   private static CameraManager cameraManager = null;
@@ -63,6 +66,23 @@ public class GraphicsTestAdamTraps
   /** The player associated with the client. */
   private static Player player = null;
   
+  private static int projectionMatrixID;
+  private static int viewMatrixID;
+  private static int modelMatrixID;
+  private static int depthMatrixID;
+  private static int depthModelMatrixID;
+  private static int depthBiasMatrixID;
+  private static int shadowMapID;
+  
+  private static int lightPositionID;
+  private static int ambientID;
+  private static int lightRangeID;
+  private static int attenConstantID;
+  private static int attenLinearID;
+  private static int attenExponentID;
+  
+  private static int shaderProgram;
+  private static int shadowShaderProgram;
 
   /**
    * Performs OpenGL initialization.
@@ -71,7 +91,7 @@ public class GraphicsTestAdamTraps
   {
     try
     {
-      Display.setDisplayMode(new DisplayMode(Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT));
+      Display.setDisplayMode(new DisplayMode(1280, 720));
       //TODO - Need to have the name of the active map be in the title...
       Display.setTitle("RedRun Ice World");
       Display.create();
@@ -79,7 +99,7 @@ public class GraphicsTestAdamTraps
     }
     catch (LWJGLException ex)
     {
-      Logger.getLogger(GraphicsTestAdamTraps.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(GraphicsTestTroy.class.getName()).log(Level.SEVERE, null, ex);
     }
     
     player = new Player(0.0f, 1.0f, 0.0f, "Linvala, Keeper of Silence", null, Team.BLUE);
@@ -96,7 +116,61 @@ public class GraphicsTestAdamTraps
     glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
     
+    // Look into these
+    //glFrontFace(GL_CW);
+    //glEnable(GL_CULL_FACE);
+    //glCullFace(GL_BACK);
+    
+    //glEnable(GL_DEPTH_CLAMP);
+
+    glEnable(GL_BLEND);
+
     FontTools.loadFonts();
+  }
+  
+  private static void initGLStates()
+  {
+    glFrontFace(GL_CW);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_CLAMP);
+    glEnable(GL_BLEND);
+    glEnable(GL_TEXTURE_2D);
+  }
+  
+  private static void setUpBasicShaders() 
+  {
+    ArrayList<Integer> shaderList = new ArrayList<>();
+    shaderList.add(ShaderTools.loadShader(GL_VERTEX_SHADER, "basicShader.vs"));
+    shaderList.add(ShaderTools.loadShader(GL_FRAGMENT_SHADER, "basicShader.fs"));
+
+    shaderProgram = ShaderTools.createProgram(shaderList);
+
+    projectionMatrixID = glGetUniformLocation(shaderProgram, "projectionMatrix");
+    viewMatrixID = glGetUniformLocation(shaderProgram, "viewMatrix");
+    modelMatrixID = glGetUniformLocation(shaderProgram, "modelMatrix");
+    depthBiasMatrixID = glGetUniformLocation(shaderProgram, "depthBiasMatrix");
+    shadowMapID = glGetUniformLocation(shaderProgram, "shadowMap");
+    
+    lightPositionID = glGetUniformLocation(shaderProgram, "lightPosition");
+    ambientID = glGetUniformLocation(shaderProgram, "ambient");
+    lightRangeID = glGetUniformLocation(shaderProgram, "lightRange");
+    attenConstantID = glGetUniformLocation(shaderProgram, "attenConstant");
+    attenLinearID = glGetUniformLocation(shaderProgram, "attenLinear");
+    attenExponentID = glGetUniformLocation(shaderProgram, "attenExponent");
+  }
+  
+  private static void setUpShadowShaders() 
+  {
+    ArrayList<Integer> shaderList = new ArrayList<>();
+    shaderList.add(ShaderTools.loadShader(GL_VERTEX_SHADER, "shadowShader.vs"));
+    shaderList.add(ShaderTools.loadShader(GL_FRAGMENT_SHADER, "shadowShader.fs"));
+
+    shadowShaderProgram = ShaderTools.createProgram(shaderList);
+    
+    depthMatrixID = glGetUniformLocation(shadowShaderProgram, "depthMatrix");
+    depthModelMatrixID = glGetUniformLocation(shadowShaderProgram, "depthModelMatrix");
   }
 
   /**
@@ -291,9 +365,9 @@ public class GraphicsTestAdamTraps
     
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
-        camera = cameraManager.getActiveCamera();
+      camera = cameraManager.getActiveCamera();
         
-        // Get input from the user...
+      // Get input from the user...
       getInput();
       
       // Prepare for rendering...
@@ -368,10 +442,19 @@ public class GraphicsTestAdamTraps
       }
             
       // Draw text to the screen...
-      
-      // pass the cameras to the hud
-      HUD_Manager.huds(camera, player);
-     
+      FontTools.draw2D();
+      if (camera.getType() == CameraType.SPECTATOR)
+      {
+        FontTools.renderText("Spectator Camera: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10, Color.black, 1);
+      }
+      else
+      {
+        FontTools.renderText("Player: " + player.getName(), 10, 10, Color.black, 1);
+        FontTools.renderText("Team: " + player.getTeam(), 10, 30, Color.black, 1);
+        FontTools.renderText("Lives: " + player.getLives(), 10, 50, Color.black, 1);
+        FontTools.renderText("Player Camera: (" + player.getCamera().getX() + ", " + player.getCamera().getY() + ", " + player.getCamera().getZ() + ")", 10, 70, Color.black, 1);
+      }
+      FontTools.draw3D();
       
       // Update...
       cameraManager.update();
@@ -432,8 +515,8 @@ public class GraphicsTestAdamTraps
 
   public static void main(String[] args)
   {
-    GraphicsTestAdamTraps.createOpenGL();
-    GraphicsTestAdamTraps.gameLoop();
-    GraphicsTestAdamTraps.destroyOpenGL();
+    ShadowsTest.createOpenGL();
+    ShadowsTest.gameLoop();
+    ShadowsTest.destroyOpenGL();
   }
 }

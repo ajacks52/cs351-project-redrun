@@ -3,14 +3,17 @@ package redrun.model.gameobject.trap;
 import static org.lwjgl.opengl.GL11.*;
 
 import javax.vecmath.Quat4f;
+
 import org.lwjgl.util.vector.Vector3f;
+
+import redrun.model.constants.Direction;
 import redrun.model.physics.BoxPhysicsBody;
 
 public class NonExplosiveBox extends Trap
 {
-  public NonExplosiveBox(float x, float y, float z, String textureName)
+  public NonExplosiveBox(float x, float y, float z, Direction orientation, String textureName)
   {
-    super(x, y, z, textureName);
+    super(x, y, z, orientation, textureName);
 
     this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(1, 1, 1), new Quat4f(), 0);
 

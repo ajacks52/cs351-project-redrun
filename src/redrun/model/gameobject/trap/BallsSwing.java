@@ -15,6 +15,7 @@ import static org.lwjgl.opengl.GL11.glNewList;
 import org.lwjgl.util.glu.Sphere;
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.constants.Direction;
 import redrun.model.gameobject.world.Ball;
 import redrun.model.physics.SpherePhysicsBody;
 
@@ -22,9 +23,9 @@ public class BallsSwing extends Trap
 {
   Sphere sphere;
 
-  public BallsSwing(float x, float y, float z, String textureName)
+  public BallsSwing(float x, float y, float z, Direction orientation, String textureName)
   {
-    super(x, y, z, textureName);
+    super(x, y, z, orientation, textureName);
 
     float radius = 1;
     sphere = new Sphere();

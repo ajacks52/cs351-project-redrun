@@ -1,6 +1,7 @@
 package redrun.test;
 
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,6 +15,7 @@ import org.newdawn.slick.Color;
 
 import redrun.graphics.camera.*;
 import redrun.graphics.selection.Picker;
+import redrun.main.Menu;
 import redrun.model.constants.*;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.*;
@@ -42,6 +44,7 @@ public class GraphicsTestAdam
   /** The player associated with the client. */
   private static Player player = null;
 
+  
   /** The list of map objects and game objects. */
   // public static GameData data = new GameData();
 
@@ -90,7 +93,7 @@ public class GraphicsTestAdam
   {
     // Create the map objects...
 
-    GameData.addMapObject(new Corridor(0.0f, 0f, 0.0f, "brickwall5", Direction.EAST, TrapType.SPIKE_FIELD));
+    GameData.addMapObject(new Corridor(0.0f, 0f, 0.0f, "brickwall5", Direction.EAST, TrapType.POLE_DANCE));
     GameData.addMapObject(new Corridor(20.0f, 0.0f, 0.0f, "brickwall5", Direction.NORTH, TrapType.SPIKE_FIELD));
     GameData.addMapObject(new Corridor(40.0f, 0.0f, 0.0f, "brickwall5", Direction.SOUTH, TrapType.SPIKE_FIELD));
     GameData.addMapObject(new Corridor(60.0f, 0.0f, 0.0f, "brickwall5", Direction.WEST, TrapType.SPIKE_FIELD));
@@ -218,7 +221,7 @@ public class GraphicsTestAdam
     // Create cubes above the staircase...
     for (int i = 0; i < 5; i++)
     {
-      GameData.addGameObject(new Cube(0.0f, 50.0f + (2 * i), 0.0f, "crate1"));
+
       GameData.addGameObject(new Cube(20.0f, 50.0f + (2 * i), 0.0f, "crate1"));
       GameData.addGameObject(new Cube(40.0f, 50.0f + (2 * i), 0.0f, "crate1"));
       GameData.addGameObject(new Cube(60.0f, 50.0f + (2 * i), 0.0f, "crate1"));
@@ -233,13 +236,22 @@ public class GraphicsTestAdam
       GameData.addGameObject(new Cube(37.0f + (2 * i), 20.0f, 180.0f, "crate1"));
       GameData.addGameObject(new Cube(62.0f, 20.0f, 175.0f + (2 * i), "crate1"));
 
+      GameData.addGameObject(new Cube(0.0f, 25.0f + (2 * i), 0.0f, "crate1"));
+      GameData.addGameObject(new Cube(3.0f, 50.0f + (2 * i), 3.0f, "crate1"));
+      GameData.addGameObject(new Cube(-3.0f, 75.0f + (2 * i), -3.0f, "crate1"));
+      GameData.addGameObject(new Cube(-3.0f, 100.0f + (2 * i), 3.0f, "crate1"));
+      GameData.addGameObject(new Cube(3.0f, 125.0f + (2 * i), -3.0f, "crate1"));
+
     }
 
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
 
+    Menu menu = new Menu();
+
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
+
       camera = cameraManager.getActiveCamera();
 
       // Get input from the user...
@@ -316,22 +328,10 @@ public class GraphicsTestAdam
         gameObject.draw();
       }
 
-      // Draw text to the screen...
-      FontTools.draw2D();
-      if (camera.getType() == CameraType.SPECTATOR)
-      {
-        FontTools.renderText("Spectator Camera: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")",
-            10, 10, Color.black, 1);
-      }
-      else
-      {
-        FontTools.renderText("Player: " + player.getName(), 10, 10, Color.black, 1);
-        FontTools.renderText("Team: " + player.getTeam(), 10, 30, Color.black, 1);
-        FontTools.renderText("Lives: " + player.getLives(), 10, 50, Color.black, 1);
-        FontTools.renderText("Player Camera: (" + player.getCamera().getX() + ", " + player.getCamera().getY() + ", "
-            + player.getCamera().getZ() + ")", 10, 70, Color.black, 1);
-      }
-      FontTools.draw3D();
+      
+
+      menu.stateControl();
+      HUD_Manager.huds(camera, player);
 
       // Update...
       cameraManager.update();

@@ -1,11 +1,13 @@
 package redrun.model.gameobject.trap;
 
+import redrun.model.constants.Direction;
+
 public class Flinger extends Trap
 {
 
-  public Flinger(float x, float y, float z, String textureName)
+  public Flinger(float x, float y, float z, Direction orientation, String textureName)
   {
-    super(x, y, z, textureName);
+    super(x, y, z, orientation, textureName);
     // TODO Auto-generated constructor stub
   }
 
