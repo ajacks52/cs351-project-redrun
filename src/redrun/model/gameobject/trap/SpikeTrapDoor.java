@@ -37,9 +37,9 @@ public class SpikeTrapDoor extends Trap
    * @param z starting coordinate
    * @param low
    */
-  public SpikeTrapDoor(float x, float y, float z, String textureName, Direction dir, boolean low)
+  public SpikeTrapDoor(float x, float y, float z, Direction orientation, String textureName, boolean low)
   {
-    super(x, y, z, null);
+    super(x, y, z, orientation, null);
 
     // Physics body...
     this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(5, 5, 5), new Quat4f(), 0.0f);
@@ -47,7 +47,7 @@ public class SpikeTrapDoor extends Trap
     sl.loadShader("bloodf.fs");
     sl.loadShader("bloodv.vs");
     sl.deleteShaders();
-    td1 = new TrapDoor(x, y, z, dir,textureName);
+    td1 = new TrapDoor(x, y, z, orientation, textureName);
     int program = glGetAttribLocation(sl.getShaderProgram(), "atr1");
 
     displayListId = glGenLists(1);
@@ -133,7 +133,7 @@ public class SpikeTrapDoor extends Trap
   public void activate()
   {
     System.out.println("Interacting with the game object: " + this.id);
-    td1.interact();
+    td1.activate();
     this.timer.resume();
   }
 
@@ -147,7 +147,6 @@ public class SpikeTrapDoor extends Trap
   @Override
   public void interact()
   {
-
   }
 
   @Override
@@ -160,7 +159,7 @@ public class SpikeTrapDoor extends Trap
     }
     else if (occilate2 < 6)
     {
-      occilate2 += 0.45f;
+      occilate2 += 0.85f;
     }
     else
     {

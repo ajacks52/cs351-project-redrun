@@ -7,8 +7,10 @@ import javax.vecmath.Quat4f;
 
 
 
+
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.constants.Direction;
 import redrun.model.physics.BoxPhysicsBody;
 
 /**
@@ -30,9 +32,9 @@ public class DeathPillar extends Trap
    * @param z pos
    * @param textureName
    */
-  public DeathPillar(float x, float y, float z, String textureName)
+  public DeathPillar(float x, float y, float z, Direction orientation,String textureName)
   {
-    super(x, y, z, textureName);
+    super(x, y, z, orientation, textureName);
     this.body = new BoxPhysicsBody(new Vector3f(x,y,z), new Vector3f(1.5f,8.0f,1.5f), new Quat4f(), 1000.0f);
     
 
@@ -118,7 +120,7 @@ public class DeathPillar extends Trap
   @Override
   public void activate()
   {
-    // TODO Auto-generated method stub
+    this.timer.resume();
   }
 
   @Override
@@ -131,7 +133,6 @@ public class DeathPillar extends Trap
   @Override
   public void interact()
   {
-    this.timer.resume();
   }
 
   @Override

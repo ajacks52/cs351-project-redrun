@@ -1,52 +1,46 @@
 package redrun.model.gameobject.trap;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.glGetAttribLocation;
-import static org.lwjgl.opengl.GL20.glVertexAttrib3f;
-import redrun.model.toolkit.ShaderLoader;
+import redrun.model.constants.Direction;
+import redrun.model.constants.Scale;
+import redrun.model.game.GameData;
 
 public class PoleDance extends Trap
 {
-  Spike sp1;
-  Spike sp2;
-  Spike sp3;
+  Spear spear1;
+  Spear spear2;
+  Spear spear3;
+  Spear spear4;
+  Spear spear5;
 
-  public PoleDance(float x, float y, float z, String textureName)
+  public PoleDance(float x, float y, float z, Direction orientation, String textureName)
   {
 
-    super(x, y, z, textureName);
+    super(x, y, z, orientation, textureName);
 
     // Physics body...
 
-     sp1 = new Spike(x, y, z, null);
-     sp2 = new Spike(x + 5, y, z, null);
-     sp3 = new Spike(x, y, z + 5, null);
+    spear1 = new Spear(x, y, z, orientation, null);
+    spear2 = new Spear(x - 3, y, z + 3, orientation, null);
+    spear3 = new Spear(x + 3, y, z - 3, orientation, null);
+    spear4 = new Spear(x + 3, y, z + 3, orientation, null);
+    spear5 = new Spear(x - 3, y, z - 3, orientation, null);
+    
+    GameData.addGameObject(spear1);
+    GameData.addGameObject(spear2);
+    GameData.addGameObject(spear3);
+    GameData.addGameObject(spear4);
+    GameData.addGameObject(spear5);
 
-    displayListId = glGenLists(1);
-    glNewList(displayListId, GL_COMPILE);
-    {
-      glBegin(GL_QUADS);
-      {
-        glNormal3f(0.0f, 1.0f, 0.0f);
-        glVertex3f(1.0f, 1.0f, -1.0f);
-        glTexCoord2f(0, 0);
-        glVertex3f(-1.0f, 1.0f, -1.0f);
-        glTexCoord2f(0, 1);
-        glVertex3f(-1.0f, 1.0f, 1.0f);
-        glTexCoord2f(1, 1);
-        glVertex3f(1.0f, 1.0f, 1.0f);
-        glTexCoord2f(1, 0);
-      }
-      glEnd();
-    }
-    glEndList();
   }
 
   @Override
   public void activate()
   {
-    // TODO Auto-generated method stub
-
+    System.out.println("Interacting with the game object: " + this.id);
+//  sp1.getBody().push(direction);
+//  sp2.getBody().push(direction);
+//  sp3.getBody().push(direction);
   }
 
   @Override
@@ -72,9 +66,6 @@ public class PoleDance extends Trap
         glTranslatef(body.getX(), body.getY(), body.getZ());
         glCallList(displayListId);    
         glDisable(GL_TEXTURE_2D);
-        sp1.draw();
-        sp2.draw();
-        sp3.draw();
       }
       glPopMatrix();
     }
@@ -102,11 +93,6 @@ public class PoleDance extends Trap
   public void interact()
   {
     // TODO Auto-generated method stub
-
-    System.out.println("Interacting with the game object: " + this.id);
-//    sp1.getBody().push(direction);
-//    sp2.getBody().push(direction);
-//    sp3.getBody().push(direction);
   }
 
   @Override

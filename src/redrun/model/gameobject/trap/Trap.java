@@ -1,5 +1,6 @@
 package redrun.model.gameobject.trap;
 
+import redrun.model.constants.Direction;
 import redrun.model.gameobject.GameObject;
 
 /**
@@ -18,7 +19,7 @@ public abstract class Trap extends GameObject
    * @param y the y position of the trap
    * @param z the z position of the trap
    */
-  public Trap(float x, float y, float z, String textureName)
+  public Trap(float x, float y, float z, Direction orientation, String textureName)
   {
     super(x, y, z, textureName);
     // TODO Auto-generated constructor stub

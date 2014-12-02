@@ -18,7 +18,7 @@ public class TrapDoor extends Trap
   ShaderLoader sl;
   boolean forward = true;
   float occilate = 0;
-  float movementSpeed = 0.95f;
+  float movementSpeed = 1.5f;
   Direction dir;
 
   /**
@@ -31,7 +31,7 @@ public class TrapDoor extends Trap
    */
   public TrapDoor(float x, float y, float z, Direction dir, String textureName)
   {
-    super(x, y - 1.70f, z, textureName);
+    super(x, y - 1.70f, z, dir, textureName);
 
     this.dir = dir;
     displayListId = glGenLists(1);
@@ -86,9 +86,7 @@ public class TrapDoor extends Trap
 
   @Override
   public void interact()
-  {
-    System.out.println("Interacting with the game object: " + this.id);
-    this.timer.resume();
+  { 
   }
 
   @Override
@@ -98,7 +96,7 @@ public class TrapDoor extends Trap
     {
       occilate = 0;
     }
-    else if (occilate < 8.5 && forward)
+    else if (occilate < 9.5 && forward)
     {
       occilate += movementSpeed;
     }
@@ -118,7 +116,8 @@ public class TrapDoor extends Trap
   public void activate()
   {
     // TODO Auto-generated method stub
-
+    System.out.println("Interacting with the game object: " + this.id);
+    this.timer.resume();
   }
 
 }
