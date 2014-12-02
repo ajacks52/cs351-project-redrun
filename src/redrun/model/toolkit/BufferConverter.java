@@ -7,8 +7,7 @@ import java.nio.IntBuffer;
 import org.lwjgl.BufferUtils;
 
 /**
- * This class provides conversion method that convert primitive data arrays into
- * their respective buffer form.
+ * This class provides conversion method that convert primitive data arrays into their respective buffer form.
  * 
  * @author Troy Squillaci
  * @version 1.0
@@ -84,5 +83,16 @@ public class BufferConverter
     buffer.put(values);
     buffer.flip();
     return buffer;
+  }
+
+  /**
+   * Creates a pre-flipped float buffer of the specified size.
+   * 
+   * @param amountOfElements
+   * @return
+   */
+  public static FloatBuffer reserveFloatData(int size)
+  {
+    return BufferUtils.createFloatBuffer(size);
   }
 }
