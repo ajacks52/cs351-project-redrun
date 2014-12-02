@@ -85,8 +85,8 @@ public abstract class MapObject implements Comparable<MapObject>
       }
       case SPIKE_TRAP_DOOR:
       {
-        if (this.getClass() == Pit.class) this.trap = new SpikeTrapDoor(x, y + 0.8f, z, textureName, true);
-        else this.trap = new SpikeTrapDoor(x, y + 0.8f, z, textureName, true);
+        if (this.getClass() == Pit.class) this.trap = new SpikeTrapDoor(x, y + 0.8f, z, textureName, orientation, true);
+        else this.trap = new SpikeTrapDoor(x, y + 0.8f, z, "wood", orientation, false);
         break;
       }
       case POLE_WALL:

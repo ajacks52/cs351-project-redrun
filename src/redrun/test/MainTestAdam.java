@@ -85,7 +85,7 @@ public class MainTestAdam
 
     // ////// Initialize game objects
     //spikes = new SpikeTrapDoor(10, 0, 30, "wood");
-    trapDoor = new TrapDoor(30, 0, 10, "wood");
+    //trapDoor = new TrapDoor(30, 0, 10, "wood");
     deathPillar = new DeathPillar(20, 0, 30, "x17");
     spikeField = new SpikeField(30, 0, 20, "s11", new Dimension(10, 15), true);
 
