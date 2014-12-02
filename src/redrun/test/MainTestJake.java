@@ -48,7 +48,7 @@ import static org.lwjgl.opengl.GL11.*;
  * @version 1.0
  * @since 2014-11-03
  */
-public class GraphicsTestJake
+public class MainTestJake
 {
   /** The active camera manager. */
   private static CameraManager cameraManager = null;
@@ -77,7 +77,7 @@ public class GraphicsTestJake
     }
     catch (LWJGLException ex)
     {
-      Logger.getLogger(MainTestJake.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(GraphicsTestJake.class.getName()).log(Level.SEVERE, null, ex);
     }
 
     player = new Player(0.0f, 1.0f, 0.0f, "Linvala, Keeper of Silence", null, Team.BLUE);
@@ -312,8 +312,8 @@ public class GraphicsTestJake
 
   public static void main(String[] args)
   {
-    GraphicsTestJake.createOpenGL();
-    GraphicsTestJake.gameLoop();
-    GraphicsTestJake.destroyOpenGL();
+    MainTestJake.createOpenGL();
+    MainTestJake.gameLoop();
+    MainTestJake.destroyOpenGL();
   }
 }

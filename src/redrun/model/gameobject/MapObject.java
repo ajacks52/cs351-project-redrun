@@ -15,7 +15,7 @@ import redrun.model.gameobject.trap.RockSmash;
 import redrun.model.gameobject.trap.SpikeField;
 import redrun.model.gameobject.trap.SpikeTrapDoor;
 import redrun.model.gameobject.trap.Trap;
-import redrun.test.GraphicsTestTroy;
+import redrun.test.MainTestJake;
 
 /**
  * This class represents a map object that is used to construct Redrun maps.
@@ -111,7 +111,7 @@ public abstract class MapObject implements Comparable<MapObject>
     
     if (type != TrapType.EMPTY)
     {
-      GraphicsTestTroy.data.addGameObject(trap);
+      MainTestJake.data.addGameObject(trap);
     }
   }
   
