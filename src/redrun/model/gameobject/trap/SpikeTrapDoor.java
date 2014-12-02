@@ -2,6 +2,13 @@ package redrun.model.gameobject.trap;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
+
+import javax.vecmath.Quat4f;
+
+import org.lwjgl.util.vector.Vector3f;
+
+import redrun.model.constants.Direction;
+import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.toolkit.ShaderLoader;
 
 /**
@@ -28,13 +35,15 @@ public class SpikeTrapDoor extends Trap
    * @param x starting coordinate
    * @param y starting coordinate
    * @param z starting coordinate
+   * @param low
    */
-  public SpikeTrapDoor(float x, float y, float z, String textureName)
+  public SpikeTrapDoor(float x, float y, float z, String textureName, boolean low)
   {
-    super(x, y-1.95f, z, null);
+    super(x, y, z, null);
 
-    // Physics body... 
-    
+    // Physics body...
+    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(5, 5, 5), new Quat4f(), 0.0f);
+
     sl = new ShaderLoader();
     sl.loadShader("bloodf.fs");
     sl.loadShader("bloodv.vs");
@@ -45,10 +54,11 @@ public class SpikeTrapDoor extends Trap
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
     {
+      glTranslatef(0.0f, -1.3f, 0.0f);
       glScalef(0.3f, 2.f, 0.2f);
       glColor3f(0.5f, 0.5f, 0.5f);
-      for (float z_axis = -10; z_axis < 5 * 2; z_axis += 5f)
-        for (float x_axis = -8; x_axis < 5 * 2; x_axis += 5f)
+      for (float z_axis = -10; z_axis < 20; z_axis += 7f)
+        for (float x_axis = -8; x_axis < 20; x_axis += 7f)
         {
           glBegin(GL_TRIANGLES);
           {
@@ -107,7 +117,7 @@ public class SpikeTrapDoor extends Trap
         {
           glUseProgram(sl.getShaderProgram());
           {
-            glTranslatef(body.getX(), (float)((body.getY()-1)+ 2 * Math.sin(occilate)), body.getZ());
+            glTranslatef(body.getX(), (float) ((body.getY() - 1) + 2 * Math.sin(occilate)), body.getZ());
             glCallList(displayListId);
           }
           glUseProgram(0);
@@ -155,9 +165,9 @@ public class SpikeTrapDoor extends Trap
     }
     else
     {
-      occilate += 0.025f;
+      occilate += 0.095f;
     }
-    if ((int) this.timer.getTime() == 3)
+    if ((int) this.timer.getTime() == 4)
     {
       System.out.println("Resetting game object: " + this.id);
       reset();

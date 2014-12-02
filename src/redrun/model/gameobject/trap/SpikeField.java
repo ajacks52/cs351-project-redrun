@@ -31,7 +31,18 @@ public class SpikeField extends Trap
   {
     super(x, y, z, textureName);
 
-    body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(dim.width, 1, dim.height), new Quat4f(0, 0, 0, 1), 0);
+    if (low)
+    {
+      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f((float) (dim.width / 2), 1.3f,
+          (float) (dim.height / 2)), new Quat4f(), 0.0f);
+    }
+
+    else if (!low)
+    {
+      this.body = new BoxPhysicsBody(new Vector3f(x, y - 10, z), new Vector3f((float) (dim.width / 3), 3.0f,
+          (float) (dim.height / 3)), new Quat4f(), 0.0f);
+    }
+
     this.dim = dim;
 
     // shaders to color the spikes red
@@ -45,31 +56,28 @@ public class SpikeField extends Trap
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
     {
-      glTranslatef(-5.0f, 1.1f, -7.0f);
-      glBegin(GL_QUADS);
-      glNormal3f(0.0f, 1.0f, 0.0f);
-      for (int width = 0; width < dim.width - 1; width++)
-        for (int height = 0; height < dim.height - 1; height++)
-        {
-          glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-          if(low)glVertex3d(width, -0.999f, height);
-          if(!low)glVertex3d(width, -15.0, height);
-          glTexCoord2f(0, 0);
-          if(low)glVertex3d(width + 1, -0.999f, height);
-          if(!low)glVertex3d(width + 1, -15.0, height);
-          glTexCoord2f(0, 1);
-          if(low)glVertex3d(width + 1, -0.999f, height + 1);
-          if(!low)glVertex3d(width + 1, -15.0, height + 1);
-          glTexCoord2f(1, 1);
-          if(low)glVertex3d(width, -0.999f, height + 1);
-          if(!low)glVertex3d(width, -15.0f, height + 1);
-          glTexCoord2f(1, 0);
-        }
-      glEnd();
-
       if (low)
       {
-        glScalef(0.05f, 1.0f, 0.05f);
+        glTranslatef(-(float) (dim.width / 2), 1.0f, -(float) (dim.height / 2));
+        glBegin(GL_QUADS);
+        glNormal3f(0.0f, 1.0f, 0.0f);
+        for (int width = 0; width < dim.width - 1; width++)
+          for (int height = 0; height < dim.height - 1; height++)
+          {
+            glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+            glVertex3d(width, -0.999f, height);
+            glTexCoord2f(0, 0);
+            glVertex3d(width + 1, -0.999f, height);
+            glTexCoord2f(0, 1);
+            glVertex3d(width + 1, -0.999f, height + 1);
+            glTexCoord2f(1, 1);
+            glVertex3d(width, -0.999f, height + 1);
+            glTexCoord2f(1, 0);
+          }
+        glEnd();
+
+        glScalef(0.05f, 1.5f, 0.05f);
+        glTranslatef(0, 0.5f, 0);
         for (float z_axis = 2f; z_axis < dim.height * 20; z_axis += 25f)
         {
           for (float x_axis = 2f; x_axis < dim.width * 20; x_axis += 25f)
@@ -108,10 +116,27 @@ public class SpikeField extends Trap
       }
       else if (!low)
       {
-        glScalef(0.5f, 10f, 0.5f);
-        for (float z_axis = 2f; z_axis < dim.height*2; z_axis += 5f)
+        glTranslatef(-(float) (dim.width / 2), 1.51f, -(float) (dim.height / 2));
+        glBegin(GL_QUADS);
+        glNormal3f(0.0f, 1.0f, 0.0f);
+        for (int width = 0; width < dim.width - 1; width++)
+          for (int height = 0; height < dim.height - 1; height++)
+          {
+            glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+            glVertex3d(width, -5.5, height);
+            glTexCoord2f(0, 0);
+            glVertex3d(width + 1, -5.5, height);
+            glTexCoord2f(0, 1);
+            glVertex3d(width + 1, -5.5, height + 1);
+            glTexCoord2f(1, 1);
+            glVertex3d(width, -5.5f, height + 1);
+            glTexCoord2f(1, 0);
+          }
+        glEnd();
+        glScalef(0.5f, 7f, 0.5f);
+        for (float z_axis = 2f; z_axis < dim.height * 1.5; z_axis += 6f)
         {
-          for (float x_axis = 2f; x_axis < dim.width*2; x_axis += 5f)
+          for (float x_axis = 2f; x_axis < dim.width * 1.5; x_axis += 6f)
           {
             glUseProgram(sl.getShaderProgram());
 
