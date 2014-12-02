@@ -99,7 +99,7 @@ public class GraphicsTestJake
     CheckerBoard board = new CheckerBoard(0, 0, 0, null, new Dimension(50, 50));
 
     Cube pedestal = new Cube(4, 0, 4, "wood");
-    Button button = new Button(4, 0.8f, 4, "pokadots", new Vector3f(1.0f, 0.0f, 0.0f));
+    Button button = new Button(4, 0.8f, 4, "pokadots");
 
     // Create the map...
     LinkedList<MapObject> worldMap = new LinkedList<MapObject>();
