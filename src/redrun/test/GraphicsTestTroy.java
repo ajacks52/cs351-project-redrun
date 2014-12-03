@@ -55,6 +55,7 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class GraphicsTestTroy
 {
+  private static boolean DEBUG = false;
   private static long lastFrame;
 
   /** Used to interface with the network client. */
@@ -118,7 +119,7 @@ public class GraphicsTestTroy
     FontTools.loadFonts();
   }
 
-  public static MapObject createMapObjectFromDB(String mapDBForm)
+  public static MapObject createMapObject(String mapDBForm)
   {
     // System.out.println(mapDBForm);
     Pattern getMapObject = Pattern
@@ -224,12 +225,12 @@ public class GraphicsTestTroy
   }
 
   // May not need to match on as much stuff
-  public static SkyBox createSkyBoxFromDB(String skybox)
+  public static SkyBox createSkyboxFromDB(String skybox)
   {
     return new SkyBox(0, 0, 0, skybox, camera);
   }
 
-  public static Plane createFloorFromDB(String map)
+  public static Plane createFloor(String map)
   {
     return new Plane(0, 0, 0, map, 1000);
   }
@@ -272,26 +273,25 @@ public class GraphicsTestTroy
 
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
-      System.out.println(networkData.isEmpty());
+      if (DEBUG) System.out.println(networkData.isEmpty());
       while (!networkData.isEmpty())
       {
         for (String networkItem : networkData)
         {
           Matcher matchMap = getMap.matcher(networkItem);
-          // Matcher matchMapObject = getMapObject.matcher(networkItem);
           if (matchMap.find() && mapDrawn == false)
           {
             map = new Map(Integer.parseInt(matchMap.group(2)), matchMap.group(3), matchMap.group(4), matchMap.group(5));
-            skybox = createSkyBoxFromDB(matchMap.group(4));
-            floor = createFloorFromDB(matchMap.group(5));
+            skybox = createSkyboxFromDB(matchMap.group(4));
+            floor = createFloor(matchMap.group(5));
             mapDrawn = true;
           }
           else
           {
-            MapObject object = createMapObjectFromDB(networkItem);
+            MapObject object = createMapObject(networkItem);
             if (!mapObjects.contains(object))
             {
-              mapObjects.add(createMapObjectFromDB(networkItem));
+              mapObjects.add(createMapObject(networkItem));
             }
           }
         }
@@ -373,110 +373,7 @@ public class GraphicsTestTroy
       {
         // mapObjects.clear();
         networkData.clear();
-        // client.requestMapObjects();
-      }
-    }
-  }
-
-  private static void createMapObject(ArrayList<String> data)
-  {
-    Pattern getMapObject = Pattern
-        .compile("===\\sMap\\sObject\\s===\\sID:(\\d+)\\sName:(\\w+)\\sLocation:\\((\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\)\\sTexture:(\\w+)\\sDirection:(\\w+\\.\\w+)\\sMap\\sID:(\\d+)\\s===");
-
-    for (String item : data)
-    {
-      System.out.println(item);
-      Matcher matchMapObject = getMapObject.matcher(item);
-      float x = Float.parseFloat(matchMapObject.group(3));
-      float y = Float.parseFloat(matchMapObject.group(4));
-      float z = Float.parseFloat(matchMapObject.group(5));
-      String textureName = matchMapObject.group(6);
-
-      Direction orientation = null;
-      switch (matchMapObject.group(7))
-      {
-        case "Direction.NORTH":
-        {
-          orientation = Direction.NORTH;
-          break;
-        }
-        case "Direction.EAST":
-        {
-          orientation = Direction.EAST;
-          break;
-        }
-        case "Direction.SOUTH":
-        {
-          orientation = Direction.SOUTH;
-          break;
-        }
-        case "Direction.WEST":
-        {
-          orientation = Direction.WEST;
-          break;
-        }
-        default:
-        {
-          try
-          {
-            throw new IllegalArgumentException();
-          }
-          catch (IllegalArgumentException e)
-          {
-            e.printStackTrace();
-          }
-        }
-      }
-
-      switch (matchMapObject.group(2))
-      {
-        case "Corner":
-        {
-          mapObjects.add(new Corner(x, y, z, textureName, orientation, null));
-        }
-        case "Corridor":
-        {
-          mapObjects.add(new Corridor(x, y, z, textureName, orientation, null));
-        }
-        case "End":
-        {
-          mapObjects.add(new End(x, y, z, textureName, orientation, null));
-        }
-        case "Field":
-        {
-          mapObjects.add(new Field(x, y, z, textureName, orientation, null));
-        }
-        case "Pit":
-        {
-          mapObjects.add(new Pit(x, y, z, textureName, orientation, null));
-        }
-        case "Platform":
-        {
-          mapObjects.add(new Platform(x, y, z, textureName, orientation, null));
-        }
-        case "Staircase":
-        {
-          mapObjects.add(new Staircase(x, y, z, textureName, orientation, null));
-        }
-        case "Start":
-        {
-          mapObjects.add(new Start(x, y, z, textureName, orientation, null));
-        }
-        case "Tunnel":
-        {
-          mapObjects.add(new Tunnel(x, y, z, textureName, orientation, null));
-        }
-        default:
-        {
-          try
-          {
-            throw new IllegalArgumentException();
-          }
-          catch (IllegalArgumentException e)
-          {
-            e.printStackTrace();
-          }
-        }
+        client.requestMapObjects();
       }
     }
   }

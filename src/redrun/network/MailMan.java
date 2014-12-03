@@ -72,18 +72,19 @@ public class MailMan extends Thread
    */
   public void run()
   {
+    Pattern requestMapObjects = Pattern.compile("Send MapObjects");
     Pattern quitServer = Pattern.compile("quit$", Pattern.CASE_INSENSITIVE);
-    Pattern matchMapObject = Pattern.compile("MapObjects");
 
     while (true)
     {
       try
       {
         String incomingMessage = clientReader.readLine();
-         System.out.println(incomingMessage);
+        // System.out.println(incomingMessage);
 
-        Matcher matchmatchMapObject = matchMapObject.matcher(incomingMessage);
+        Matcher matchRequestMapObjects = requestMapObjects.matcher(incomingMessage);
         Matcher matchQuitServer = quitServer.matcher(incomingMessage);
+
         if (matchQuitServer.find())
         {
           System.out.println("Quitting!");
@@ -91,19 +92,29 @@ public class MailMan extends Thread
           Server.deleteClientFromList(this);
           break;
         }
-        else if (matchmatchMapObject.find())
+        else if (matchRequestMapObjects.find())
         {
-          ArrayList<MapObjectDB> mapStuff = RedRunDAO.getAllMapObjects();
-          for (MapObjectDB mapObject : mapStuff)
+          ArrayList<MapObjectDB> mapObjects = RedRunDAO.getAllMapObjects();
+          for (MapObjectDB mapObject : mapObjects)
           {
-            send(mapObject.toString());
+            System.out.println("MailMan:" + mapObject);
+             send(mapObject.toString());
           }
-          break;
         }
-        else
-        {
-          send(incomingMessage);
-        }
+        // ArrayList<MapObjectDB> mapStuff = RedRunDAO.getAllMapObjects();
+        // for (MapObjectDB mapObject : mapStuff)
+        // {
+        // send(mapObject.toString());
+        // }
+        // break;
+        // }
+        // if client is sending updated game object information, send to all
+        // other clients
+
+        // else
+        // {
+        // send(incomingMessage);
+        // }
         // else Server.broadcast(incomingMessage);
       }
       catch (IOException e)
