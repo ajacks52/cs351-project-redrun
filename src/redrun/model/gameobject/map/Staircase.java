@@ -39,8 +39,8 @@ public class Staircase extends MapObject
     {
       case NORTH:
       {
-        components.add(new RectangularPrism(x, y + (size / 2) + 0.5f, z + (size / 2), textureName, size, size, 1.0f));
-        components.add(new RectangularPrism(x, y + (size / 2) + 0.5f, z + -(size / 2), textureName, size, size, 1.0f));
+        components.add(new RectangularPrism(x, y + (size / 2) + 2.0f, z + (size / 2), textureName, size, size + 3.0f, 1.0f));
+        components.add(new RectangularPrism(x, y + (size / 2) + 2.0f, z + -(size / 2), textureName, size, size + 3.0f, 1.0f));
         for (int i = 0; i < size; i++)
         {
           components.add(new RectangularPrism((x - (size / 2)) + i, (y - (size / 2)) + i + (size / 2) + 0.5f, z, textureName, 1.0f, 1.0f, size - 2));
@@ -49,8 +49,8 @@ public class Staircase extends MapObject
       }
       case EAST:
       {
-        components.add(new RectangularPrism(x + (size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size));
-        components.add(new RectangularPrism(x + -(size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size));
+        components.add(new RectangularPrism(x + (size / 2), y + (size / 2) + 2.0f, z, textureName, 1.0f, size + 3.0f, size));
+        components.add(new RectangularPrism(x + -(size / 2), y + (size / 2) + 2.0f, z, textureName, 1.0f, size + 3.0f, size));
         for (int i = 0; i < size; i++)
         {
           components.add(new RectangularPrism(x, (y - (size / 2)) + i + (size / 2) + 0.5f, (z - (size / 2)) + i, textureName, size - 2, 1.0f, 1.0f));
@@ -59,8 +59,8 @@ public class Staircase extends MapObject
       }
       case SOUTH:
       {
-        components.add(new RectangularPrism(x, y + (size / 2) + 0.5f, z + (size / 2), textureName, size, size, 1.0f));
-        components.add(new RectangularPrism(x, y + (size / 2) + 0.5f, z + -(size / 2), textureName, size, size, 1.0f));
+        components.add(new RectangularPrism(x, y + (size / 2) + 2.0f, z + (size / 2), textureName, size, size + 3.0f, 1.0f));
+        components.add(new RectangularPrism(x, y + (size / 2) + 2.0f, z + -(size / 2), textureName, size, size + 3.0f, 1.0f));
         for (int i = 0; i < size; i++)
         {
           components.add(new RectangularPrism((x + (size / 2)) - i, (y - (size / 2)) + i + (size / 2) + 0.5f, z, textureName, 1.0f, 1.0f, size - 2));
@@ -69,8 +69,8 @@ public class Staircase extends MapObject
       }
       case WEST:
       {
-        components.add(new RectangularPrism(x + (size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size));
-        components.add(new RectangularPrism(x + -(size / 2), y + (size / 2) + 0.5f, z, textureName, 1.0f, size, size));
+        components.add(new RectangularPrism(x + (size / 2), y + (size / 2) + 2.0f, z, textureName, 1.0f, size + 3.0f, size));
+        components.add(new RectangularPrism(x + -(size / 2), y + (size / 2) + 2.0f, z, textureName, 1.0f, size + 3.0f, size));
         for (int i = 0; i < size; i++)
         {
           components.add(new RectangularPrism(x, (y - (size / 2)) + i + (size / 2) + 0.5f, (z + (size / 2)) - i, textureName, size - 2, 1.0f, 1.0f));

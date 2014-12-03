@@ -43,10 +43,10 @@ public class Field extends MapObject
         components.add(new Plane(x, y, z, textureName, Direction.NORTH, size));
         components.add(new RectangularPrism(x, y + 1.5f, z - (size / 2), textureName, size - 2.0f, 3.0f, 1.0f));
         components.add(new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size - 2.0f, 3.0f, 1.0f));
-        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z + (size / 3), textureName, 1.0f, 3.0f, size / 3.0f));
-        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z - (size / 3), textureName, 1.0f, 3.0f, size / 3.0f));
-        components.add(new RectangularPrism(x - (size / 2), y + 1.5f, z + (size / 3), textureName, 1.0f, 3.0f, size / 3.0f));
-        components.add(new RectangularPrism(x - (size / 2), y + 1.5f, z - (size / 3), textureName, 1.0f, 3.0f, size / 3.0f));
+        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z + (size / 3) - 0.5f, textureName, 1.0f, 3.0f, (size / 3.0f) + 1.0f));
+        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z - (size / 3) + 0.5f, textureName, 1.0f, 3.0f, (size / 3.0f) + 1.0f));
+        components.add(new RectangularPrism(x - (size / 2), y + 1.5f, z + (size / 3) - 0.5f, textureName, 1.0f, 3.0f, (size / 3.0f) + 1.0f));
+        components.add(new RectangularPrism(x - (size / 2), y + 1.5f, z - (size / 3) + 0.5f, textureName, 1.0f, 3.0f, (size / 3.0f) + 1.0f));
         break;
       }
       case EAST:
@@ -54,10 +54,10 @@ public class Field extends MapObject
         components.add(new Plane(x, y, z, textureName, Direction.EAST, size));
         components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size - 2.0f));
         components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size - 2.0f));
-        components.add(new RectangularPrism(x + (size / 3), y + 1.5f, z + (size / 2), textureName, size / 3.0f, 3.0f, 1.0f));
-        components.add(new RectangularPrism(x - (size / 3), y + 1.5f, z + (size / 2), textureName, size / 3.0f, 3.0f, 1.0f));
-        components.add(new RectangularPrism(x + (size / 3), y + 1.5f, z - (size / 2), textureName, size / 3.0f, 3.0f, 1.0f));
-        components.add(new RectangularPrism(x - (size / 3), y + 1.5f, z - (size / 2), textureName, size / 3.0f, 3.0f, 1.0f));        
+        components.add(new RectangularPrism(x + (size / 3) - 0.5f, y + 1.5f, z + (size / 2), textureName, (size / 3.0f) + 1.0f, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x - (size / 3) + 0.5f, y + 1.5f, z + (size / 2), textureName, (size / 3.0f) + 1.0f, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x + (size / 3) - 0.5f, y + 1.5f, z - (size / 2), textureName, (size / 3.0f) + 1.0f, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x - (size / 3) + 0.5f, y + 1.5f, z - (size / 2), textureName, (size / 3.0f) + 1.0f, 3.0f, 1.0f));        
         break;
       }
       case SOUTH:
@@ -65,10 +65,10 @@ public class Field extends MapObject
         components.add(new Plane(x, y, z, textureName, Direction.SOUTH, size));
         components.add(new RectangularPrism(x, y + 1.5f, z - (size / 2), textureName, size - 2.0f, 3.0f, 1.0f));
         components.add(new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size - 2.0f, 3.0f, 1.0f));
-        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z + (size / 3), textureName, 1.0f, 3.0f, size / 3.0f));
-        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z - (size / 3), textureName, 1.0f, 3.0f, size / 3.0f));
-        components.add(new RectangularPrism(x - (size / 2), y + 1.5f, z + (size / 3), textureName, 1.0f, 3.0f, size / 3.0f));
-        components.add(new RectangularPrism(x - (size / 2), y + 1.5f, z - (size / 3), textureName, 1.0f, 3.0f, size / 3.0f));        
+        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z + (size / 3) - 0.5f, textureName, 1.0f, 3.0f, (size / 3.0f) + 1.0f));
+        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z - (size / 3) + 0.5f, textureName, 1.0f, 3.0f, (size / 3.0f) + 1.0f));
+        components.add(new RectangularPrism(x - (size / 2), y + 1.5f, z + (size / 3) - 0.5f, textureName, 1.0f, 3.0f, (size / 3.0f) + 1.0f));
+        components.add(new RectangularPrism(x - (size / 2), y + 1.5f, z - (size / 3) + 0.5f, textureName, 1.0f, 3.0f, (size / 3.0f) + 1.0f));        
         break;
       }
       case WEST:
@@ -76,10 +76,10 @@ public class Field extends MapObject
         components.add(new Plane(x, y, z, textureName, Direction.WEST, size));
         components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size - 2.0f));
         components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size - 2.0f));
-        components.add(new RectangularPrism(x + (size / 3), y + 1.5f, z + (size / 2), textureName, size / 3.0f, 3.0f, 1.0f));
-        components.add(new RectangularPrism(x - (size / 3), y + 1.5f, z + (size / 2), textureName, size / 3.0f, 3.0f, 1.0f));
-        components.add(new RectangularPrism(x + (size / 3), y + 1.5f, z - (size / 2), textureName, size / 3.0f, 3.0f, 1.0f));
-        components.add(new RectangularPrism(x - (size / 3), y + 1.5f, z - (size / 2), textureName, size / 3.0f, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x + (size / 3) - 0.5f, y + 1.5f, z + (size / 2), textureName, (size / 3.0f) + 1.0f, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x - (size / 3) + 0.5f, y + 1.5f, z + (size / 2), textureName, (size / 3.0f) + 1.0f, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x + (size / 3) - 0.5f, y + 1.5f, z - (size / 2), textureName, (size / 3.0f) + 1.0f, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x - (size / 3) + 0.5f, y + 1.5f, z - (size / 2), textureName, (size / 3.0f) + 1.0f, 3.0f, 1.0f)); 
         break;
       }
       default:
