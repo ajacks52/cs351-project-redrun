@@ -11,17 +11,7 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import redrun.model.constants.Direction;
 import redrun.model.gameobject.MapObject;
-import redrun.model.gameobject.map.Corner;
-import redrun.model.gameobject.map.Corridor;
-import redrun.model.gameobject.map.End;
-import redrun.model.gameobject.map.Field;
-import redrun.model.gameobject.map.Pit;
-import redrun.model.gameobject.map.Platform;
-import redrun.model.gameobject.map.Staircase;
-import redrun.model.gameobject.map.Start;
-import redrun.model.gameobject.map.Tunnel;
 import redrun.test.GraphicsTestTroy;
 
 /**
@@ -149,14 +139,6 @@ public class Client
   }
 
   /**
-   * Parse input commands to send out to server
-   */
-  public void requestMapObjects()
-  {
-    write.println("MapObjects");
-  }
-
-  /**
    * Get difference in time between the start of the client's runtime and the
    * calling time of the method
    * 
@@ -172,6 +154,11 @@ public class Client
   public static void main(String[] args)
   {
     new Client(Server.HOST, Server.PORT, new LinkedList<MapObject>());
+  }
+  
+  public void requestMapObjects()
+  {
+    this.write.println("Send MapObjects");
   }
 
   /**
@@ -203,50 +190,67 @@ public class Client
     {
       ArrayList<String> mapObjects = new ArrayList<String>();
       ArrayList<String> gameObjects = new ArrayList<String>();
-      System.out.println("ClientListener.run()");
+      // System.out.println("ClientListener.run()");
 
       while (!destroy)
       {
+        Pattern getMap = Pattern
+            .compile("(===\\sMap\\s===)\\sid:(\\d+)\\sName:(.*?)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\s(===\\sMap\\sEnd\\s===)");
+//
+//        Pattern getMapObject = Pattern
+//            .compile("(===\\sMap\\sObject\\s===)\\sID:(\\d+)\\sName:(\\w+)\\sLocation:\\((\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\)\\sTexture:(\\w+)\\sDirection:(\\w+\\.\\w+)\\sMap\\sID:(\\d+)\\s(===\\sMap\\sObject\\sEnd\\s===)");
+
         Pattern getMapObject = Pattern
             .compile("===\\sMap\\sObject\\s===\\sID:(\\d+)\\sName:(\\w+)\\sLocation:\\((\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\)\\sTexture:(\\w+)\\sDirection:(\\w+\\.\\w+)\\sMap\\sID:(\\d+)\\s===");
-
-        Pattern getGameObject = Pattern
-            .compile(".*Game\\sObject.*ID:(\\d+)\\sPosition:(\\d+\\.\\d+),\\s(\\d+\\.\\d+),\\s(\\d+\\.\\d+)\\sPhysics:\\sMass:(-?\\d+\\.\\d+)\\sName:\\s(\\w+)\\s===");
+        
+        // Pattern getGameObject = Pattern
+        // .compile(".*(Game\\sObject).*ID:(\\d+)\\sPosition:(\\d+\\.\\d+),\\s(\\d+\\.\\d+),\\s(\\d+\\.\\d+)\\sPhysics:\\sMass:(-?\\d+\\.\\d+)\\sName:\\s(\\w+)\\s(===)");
         try
         {
-          System.out.println("Client: Listening to socket...");
+//          System.out.println("Client: Listening to socket...");
 
           // Wait for the next message from the server...
           String msg = reader.readLine();
 
-          
-          System.out.println("???" + msg + "???");
+//          System.out.println("???" + msg + "???");
 
-          Matcher matchGameObject = getGameObject.matcher(msg);
+          Matcher matchMap = getMap.matcher(msg);
           Matcher matchMapObject = getMapObject.matcher(msg);
+          // Matcher matchGameObject = getGameObject.matcher(msg);
 
-          if (matchMapObject.find())
+          if (matchMap.find())
           {
-            
-//            mapObjects.add("MapObject Start");
-            for (int i = 1; i <= matchMapObject.groupCount(); i++)
-            {
-              mapObjects.add(matchMapObject.group(i));
-            }
-//            mapObjects.add("MapObject Finish");
-            GraphicsTestTroy.networkData.add(mapObjects);
-            System.out.println(GraphicsTestTroy.networkData);
+            // for (int i = 1; i <= matchMap.groupCount(); i++)
+            // {
+            // mapObjects.add(matchMap.group(i));
+            // }
+            // GraphicsTestTroy.networkData.add(mapObjects);
+            GraphicsTestTroy.networkData.add(msg);
           }
-          else if (matchGameObject.find())
+
+          else if (matchMapObject.find())
           {
-//            gameObjects.add("GameObject Start");
-            for (int i = 1; i <= matchGameObject.groupCount(); i++)
-            {
-              gameObjects.add(matchGameObject.group(i));
-            }
-//            gameObjects.add("GameObject Finish");
-            GraphicsTestTroy.networkData.add(gameObjects);
+
+            // for (int i = 1; i <= matchMapObject.groupCount(); i++)
+            // {
+            // // System.out.println(matchMapObject.group(i));
+            // mapObjects.add(matchMapObject.group(i));
+            // }
+            // GraphicsTestTroy.networkData.add(mapObjects);
+            GraphicsTestTroy.networkData.add(msg);
+            // System.out.println("Client Network Data In Graphics Test: "+
+            // GraphicsTestTroy.networkData);
           }
+          // else if (matchGameObject.find())
+          // {
+          // // gameObjects.add("GameObject Start");
+          // for (int i = 1; i <= matchGameObject.groupCount(); i++)
+          // {
+          // gameObjects.add(matchGameObject.group(i));
+          // }
+          // // gameObjects.add("GameObject Finish");
+          // GraphicsTestTroy.networkData.add(gameObjects);
+          // }
           else
           {
             System.out.println("Unrecognized message " + msg + " sent, error!");

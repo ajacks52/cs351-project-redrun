@@ -15,7 +15,8 @@ public class MapObjectDB
   private String texture;
   private String direction;
   private int mapId;
-//  private StartLocation parsedStart;
+
+  // private StartLocation parsedStart;
 
   /**
    * MapObject instantiation
@@ -35,7 +36,7 @@ public class MapObjectDB
     this.texture = texture;
     this.direction = direction;
     this.mapId = mapId;
-//    this.parsedStart = new StartLocation(location);
+    // this.parsedStart = new StartLocation(location);
   }
 
   /**
@@ -44,9 +45,10 @@ public class MapObjectDB
   public String toString()
   {
     return "=== Map Object === " + "ID:" + this.id + " Name:" + this.objectName + " Location:" + this.location
-      + " Texture:" + this.texture + " Direction:" + this.direction + " Map ID:" + this.mapId + " ===";
-//    return "=== Map Object === " + "ID:" + this.id + " Name:" + this.objectName + " Location:" + parsedStart.getX() + ", " + parsedStart.getY() + ", "
-//  + parsedStart.getZ() + " Texture:" + this.texture
-//        + " Direction:" + this.direction + " Map ID:" + this.mapId + " ===";
+        + " Texture:" + this.texture + " Direction:" + this.direction + " Map ID:" + this.mapId + " ===";
+    // return "=== Map Object === " + "ID:" + this.id + " Name:" +
+    // this.objectName + " Location:" + this.location
+    // + " Texture:" + this.texture + " Direction:" + this.direction +
+    // " Map ID:" + this.mapId + " === Map Object End ===";
   }
 }

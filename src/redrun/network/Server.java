@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import redrun.database.Map;
 import redrun.database.MapObjectDB;
 import redrun.database.RedRunDAO;
 
@@ -59,12 +60,18 @@ public class Server
         worker.start();
         System.out.println("Server: *********** new Connection");
         allConnections.add(worker);
+        // send client map
+        ArrayList<Map> mapInformation = RedRunDAO.getAllMaps();
+        for (Map map : mapInformation)
+        {
+          worker.send(map.toString());
+        }
         // send client map objects
-        ArrayList<MapObjectDB> mapStuff = RedRunDAO.getAllMapObjects();
-//        for (MapObjectDB mapObject : mapStuff)
-//        {
-//          worker.send(mapObject.toString());
-//        }
+        ArrayList<MapObjectDB> mapObjects = RedRunDAO.getAllMapObjects();
+        for (MapObjectDB mapObject : mapObjects)
+        {
+          worker.send(mapObject.toString());
+        }
       }
       catch (IOException e)
       {
@@ -95,11 +102,12 @@ public class Server
    * 
    * @param s Message to broadcast to connected clients
    */
-  public static void broadcast(String s)
+  public static void broadcast(MailMan currentWorker, String s)
   {
     for (MailMan workers : allConnections)
     {
-      workers.send(s);
+      // Send message to all workers except the sender
+      if (!currentWorker.equals(workers)) workers.send(s);
     }
   }
 
