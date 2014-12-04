@@ -205,12 +205,12 @@ public class GraphicsTestTroy
 
     GameData.addMapObject(new Staircase(15.0f, 0.0f, 180.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));   
     
-    GameData.addMapObject(new Corridor(15.0f, 0.0f, 195.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
-    GameData.addMapObject(new Corridor(15.0f, 0.0f, 210.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 195.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 210.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(15.0f, 0.0f, 225.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY)); //Kiosk
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 225.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY)); //Kiosk
 
-    GameData.addMapObject(new Corridor(15.0f, 0.0f, 240.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 240.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
     GameData.addMapObject(new Corner(15.0f, 0.0f, 255.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EMPTY));
     
@@ -222,7 +222,7 @@ public class GraphicsTestTroy
 
     GameData.addMapObject(new Corner(75.0f, 0.0f, 255.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(75.0f, 0.0f, 240.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY)); //Kiosk
+    GameData.addMapObject(new Corridor(75.0f, 0.0f, 240.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY)); //Kiosk
 
     GameData.addMapObject(new Corridor(75.0f, 0.0f, 225.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
 
