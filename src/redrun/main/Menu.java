@@ -1,9 +1,9 @@
 package redrun.main;
 
-
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 
+import redrun.model.constants.Constants;
 import redrun.model.toolkit.FontTools;
 
 /**
@@ -20,25 +20,19 @@ public class Menu
   Color textColor = Color.white;
   Color textSelectedColor = Color.darkGray;
   Color[] options = new Color[5];
-  private static GameState state = GameState.MAIN_MENU;
+  private static MenuState state = MenuState.MAIN_MENU;
   int selection = 0;
   int clients = 0;
 
   /**
-   * @author Adam Mitchell
-   * The game states 
-   * PLAYGOUND(1), TWO_PLAYER(2), THREE_PLAYER(3), FOUR_PLAYER(4), 
-   * CONTROLS(-1), MAIN_MENU(-1), ERROR(-1);
+   * The game states PLAYGOUND(1), TWO_PLAYER(2), THREE_PLAYER(3),
+   * FOUR_PLAYER(4), CONTROLS(-1), MAIN_MENU(-1), ERROR(-1);
+   * 
+   * @author Adam Mitchell, J. Jake Nichol
    */
-  public static enum GameState
+  private static enum MenuState
   {
-    PLAYGOUND(1), TWO_PLAYER(2), THREE_PLAYER(3), FOUR_PLAYER(4), CONTROLS(-1), MAIN_MENU(-1), ERROR(-1);
-    
-    int value;
-    private GameState(int num)
-    {
-      this.value = num;
-    }
+    PLAYGOUND, TWO_PLAYER, THREE_PLAYER, FOUR_PLAYER, CONTROLS, MAIN_MENU, ERROR;
   }
 
   /**
@@ -89,7 +83,7 @@ public class Menu
       {
         if (Keyboard.getEventKeyState())
         {
-          state = GameState.values()[selection];
+          state = MenuState.values()[selection];
           System.out.println(state);
         }
       }
@@ -107,7 +101,7 @@ public class Menu
       {
         if (Keyboard.getEventKeyState())
         {
-          state = GameState.valueOf("MAIN_MENU");
+          state = MenuState.valueOf("MAIN_MENU");
           System.out.println(state);
         }
       }
@@ -117,13 +111,12 @@ public class Menu
   /**
    * Controls the overall game state
    * 
-   * Use static field state and set it to a game state 
-   * in the following way 
+   * Use static field state and set it to a game state in the following way
    * 
    * state = GameState.NAME_OF_STATE
    */
   public void stateControl()
-  {    
+  {
     switch (state)
     {
       case MAIN_MENU:
@@ -135,37 +128,37 @@ public class Menu
         break;
       case TWO_PLAYER:
         // add two player code
-        if(clients != 2) {
-          state = GameState.ERROR;
-          state.value = 2;
+        if (clients != 2)
+        {
+          state = MenuState.ERROR;
         }
-        
+
         break;
       case THREE_PLAYER:
         // add three player code
-        if(clients != 3) {
-          state = GameState.ERROR;
-          state.value = 3;
+        if (clients != 3)
+        {
+          state = MenuState.ERROR;
         }
-        
+
         break;
       case FOUR_PLAYER:
         // add four player code
-        if(clients != 4) {
-          state = GameState.ERROR;
-          state.value = 4;
+        if (clients != 4)
+        {
+          state = MenuState.ERROR;
         }
-        
+
         break;
       case CONTROLS:
         backToMenuControls();
         controlsText();
         break;
-        
+
       case ERROR:
         backToMenuControls();
         errorText();
-        
+
         break;
       default:
         break;
@@ -181,8 +174,8 @@ public class Menu
     FontTools.renderText("Connected Clients 0", 650, 7, textColor, 0);
 
     FontTools.renderText("I'm sorry there are only " + clients + " clients connected.", 20, 110, textColor, 2);
-    FontTools.renderText("You need " + (state.value-clients) +" more users connect to play a", 20, 150, textColor, 2);
-    FontTools.renderText( state.value + " player round.", 20, 190, textColor, 2);
+    FontTools
+        .renderText("You need " + (Constants.MAX_PLAYERS - clients) + " more users connect to play a", 20, 150, textColor, 2);
     FontTools.renderText("Feel free to test out the controls in the", 20, 240, textColor, 2);
     FontTools.renderText("Play Ground", 20, 280, textColor, 2);
 

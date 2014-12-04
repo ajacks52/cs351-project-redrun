@@ -18,6 +18,7 @@ import redrun.graphics.selection.Picker;
 import redrun.main.Menu;
 import redrun.model.constants.CameraType;
 import redrun.model.constants.Direction;
+import redrun.model.constants.GameState;
 import redrun.model.constants.Team;
 import redrun.model.constants.TrapType;
 import redrun.model.game.GameData;
@@ -63,6 +64,9 @@ public class ClientMain
 
   /** The player associated with the client. */
   private static Player player = null;
+  
+  /** The current game state for this client and its player. */
+  private GameState state = GameState.WAIT;
 
   /**
    * Performs OpenGL initialization.
