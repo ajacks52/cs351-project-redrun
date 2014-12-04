@@ -17,6 +17,8 @@ import redrun.model.physics.PlanePhysicsBody;
  */
 public class JailDoor extends Trap
 {
+  private int count = 0;
+  private boolean down = false;
 
   /**
    * Constructor 
@@ -153,6 +155,8 @@ public class JailDoor extends Trap
   public void reset()
   {
     // TODO Auto-generated method stub
+    this.timer.reset();
+    this.timer.pause();
 
   }
 
@@ -166,7 +170,35 @@ public class JailDoor extends Trap
   @Override
   public void update()
   {
-    // TODO Auto-generated method stub
+    if (this.timer.getTime() > 0 && count < 12 && !down)
+    {    
+      count++;
+      System.out.println("moving up!! " + count);
+      body.translate(0f, -1f, 0f);
+      if(count == 12)
+      {
+        down=true;
+      }
+    }
+    else if (this.timer.getTime() > 20)
+    {
+      // wait
+    }
+    else if (count > 0 &&this.timer.getTime() > 0 && down)
+    {
+      count--;
+      System.out.println("moving down!! " + count);
+      body.translate(0f, 1f, 0f);
+      if(count == 0)
+      {
+        down=false;
+      }
+    }
+    else if(count == 0 && this.timer.getTime() > 0)
+    {
+      System.out.println("reset");
+      this.reset();
+    }
 
   }
 

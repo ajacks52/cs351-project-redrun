@@ -118,11 +118,6 @@ public abstract class MapObject implements Comparable<MapObject>
         
         break;
       }
-      case SPEAR:
-      {
-        this.trap = new Spear(x, y, z, orientation, null);
-        break;
-      }
       case EXPLODING_BOX_FIELD:
       {
         if (this.getClass() == Pit.class)

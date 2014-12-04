@@ -44,7 +44,7 @@ public class RockSmash extends Trap
     this.body = new SpherePhysicsBody(new Vector3f(x, y, z), 4.5f, 10.0f);
     //this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(4, 4, 4), new Quat4f(), 100);
     // load in model
-    model = OBJLoader.loadModel(new File("res/models/" + modelName + ".obj"));
+    model = OBJLoader.loadModel(new File("res/models/" + "cat" + ".obj"));
 
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
