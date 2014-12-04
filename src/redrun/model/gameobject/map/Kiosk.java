@@ -9,12 +9,31 @@ import redrun.model.gameobject.world.Button;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.RectangularPrism;
 
+/**
+ * This class represents a kiosk that is used for activating traps.
+ * 
+ * @author Troy Squillaci
+ * @version 1.0
+ * @since 2014-11-22
+ * @see MapObject
+ */
 public class Kiosk extends MapObject
 {
-  public Kiosk(float x, float y, float z, String textureName, Direction orientation, TrapType type)
+  /**
+   * Creates a new oriented kiosk at the specified location.
+   * 
+   * @param x the x position of the kiosk
+   * @param y the y position of the kiosk
+   * @param z the z position of the kiosk
+   * @param groundTexture an optional texture to apply to the ground
+   * @param wallTexture an optional texture to apply to the walls
+   * @param orientation the cardinal direction of the kiosk
+   * @param trap an optional trap to place on the kiosk
+   */
+  public Kiosk(float x, float y, float z, String groundTexture, String wallTexture, Direction orientation, TrapType type)
   {
-    super(x, y, z, textureName, orientation, type);
-
+    super(x, y, z, groundTexture, wallTexture, orientation, type);
+    
     int size = Scale.MAP_SCALE.scale();
     
     Button button = null;
@@ -23,9 +42,9 @@ public class Kiosk extends MapObject
     {
       case NORTH:
       {
-        components.add(new Plane(x, y, z, textureName, Direction.NORTH, size));
-        components.add(new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size, 3.0f, 1.0f));
-        components.add(new RectangularPrism(x, y + 1.5f, z + -(size / 2), textureName, size, 3.0f, 1.0f));  
+        components.add(new Plane(x, y, z, groundTexture, Direction.NORTH, size));
+        components.add(new RectangularPrism(x, y + 1.5f, z + (size / 2), wallTexture, size, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x, y + 1.5f, z + -(size / 2), wallTexture, size, 3.0f, 1.0f));  
         button = new Button(x, y + 3.25f, z - (size / 2), "button");
         GameData.addGameObject(button);  
         GameData.addButton(button);
@@ -33,9 +52,9 @@ public class Kiosk extends MapObject
       }
       case EAST:
       {
-        components.add(new Plane(x, y, z, textureName, Direction.EAST, size));
-        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
-        components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
+        components.add(new Plane(x, y, z, groundTexture, Direction.EAST, size));
+        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, wallTexture, 1.0f, 3.0f, size));
+        components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, wallTexture, 1.0f, 3.0f, size));
         button = new Button(x + (size / 2), y + 3.25f, z, "button");  
         GameData.addGameObject(button);  
         GameData.addButton(button);
@@ -43,9 +62,9 @@ public class Kiosk extends MapObject
       }
       case SOUTH:
       {
-        components.add(new Plane(x, y, z, textureName, Direction.SOUTH, size));
-        components.add(new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size, 3.0f, 1.0f));
-        components.add(new RectangularPrism(x, y + 1.5f, z + -(size / 2), textureName, size, 3.0f, 1.0f));
+        components.add(new Plane(x, y, z, groundTexture, Direction.SOUTH, size));
+        components.add(new RectangularPrism(x, y + 1.5f, z + (size / 2), wallTexture, size, 3.0f, 1.0f));
+        components.add(new RectangularPrism(x, y + 1.5f, z + -(size / 2), wallTexture, size, 3.0f, 1.0f));
         button = new Button(x, y + 3.25f, z + (size / 2), "button");  
         GameData.addGameObject(button);  
         GameData.addButton(button);
@@ -53,9 +72,9 @@ public class Kiosk extends MapObject
       }
       case WEST:
       {
-        components.add(new Plane(x, y, z, textureName, Direction.WEST, size));
-        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
-        components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
+        components.add(new Plane(x, y, z, groundTexture, Direction.WEST, size));
+        components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, wallTexture, 1.0f, 3.0f, size));
+        components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, wallTexture, 1.0f, 3.0f, size));
         button = new Button(x - (size / 2), y + 3.25f, z, "button");  
         GameData.addGameObject(button);  
         GameData.addButton(button);

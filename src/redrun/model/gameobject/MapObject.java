@@ -6,13 +6,10 @@ import java.util.List;
 
 import redrun.model.constants.Constants;
 import redrun.model.constants.Direction;
-import redrun.model.constants.Scale;
 import redrun.model.constants.TrapType;
 import redrun.model.game.GameData;
-import redrun.model.gameobject.map.Corridor;
 import redrun.model.gameobject.map.Pit;
 import redrun.model.gameobject.trap.DeathPillar;
-import redrun.model.gameobject.trap.ExplosiveBox;
 import redrun.model.gameobject.trap.ExplodingBoxField;
 import redrun.model.gameobject.trap.JailDoor;
 import redrun.model.gameobject.trap.PoleDance;
@@ -22,9 +19,6 @@ import redrun.model.gameobject.trap.Spear;
 import redrun.model.gameobject.trap.SpikeField;
 import redrun.model.gameobject.trap.SpikeTrapDoor;
 import redrun.model.gameobject.trap.Trap;
-import redrun.model.gameobject.world.Button;
-import redrun.test.GraphicsTestAdam;
-import redrun.test.GraphicsTestTroy;
 
 /**
  * This class represents a map object that is used to construct Redrun maps.
@@ -44,15 +38,14 @@ public abstract class MapObject implements Comparable<MapObject>
   /** The Z position of the map object. */
   protected final float z;
 
-  /**
-   * The orientation of the map object in 3D space defined by cardinal
-   * directions.
-   */
+  /** The orientation of the map object in 3D space defined by cardinal directions. */
   protected final Direction orientation;
 
-  // Optional parameters...
-  /** The name of the texture to apply to the map object. */
-  protected String textureName = null;
+  /** The name of the texture to apply to the ground of the map object. */
+  protected String groundTexture = null;
+  
+  /** The name of the texture to apply to the walls of the map object. */
+  protected String wallTexture = null;
 
   /** The trap to associate with the map object. */
   protected Trap trap = null;
@@ -60,7 +53,7 @@ public abstract class MapObject implements Comparable<MapObject>
   /** The list of game object that define the map object. */
   protected List<GameObject> components = new ArrayList<GameObject>();
 
-  public MapObject(float x, float y, float z, String textureName, Direction orientation, TrapType type)
+  public MapObject(float x, float y, float z, String groundTexture, String wallTexture, Direction orientation, TrapType type)
   {
     this.x = x;
     this.y = y;
@@ -86,25 +79,25 @@ public abstract class MapObject implements Comparable<MapObject>
       }
       case SPIKE_TRAP_DOOR:
       {
-        if (this.getClass() == Pit.class) this.trap = new SpikeTrapDoor(x, y + 0.8f, z, orientation, textureName, true);
-        else this.trap = new SpikeTrapDoor(x, y + 0.8f, z, orientation, "wood", false);
+        if (this.getClass() == Pit.class) this.trap = new SpikeTrapDoor(x, y + 0.8f, z, orientation, groundTexture, true);
+        else this.trap = new SpikeTrapDoor(x, y + 0.8f, z, orientation, "ground16", false);
         break;
       }
       case POLE_WALL:
       {
         if (orientation == Direction.EAST || orientation == Direction.WEST)
         {
-          this.trap = new PoleWall(x + 10, y, z, orientation, textureName);
+          this.trap = new PoleWall(x + 10, y, z, orientation, wallTexture);
         }
         if (orientation == Direction.NORTH || orientation == Direction.SOUTH)
         {
-          this.trap = new PoleWall(x, y, z - 10, orientation, textureName);
+          this.trap = new PoleWall(x, y, z - 10, orientation, wallTexture);
         }
         break;
       }
       case POLE_DANCE:
       {
-        this.trap = new PoleDance(x, y+ 0.05f, z, orientation, textureName);
+        this.trap = new PoleDance(x, y+ 0.05f, z, orientation, wallTexture);
         break;
       }
       case DEATH_PILLAR:
