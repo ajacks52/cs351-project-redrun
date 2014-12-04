@@ -15,6 +15,7 @@ import org.newdawn.slick.Color;
 import redrun.graphics.camera.Camera;
 import redrun.graphics.camera.CameraManager;
 import redrun.graphics.selection.Picker;
+import redrun.main.Menu;
 import redrun.model.constants.CameraType;
 import redrun.model.constants.Direction;
 import redrun.model.constants.Team;
@@ -135,6 +136,8 @@ public class ClientMain
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
 
+    Menu menu = new Menu();
+
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
       camera = cameraManager.getActiveCamera();
@@ -231,6 +234,7 @@ public class ClientMain
       FontTools.draw3D();
 
       // Update...
+      menu.stateControl();
       cameraManager.update();
       PhysicsWorld.stepSimulation(1 / 60.0f);
       Timer.tick();
@@ -278,7 +282,7 @@ public class ClientMain
     if (Keyboard.isKeyDown(Keyboard.KEY_UP)) camera.moveUp(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) camera.moveDown(movementSpeed * dt);
   }
-  
+
   /**
    * Creates the obstacle course.
    * 

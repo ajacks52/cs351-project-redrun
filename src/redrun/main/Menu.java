@@ -7,13 +7,12 @@ import org.newdawn.slick.Color;
 import redrun.model.toolkit.FontTools;
 
 /**
+ * The main menu. Controls the keyboard input, state control and other aspects
+ * of the main menu.
  * 
- * @author Adam Mitchell
+ * @author Adam Mitchell, J. Jake Nichol
  * @version 1.0
  * @since 2014-19-10
- *
- * The main menu. Controls the keyboard input, state control and other aspects of the main menu
- *
  */
 public class Menu
 {
