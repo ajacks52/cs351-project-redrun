@@ -48,7 +48,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * This class is for testing OpenGL scenes.
  * 
- * @author Troy Squillaci
+ * @author Troy Squillaci / Adam Mitchell
  * @version 1.0
  * @since 2014-11-03
  */
@@ -114,7 +114,7 @@ public class GraphicsTestAdamTraps
     
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 30.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));    
-    GameData.addMapObject(new Corridor(0.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.ROCK_SMASH)); //
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.POLE_DANCE)); //
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     

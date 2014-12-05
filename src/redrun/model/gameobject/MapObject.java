@@ -18,6 +18,7 @@ import redrun.model.gameobject.trap.full.PoleWall;
 import redrun.model.gameobject.trap.full.RockSmash;
 import redrun.model.gameobject.trap.full.SpikeField;
 import redrun.model.gameobject.trap.full.SpikeTrapDoor;
+import redrun.model.gameobject.trap.full.TrapDoor;
 import redrun.model.gameobject.trap.piece.JailDoor;
 import redrun.model.gameobject.trap.piece.Rock;
 import redrun.model.gameobject.trap.piece.Spear;
@@ -110,6 +111,18 @@ public abstract class MapObject implements Comparable<MapObject>
       case ROCK_SMASH:
       {
         this.trap = new RockSmash(x, y + 5, z, orientation, "rock" + Constants.random.nextInt(3));
+        
+        break;
+      }
+      case TRAP_DOOR:
+      {
+        if (this.getClass() == Pit.class) {
+          this.trap = new TrapDoor(x, y, z, orientation, "ground9", true);
+        }
+        else {
+          this.trap = new TrapDoor(x, y, z, orientation, "ground16", false);
+        }
+        //this.trap = new TrapDoor(x, y + 5, z, orientation, "ground9");
         
         break;
       }

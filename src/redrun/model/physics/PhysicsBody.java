@@ -25,7 +25,7 @@ import com.bulletphysics.linearmath.Transform;
 public class PhysicsBody
 {
   private Transform trans = new Transform(); // used only to make getting faster
-  private RigidBody body;
+  public RigidBody body;
   /**
    * Creates a simple physics body
    * @param mass in kg if mass is 0 it is static
