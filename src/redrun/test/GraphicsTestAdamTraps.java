@@ -377,7 +377,7 @@ public class GraphicsTestAdamTraps
       // Draw text to the screen...
 
       
-      // pass the cameras to the hud
+      // pass the camera to the hud
       HUD_Manager.huds(camera, player);
      
       // Update...

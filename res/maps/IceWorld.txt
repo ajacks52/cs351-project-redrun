@@ -1,4 +1,4 @@
-Ice World, iceflats, marble
+Ice World, iceflats, marble, (-100.0f, 750.0f, 1000.0f)
 
 Start, (0.0f, 0.0f, 0.0f), ground14, brick8, WEST, EMPTY, 1
 Corridor, (0.0f, 0.0f, 15.0f), ground14, brick8, EAST, EMPTY, 1
