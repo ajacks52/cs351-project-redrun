@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import redrun.model.game.GameData;
 import redrun.model.gameobject.MapObject;
 import redrun.test.GraphicsTestTroy;
 
@@ -28,7 +29,6 @@ public class Client
   private BufferedReader reader;
   private long startNanoSec;
   private ClientListener listener;
-  private LinkedList<MapObject> mapObjects = null;
 
   /**
    * Client instantiation
@@ -37,16 +37,13 @@ public class Client
    * @param portNumber port number to connect to
    * @param mapObjects list of map objects that the player uses to render map
    */
-  public Client(String host, int portNumber, LinkedList<MapObject> mapObjects)
+  public Client(String host, int portNumber)
   {
     startNanoSec = System.nanoTime();
     System.out.println("Starting Client: " + timeDiff());
 
-    this.mapObjects = mapObjects;
-
     // Try to connect until a connection is established...
-    while (!openConnection(host, portNumber))
-      ;
+    while (!openConnection(host, portNumber));
 
     // Start listening thread...
     listener = new ClientListener();
@@ -151,10 +148,10 @@ public class Client
     return String.format("%.6f", secDiff);
   }
 
-  public static void main(String[] args)
-  {
-    new Client(Server.HOST, Server.PORT, new LinkedList<MapObject>());
-  }
+//  public static void main(String[] args)
+//  {
+//    new Client(Server.HOST, Server.PORT, new LinkedList<MapObject>());
+//  }
   
   public void requestMapObjects()
   {
@@ -225,7 +222,7 @@ public class Client
             // mapObjects.add(matchMap.group(i));
             // }
             // GraphicsTestTroy.networkData.add(mapObjects);
-            GraphicsTestTroy.networkData.add(msg);
+            GameData.networkData.add(msg);
           }
 
           else if (matchMapObject.find())
@@ -237,7 +234,7 @@ public class Client
             // mapObjects.add(matchMapObject.group(i));
             // }
             // GraphicsTestTroy.networkData.add(mapObjects);
-            GraphicsTestTroy.networkData.add(msg);
+            GameData.networkData.add(msg);
             // System.out.println("Client Network Data In Graphics Test: "+
             // GraphicsTestTroy.networkData);
           }
