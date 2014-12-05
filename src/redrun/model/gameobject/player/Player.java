@@ -70,7 +70,7 @@ public class Player extends GameObject
     this.name = name;
     this.team = team;
     this.health = 100;
-    this.lives = 1;
+    this.lives = 5;
     this.alive = true;
 
   }

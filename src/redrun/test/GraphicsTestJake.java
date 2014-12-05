@@ -99,7 +99,7 @@ public class GraphicsTestJake
     CheckerBoard board = new CheckerBoard(0, 0, 0, null, new Dimension(50, 50));
 
     Cube pedestal = new Cube(4, 0, 4, "wood");
-    Button button = new Button(4, 0.8f, 4, "pokadots", new Vector3f(1.0f, 0.0f, 0.0f));
+    Button button = new Button(4, 0.8f, 4, "pokadots");
 
     // Create the map...
     LinkedList<MapObject> worldMap = new LinkedList<MapObject>();
@@ -278,10 +278,8 @@ public class GraphicsTestJake
         mapObject.draw();
       }
 
-      FontTools.draw2D();
       FontTools.renderText("Position: (" + player1.getBody().getX() + ", " + player1.getBody().getY() + ", "
           + player1.getBody().getZ() + ")", 10, 10, Color.orange, 0);
-      FontTools.draw3D();
 
       player1.update();
       updateFPS();

@@ -32,7 +32,6 @@ import redrun.model.gameobject.map.Staircase;
 import redrun.model.gameobject.map.Start;
 import redrun.model.gameobject.map.Tunnel;
 import redrun.model.gameobject.player.Player;
-import redrun.model.gameobject.world.Ball;
 import redrun.model.gameobject.world.Cube;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
@@ -103,160 +102,160 @@ public class GraphicsTestTroy
     // Create the map objects...
   	
     // Make the obstacle course...
-    GameData.addMapObject(new Start(0.0f, 0.0f, 0.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Start(0.0f, 0.0f, 0.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
     
-    GameData.addMapObject(new Corridor(0.0f, 0.0f, 15.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
-    GameData.addMapObject(new Corridor(0.0f, 0.0f, 30.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));    
-    GameData.addMapObject(new Corridor(0.0f, 0.0f, 45.0f, "brickwall5", Direction.EAST, TrapType.SPIKE_TRAP_DOOR));
-    GameData.addMapObject(new Corridor(0.0f, 0.0f, 60.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
-    GameData.addMapObject(new Corridor(0.0f, 0.0f, 75.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 30.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.SPIKE_TRAP_DOOR));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     
-    GameData.addMapObject(new Staircase(0.0f, 0.0f, 90.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Staircase(0.0f, 0.0f, 90.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     
-    GameData.addMapObject(new Corridor(0.0f, 15.0f, 105.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
-    GameData.addMapObject(new Corridor(0.0f, 15.0f, 120.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));    
-    GameData.addMapObject(new Corridor(0.0f, 15.0f, 135.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
-    GameData.addMapObject(new Corridor(0.0f, 15.0f, 150.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
-    GameData.addMapObject(new Corridor(0.0f, 15.0f, 165.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 15.0f, 105.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 15.0f, 120.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(0.0f, 15.0f, 135.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 15.0f, 150.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 15.0f, 165.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     
-    GameData.addMapObject(new Staircase(0.0f, 0.0f, 180.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Staircase(0.0f, 0.0f, 180.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
     
-    GameData.addMapObject(new Corridor(0.0f, 0.0f, 195.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
-    GameData.addMapObject(new Corridor(0.0f, 0.0f, 210.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));    
-    GameData.addMapObject(new Corridor(0.0f, 0.0f, 225.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
-    GameData.addMapObject(new Corridor(0.0f, 0.0f, 240.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
-    GameData.addMapObject(new Corridor(0.0f, 0.0f, 255.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 195.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 210.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 225.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 240.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 255.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     
-    GameData.addMapObject(new Corner(0.0f, 0.0f, 270.0f, "brickwall5", Direction.SOUTH, TrapType.EMPTY));
+    GameData.addMapObject(new Corner(0.0f, 0.0f, 270.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EMPTY));
     
-    GameData.addMapObject(new Tunnel(15.0f, 0.0f, 270.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
-    GameData.addMapObject(new Tunnel(30.0f, 0.0f, 270.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
-    GameData.addMapObject(new Corridor(45.0f, 0.0f, 270.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
-    GameData.addMapObject(new Tunnel(60.0f, 0.0f, 270.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
-    GameData.addMapObject(new Tunnel(75.0f, 0.0f, 270.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
+    GameData.addMapObject(new Tunnel(15.0f, 0.0f, 270.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
+    GameData.addMapObject(new Tunnel(30.0f, 0.0f, 270.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(45.0f, 0.0f, 270.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
+    GameData.addMapObject(new Tunnel(60.0f, 0.0f, 270.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
+    GameData.addMapObject(new Tunnel(75.0f, 0.0f, 270.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corner(90.0f, 0.0f, 270.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corner(90.0f, 0.0f, 270.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(90.0f, 0.0f, 255.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));    
-    GameData.addMapObject(new Corridor(90.0f, 0.0f, 240.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));    
-    GameData.addMapObject(new Corridor(90.0f, 0.0f, 225.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 0.0f, 255.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 0.0f, 240.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 0.0f, 225.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
 
-    GameData.addMapObject(new Staircase(90.0f, 0.0f, 210.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Staircase(90.0f, 0.0f, 210.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
     
-    GameData.addMapObject(new Corridor(90.0f, 15.0f, 195.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));    
-    GameData.addMapObject(new Pit(90.0f, 15.0f, 180.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));    
-    GameData.addMapObject(new Corridor(90.0f, 15.0f, 165.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));    
-    GameData.addMapObject(new Pit(90.0f, 15.0f, 150.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));    
-    GameData.addMapObject(new Corridor(90.0f, 15.0f, 135.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));    
-    GameData.addMapObject(new Pit(90.0f, 15.0f, 120.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));    
-    GameData.addMapObject(new Corridor(90.0f, 15.0f, 105.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 15.0f, 195.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Pit(90.0f, 15.0f, 180.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 15.0f, 165.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Pit(90.0f, 15.0f, 150.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 15.0f, 135.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Pit(90.0f, 15.0f, 120.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 15.0f, 105.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
 
-    GameData.addMapObject(new Staircase(90.0f, 0.0f, 90.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Staircase(90.0f, 0.0f, 90.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(90.0f, 0.0f, 75.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));    
-    GameData.addMapObject(new Corridor(90.0f, 0.0f, 60.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));    
-    GameData.addMapObject(new Corridor(90.0f, 0.0f, 45.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
-    GameData.addMapObject(new Corridor(90.0f, 0.0f, 30.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));    
-    GameData.addMapObject(new Corridor(90.0f, 0.0f, 15.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(90.0f, 0.0f, 30.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
 
-    GameData.addMapObject(new Corner(90.0f, 0.0f, 0.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
+    GameData.addMapObject(new Corner(90.0f, 0.0f, 0.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
     
-    GameData.addMapObject(new Corridor(75.0f, 0.0f, 0.0f, "brickwall5", Direction.SOUTH, TrapType.EMPTY));    
-    GameData.addMapObject(new Corridor(60.0f, 0.0f, 0.0f, "brickwall5", Direction.SOUTH, TrapType.EMPTY));   
+    GameData.addMapObject(new Corridor(75.0f, 0.0f, 0.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(60.0f, 0.0f, 0.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EMPTY));   
     
-    GameData.addMapObject(new Corner(45.0f, 0.0f, 0.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corner(45.0f, 0.0f, 0.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(45.0f, 0.0f, 15.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));   
+    GameData.addMapObject(new Corridor(45.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
     
-    GameData.addMapObject(new Field(45.0f, 0.0f, 45.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));   
+    GameData.addMapObject(new Field(45.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
 
-    GameData.addMapObject(new Corridor(45.0f, 0.0f, 75.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));   
+    GameData.addMapObject(new Corridor(45.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
 
-    GameData.addMapObject(new Field(45.0f, 0.0f, 105.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));   
+    GameData.addMapObject(new Field(45.0f, 0.0f, 105.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
 
-    GameData.addMapObject(new Corridor(45.0f, 0.0f, 135.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));   
+    GameData.addMapObject(new Corridor(45.0f, 0.0f, 135.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
 
-    GameData.addMapObject(new Field(45.0f, 0.0f, 165.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));   
+    GameData.addMapObject(new Field(45.0f, 0.0f, 165.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
 
-    GameData.addMapObject(new Corridor(45.0f, 0.0f, 195.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));   
-    GameData.addMapObject(new Corridor(45.0f, 0.0f, 210.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));   
-    GameData.addMapObject(new Corridor(45.0f, 0.0f, 225.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));   
+    GameData.addMapObject(new Corridor(45.0f, 0.0f, 195.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
+    GameData.addMapObject(new Corridor(45.0f, 0.0f, 210.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
+    GameData.addMapObject(new Corridor(45.0f, 0.0f, 225.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
     
-    GameData.addMapObject(new End(45.0f, 0.0f, 240.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));   
+    GameData.addMapObject(new End(45.0f, 0.0f, 240.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
     
     // Make the kiosks and paths...
-    GameData.addMapObject(new Corner(15.0f, 0.0f, 15.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
-    GameData.addMapObject(new Corridor(15.0f, 0.0f, 30.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));   
+    GameData.addMapObject(new Corner(15.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 30.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
 
-    GameData.addMapObject(new Kiosk(15.0f, 0.0f, 45.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Kiosk(15.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY)); //Kiosk
     
-    GameData.addMapObject(new Corridor(15.0f, 0.0f, 60.0f, "brickwall5", Direction.EAST, TrapType.EMPTY)); //Kiosk
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY)); 
     
-    GameData.addMapObject(new Corridor(15.0f, 0.0f, 75.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     
-    GameData.addMapObject(new Staircase(15.0f, 0.0f, 90.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));   
+    GameData.addMapObject(new Staircase(15.0f, 0.0f, 90.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
 
-    GameData.addMapObject(new Corridor(15.0f, 15.0f, 105.0f, "brickwall5", Direction.EAST, TrapType.EMPTY)); //Kiosk
-    GameData.addMapObject(new Corridor(15.0f, 15.0f, 120.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(15.0f, 15.0f, 105.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY)); //Kiosk
+    GameData.addMapObject(new Corridor(15.0f, 15.0f, 120.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(15.0f, 15.0f, 135.0f, "brickwall5", Direction.WEST, TrapType.EMPTY)); //Kiosk
-    GameData.addMapObject(new Corridor(15.0f, 15.0f, 150.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(15.0f, 15.0f, 135.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY)); //Kiosk
+    GameData.addMapObject(new Corridor(15.0f, 15.0f, 150.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
     
-    GameData.addMapObject(new Corridor(15.0f, 15.0f, 165.0f, "brickwall5", Direction.EAST, TrapType.EMPTY)); //Kiosk
+    GameData.addMapObject(new Corridor(15.0f, 15.0f, 165.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY)); //Kiosk
 
-    GameData.addMapObject(new Staircase(15.0f, 0.0f, 180.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));   
+    GameData.addMapObject(new Staircase(15.0f, 0.0f, 180.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));   
     
-    GameData.addMapObject(new Corridor(15.0f, 0.0f, 195.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
-    GameData.addMapObject(new Corridor(15.0f, 0.0f, 210.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 195.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 210.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(15.0f, 0.0f, 225.0f, "brickwall5", Direction.WEST, TrapType.EMPTY)); //Kiosk
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 225.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY)); //Kiosk
 
-    GameData.addMapObject(new Corridor(15.0f, 0.0f, 240.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 240.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corner(15.0f, 0.0f, 255.0f, "brickwall5", Direction.SOUTH, TrapType.EMPTY));
+    GameData.addMapObject(new Corner(15.0f, 0.0f, 255.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EMPTY));
     
-    GameData.addMapObject(new Corridor(30.0f, 0.0f, 255.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(30.0f, 0.0f, 255.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(45.0f, 0.0f, 255.0f, "brickwall5", Direction.SOUTH, TrapType.EMPTY)); //Kiosk
+    GameData.addMapObject(new Corridor(45.0f, 0.0f, 255.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EMPTY)); //Kiosk
 
-    GameData.addMapObject(new Corridor(60.0f, 0.0f, 255.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(60.0f, 0.0f, 255.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corner(75.0f, 0.0f, 255.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corner(75.0f, 0.0f, 255.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(75.0f, 0.0f, 240.0f, "brickwall5", Direction.EAST, TrapType.EMPTY)); //Kiosk
+    GameData.addMapObject(new Corridor(75.0f, 0.0f, 240.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY)); //Kiosk
 
-    GameData.addMapObject(new Corridor(75.0f, 0.0f, 225.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(75.0f, 0.0f, 225.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Staircase(75.0f, 0.0f, 210.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));   
+    GameData.addMapObject(new Staircase(75.0f, 0.0f, 210.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));   
 
-    GameData.addMapObject(new Corridor(75.0f, 15.0f, 195.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
-    GameData.addMapObject(new Corridor(75.0f, 15.0f, 180.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(75.0f, 15.0f, 195.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(75.0f, 15.0f, 180.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(75.0f, 15.0f, 165.0f, "brickwall5", Direction.EAST, TrapType.EMPTY)); //Kiosk
+    GameData.addMapObject(new Corridor(75.0f, 15.0f, 165.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY)); //Kiosk
 
-    GameData.addMapObject(new Corridor(75.0f, 15.0f, 150.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(75.0f, 15.0f, 150.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(75.0f, 15.0f, 135.0f, "brickwall5", Direction.EAST, TrapType.EMPTY)); //Kiosk
+    GameData.addMapObject(new Corridor(75.0f, 15.0f, 135.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY)); //Kiosk
 
-    GameData.addMapObject(new Corridor(75.0f, 15.0f, 120.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
-    GameData.addMapObject(new Corridor(75.0f, 15.0f, 105.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(75.0f, 15.0f, 120.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(75.0f, 15.0f, 105.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Staircase(75.0f, 0.0f, 90.0f, "brickwall5", Direction.EAST, TrapType.EMPTY));   
+    GameData.addMapObject(new Staircase(75.0f, 0.0f, 90.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
 
-    GameData.addMapObject(new Corridor(75.0f, 0.0f, 75.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
-    GameData.addMapObject(new Corridor(75.0f, 0.0f, 60.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(75.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(75.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
     
-    GameData.addMapObject(new Corridor(75.0f, 0.0f, 45.0f, "brickwall5", Direction.EAST, TrapType.EMPTY)); //Kiosk
+    GameData.addMapObject(new Corridor(75.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY)); //Kiosk
 
-    GameData.addMapObject(new Corridor(75.0f, 0.0f, 30.0f, "brickwall5", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(75.0f, 0.0f, 30.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corner(75.0f, 0.0f, 15.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));
+    GameData.addMapObject(new Corner(75.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
     
-    GameData.addMapObject(new Staircase(60.0f, 0.0f, 15.0f, "brickwall5", Direction.SOUTH, TrapType.EMPTY));   
+    GameData.addMapObject(new Staircase(60.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EMPTY));   
 
-    GameData.addMapObject(new Corridor(45.0f, 15.0f, 15.0f, "brickwall5", Direction.SOUTH, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(45.0f, 15.0f, 15.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EMPTY));
     
-    GameData.addMapObject(new Staircase(30.0f, 0.0f, 15.0f, "brickwall5", Direction.NORTH, TrapType.EMPTY));   
+    GameData.addMapObject(new Staircase(30.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));   
     
     GameData.bindConnections();
     
@@ -268,7 +267,7 @@ public class GraphicsTestTroy
     SkyBox skybox = new SkyBox(0, 0, 0, "iceflats");
     
     // Create the floor...
-    Plane floor = new Plane(0, -1.0f, 0, "snow", Direction.EAST, 2000);
+    Plane floor = new Plane(0, -1.0f, 0, "marble", Direction.EAST, 2000);
 
     // Create cubes above the staircase...
     for (int i = 0; i < 500; i++)
@@ -276,20 +275,20 @@ public class GraphicsTestTroy
       GameData.addGameObject(new Cube(45.0f, 50.0f + (2 * i), 45.0f, "crate1"));
     }
     
-    // Create balls above the staircase...
-    for (int i = 0; i < 10; i++)
-    {
-      GameData.addGameObject(new Ball(45.0f, 50.0f + (5 * i), 15.0f, "crate1", 1.5f));
-    }
+//    // Create balls above the staircase...
+//    for (int i = 0; i < 10; i++)
+//    {
+//      GameData.addGameObject(new Ball(45.0f, 50.0f + (5 * i), 15.0f, "crate1", 1.5f));
+//    }
         
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
     
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
-    	camera = cameraManager.getActiveCamera();
+      camera = cameraManager.getActiveCamera();
     	
-    	// Get input from the user...
+      // Get input from the user...
       getInput();
       
       // Prepare for rendering...
@@ -364,7 +363,6 @@ public class GraphicsTestTroy
       }
             
       // Draw text to the screen...
-      FontTools.draw2D();
       if (camera.getType() == CameraType.SPECTATOR)
       {
         FontTools.renderText("Spectator Camera: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10, Color.black, 1);
@@ -376,7 +374,6 @@ public class GraphicsTestTroy
       	FontTools.renderText("Lives: " + player.getLives(), 10, 50, Color.black, 1);
         FontTools.renderText("Player Camera: (" + player.getCamera().getX() + ", " + player.getCamera().getY() + ", " + player.getCamera().getZ() + ")", 10, 70, Color.black, 1);
       }
-      FontTools.draw3D();
       
       // Update...
       cameraManager.update();
