@@ -1,12 +1,8 @@
 package redrun.test;
 
 import java.nio.FloatBuffer;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -16,34 +12,34 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.Timer;
 import org.newdawn.slick.Color;
 
-import redrun.database.GameObjectDB;
-import redrun.database.Map;
-import redrun.database.MapObjectDB;
-import redrun.database.RedRunDAO;
 import redrun.graphics.camera.Camera;
+import redrun.graphics.camera.CameraManager;
 import redrun.graphics.selection.Picker;
+import redrun.model.constants.CameraType;
 import redrun.model.constants.Direction;
-import redrun.model.constants.MapConstants;
+import redrun.model.constants.Team;
+import redrun.model.constants.TrapType;
+import redrun.model.game.GameData;
 import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.map.Corner;
 import redrun.model.gameobject.map.Corridor;
 import redrun.model.gameobject.map.End;
 import redrun.model.gameobject.map.Field;
+import redrun.model.gameobject.map.Kiosk;
 import redrun.model.gameobject.map.Pit;
-import redrun.model.gameobject.map.Platform;
 import redrun.model.gameobject.map.Staircase;
 import redrun.model.gameobject.map.Start;
 import redrun.model.gameobject.map.Tunnel;
+import redrun.model.gameobject.player.Player;
+import redrun.model.gameobject.world.Ball;
 import redrun.model.gameobject.world.Cube;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
-import redrun.model.gameobject.world.WorldObject;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
-import redrun.model.toolkit.Tools;
-import redrun.network.Client;
+import redrun.model.toolkit.Timing;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -55,48 +51,25 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class GraphicsTestTroy
 {
-  private static boolean DEBUG = false;
-  private static long lastFrame;
-
-  /** Used to interface with the network client. */
-  private static Client client = null;
-
-  /** The camera associated with the client. */
+  /** The active camera manager. */
+  private static CameraManager cameraManager = null;
+	
+  /** The active camera. */
   private static Camera camera = null;
-
-  /** The network data that is to be turned into map objects or game objects. */
-  // public static volatile LinkedList<ArrayList<String>> networkData = new
-  // LinkedList<ArrayList<String>>();
-  public static volatile ArrayList<String> networkData = new ArrayList<String>();
-
-  /** Used to keep track of the current map. */
-  // formerly: RedRunDAO.getMap(1);
-  private static Map map = null;
-
-  /** The map objects that make up the level. */
-  private static LinkedList<MapObject> mapObjects = new LinkedList<MapObject>();
-
-  /** The game objects that are in the level. */
-  private static LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
+  
+  /** The player associated with the client. */
+  private static Player player = null;
 
   /**
    * Performs OpenGL initialization.
    */
   private static void createOpenGL()
   {
-    // Connect to the server...
-    client = new Client("127.0.0.1", 7777, mapObjects);
-    // map defined
-    int mapID = 1;
-    // this will need to be removed in favor of sending info from the server:
-    // map = RedRunDAO.getMap(mapID);
-    // map = getMapOutline();
-
     try
     {
       Display.setDisplayMode(new DisplayMode(1280, 720));
-      // fix this later:
-      // Display.setTitle(getTitleFromDB(map.toString(), mapID));
+      //TODO - Need to have the name of the active map be in the title...
+      Display.setTitle("RedRun Ice World");
       Display.create();
       Display.setVSyncEnabled(true);
     }
@@ -104,280 +77,314 @@ public class GraphicsTestTroy
     {
       Logger.getLogger(GraphicsTestTroy.class.getName()).log(Level.SEVERE, null, ex);
     }
-
-    camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f, 0.0f, 0.0f);
-
+    
+    player = new Player(0.0f, 1.0f, 0.0f, "Linvala, Keeper of Silence", null, Team.BLUE);
+    
+    Camera spectatorCam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f, 1.0f, 0.0f, CameraType.SPECTATOR);
+    Camera playerCam = player.getCamera();
+    
+    cameraManager = new CameraManager(spectatorCam, playerCam);
+    
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_COLOR_MATERIAL);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHT1);
     glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
-
-    // Load the fonts...
+    
     FontTools.loadFonts();
   }
 
-  public static MapObject createMapObject(String mapDBForm)
-  {
-    // System.out.println(mapDBForm);
-    Pattern getMapObject = Pattern
-        .compile("===\\sMap\\sObject\\s===\\sID:(\\d+)\\sName:(\\w+)\\sLocation:\\((\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\)\\sTexture:(\\w+)\\sDirection:(\\w+\\.\\w+)\\sMap\\sID:(\\d+)\\s===");
-
-    Matcher matchMapObject = getMapObject.matcher(mapDBForm);
-
-    if (matchMapObject.find())
-    {
-      float x = Float.parseFloat(matchMapObject.group(3));
-      float y = Float.parseFloat(matchMapObject.group(4));
-      float z = Float.parseFloat(matchMapObject.group(5));
-      String textureName = matchMapObject.group(6);
-
-      Direction orientation = null;
-      switch (matchMapObject.group(7))
-      {
-        case "Direction.NORTH":
-        {
-          orientation = Direction.NORTH;
-          break;
-        }
-        case "Direction.EAST":
-        {
-          orientation = Direction.EAST;
-          break;
-        }
-        case "Direction.SOUTH":
-        {
-          orientation = Direction.SOUTH;
-          break;
-        }
-        case "Direction.WEST":
-        {
-          orientation = Direction.WEST;
-          break;
-        }
-        default:
-        {
-          try
-          {
-            throw new IllegalArgumentException();
-          }
-          catch (IllegalArgumentException e)
-          {
-            e.printStackTrace();
-          }
-        }
-      }
-
-      switch (matchMapObject.group(2))
-      {
-        case "Corner":
-        {
-          return new Corner(x, y, z, textureName, orientation, null);
-        }
-        case "Corridor":
-        {
-          return new Corridor(x, y, z, textureName, orientation, null);
-        }
-        case "End":
-        {
-          return new End(x, y, z, textureName, orientation, null);
-        }
-        case "Field":
-        {
-          return new Field(x, y, z, textureName, orientation, null);
-        }
-        case "Pit":
-        {
-          return new Pit(x, y, z, textureName, orientation, null);
-        }
-        case "Platform":
-        {
-          return new Platform(x, y, z, textureName, orientation, null);
-        }
-        case "Staircase":
-        {
-          return new Staircase(x, y, z, textureName, orientation, null);
-        }
-        case "Start":
-        {
-          return new Start(x, y, z, textureName, orientation, null);
-        }
-        case "Tunnel":
-        {
-          return new Tunnel(x, y, z, textureName, orientation, null);
-        }
-        default:
-        {
-          try
-          {
-            throw new IllegalArgumentException();
-          }
-          catch (IllegalArgumentException e)
-          {
-            e.printStackTrace();
-          }
-        }
-      }
-    }
-    return null;
-  }
-
-  // May not need to match on as much stuff
-  public static SkyBox createSkyboxFromDB(String skybox)
-  {
-    return new SkyBox(0, 0, 0, skybox, camera);
-  }
-
-  public static Plane createFloor(String map)
-  {
-    return new Plane(0, 0, 0, map, 1000);
-  }
-
-  // May not need to match on as much stuff
-  public static String getTitleFromDB(String map, int mapID)
-  {
-    Pattern getGameObject = Pattern
-        .compile("===\\sMap\\s===\\sID:(\\d+)\\sName:(\\w+\\s\\w+)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\s===");
-
-    Matcher matchGameObject = getGameObject.matcher(map);
-
-    if (matchGameObject.find())
-    {
-      if (Integer.parseInt(matchGameObject.group(1)) == mapID) return matchGameObject.group(2);
-    }
-    return null;
-  }
-
   /**
-   * The main loop where the logic occurs. Stopped when the escape key is
-   * pressed or the window is closed.
+   * The main loop where the logic occurs. Stopped when the escape key is pressed or the window is closed.
    */
   private static void gameLoop()
-  {
-    // Create the skybox
-    SkyBox skybox = null;
-    // Create the floor
-    GameObject floor = null;
-    // Draw map once
-    boolean mapDrawn = false;
+  {    
+    // Create the map objects...
+  	
+    // Make the obstacle course...
+    GameData.addMapObject(new Start(0.0f, 0.0f, 0.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 30.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.SPIKE_TRAP_DOOR));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    
+    GameData.addMapObject(new Staircase(0.0f, 0.0f, 90.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    
+    GameData.addMapObject(new Corridor(0.0f, 15.0f, 105.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 15.0f, 120.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(0.0f, 15.0f, 135.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 15.0f, 150.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 15.0f, 165.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    
+    GameData.addMapObject(new Staircase(0.0f, 0.0f, 180.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 195.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 210.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 225.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 240.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 255.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    
+    GameData.addMapObject(new Corner(0.0f, 0.0f, 270.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EMPTY));
+    
+    GameData.addMapObject(new Tunnel(15.0f, 0.0f, 270.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
+    GameData.addMapObject(new Tunnel(30.0f, 0.0f, 270.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(45.0f, 0.0f, 270.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
+    GameData.addMapObject(new Tunnel(60.0f, 0.0f, 270.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
+    GameData.addMapObject(new Tunnel(75.0f, 0.0f, 270.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
 
-    Cube testCube = new Cube(0.0f, 50.0f, 0f, "wood");
+    GameData.addMapObject(new Corner(90.0f, 0.0f, 270.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
+    GameData.addMapObject(new Corridor(90.0f, 0.0f, 255.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 0.0f, 240.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 0.0f, 225.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+
+    GameData.addMapObject(new Staircase(90.0f, 0.0f, 210.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    
+    GameData.addMapObject(new Corridor(90.0f, 15.0f, 195.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Pit(90.0f, 15.0f, 180.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 15.0f, 165.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Pit(90.0f, 15.0f, 150.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 15.0f, 135.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Pit(90.0f, 15.0f, 120.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 15.0f, 105.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+
+    GameData.addMapObject(new Staircase(90.0f, 0.0f, 90.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+
+    GameData.addMapObject(new Corridor(90.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(90.0f, 0.0f, 30.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(90.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));    
+
+    GameData.addMapObject(new Corner(90.0f, 0.0f, 0.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
+    
+    GameData.addMapObject(new Corridor(75.0f, 0.0f, 0.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EMPTY));    
+    GameData.addMapObject(new Corridor(60.0f, 0.0f, 0.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EMPTY));   
+    
+    GameData.addMapObject(new Corner(45.0f, 0.0f, 0.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+
+    GameData.addMapObject(new Corridor(45.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
+    
+    GameData.addMapObject(new Field(45.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
+
+    GameData.addMapObject(new Corridor(45.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
+
+    GameData.addMapObject(new Field(45.0f, 0.0f, 105.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
+
+    GameData.addMapObject(new Corridor(45.0f, 0.0f, 135.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
+
+    GameData.addMapObject(new Field(45.0f, 0.0f, 165.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
+
+    GameData.addMapObject(new Corridor(45.0f, 0.0f, 195.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
+    GameData.addMapObject(new Corridor(45.0f, 0.0f, 210.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
+    GameData.addMapObject(new Corridor(45.0f, 0.0f, 225.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
+    
+    GameData.addMapObject(new End(45.0f, 0.0f, 240.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
+    
+    // Make the kiosks and paths...
+    GameData.addMapObject(new Corner(15.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 30.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
+
+    GameData.addMapObject(new Kiosk(15.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY)); //Kiosk
+    
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY)); 
+    
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    
+    GameData.addMapObject(new Staircase(15.0f, 0.0f, 90.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
+
+    GameData.addMapObject(new Corridor(15.0f, 15.0f, 105.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY)); //Kiosk
+    GameData.addMapObject(new Corridor(15.0f, 15.0f, 120.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+
+    GameData.addMapObject(new Corridor(15.0f, 15.0f, 135.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY)); //Kiosk
+    GameData.addMapObject(new Corridor(15.0f, 15.0f, 150.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    
+    GameData.addMapObject(new Corridor(15.0f, 15.0f, 165.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY)); //Kiosk
+
+    GameData.addMapObject(new Staircase(15.0f, 0.0f, 180.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));   
+    
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 195.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 210.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 225.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY)); //Kiosk
+
+    GameData.addMapObject(new Corridor(15.0f, 0.0f, 240.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+
+    GameData.addMapObject(new Corner(15.0f, 0.0f, 255.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EMPTY));
+    
+    GameData.addMapObject(new Corridor(30.0f, 0.0f, 255.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
+
+    GameData.addMapObject(new Corridor(45.0f, 0.0f, 255.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EMPTY)); //Kiosk
+
+    GameData.addMapObject(new Corridor(60.0f, 0.0f, 255.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
+
+    GameData.addMapObject(new Corner(75.0f, 0.0f, 255.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+
+    GameData.addMapObject(new Corridor(75.0f, 0.0f, 240.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY)); //Kiosk
+
+    GameData.addMapObject(new Corridor(75.0f, 0.0f, 225.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+
+    GameData.addMapObject(new Staircase(75.0f, 0.0f, 210.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));   
+
+    GameData.addMapObject(new Corridor(75.0f, 15.0f, 195.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(75.0f, 15.0f, 180.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+
+    GameData.addMapObject(new Corridor(75.0f, 15.0f, 165.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY)); //Kiosk
+
+    GameData.addMapObject(new Corridor(75.0f, 15.0f, 150.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+
+    GameData.addMapObject(new Corridor(75.0f, 15.0f, 135.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY)); //Kiosk
+
+    GameData.addMapObject(new Corridor(75.0f, 15.0f, 120.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(75.0f, 15.0f, 105.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+
+    GameData.addMapObject(new Staircase(75.0f, 0.0f, 90.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));   
+
+    GameData.addMapObject(new Corridor(75.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(75.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+    
+    GameData.addMapObject(new Corridor(75.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY)); //Kiosk
+
+    GameData.addMapObject(new Corridor(75.0f, 0.0f, 30.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
+
+    GameData.addMapObject(new Corner(75.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
+    
+    GameData.addMapObject(new Staircase(60.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EMPTY));   
+
+    GameData.addMapObject(new Corridor(45.0f, 15.0f, 15.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EMPTY));
+    
+    GameData.addMapObject(new Staircase(30.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));   
+    
+    GameData.bindConnections();
+    
+    // Create the game objects...
+    
+    // Create the player...
+    
+    // Create the skybox...
+    SkyBox skybox = new SkyBox(0, 0, 0, "iceflats");
+    
+    // Create the floor...
+    Plane floor = new Plane(0, -1.0f, 0, "marble", Direction.EAST, 2000);
+
+    // Create cubes above the staircase...
+    for (int i = 0; i < 500; i++)
+    {
+      GameData.addGameObject(new Cube(45.0f, 50.0f + (2 * i), 45.0f, "crate1"));
+    }
+    
+    // Create balls above the staircase...
+    for (int i = 0; i < 10; i++)
+    {
+      GameData.addGameObject(new Ball(45.0f, 50.0f + (5 * i), 15.0f, "crate1", 1.5f));
+    }
+        
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
-
-    Pattern getMap = Pattern
-        .compile("(===\\sMap\\s===)\\sid:(\\d+)\\sName:(.*?)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\s(===\\sMap\\sEnd\\s===)");
-
+    
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
-      if (DEBUG) System.out.println(networkData.isEmpty());
-      while (!networkData.isEmpty())
-      {
-        for (String networkItem : networkData)
-        {
-          Matcher matchMap = getMap.matcher(networkItem);
-          if (matchMap.find() && mapDrawn == false)
-          {
-            map = new Map(Integer.parseInt(matchMap.group(2)), matchMap.group(3), matchMap.group(4), matchMap.group(5));
-            skybox = createSkyboxFromDB(matchMap.group(4));
-            floor = createFloor(matchMap.group(5));
-            mapDrawn = true;
-          }
-          else
-          {
-            MapObject object = createMapObject(networkItem);
-            if (!mapObjects.contains(object))
-            {
-              mapObjects.add(createMapObject(networkItem));
-            }
-          }
-        }
-        break;
-      }
-
+      camera = cameraManager.getActiveCamera();
+    	
+      // Get input from the user...
       getInput();
-
+      
+      // Prepare for rendering...
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
       glLoadIdentity();
-
+      
+      // Draw the skybox...
       glPushMatrix();
       {
         glDepthMask(false);
-        // TODO Fix rotations along X and Z axis.
-        glRotatef(camera.getYaw(), 0, 1, 0);
+        glRotatef(camera.getPitch(), 1.0f, 0.0f, 0.0f);
+        glRotatef(camera.getYaw(), 0.0f, 1.0f, 0.0f);
         skybox.draw();
         glDepthMask(true);
       }
       glPopMatrix();
-
+      
+      // Orient the camera...
       camera.lookThrough();
 
-      // Add ambient light...
+      // Global Ambient Light Model...
       FloatBuffer ambientColor = BufferConverter.asFloatBuffer(new float[] { 0.2f, 0.2f, 0.2f, 1.0f });
       glLightModel(GL_LIGHT_MODEL_AMBIENT, ambientColor);
-
+      
+      // Local Viewport Model...
+      glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+      
       // Add positional light...
-      FloatBuffer lightColor0 = BufferConverter.asFloatBuffer(new float[] { 1.5f, 1.5f, 1.5f, 1.0f });
-      FloatBuffer lightPosition0 = BufferConverter.asFloatBuffer(new float[] { -15.0f, 10.0f, 5.0f, 1.0f });
-      glLight(GL_LIGHT0, GL_DIFFUSE, lightColor0);
-      glLight(GL_LIGHT0, GL_SPECULAR, lightColor0);
-      glLight(GL_LIGHT0, GL_POSITION, lightPosition0);
-
-      // Add directional light...
-      FloatBuffer lightColor1 = BufferConverter.asFloatBuffer(new float[] { 0.5f, 0.5f, 0.5f, 1.0f });
-      FloatBuffer lightPosition1 = BufferConverter.asFloatBuffer(new float[] { -15.0f, 10.0f, 5.0f, 0.0f });
-      glLight(GL_LIGHT1, GL_DIFFUSE, lightColor1);
-      glLight(GL_LIGHT1, GL_POSITION, lightPosition1);
-
+      FloatBuffer lightDiffuse = BufferConverter.asFloatBuffer(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
+      FloatBuffer lightSpecular = BufferConverter.asFloatBuffer(new float[] { 1.0f, 1.0f, 1.0f, 1.0f });
+      FloatBuffer lightPosition = BufferConverter.asFloatBuffer(new float[] { -100.0f, 750.0f, 1000.0f, 1.0f });
+      
+      //glLight(GL_LIGHT0, GL_AMBIENT, lightAmibent);
+      glLight(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
+      glLight(GL_LIGHT0, GL_SPECULAR, lightSpecular);
+      glLight(GL_LIGHT0, GL_POSITION, lightPosition);
+      
+      // Picking code for 3D selection of game objects...
       if (Keyboard.isKeyDown(Keyboard.KEY_F))
       {
         Picker.startPicking();
         {
-
+          // Draw the game objects...
+          for (GameObject gameObject : GameData.getGameObjects())
+          {
+          	glPushName(gameObject.id);
+          	{
+            	gameObject.draw();
+          	}
+          	glPopName();
+          }
         }
         Picker.stopPicking();
       }
+      
+      // Draw the player...
+      player.draw();
+      
+      // Draw the floor...
       floor.draw();
-
-      // Draw the world map...
-      if (!mapObjects.isEmpty())
+      
+      // Draw the map objects...
+      for (MapObject mapObject : GameData.getMapObjects())
       {
-        for (MapObject mapObject : mapObjects)
-        {
-          mapObject.draw();
-        }
+        mapObject.draw();
       }
-
-      // Draw the world map...
-      // for (GameObject gameObject : gameObjects)
-      // {
-      // gameObject.draw();
-      // }
-
-      testCube.draw();
-
+      
+      // Draw the game objects...
+      for (GameObject gameObject : GameData.getGameObjects())
+      {
+      	gameObject.draw();
+      }
+            
       // Draw text to the screen...
-      FontTools.draw2D();
-      FontTools.renderText("Position: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10,
-          Color.orange, 1);
-      FontTools.draw3D();
-
+      if (camera.getType() == CameraType.SPECTATOR)
+      {
+        FontTools.renderText("Spectator Camera: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10, Color.black, 1);
+      }
+      else
+      {
+      	FontTools.renderText("Player: " + player.getName(), 10, 10, Color.black, 1);
+      	FontTools.renderText("Team: " + player.getTeam(), 10, 30, Color.black, 1);
+      	FontTools.renderText("Lives: " + player.getLives(), 10, 50, Color.black, 1);
+        FontTools.renderText("Player Camera: (" + player.getCamera().getX() + ", " + player.getCamera().getY() + ", " + player.getCamera().getZ() + ")", 10, 70, Color.black, 1);
+      }
+      
+      // Update...
+      cameraManager.update();
       PhysicsWorld.stepSimulation(1 / 60.0f);
       Timer.tick();
       Display.update();
       Display.sync(60);
-      if (mapDrawn == true)
-      {
-        // mapObjects.clear();
-        networkData.clear();
-        client.requestMapObjects();
-      }
     }
   }
-
+  
   /**
    * Gets user input from the keyboard and mouse.
    */
@@ -387,20 +394,29 @@ public class GraphicsTestTroy
     float dx = 0.0f;
     float dy = 0.0f;
     float dt = 0.0f;
-
+    
     // Set the mouse sensitivity...
     float mouseSensitivity = 0.08f;
     float movementSpeed = 0.02f;
-
+        
     dx = Mouse.getDX();
     dy = Mouse.getDY();
-    dt = getDelta();
-
+    dt = Timing.getDelta();
+    
     camera.yaw(dx * mouseSensitivity);
     camera.pitch(-dy * mouseSensitivity);
-
-    if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) camera.moveForward(movementSpeed
-        * dt * 2);
+    
+    // Camera related input...
+    if (Keyboard.isKeyDown(Keyboard.KEY_R))
+    {
+    	cameraManager.chooseNextCamera();
+    }
+    
+    // Movement related input...
+    if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+    {
+    	camera.moveForward(movementSpeed * dt * 2);
+    }
     else if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed * dt);
@@ -408,21 +424,7 @@ public class GraphicsTestTroy
     if (Keyboard.isKeyDown(Keyboard.KEY_UP)) camera.moveUp(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) camera.moveDown(movementSpeed * dt);
   }
-
-  /**
-   * Calculate how many milliseconds have passed since last frame.
-   * 
-   * @return milliseconds passed since last frame
-   */
-  public static int getDelta()
-  {
-    long time = Tools.getTime();
-    int delta = (int) (time - lastFrame);
-    lastFrame = time;
-
-    return delta;
-  }
-
+  
   /**
    * Cleans up resources.
    */

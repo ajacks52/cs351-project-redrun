@@ -38,28 +38,20 @@ import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
-import redrun.model.toolkit.Tools;
+import redrun.model.toolkit.Timing;
 
 /**
  * Test class for Jake's work.
  * 
- * @author JakeNichol
+ * @author J. Jake Nichol
  * @since 11-2014
  * @version 1.0
  */
 public class GraphicsTestJake
 {
-  /** time at last frame */
-  long lastFrame;
-
-  /** frames per second */
-  int fps;
-
-  /** last fps time */
-  long lastFPS;
-
   /**
    * Performs OpenGL initialization.
+   * TODO Test comment
    */
   private void createOpenGL()
   {
@@ -101,7 +93,7 @@ public class GraphicsTestJake
     Player player1 = new Player(37, 10, 42f, "Player 1", null, Team.BLUE);
 
     // Create the skybox...
-    SkyBox skybox = new SkyBox(0, 0, 0, "blood_sport", player1.getCamera());
+    SkyBox skybox = new SkyBox(0, 0, 0, "blood_sport");
 
     // Create the checker-board floor...
     CheckerBoard board = new CheckerBoard(0, 0, 0, null, new Dimension(50, 50));
@@ -308,9 +300,9 @@ public class GraphicsTestJake
    */
   public int getDelta()
   {
-    long time = Tools.getTime();
-    int delta = (int) (time - lastFrame);
-    lastFrame = time;
+    long time = Timing.getTime();
+    int delta = (int) (time - Timing.lastFrame);
+    Timing.lastFrame = time;
 
     return delta;
   }
@@ -320,12 +312,12 @@ public class GraphicsTestJake
    */
   public void updateFPS()
   {
-    if (Tools.getTime() - lastFPS > 1000)
+    if (Timing.getTime() - Timing.lastFPS > 1000)
     {
-      fps = 0;
-      lastFPS += 1000;
+      Timing.fps = 0;
+      Timing.lastFPS += 1000;
     }
-    fps++;
+    Timing.fps++;
   }
 
   // Taken from Jordan's test.

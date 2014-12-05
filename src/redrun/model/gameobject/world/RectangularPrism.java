@@ -17,13 +17,17 @@ import redrun.model.physics.BoxPhysicsBody;
  */
 public class RectangularPrism extends WorldObject
 {
-  /**
-   * Creates a new cube at the specified position.
-   * 
-   * @param x the initial x position
-   * @param y the initial y position
-   * @param z the initial z position
-   */
+	/**
+	 * Creates a rectangular prism at the specified location with the specified dimensions.
+	 * 
+	 * @param x the x position of the rectangular prism
+	 * @param y the y position of the rectangular prism
+	 * @param z the z position of the rectangular prism
+	 * @param textureName the texture to apply to the rectangular prism
+	 * @param width the width position of the rectangular prism
+	 * @param height the height position of the rectangular prism
+	 * @param depth the depth position of the rectangular prism
+	 */
   public RectangularPrism(float x, float y, float z, String textureName, float width, float height, float depth)
   {
     super(x, y, z, textureName);
@@ -111,6 +115,25 @@ public class RectangularPrism extends WorldObject
       glEnd();
     }
     glEndList();
+  }
+  
+	/**
+	 * Creates a rectangular prism at the specified location with the specified dimensions.
+	 * 
+	 * @param x the x position of the rectangular prism
+	 * @param y the y position of the rectangular prism
+	 * @param z the z position of the rectangular prism
+	 * @param textureName the texture to apply to the rectangular prism
+	 * @param width the width position of the rectangular prism
+	 * @param height the height position of the rectangular prism
+	 * @param depth the depth position of the rectangular prism
+	 * @param mass the mass of the rectangular prism
+	 */
+  public RectangularPrism(float x, float y, float z, String textureName, float width, float height, float depth, float mass)
+  {
+    this(x, y, z, textureName, width, height, depth);
+     
+    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(width / 2, height / 2, depth / 2), new Quat4f(), mass);
   }
 
   @Override

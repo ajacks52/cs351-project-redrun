@@ -11,6 +11,7 @@ import org.newdawn.slick.Color;
 import redrun.graphics.camera.Camera;
 import redrun.main.LoadingScreen;
 import redrun.main.Menu;
+import redrun.model.constants.CameraType;
 import redrun.model.constants.Direction;
 import redrun.model.gameobject.trap.*;
 import redrun.model.gameobject.world.*;
@@ -59,7 +60,11 @@ public class MainTestAdam
   
   private PoleWall pWall;
   private JailDoor jailDoor;
+  private RockSmash rocks1;
+  private RockSmash rocks2;
+  private RockSmash rocks3;
   
+  private ExplodingBox xbox;
 
   // Used for controlling the camera with the keyboard and mouse...
   private float dx, dy, dt;
@@ -74,7 +79,7 @@ public class MainTestAdam
     this.initDisplay();
     Display.setVSyncEnabled(true);
 
-    cam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, -10f, -3f, -10f);
+    cam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, -10f, -3f, -10f, CameraType.SPECTATOR);
 
     Menu menu = new Menu();
 
@@ -82,7 +87,7 @@ public class MainTestAdam
     spikes = new SpikeTrapDoor(10, 0, 30, "wood");
     trapDoor = new TrapDoor(30, 0, 10, "wood");
     deathPillar = new DeathPillar(20, 0, 30, "x17");
-    spikeField = new SpikeField(30, 0, 20, "s11", new Dimension(10, 15));
+    spikeField = new SpikeField(30, 0, 20, "s11", new Dimension(10, 15), true);
 
     hallway1 = new Corridor(0, 0, 0, "x17", Direction.EAST , null);
     hallway2 = new Corridor(9, 0, 0, "x17", Direction.EAST , null);
@@ -90,7 +95,15 @@ public class MainTestAdam
     
     pWall = new PoleWall(5,5,5, null);
     bs = new BallsSwing(-10,2, 5, "metal");
-    jailDoor = new JailDoor(15,2,15, null);
+    jailDoor = new JailDoor(15,2,15, Direction.EAST, null);
+    
+  
+    rocks1 = new RockSmash(-5, 5, 5, "rock3"); 
+     rocks2 = new RockSmash(-5, 0, 40, "rock2");
+     rocks3 = new RockSmash(-5, 0, 30, "rock1");
+    // xbox = new ExplodingBox(-5, 0, -30, "crate1");
+     
+     
     
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
@@ -141,6 +154,11 @@ public class MainTestAdam
       
       pWall.draw();
       jailDoor.draw();
+      
+      rocks1.draw();
+      rocks2.draw();
+      rocks3.draw();
+      xbox.draw();
 
       // if (Picker.mode == 2) Picker.stopPicking();
 
@@ -170,7 +188,6 @@ public class MainTestAdam
     if (Keyboard.isKeyDown(Keyboard.KEY_F)) spikes.interact();
     if (Keyboard.isKeyDown(Keyboard.KEY_R)) trapDoor.interact();
     if (Keyboard.isKeyDown(Keyboard.KEY_C)) deathPillar.interact();
-
   }
 
   /**

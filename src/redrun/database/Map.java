@@ -13,9 +13,10 @@ public class Map
   private String mapName;
   private String skyBox;
   private String floor;
-  
+
   /**
    * Map instantiation
+   * 
    * @param id database id
    * @param mapName name of map
    * @param skyBox skybox file used
@@ -36,6 +37,7 @@ public class Map
   {
     return "=== Map === " + "id:" + this.id + " Name:" + this.mapName + " SkyBox:" + this.skyBox + " Floor:"
         + this.floor + " === Map End ===";
+
   }
 
   /**

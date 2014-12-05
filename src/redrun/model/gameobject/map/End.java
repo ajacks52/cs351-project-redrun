@@ -2,8 +2,8 @@ package redrun.model.gameobject.map;
 
 import redrun.model.constants.Direction;
 import redrun.model.constants.Scale;
+import redrun.model.constants.TrapType;
 import redrun.model.gameobject.MapObject;
-import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.RectangularPrism;
 
@@ -30,9 +30,9 @@ public class End extends MapObject
    * @param orientation the cardinal direction that ending should be aligned to
    * @param trap the trap to place on the ending
    */
-  public End(float x, float y, float z, String textureName, Direction orientation, Trap trap)
+  public End(float x, float y, float z, String textureName, Direction orientation, TrapType type)
   {
-    super(x, y, z, textureName, orientation, trap);
+    super(x, y, z, textureName, orientation, type);
     
     int size = Scale.MAP_SCALE.scale();
 
@@ -40,7 +40,7 @@ public class End extends MapObject
     {
       case NORTH:
       {
-        components.add(new Plane(x, y, z, textureName, size));
+        components.add(new Plane(x, y, z, textureName, Direction.NORTH, size));
         components.add(new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size, 3.0f, 1.0f));
         components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size - 2));
         components.add(new RectangularPrism(x, y + 1.5f, z + -(size / 2), textureName, size, 3.0f, 1.0f));      
@@ -48,7 +48,7 @@ public class End extends MapObject
       }
       case EAST:
       {
-        components.add(new Plane(x, y, z, textureName, size));
+        components.add(new Plane(x, y, z, textureName, Direction.EAST, size));
         components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
         components.add(new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size - 2, 3.0f, 1.0f));
         components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
@@ -56,7 +56,7 @@ public class End extends MapObject
       }
       case SOUTH:
       {
-        components.add(new Plane(x, y, z, textureName, size));
+        components.add(new Plane(x, y, z, textureName, Direction.SOUTH, size));
         components.add(new RectangularPrism(x, y + 1.5f, z + -(size / 2), textureName, size, 3.0f, 1.0f));
         components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size - 2));
         components.add(new RectangularPrism(x, y + 1.5f, z + (size / 2), textureName, size, 3.0f, 1.0f));
@@ -64,7 +64,7 @@ public class End extends MapObject
       }
       case WEST:
       {
-        components.add(new Plane(x, y, z, textureName, size));
+        components.add(new Plane(x, y, z, textureName, Direction.WEST, size));
         components.add(new RectangularPrism(x + (size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));
         components.add(new RectangularPrism(x, y + 1.5f, z + -(size / 2), textureName, size - 2, 3.0f, 1.0f));
         components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z, textureName, 1.0f, 3.0f, size));

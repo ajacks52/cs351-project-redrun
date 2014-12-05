@@ -117,6 +117,7 @@ public class FontTools
     glDisable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
+    glEnable(GL_LIGHTING);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();

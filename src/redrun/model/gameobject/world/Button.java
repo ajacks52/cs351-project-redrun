@@ -6,6 +6,8 @@ import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.glu.Sphere;
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.physics.SpherePhysicsBody;
+
 /**
  * Creates a button object. This button sits on a pedestal and reacts to clicks.
  * 
@@ -16,21 +18,46 @@ import org.lwjgl.util.vector.Vector3f;
 public class Button extends WorldObject
 {
   Sphere sphere = new Sphere();
-  private Vector3f defaultButtonPosition; // See todo below.
-  private Vector3f currentButtonPosition; // See todo below.
+//  private Vector3f defaultButtonPosition; // See todo below.
+//  private Vector3f currentButtonPosition; // See todo below.
   Vector3f color;
 
   public Button(float x, float y, float z, String textureName, Vector3f color)
   {
     super(x, y, z, textureName);
 
-    defaultButtonPosition = new Vector3f(x, y, z); // See todo below.
-    currentButtonPosition = defaultButtonPosition;
+    this.body = new SpherePhysicsBody(new Vector3f(x, y, z), 0.5f, 1.0f);
+
+//    defaultButtonPosition = new Vector3f(x, y, z); // See todo below.
+//    currentButtonPosition = defaultButtonPosition;
     this.color = color;
 
     sphere.setDrawStyle(GLU.GLU_FILL);
     if (textureName != null) sphere.setTextureFlag(true);
     sphere.setNormals(GLU.GLU_SMOOTH);
+
+    displayListId = glGenLists(1);
+
+    glNewList(displayListId, GL_COMPILE);
+    {
+      glPushMatrix();
+      {
+        glBegin(GL_SPHERE_MAP);
+        {
+          // glTranslatef(0, defaultButtonPosition.y - currentButtonPosition.y,
+          // 0); // See todo below
+          if (color != null)
+          {
+            glColor3f(color.x, color.y, color.z);
+            sphere.draw(0.5f, 40, 40);
+          }
+          else sphere.draw(0.5f, 40, 40);
+        }
+        glEnd();
+      }
+      glPopMatrix();
+    }
+    glEndList();
   }
 
   @Override
@@ -51,28 +78,6 @@ public class Button extends WorldObject
     // else if (!timer.isPaused()) this.currentButtonPosition.y = this.getY() -
     // 0.02f;
 
-    displayListId = glGenLists(1);
-
-    glNewList(displayListId, GL_COMPILE);
-    {
-      glPushMatrix();
-      {
-        glBegin(GL_SPHERE_MAP);
-        {
-          // glTranslatef(0, defaultButtonPosition.y - currentButtonPosition.y,
-          // 0); // See todo above
-          if (color != null)
-          {
-            glColor3f(color.x, color.y, color.z);
-            sphere.draw(0.5f, 40, 40);
-          }
-          else sphere.draw(0.5f, 40, 40);
-        }
-        glEnd();
-      }
-      glPopMatrix();
-    }
-    glEndList();
   }
 
   @Override

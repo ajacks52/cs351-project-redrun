@@ -6,6 +6,7 @@ import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.constants.Direction;
 import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.toolkit.BufferConverter;
 import static org.lwjgl.opengl.GL11.*;
@@ -26,7 +27,7 @@ public class Plane extends WorldObject
    * @param y the initial y position
    * @param z the initial z position
    */
-  public Plane(float x, float y, float z, String textureName, float size)
+  public Plane(float x, float y, float z, String textureName, Direction orientation, float size)
   {
     super(x, y, z, textureName);
     
@@ -45,17 +46,72 @@ public class Plane extends WorldObject
         glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, materialColor);
         glMaterial(GL_FRONT, GL_SPECULAR, materialSpecular);
         glMaterial(GL_FRONT, GL_EMISSION, materialEmission);
-      	
+        
         glNormal3f(0.0f, -1.0f, 0.0f);
-        glColor3f(1.0f, 0.5f, 0.0f);
-        glVertex3f(size / 2, 0.0f, size / 2);
-        glTexCoord2f(0, 0);
-        glVertex3f(-size / 2, 0.0f, size / 2);
-        glTexCoord2f(0, 1);
-        glVertex3f(-size / 2, 0.0f, -size / 2);
-        glTexCoord2f(1, 1);
-        glVertex3f(size / 2, 0.0f, -size / 2);
-        glTexCoord2f(1, 0);
+        glColor3f(1.0f, 1.0f, 1.0f);
+        
+        switch (orientation)
+        {
+          case NORTH:
+          {
+            glVertex3f(-size / 2, 0.0f, -size / 2);
+            glTexCoord2f(0, 0);
+            glVertex3f(size / 2, 0.0f, -size / 2);
+            glTexCoord2f(1, 0);
+            glVertex3f(size / 2, 0.0f, size / 2);
+            glTexCoord2f(1, 1);
+            glVertex3f(-size / 2, 0.0f, size / 2);
+            glTexCoord2f(0, 1);
+            break;
+          }
+          case EAST:
+          {
+            glVertex3f(size / 2, 0.0f, size / 2);
+            glTexCoord2f(0, 1);
+            glVertex3f(-size / 2, 0.0f, size / 2);
+            glTexCoord2f(1, 1);
+            glVertex3f(-size / 2, 0.0f, -size / 2);
+            glTexCoord2f(1, 0);
+            glVertex3f(size / 2, 0.0f, -size / 2);
+            glTexCoord2f(0, 0);
+            break;
+          }
+          case SOUTH:
+          {
+            glVertex3f(size / 2, 0.0f, size / 2);
+            glTexCoord2f(0, 0);
+            glVertex3f(-size / 2, 0.0f, size / 2);
+            glTexCoord2f(0, 1);
+            glVertex3f(-size / 2, 0.0f, -size / 2);
+            glTexCoord2f(1, 1);
+            glVertex3f(size / 2, 0.0f, -size / 2);
+            glTexCoord2f(1, 0);
+            break;
+          }
+          case WEST:
+          {
+            glVertex3f(size / 2, 0.0f, size / 2);
+            glTexCoord2f(0, 0);
+            glVertex3f(-size / 2, 0.0f, size / 2);
+            glTexCoord2f(0, 1);
+            glVertex3f(-size / 2, 0.0f, -size / 2);
+            glTexCoord2f(1, 1);
+            glVertex3f(size / 2, 0.0f, -size / 2);
+            glTexCoord2f(1, 0);
+            break;
+          }
+          default:
+          {
+          	try
+          	{
+          		throw new IllegalArgumentException();
+          	}
+          	catch (IllegalArgumentException ex)
+          	{
+          		ex.printStackTrace();
+          	}
+          }
+        }
       }
       glEnd();
     }
@@ -72,13 +128,11 @@ public class Plane extends WorldObject
   public void update()
   {
     // TODO Auto-generated method stub
-
   }
 
   @Override
   public void reset()
   {
     // TODO Auto-generated method stub
-
   }
 }

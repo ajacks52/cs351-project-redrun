@@ -1,7 +1,6 @@
 package redrun.model.gameobject.world;
 
 import redrun.model.gameobject.GameObject;
-import redrun.model.noninteractable.Noninteractable;
 
 /**
  * This class represents a static world object.
@@ -10,7 +9,7 @@ import redrun.model.noninteractable.Noninteractable;
  * @version 1.0
  * @since 2014-11-07
  */
-public abstract class WorldObject extends GameObject implements Noninteractable
+public abstract class WorldObject extends GameObject
 {
   /**
    * Creates a new static world object at the specified position.

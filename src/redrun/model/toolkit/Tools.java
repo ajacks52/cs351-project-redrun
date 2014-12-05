@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.lwjgl.Sys;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
@@ -15,8 +14,7 @@ import static org.lwjgl.opengl.GL11.*;
  * This class contains a variety of tools that assist other classes in
  * constructing an OpenGL scene.
  * 
- * @author Troy Squillaci
- * @author J. Jake Nichol
+ * @author Troy Squillaci, J. Jake Nichol
  * @version 1.0
  * @since 2014-11-03
  */
@@ -42,15 +40,5 @@ public class Tools
     }
 
     return null;
-  }
-
-  /**
-   * Get the accurate system time for LWJGL.
-   * 
-   * @return The system time in milliseconds
-   */
-  public static long getTime()
-  {
-    return (Sys.getTime() * 1000) / Sys.getTimerResolution();
   }
 }

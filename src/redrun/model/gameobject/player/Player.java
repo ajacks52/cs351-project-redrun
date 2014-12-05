@@ -5,11 +5,20 @@ import javax.vecmath.Quat4f;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
+import com.bulletphysics.collision.dispatch.CollisionFlags;
+import com.bulletphysics.collision.dispatch.GhostPairCallback;
+import com.bulletphysics.collision.dispatch.PairCachingGhostObject;
+import com.bulletphysics.collision.shapes.CapsuleShape;
+import com.bulletphysics.collision.shapes.CollisionShape;
+import com.bulletphysics.dynamics.character.KinematicCharacterController;
+
 import redrun.graphics.camera.Camera;
+import redrun.model.constants.CameraType;
 import redrun.model.constants.Team;
 import redrun.model.gameobject.GameObject;
-import redrun.model.interactable.Interactable;
 import redrun.model.physics.BoxPhysicsBody;
+import redrun.model.physics.PhysicsBody;
+import redrun.model.physics.PhysicsWorld;
 
 /**
  * This class represents a player in the game world.
@@ -18,7 +27,7 @@ import redrun.model.physics.BoxPhysicsBody;
  * @version 1.0
  * @since 2014-11-07
  */
-public class Player extends GameObject implements Interactable
+public class Player extends GameObject
 {
   /** This player's camera. */
   private Camera camera;
@@ -37,6 +46,8 @@ public class Player extends GameObject implements Interactable
 
   /** The state of this player's life. */
   private boolean alive;
+  
+  private KinematicCharacterController controller;
 
   /**
    * Creates a new player at the specified position.
@@ -51,15 +62,17 @@ public class Player extends GameObject implements Interactable
   public Player(float x, float y, float z, String name, String textureName, Team team)
   {
     super(x, y, z, textureName);
+    
+//    body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.5f, 1.0f, 0.5f), new Quat4f(), 100.0f);
+    camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, -x, -y, -z, CameraType.PLAYER);
 
+    
     this.name = name;
     this.team = team;
     this.health = 100;
     this.lives = 1;
     this.alive = true;
 
-    body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.5f, 1.0f, 0.5f), new Quat4f(), 100.0f);
-    camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, -x, -y, -z);
   }
 
   /**
@@ -196,6 +209,11 @@ public class Player extends GameObject implements Interactable
   public Camera getCamera()
   {
     return this.camera;
+  }
+  
+  public PhysicsBody getBody()
+  {
+    return body;
   }
 
   /**
