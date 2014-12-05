@@ -13,6 +13,7 @@ public class Map
   private String mapName;
   private String skyBox;
   private String floor;
+  private String lightPosition;
 
   /**
    * Map instantiation
@@ -21,13 +22,15 @@ public class Map
    * @param mapName name of map
    * @param skyBox skybox file used
    * @param floor floor file used
+   * @param lightPosition position of light
    */
-  public Map(int id, String mapName, String skyBox, String floor)
+  public Map(int id, String mapName, String skyBox, String floor, String lightPosition)
   {
     this.id = id;
     this.mapName = mapName;
     this.skyBox = skyBox;
     this.floor = floor;
+    this.lightPosition = lightPosition;
   }
 
   /**
@@ -36,8 +39,7 @@ public class Map
   public String toString()
   {
     return "=== Map === " + "id:" + this.id + " Name:" + this.mapName + " SkyBox:" + this.skyBox + " Floor:"
-        + this.floor + " === Map End ===";
-
+        + this.floor + " Light Position:" + this.lightPosition + " ===";
   }
 
   /**
