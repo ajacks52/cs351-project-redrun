@@ -48,7 +48,6 @@ public class ObjectFromDB
     return null;
   }
 
-  // TODO Fix the .group shit
   /**
    * Creates and returns a new map object from the string representation of the
    * database object.
@@ -225,7 +224,6 @@ public class ObjectFromDB
         }
       }
     }
-
     return null;
   }
 
@@ -255,18 +253,21 @@ public class ObjectFromDB
     return new Plane(0, 0, 0, groundTexture, Direction.NORTH, 1000);
   }
 
-  // TODO need to do this later
+  /**
+   * Parse title from map
+   * 
+   * @param map name of map
+   * @param mapID id for map
+   * @return title of map
+   */
   public static String getTitle(String map, int mapID)
   {
     Pattern getGameObject = Pattern
-        .compile("===\\sMap\\s===\\sID:(\\d+)\\sName:(\\w+\\s\\w+)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\s===");
+        .compile("(===\\sMap\\s===)\\sID:(\\d+)\\sName:(.*?)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\sLight Position:(.*?)\\s===");
 
     Matcher matchGameObject = getGameObject.matcher(map);
 
-    if (matchGameObject.find())
-    {
-      if (Integer.parseInt(matchGameObject.group(1)) == mapID) return matchGameObject.group(2);
-    }
-    return null;
+    if (matchGameObject.find()) return matchGameObject.group(3);
+    else return null;
   }
 }

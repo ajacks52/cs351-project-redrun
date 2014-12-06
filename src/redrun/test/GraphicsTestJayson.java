@@ -1,7 +1,6 @@
 package redrun.test;
 
 import java.nio.FloatBuffer;
-import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,25 +17,14 @@ import redrun.graphics.camera.Camera;
 import redrun.graphics.camera.CameraManager;
 import redrun.graphics.selection.Picker;
 import redrun.model.constants.CameraType;
-import redrun.model.constants.Direction;
 import redrun.model.constants.Team;
-import redrun.model.constants.TrapType;
 import redrun.model.game.GameData;
 import redrun.model.game.ObjectFromDB;
 import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
-import redrun.model.gameobject.map.Corner;
-import redrun.model.gameobject.map.Corridor;
-import redrun.model.gameobject.map.End;
-import redrun.model.gameobject.map.Field;
-import redrun.model.gameobject.map.Pit;
-import redrun.model.gameobject.map.Staircase;
-import redrun.model.gameobject.map.Start;
-import redrun.model.gameobject.map.Tunnel;
 import redrun.model.gameobject.player.Player;
 import redrun.model.gameobject.world.Ball;
 import redrun.model.gameobject.world.Cube;
-import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
