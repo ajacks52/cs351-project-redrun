@@ -31,8 +31,7 @@ public class Tools
   {
     try
     {
-      return TextureLoader.getTexture(filetype,
-          ResourceLoader.getResourceAsStream("res/textures/" + filename + "." + filetype), GL_LINEAR);
+      return TextureLoader.getTexture(filetype, ResourceLoader.getResourceAsStream("res/textures/" + filename + "." + filetype), GL_LINEAR);
     }
     catch (IOException ex)
     {

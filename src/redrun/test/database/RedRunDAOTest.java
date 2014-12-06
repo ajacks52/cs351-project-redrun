@@ -192,17 +192,17 @@ public class RedRunDAOTest
   {
     RedRunDAOTest redRunDaoTest = new RedRunDAOTest();
     // Map Tests
-    if (redRunDaoTest.insertMap() == true) System.out.println("Insert Map test passed.");
+//    if (redRunDaoTest.insertMap() == true) System.out.println("Insert Map test passed.");
     if (redRunDaoTest.selectMap() == true) System.out.println("Select Map test passed.");
-    if (redRunDaoTest.deleteMap() == true) System.out.println("Delete Map test passed.");
+//    if (redRunDaoTest.deleteMap() == true) System.out.println("Delete Map test passed.");
     // Character Tests
-    if (redRunDaoTest.insertCharacter() == true) System.out.println("Insert Character test passed.");
-    if (redRunDaoTest.selectCharacter() == true) System.out.println("Select Character test passed.");
-    if (redRunDaoTest.deleteCharacter() == true) System.out.println("Delete Character test passed.");
-    // MapObject Tests
-    if (redRunDaoTest.insertMapObject() == true) System.out.println("Insert MapObject test passed.");
+//    if (redRunDaoTest.insertCharacter() == true) System.out.println("Insert Character test passed.");
+//    if (redRunDaoTest.selectCharacter() == true) System.out.println("Select Character test passed.");
+//    if (redRunDaoTest.deleteCharacter() == true) System.out.println("Delete Character test passed.");
+//    // MapObject Tests
+//    if (redRunDaoTest.insertMapObject() == true) System.out.println("Insert MapObject test passed.");
     if (redRunDaoTest.selectMapObject() == true) System.out.println("Select MapObject test passed.");
-    if (redRunDaoTest.deleteMapObject() == true) System.out.println("Delete MapObject test passed.");
+//    if (redRunDaoTest.deleteMapObject() == true) System.out.println("Delete MapObject test passed.");
 
     dao.closeConnection();
   }
