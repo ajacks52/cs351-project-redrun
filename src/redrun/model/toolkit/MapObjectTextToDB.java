@@ -30,7 +30,7 @@ public class MapObjectTextToDB
    */
   private static Map generateMap(BufferedReader br)
   {
-    Pattern getMap = Pattern.compile("(\\w+\\s\\w+),\\s(\\w+),\\s(\\w+)");
+    Pattern getMap = Pattern.compile("(.*?),\\s(\\w+),\\s(\\w+),\\s\\((.*?)\\)");
     String mapName = null;
     try
     {
@@ -39,7 +39,7 @@ public class MapObjectTextToDB
       if (matchMap.find())
       {
         mapName = matchMap.group(1);
-        RedRunDAO.insertMap(matchMap.group(1), matchMap.group(2), matchMap.group(3));
+        RedRunDAO.insertMap(matchMap.group(1), matchMap.group(2), matchMap.group(3), matchMap.group(4));
         if (DEBUG)
         {
           for (int i = 1; i <= matchMap.groupCount(); i++)
@@ -65,7 +65,7 @@ public class MapObjectTextToDB
     // System.out.println("Working Directory = " +
     // System.getProperty("user.dir"));
     Pattern getMapObject = Pattern
-        .compile("(\\w+),\\s(\\(\\d+\\.\\d+f,\\s\\d+\\.\\d+f,\\s\\d+\\.\\d+f\\)),\\s(\\w+),\\s(\\w+\\.\\w+),\\s(\\d+)");
+        .compile("(\\w+),\\s\\((.*?)\\),\\s(\\w+),\\s(\\w+),\\s(\\w+),\\s(\\w+),\\s(\\d+)");
 
     String line = br.readLine();
     try
@@ -76,7 +76,7 @@ public class MapObjectTextToDB
         if (matchMapObject.find())
         {
           RedRunDAO.insertMapObject(matchMapObject.group(1), matchMapObject.group(2), matchMapObject.group(3),
-              matchMapObject.group(4), mapId);
+              matchMapObject.group(4), matchMapObject.group(5), matchMapObject.group(6), mapId);
           if (DEBUG)
           {
             for (int i = 1; i <= matchMapObject.groupCount(); i++)
