@@ -70,6 +70,7 @@ public class ClientMain
   /** The menu. */
   private static Menu menu = new Menu();
 
+  //TODO - Dicks and nipples
   /** The current game state for this client and its player. */
   private static GameState state = GameState.WAIT;
 
