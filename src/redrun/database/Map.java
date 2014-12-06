@@ -61,4 +61,31 @@ public class Map
   {
     return mapName;
   }
+
+  /**
+   * Get skybox associated with map
+   * @return skybox for current map
+   */
+  public String getSkyBox()
+  {
+    return skyBox;
+  }
+
+  /**
+   * Get floor associated with map
+   * @return floor for current map
+   */
+  public String getFloor()
+  {
+    return floor;
+  }
+
+  /**
+   * Get light position associated with map
+   * @return light position for current map
+   */
+  public String getLightPosition()
+  {
+    return lightPosition;
+  }
 }

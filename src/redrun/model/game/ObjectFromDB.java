@@ -1,10 +1,13 @@
 package redrun.model.game;
 
+import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import redrun.database.Map;
 import redrun.model.constants.Direction;
 import redrun.model.constants.TrapType;
+import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.map.Corner;
 import redrun.model.gameobject.map.Corridor;
@@ -21,9 +24,45 @@ import redrun.model.gameobject.world.SkyBox;
 
 public class ObjectFromDB
 {
-  //TODO Fix the .group shit
+
+  /** The map objects that make up the level. */
+  public static LinkedList<MapObject> mapObjects = new LinkedList<MapObject>();
+
+  /** The game objects that are in the level. */
+  public static LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
+
+  public Map map;
+  public static boolean mapDrawn = false;
+
+  public static Map createMap()
+  {
+    Pattern getMap = Pattern
+        .compile("(===\\sMap\\s===)\\sid:(\\d+)\\sName:(.*?)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\sLight Position:(.*?)\\s===");
+    for (String networkItem : GameData.networkData)
+    {
+      Matcher matchMap = getMap.matcher(networkItem);
+      if (matchMap.find() && mapDrawn == false)
+      {
+        mapDrawn = true;
+        return new Map(Integer.parseInt(matchMap.group(2)), matchMap.group(3), matchMap.group(4), matchMap.group(5),
+            networkItem);
+      }
+      else
+      {
+        MapObject object = createMapObject(networkItem);
+        if (!mapObjects.contains(object))
+        {
+          mapObjects.add(createMapObject(networkItem));
+        }
+      }
+    }
+    return null;
+  }
+
+  // TODO Fix the .group shit
   /**
-   * Creates and returns a new map object from the string representation of the database object.
+   * Creates and returns a new map object from the string representation of the
+   * database object.
    * 
    * @param mapDBForm the database representation of the map object
    * @return the new map object
@@ -32,41 +71,41 @@ public class ObjectFromDB
   {
     // System.out.println(mapDBForm);
     Pattern getMapObject = Pattern
-        .compile("===\\sMap\\sObject\\s===\\sID:(\\d+)\\sName:(\\w+)\\sLocation:\\((\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\)\\sTexture:(\\w+)\\sDirection:(\\w+\\.\\w+)\\sMap\\sID:(\\d+)\\s===");
+        .compile("(===\\sMap\\sObject\\s===)\\sID:(\\d+)\\sName:(\\w+)\\sLocation:(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\sGround Texture:(\\w+)\\sWall Texture:(\\w+)\\sDirection:(\\w+)\\sTrap Type:(.*?)\\sMap\\sID:(\\d+)\\s===");
 
     Matcher matchMapObject = getMapObject.matcher(mapDBForm);
 
     if (matchMapObject.find())
     {
       // The position of the map object...
-      float x = Float.parseFloat(matchMapObject.group(3));
-      float y = Float.parseFloat(matchMapObject.group(4));
-      float z = Float.parseFloat(matchMapObject.group(5));
-      
+      float x = Float.parseFloat(matchMapObject.group(4));
+      float y = Float.parseFloat(matchMapObject.group(5));
+      float z = Float.parseFloat(matchMapObject.group(6));
+
       // The textures to apply to the map object...
-      final String groundTexture = matchMapObject.group(6);
-      final String wallTexture = matchMapObject.group(7);
+      final String groundTexture = matchMapObject.group(7);
+      final String wallTexture = matchMapObject.group(8);
 
       // The orientation of the map object...
       Direction orientation = null;
-      switch (matchMapObject.group(8))
+      switch (matchMapObject.group(9))
       {
-        case "Direction.NORTH":
+        case "NORTH":
         {
           orientation = Direction.NORTH;
           break;
         }
-        case "Direction.EAST":
+        case "EAST":
         {
           orientation = Direction.EAST;
           break;
         }
-        case "Direction.SOUTH":
+        case "SOUTH":
         {
           orientation = Direction.SOUTH;
           break;
         }
-        case "Direction.WEST":
+        case "WEST":
         {
           orientation = Direction.WEST;
           break;
@@ -83,10 +122,10 @@ public class ObjectFromDB
           }
         }
       }
-      
+
       // The trap placed on the map object...
       TrapType type = null;
-      switch (matchMapObject.group(9))
+      switch (matchMapObject.group(10))
       {
         case "JAIL_DOOR":
         {
@@ -142,7 +181,7 @@ public class ObjectFromDB
       }
 
       // Make and return the map object...
-      switch (matchMapObject.group(2))
+      switch (matchMapObject.group(3))
       {
         case "Corner":
         {
@@ -197,14 +236,16 @@ public class ObjectFromDB
         }
       }
     }
-    
+
     return null;
   }
 
   /**
-   * Creates and returns a new skybox with the specified texture from the database.
+   * Creates and returns a new skybox with the specified texture from the
+   * database.
    * 
-   * @param skyboxTexture the texture to apply to the skybox, received from the database
+   * @param skyboxTexture the texture to apply to the skybox, received from the
+   *          database
    * @return a new skybox
    */
   public static SkyBox createSkyboxFromDB(String skyboxTexture)
@@ -213,9 +254,11 @@ public class ObjectFromDB
   }
 
   /**
-   * Creates and returns a new plane with the specified texture from the database.
+   * Creates and returns a new plane with the specified texture from the
+   * database.
    * 
-   * @param groundTexture the texture to apply to the floor, received from the database
+   * @param groundTexture the texture to apply to the floor, received from the
+   *          database
    * @return a new plane
    */
   public static Plane createFloor(String groundTexture)
@@ -223,7 +266,7 @@ public class ObjectFromDB
     return new Plane(0, 0, 0, groundTexture, Direction.NORTH, 1000);
   }
 
-  //TODO need to do this later
+  // TODO need to do this later
   public static String getTitleFromDB(String map, int mapID)
   {
     Pattern getGameObject = Pattern
