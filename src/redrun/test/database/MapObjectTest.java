@@ -21,7 +21,7 @@ public class MapObjectTest
    */
   private boolean test()
   {
-    MapObjectDB mapObject = new MapObjectDB(1, "Start", "(0.0f, 0.0f, 0.0f)", "brickwall5", "Direction.NORTH", 1);
+    MapObjectDB mapObject = new MapObjectDB(1, "Start", "(0.0f, 0.0f, 0.0f)", "ground14", "brick8", "WEST", "EMPTY", 1);
     assert (mapObject.toString() != null) : "Did not genereate MapObject properly, fail sauce";
     assert (mapObject.toString().contains("Start")) : "MapObject name not generated properly.";
     if (DEBUG) System.out.println(mapObject.toString());
@@ -35,7 +35,7 @@ public class MapObjectTest
    */
   public static void main(String[] args)
   {
-    MapObjectTest mapObjectTest= new MapObjectTest();
+    MapObjectTest mapObjectTest = new MapObjectTest();
     if (mapObjectTest.test() == true) System.out.println("Test passed.");
   }
 }
