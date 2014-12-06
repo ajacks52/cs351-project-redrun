@@ -20,7 +20,7 @@ public class GameData
   private static Map map = null;
   
   /** The list of most active map objects. */
-  private static LinkedList<MapObject> mapObjects = new LinkedList<MapObject>();
+  public static LinkedList<MapObject> mapObjects = new LinkedList<MapObject>();
   
   /** The list of most active game objects. */
   private static LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();

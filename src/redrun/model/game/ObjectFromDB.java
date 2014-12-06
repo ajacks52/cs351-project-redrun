@@ -34,27 +34,16 @@ public class ObjectFromDB
   public Map map;
   public static boolean mapDrawn = false;
 
-  public static Map createMap()
+  public static Map createMap(String networkItem)
   {
     Pattern getMap = Pattern
-        .compile("(===\\sMap\\s===)\\sid:(\\d+)\\sName:(.*?)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\sLight Position:(.*?)\\s===");
-    for (String networkItem : GameData.networkData)
+        .compile("(===\\sMap\\s===)\\sID:(\\d+)\\sName:(.*?)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\sLight Position:(.*?)\\s===");
+    Matcher matchMap = getMap.matcher(networkItem);
+    if (matchMap.find())
     {
-      Matcher matchMap = getMap.matcher(networkItem);
-      if (matchMap.find() && mapDrawn == false)
-      {
-        mapDrawn = true;
-        return new Map(Integer.parseInt(matchMap.group(2)), matchMap.group(3), matchMap.group(4), matchMap.group(5),
-            networkItem);
-      }
-      else
-      {
-        MapObject object = createMapObject(networkItem);
-        if (!mapObjects.contains(object))
-        {
-          mapObjects.add(createMapObject(networkItem));
-        }
-      }
+      mapDrawn = true;
+      return new Map(Integer.parseInt(matchMap.group(2)), matchMap.group(3), matchMap.group(4), matchMap.group(5),
+          matchMap.group(6));
     }
     return null;
   }
@@ -129,7 +118,7 @@ public class ObjectFromDB
       {
         case "JAIL_DOOR":
         {
-          type = TrapType.JAIL_DOOR;
+          type = TrapType.JAIL;
           break;
         }
         case "SPIKE_FIELD":
@@ -248,7 +237,7 @@ public class ObjectFromDB
    *          database
    * @return a new skybox
    */
-  public static SkyBox createSkyboxFromDB(String skyboxTexture)
+  public static SkyBox createSkybox(String skyboxTexture)
   {
     return new SkyBox(0, 0, 0, skyboxTexture);
   }
@@ -267,7 +256,7 @@ public class ObjectFromDB
   }
 
   // TODO need to do this later
-  public static String getTitleFromDB(String map, int mapID)
+  public static String getTitle(String map, int mapID)
   {
     Pattern getGameObject = Pattern
         .compile("===\\sMap\\s===\\sID:(\\d+)\\sName:(\\w+\\s\\w+)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\s===");

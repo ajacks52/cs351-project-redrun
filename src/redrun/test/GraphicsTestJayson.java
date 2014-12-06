@@ -125,10 +125,10 @@ public class GraphicsTestJayson
     // Create the player...
 
     // Create the skybox...
-    SkyBox skybox = new SkyBox(0, 0, 0, "iceflats");
+    SkyBox skybox = null;
 
     // Create the floor...
-    Plane floor = new Plane(0, -1.0f, 0, "marble", Direction.EAST, 2000);
+    GameObject floor = null;
 
     // Create cubes above the staircase...
     for (int i = 0; i < 500; i++)
@@ -150,9 +150,26 @@ public class GraphicsTestJayson
       if (DEBUG) System.out.println(GameData.networkData.isEmpty());
       while (!GameData.networkData.isEmpty())
       {
-        map = ObjectFromDB.createMap();
-        ObjectFromDB.createSkyboxFromDB(map.getSkyBox());
-        ObjectFromDB.createFloor(map.getFloor());
+        for (String networkItem : GameData.networkData)
+        {
+          if (!ObjectFromDB.mapDrawn)
+          {
+            map = ObjectFromDB.createMap(networkItem);
+            if (!(map == null))
+            {
+              skybox = ObjectFromDB.createSkybox(map.getSkyBox());
+              floor = ObjectFromDB.createFloor(map.getFloor());
+            }
+          }
+          else
+          {
+            MapObject object = ObjectFromDB.createMapObject(networkItem);
+            if (!GameData.mapObjects.contains(object))
+            {
+              GameData.mapObjects.add(ObjectFromDB.createMapObject(networkItem));
+            }
+          }
+        }
         break;
       }
 
@@ -226,11 +243,11 @@ public class GraphicsTestJayson
         mapObject.draw();
       }
 
-      // Draw the game objects...
-      for (GameObject gameObject : GameData.getGameObjects())
-      {
-        gameObject.draw();
-      }
+      // // Draw the game objects...
+      // for (GameObject gameObject : GameData.getGameObjects())
+      // {
+      // gameObject.draw();
+      // }
 
       // Draw text to the screen...
       if (camera.getType() == CameraType.SPECTATOR)
@@ -256,7 +273,7 @@ public class GraphicsTestJayson
 
       if (ObjectFromDB.mapDrawn == true)
       {
-        // mapObjects.clear();
+        // GameData.mapObjects.clear();
         GameData.networkData.clear();
         client.requestMapObjects();
       }

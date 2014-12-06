@@ -97,7 +97,7 @@ public class MailMan extends Thread
           ArrayList<MapObjectDB> mapObjects = RedRunDAO.getAllMapObjects();
           for (MapObjectDB mapObject : mapObjects)
           {
-            System.out.println("MailMan:" + mapObject);
+//            System.out.println("MailMan:" + mapObject);
              send(mapObject.toString());
           }
         }
