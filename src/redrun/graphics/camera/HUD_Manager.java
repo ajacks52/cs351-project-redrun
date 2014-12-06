@@ -246,7 +246,7 @@ public class HUD_Manager
   /**
    * makes the screen 2D
    */
-  private static void make2D()
+  public static void make2D()
   {
     // Remove the Z axis
     glDisable(GL_LIGHTING);
@@ -265,7 +265,7 @@ public class HUD_Manager
   /**
    * makes the screen 3D
    */
-  private static void make3D()
+  public static void make3D()
   {
     // Restore the Z axis
     glMatrixMode(GL_PROJECTION);

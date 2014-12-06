@@ -7,7 +7,6 @@ import org.lwjgl.util.vector.Vector3f;
 import redrun.model.constants.Direction;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.physics.BoxPhysicsBody;
-import redrun.model.toolkit.ShaderLoader;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -21,7 +20,6 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class TrapDoor extends Trap
 {
-  ShaderLoader sl;
   Direction orientation;
   private int count = 0;
   private boolean down = true;
@@ -34,11 +32,11 @@ public class TrapDoor extends Trap
    * @param z pos
    * @param textureName
    */
-  public TrapDoor(float x, float y, float z, Direction orientation, String textureName, boolean low)
+  public TrapDoor(float x, float y, float z, Direction orientation, String textureName)
   {
-    super(x, y +3 , z, orientation, textureName);
+    super(x, y -99f , z, orientation, textureName);
 
-    this.body = new BoxPhysicsBody(new Vector3f(x, y +3, z), new Vector3f(5, 0f, 5), new Quat4f(), 0.0f);
+    this.body = new BoxPhysicsBody(new Vector3f(x, y -99f, z), new Vector3f(6, 0f, 6), new Quat4f(), 0.0f);
 
     this.orientation = orientation;
 

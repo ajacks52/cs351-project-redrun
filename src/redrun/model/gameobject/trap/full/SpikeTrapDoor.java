@@ -48,7 +48,7 @@ public class SpikeTrapDoor extends Trap
     sl.loadShader("bloodf.fs");
     sl.loadShader("bloodv.vs");
     sl.deleteShaders();
-    td1 = new TrapDoor(x, y, z, orientation, textureName, low);
+    td1 = new TrapDoor(x, y, z, orientation, textureName);
     int program = glGetAttribLocation(sl.getShaderProgram(), "atr1");
 
     displayListId = glGenLists(1);
