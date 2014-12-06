@@ -39,10 +39,10 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.Timer;
-import org.newdawn.slick.Color;
 
 import redrun.graphics.camera.Camera;
 import redrun.graphics.camera.CameraManager;
+import redrun.graphics.camera.HUD_Manager;
 import redrun.graphics.selection.Picker;
 import redrun.main.Menu.MenuState;
 import redrun.model.constants.CameraType;
@@ -69,7 +69,6 @@ import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
-import redrun.model.toolkit.FontTools;
 import redrun.model.toolkit.Timing;
 
 /**
@@ -104,7 +103,7 @@ public class Main
   /**
    * Performs OpenGL initialization.
    */
-  private static void createOpenGL()
+  private static void createResources()
   {
     try
     {
@@ -133,7 +132,7 @@ public class Main
     glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
     
-    FontTools.loadFonts();
+    LoadingScreen.loadingScreen();
   }
 
   /**
@@ -144,11 +143,17 @@ public class Main
     // Create the map objects...
     
     // Make the obstacle course...
+    GameData.addMapObject(new Kiosk(15.0f, 0.0f, 45.0f, "ground14", "brick9", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Kiosk(15.0f, 15.0f, 135.0f, "ground14", "brick9", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Kiosk(15.0f, 0.0f, 225.0f, "ground14", "brick9", Direction.WEST, TrapType.EMPTY));
+    GameData.addMapObject(new Kiosk(45.0f, 0.0f, 255.0f, "ground14", "brick9", Direction.SOUTH, TrapType.EMPTY));
+    GameData.addMapObject(new Kiosk(75.0f, 0.0f, 240.0f, "ground14", "brick9", Direction.WEST, TrapType.EMPTY));
+    
     GameData.addMapObject(new Start(0.0f, 0.0f, 0.0f, "direction", "brick9", Direction.WEST, TrapType.EMPTY));
     
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 15.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 30.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));    
-    GameData.addMapObject(new Corridor(0.0f, 0.0f, 45.0f, "ground14", "brick9", Direction.EAST, TrapType.SPIKE_TRAP_DOOR));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 45.0f, "ground14", "brick9", Direction.EAST, TrapType.POLE_DANCE));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 60.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 75.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
     
@@ -156,7 +161,7 @@ public class Main
     
     GameData.addMapObject(new Corridor(0.0f, 15.0f, 105.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 15.0f, 120.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));    
-    GameData.addMapObject(new Corridor(0.0f, 15.0f, 135.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 15.0f, 135.0f, "ground14", "brick9", Direction.EAST, TrapType.SPIKE_TRAP_DOOR));
     GameData.addMapObject(new Corridor(0.0f, 15.0f, 150.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 15.0f, 165.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
     
@@ -164,16 +169,16 @@ public class Main
     
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 195.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 210.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));    
-    GameData.addMapObject(new Corridor(0.0f, 0.0f, 225.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 225.0f, "ground14", "brick9", Direction.EAST, TrapType.SPIKE_FIELD));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 240.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 255.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
     
     GameData.addMapObject(new Corner(0.0f, 0.0f, 270.0f, "ground14", "brick9", Direction.SOUTH, TrapType.EMPTY));
     
     GameData.addMapObject(new Tunnel(15.0f, 0.0f, 270.0f, "ground14", "brick9", Direction.NORTH, TrapType.EMPTY));
-    GameData.addMapObject(new Tunnel(30.0f, 0.0f, 270.0f, "ground14", "brick9", Direction.NORTH, TrapType.EMPTY));
+    GameData.addMapObject(new Tunnel(30.0f, 0.0f, 270.0f, "ground14", "brick9", Direction.NORTH, TrapType.JAIL));
     GameData.addMapObject(new Corridor(45.0f, 0.0f, 270.0f, "ground14", "brick9", Direction.NORTH, TrapType.EMPTY));
-    GameData.addMapObject(new Tunnel(60.0f, 0.0f, 270.0f, "ground14", "brick9", Direction.NORTH, TrapType.EMPTY));
+    GameData.addMapObject(new Tunnel(60.0f, 0.0f, 270.0f, "ground14", "brick9", Direction.NORTH, TrapType.POLE_WALL));
     GameData.addMapObject(new Tunnel(75.0f, 0.0f, 270.0f, "ground14", "brick9", Direction.NORTH, TrapType.EMPTY));
 
     GameData.addMapObject(new Corner(90.0f, 0.0f, 270.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
@@ -229,7 +234,7 @@ public class Main
     GameData.addMapObject(new Corner(15.0f, 0.0f, 15.0f, "ground14", "brick9", Direction.WEST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(15.0f, 0.0f, 30.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));   
 
-    GameData.addMapObject(new Kiosk(15.0f, 0.0f, 45.0f, "ground14", "brick9", Direction.WEST, TrapType.EMPTY));
+    //GameData.addMapObject(new Kiosk(15.0f, 0.0f, 45.0f, "ground14", "brick9", Direction.WEST, TrapType.EMPTY)); //Kiosk
     
     GameData.addMapObject(new Corridor(15.0f, 0.0f, 60.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY)); //Kiosk
     
@@ -240,7 +245,7 @@ public class Main
     GameData.addMapObject(new Corridor(15.0f, 15.0f, 105.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY)); //Kiosk
     GameData.addMapObject(new Corridor(15.0f, 15.0f, 120.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(15.0f, 15.0f, 135.0f, "ground14", "brick9", Direction.WEST, TrapType.EMPTY)); //Kiosk
+    //GameData.addMapObject(new Kiosk(15.0f, 15.0f, 135.0f, "ground14", "brick9", Direction.WEST, TrapType.EMPTY)); //Kiosk
     GameData.addMapObject(new Corridor(15.0f, 15.0f, 150.0f, "ground14", "brick9", Direction.WEST, TrapType.EMPTY));
     
     GameData.addMapObject(new Corridor(15.0f, 15.0f, 165.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY)); //Kiosk
@@ -250,7 +255,7 @@ public class Main
     GameData.addMapObject(new Corridor(15.0f, 0.0f, 195.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(15.0f, 0.0f, 210.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(15.0f, 0.0f, 225.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY)); //Kiosk
+    //GameData.addMapObject(new Corridor(15.0f, 0.0f, 225.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY)); //Kiosk
 
     GameData.addMapObject(new Corridor(15.0f, 0.0f, 240.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
 
@@ -258,13 +263,13 @@ public class Main
     
     GameData.addMapObject(new Corridor(30.0f, 0.0f, 255.0f, "ground14", "brick9", Direction.NORTH, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(45.0f, 0.0f, 255.0f, "ground14", "brick9", Direction.SOUTH, TrapType.EMPTY)); //Kiosk
+    //GameData.addMapObject(new Corridor(45.0f, 0.0f, 255.0f, "ground14", "brick9", Direction.SOUTH, TrapType.EMPTY)); //Kiosk
 
     GameData.addMapObject(new Corridor(60.0f, 0.0f, 255.0f, "ground14", "brick9", Direction.NORTH, TrapType.EMPTY));
 
     GameData.addMapObject(new Corner(75.0f, 0.0f, 255.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(75.0f, 0.0f, 240.0f, "ground14", "brick9", Direction.WEST, TrapType.EMPTY)); //Kiosk
+    //GameData.addMapObject(new Corridor(75.0f, 0.0f, 240.0f, "ground14", "brick9", Direction.WEST, TrapType.EMPTY)); //Kiosk
 
     GameData.addMapObject(new Corridor(75.0f, 0.0f, 225.0f, "ground14", "brick9", Direction.WEST, TrapType.EMPTY));
 
@@ -403,21 +408,10 @@ public class Main
       {
         gameObject.draw();
       }
-            
-      // Draw text to the screen...
-      if (camera.getType() == CameraType.SPECTATOR)
-      {
-        FontTools.renderText("Spectator Camera: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10, Color.black, 1);
-      }
-      else
-      {
-        FontTools.renderText("Player: " + player.getName(), 10, 10, Color.black, 1);
-        FontTools.renderText("Team: " + player.getTeam(), 10, 30, Color.black, 1);
-        FontTools.renderText("Lives: " + player.getLives(), 10, 50, Color.black, 1);
-        FontTools.renderText("Player Camera: (" + player.getCamera().getX() + ", " + player.getCamera().getY() + ", " + player.getCamera().getZ() + ")", 10, 70, Color.black, 1);
-      }
-      
-      // Update...
+              
+      // Show the HUD...
+      if (state != GameState.MAIN_MENU) HUD_Manager.huds(camera, player);
+      // Show the menu...
       if (state == GameState.MAIN_MENU) menu.stateControl();
       cameraManager.update();
       PhysicsWorld.stepSimulation(1 / 60.0f);
@@ -480,7 +474,7 @@ public class Main
   /**
    * Cleans up resources.
    */
-  private static void destroyOpenGL()
+  private static void destroyResources()
   {
     Display.destroy();
   }
@@ -495,8 +489,8 @@ public class Main
   
   public static void main(String[] args)
   {
-    createOpenGL();
+    createResources();
     gameLoop();
-    destroyOpenGL();  
+    destroyResources();  
   }
 }
