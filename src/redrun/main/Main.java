@@ -435,7 +435,7 @@ public class Main
     // Menu control...
     if (menu.getState() == MenuState.OFF) state = previousState;
     if (state == GameState.MAIN_MENU) return; // Take no input if menu is up.
-    if (Keyboard.isKeyDown(Keyboard.KEY_M))
+    if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
       if (state != GameState.MAIN_MENU) previousState = state;
       state = GameState.MAIN_MENU;
@@ -473,8 +473,8 @@ public class Main
     if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_UP)) camera.moveUp(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) camera.moveDown(movementSpeed * dt);
+    if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) camera.moveUp(movementSpeed * dt);
+    if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) camera.moveDown(movementSpeed * dt);
   }
   
   /**
