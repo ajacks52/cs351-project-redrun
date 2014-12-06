@@ -435,7 +435,7 @@ public class Main
     // Menu control...
     if (menu.getState() == MenuState.OFF) state = previousState;
     if (state == GameState.MAIN_MENU) return; // Take no input if menu is up.
-    if (Keyboard.isKeyDown(Keyboard.KEY_M))
+    if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
       if (state != GameState.MAIN_MENU) previousState = state;
       state = GameState.MAIN_MENU;

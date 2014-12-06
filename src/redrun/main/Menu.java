@@ -170,8 +170,7 @@ public class Menu
     FontTools.renderText("Press SPACE to jump", 70, 220, textColor, 2);
     FontTools.renderText("In Spectator Mode, use SPACE to move upward and SHIFT", 70, 270, textColor, 2);
     FontTools.renderText("to move downward", 70, 310, textColor, 2);
-    FontTools.renderText("Press M to open the menu", 70, 360, textColor, 2);
-    FontTools.renderText("Press ESC to close the game", 70, 410, textColor, 2);
+    FontTools.renderText("Press ESC to open the menu", 70, 360, textColor, 2);
 
     FontTools.renderText("Press enter to return the main menu", 70, 540, textColor, 1);
   }
