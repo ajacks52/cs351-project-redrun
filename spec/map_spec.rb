@@ -15,7 +15,7 @@ describe Map do
 
   # Create test case -- runs before all it statements
   before(:all) do
-    @attr = {map_name: 'iceworld'}
+    @attr = {map_name: 'iceworld', sky_box: 'iceflats', floor: 'snow'}
     Map.create(@attr)
     p Map.all
   end

@@ -105,7 +105,7 @@ public abstract class MapObject implements Comparable<MapObject>
         this.trap = new PoleDance(x, y + 0.05f, z, orientation, wallTexture);
         break;
       }
-     
+
       case ROCK_SMASH:
       {
         this.trap = new RockSmash(x, y + 5, z, orientation, "rock" + Constants.random.nextInt(3));
@@ -117,6 +117,7 @@ public abstract class MapObject implements Comparable<MapObject>
         this.trap = new TrapDoor(x, y, z, orientation, "ground16");
         break;
       }
+
       case EXPLODING_BOX_FIELD:
       {
         if (this.getClass() == Pit.class)

@@ -103,7 +103,7 @@ public class GraphicsTestTroy
     // Create the map objects...
   	
     // Make the obstacle course...
-    GameData.addMapObject(new Start(0.0f, 0.0f, 0.0f, "direction", "brick9", Direction.WEST, TrapType.EMPTY));
+     GameData.addMapObject(new Start(0.0f, 0.0f, 0.0f, "direction", "brick9", Direction.WEST, TrapType.EMPTY));
     
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 15.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 30.0f, "ground14", "brick9", Direction.EAST, TrapType.EMPTY));    

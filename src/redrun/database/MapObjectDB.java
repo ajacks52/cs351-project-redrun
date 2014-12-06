@@ -12,10 +12,13 @@ public class MapObjectDB
   private int id;
   private String objectName;
   private String location;
-  private String texture;
+  private String groundTexture;
+  private String wallTexture;
   private String direction;
+  private String trapType;
   private int mapId;
-//  private StartLocation parsedStart;
+
+  // private StartLocation parsedStart;
 
   /**
    * MapObject instantiation
@@ -23,19 +26,23 @@ public class MapObjectDB
    * @param id database id
    * @param objectName name of the map object
    * @param location location of the map object
-   * @param texture texture to use with the map object
+   * @param groundTexture texture to use with the map object for the ground
+   * @param wallTexture texture to use with the map object for the wall
    * @param direction orientation of the map object
+   * @param trapType type of trap to use with the map object
    * @param mapId associated map
    */
-  public MapObjectDB(int id, String objectName, String location, String texture, String direction, int mapId)
+  public MapObjectDB(int id, String objectName, String location, String groundTexture, String wallTexture,
+      String direction, String trapType, int mapId)
   {
     this.id = id;
     this.objectName = objectName;
     this.location = location;
-    this.texture = texture;
+    this.groundTexture = groundTexture;
+    this.wallTexture = wallTexture;
     this.direction = direction;
+    this.trapType = trapType;
     this.mapId = mapId;
-//    this.parsedStart = new StartLocation(location);
   }
 
   /**
@@ -44,9 +51,7 @@ public class MapObjectDB
   public String toString()
   {
     return "=== Map Object === " + "ID:" + this.id + " Name:" + this.objectName + " Location:" + this.location
-      + " Texture:" + this.texture + " Direction:" + this.direction + " Map ID:" + this.mapId + " ===";
-//    return "=== Map Object === " + "ID:" + this.id + " Name:" + this.objectName + " Location:" + parsedStart.getX() + ", " + parsedStart.getY() + ", "
-//  + parsedStart.getZ() + " Texture:" + this.texture
-//        + " Direction:" + this.direction + " Map ID:" + this.mapId + " ===";
+        + " Ground Texture:" + this.groundTexture + " Wall Texture:" + this.wallTexture + " Direction:"
+        + this.direction + " Trap Type:" + this.trapType + " Map ID:" + this.mapId + " ===";
   }
 }

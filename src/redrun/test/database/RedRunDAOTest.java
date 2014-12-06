@@ -1,12 +1,9 @@
 package redrun.test.database;
 
-import redrun.database.ButtonDB;
-import redrun.database.Kiosk;
 import redrun.database.Map;
 import redrun.database.MapObjectDB;
 import redrun.database.RedRunDAO;
 import redrun.database.Character;
-import redrun.database.TrapDB;
 
 /**
  * Testing class for the RedRunDAO class
@@ -28,7 +25,7 @@ public class RedRunDAOTest
    */
   private boolean insertMap()
   {
-    assert (RedRunDAO.insertMap("Ice World", "iceflats", "snow") == true) : "Unable to create new Map";
+    assert (RedRunDAO.insertMap("Ice World", "iceflats", "marble", "(-100.0f, 750.0f, 1000.0f)") == true) : "Unable to create new Map";
     boolean found = false;
     for (Map map : RedRunDAO.getAllMaps())
     {
@@ -138,7 +135,7 @@ public class RedRunDAOTest
    */
   private boolean insertMapObject()
   {
-    assert (RedRunDAO.insertMapObject("Start", "(0.0f, 0.0f, 0.0f)", "brickwall5", "Direction.NORTH", 1)) == true : "Unable to create new MapObject";
+    assert (RedRunDAO.insertMapObject("Start", "(0.0f, 0.0f, 0.0f)", "ground14", "brick8", "WEST", "EMPTY", 1)) == true : "Unable to create new MapObject";
     boolean found = false;
     for (MapObjectDB mo : RedRunDAO.getAllMapObjects())
     {
@@ -187,109 +184,6 @@ public class RedRunDAOTest
   }
 
   /**
-   * Used to test the kiosk INSERT functionality of the DAO
-   * 
-   * @return true if all tests pass
-   */
-  private boolean insertKiosk()
-  {
-    assert (RedRunDAO.insertKiosk("0.0f, 0.10f, 0.5f", "200.01", 1) == true) : "Unable to create new Kiosk";
-    boolean found = false;
-    for (Kiosk kiosk : RedRunDAO.getAllKiosks())
-    {
-      if (DEBUG) System.out.println(kiosk.toString());
-      if (kiosk.toString().contains("200.01")) found = true;
-    }
-    assert (found == true) : "Unable to find newly created kiosk in Kiosk table";
-    return true;
-  }
-
-  /**
-   * Used to test the kiosk SELECT functionality of the DAO
-   * 
-   * @return true if all tests pass
-   */
-  private boolean selectKiosk()
-  {
-    if (DEBUG)
-    {
-      for (Kiosk kiosk : RedRunDAO.getAllKiosks())
-      {
-        System.out.println(kiosk.toString());
-      }
-    }
-    assert (RedRunDAO.getAllKiosks() != null) : "We were unable to retrieve any kiosks from the Kiosk table";
-    return true;
-  }
-
-  /**
-   * Used to test the trap INSERT functionality of the DAO
-   * 
-   * @return true if all tests pass
-   */
-  private boolean insertTrap()
-  {
-    assert (RedRunDAO.insertTrap("spikey", 1, 1) == true) : "Unable to create new Trap";
-    boolean found = false;
-    for (TrapDB trap : RedRunDAO.getAllTraps())
-    {
-      if (DEBUG) System.out.println(trap.toString());
-      if (trap.toString().contains("spikey")) found = true;
-    }
-    assert (found == true) : "Unable to find newly created trap in Trap table";
-    return true;
-  }
-
-  /**
-   * Used to test the trap SELECT functionality of the DAO
-   * 
-   * @return true if all tests pass
-   */
-  private boolean selectTrap()
-  {
-    if (DEBUG)
-    {
-      for (TrapDB trap : RedRunDAO.getAllTraps())
-      {
-        System.out.println(trap.toString());
-      }
-    }
-    assert (RedRunDAO.getAllTraps() != null) : "We were unable to retrieve any traps from the Trap table";
-    return true;
-  }
-
-  private boolean insertButton()
-  {
-    assert (RedRunDAO.insertButton(false, 1, 1, 1) == true) : "Unable to create new Button";
-    boolean found = false;
-    for (ButtonDB button : RedRunDAO.getAllButtons())
-    {
-      if (DEBUG) System.out.println(button.toString());
-      if (button.toString().contains("false")) found = true;
-    }
-    assert (found == true) : "Unable to find newly created button in Button table";
-    return true;
-  }
-
-  /**
-   * Used to test the trap SELECT functionality of the DAO
-   * 
-   * @return true if all tests pass
-   */
-  private boolean selectButton()
-  {
-    if (DEBUG)
-    {
-      for (ButtonDB button : RedRunDAO.getAllButtons())
-      {
-        System.out.println(button.toString());
-      }
-    }
-    assert (RedRunDAO.getAllButtons() != null) : "We were unable to retrieve any buttons from the Button table";
-    return true;
-  }
-
-  /**
    * Main statement for test cases
    * 
    * @param args
@@ -298,26 +192,17 @@ public class RedRunDAOTest
   {
     RedRunDAOTest redRunDaoTest = new RedRunDAOTest();
     // Map Tests
-    if (redRunDaoTest.insertMap() == true) System.out.println("Insert map test passed.");
-    if (redRunDaoTest.selectMap() == true) System.out.println("Select map test passed.");
-    if (redRunDaoTest.deleteMap() == true) System.out.println("Delete map test passed.");
+    if (redRunDaoTest.insertMap() == true) System.out.println("Insert Map test passed.");
+    if (redRunDaoTest.selectMap() == true) System.out.println("Select Map test passed.");
+    if (redRunDaoTest.deleteMap() == true) System.out.println("Delete Map test passed.");
     // Character Tests
-    if (redRunDaoTest.insertCharacter() == true) System.out.println("Insert character test passed.");
-    if (redRunDaoTest.selectCharacter() == true) System.out.println("Select character test passed.");
-    if (redRunDaoTest.deleteCharacter() == true) System.out.println("Delete character test passed.");
+    if (redRunDaoTest.insertCharacter() == true) System.out.println("Insert Character test passed.");
+    if (redRunDaoTest.selectCharacter() == true) System.out.println("Select Character test passed.");
+    if (redRunDaoTest.deleteCharacter() == true) System.out.println("Delete Character test passed.");
     // MapObject Tests
-    if (redRunDaoTest.insertMapObject() == true) System.out.println("Seventh test passed.");
-    if (redRunDaoTest.selectMapObject() == true) System.out.println("Eighth test passed.");
-    if (redRunDaoTest.deleteMapObject() == true) System.out.println("Ninth test passed.");
-    // Kiosk Tests
-    if (redRunDaoTest.insertKiosk() == true) System.out.println("Insert kiosk test passed.");
-    if (redRunDaoTest.selectKiosk() == true) System.out.println("Select kiosk test passed.");
-    // Trap Tests
-    if (redRunDaoTest.insertTrap() == true) System.out.println("Insert trap test passed.");
-    if (redRunDaoTest.selectTrap() == true) System.out.println("Select trap test passed.");
-    // Button Tests
-    if (redRunDaoTest.insertButton() == true) System.out.println("Insert button test passed.");
-    if (redRunDaoTest.selectButton() == true) System.out.println("Select button test passed.");
+    if (redRunDaoTest.insertMapObject() == true) System.out.println("Insert MapObject test passed.");
+    if (redRunDaoTest.selectMapObject() == true) System.out.println("Select MapObject test passed.");
+    if (redRunDaoTest.deleteMapObject() == true) System.out.println("Delete MapObject test passed.");
 
     dao.closeConnection();
   }
