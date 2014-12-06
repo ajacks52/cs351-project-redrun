@@ -24,7 +24,6 @@ import redrun.model.gameobject.world.SkyBox;
 
 public class ObjectFromDB
 {
-
   /** The map objects that make up the level. */
   public static LinkedList<MapObject> mapObjects = new LinkedList<MapObject>();
 
@@ -250,7 +249,7 @@ public class ObjectFromDB
    */
   public static Plane createFloor(String groundTexture)
   {
-    return new Plane(0, 0, 0, groundTexture, Direction.NORTH, 1000);
+    return new Plane(0, -0.5f, 0, groundTexture, Direction.NORTH, 1000);
   }
 
   /**
