@@ -1,4 +1,4 @@
-package redrun.model.gameobject.trap;
+package redrun.model.gameobject.trap.piece;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.glGetAttribLocation;
@@ -9,6 +9,8 @@ import javax.vecmath.Quat4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import redrun.model.constants.Direction;
+import redrun.model.gameobject.trap.Trap;
+import redrun.model.gameobject.trap.full.TrapDoor;
 import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.physics.SpherePhysicsBody;
 import redrun.model.toolkit.ShaderLoader;

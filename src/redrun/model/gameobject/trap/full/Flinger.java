@@ -1,6 +1,7 @@
-package redrun.model.gameobject.trap;
+package redrun.model.gameobject.trap.full;
 
 import redrun.model.constants.Direction;
+import redrun.model.gameobject.trap.Trap;
 
 public class Flinger extends Trap
 {

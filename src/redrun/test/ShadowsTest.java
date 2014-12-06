@@ -372,7 +372,6 @@ public class ShadowsTest
       }
             
       // Draw text to the screen...
-      FontTools.draw2D();
       if (camera.getType() == CameraType.SPECTATOR)
       {
         FontTools.renderText("Spectator Camera: (" + camera.getX() + ", " + camera.getY() + ", " + camera.getZ() + ")", 10, 10, Color.black, 1);
@@ -384,7 +383,6 @@ public class ShadowsTest
         FontTools.renderText("Lives: " + player.getLives(), 10, 50, Color.black, 1);
         FontTools.renderText("Player Camera: (" + player.getCamera().getX() + ", " + player.getCamera().getY() + ", " + player.getCamera().getZ() + ")", 10, 70, Color.black, 1);
       }
-      FontTools.draw3D();
       
       // Update...
       cameraManager.update();

@@ -102,9 +102,7 @@ public class MainTestAdam
 
   
       // drawing 2d text
-      FontTools.draw2D();
       FontTools.renderText("x: " + cam.getX() + " y: " + cam.getY() + " z: " + cam.getZ(), 10, 10, Color.white, 1);
-      FontTools.draw3D();
     }
   }
 
@@ -156,7 +154,6 @@ public class MainTestAdam
     }
     // set up the loading screen
     LoadingScreen spashScreen = new LoadingScreen("loading_screen");
-    FontTools.draw2D();
     while (backgroundLoader.isRunning())
     {
       glClear(GL_COLOR_BUFFER_BIT);

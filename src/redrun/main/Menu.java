@@ -1,45 +1,36 @@
 package redrun.main;
 
-
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 
+import redrun.model.constants.Constants;
 import redrun.model.toolkit.FontTools;
 
 /**
+ * The main menu. Controls the keyboard input, state control and other aspects
+ * of the main menu.
  * 
- * @author Adam Mitchell
+ * @author Adam Mitchell, J. Jake Nichol
  * @version 1.0
  * @since 2014-19-10
- *
- * The main menu. Controls the keyboard input, state control and other aspects of the main menu
- *
  */
 public class Menu
 {
-
   Color textColor = Color.white;
-  Color textSelectedColor = Color.darkGray;
+  Color textSelectedColor = Color.gray;
   Color[] options = new Color[5];
-  private static GameState state = GameState.MAIN_MENU;
+  private static MenuState state = MenuState.MAIN_MENU;
   int selection = 0;
   int clients = 0;
 
   /**
-   * @author Adam Mitchell
-   * The game states 
-   * PLAYGOUND(1), TWO_PLAYER(2), THREE_PLAYER(3), FOUR_PLAYER(4), 
-   * CONTROLS(-1), MAIN_MENU(-1), ERROR(-1);
+   *
+   * 
+   * @author Adam Mitchell, J. Jake Nichol
    */
-  public static enum GameState
+  public static enum MenuState
   {
-    PLAYGOUND(1), TWO_PLAYER(2), THREE_PLAYER(3), FOUR_PLAYER(4), CONTROLS(-1), MAIN_MENU(-1), ERROR(-1);
-    
-    int value;
-    private GameState(int num)
-    {
-      this.value = num;
-    }
+    MAIN_MENU, OFF, CONTROLS, HOW_TO, ERROR;
   }
 
   /**
@@ -66,7 +57,7 @@ public class Menu
       {
         if (Keyboard.getEventKeyState())
         {
-          if (selection < 4)
+          if (selection < 3)
           {
             ++selection;
             options[selection - 1] = textColor;
@@ -90,7 +81,7 @@ public class Menu
       {
         if (Keyboard.getEventKeyState())
         {
-          state = GameState.values()[selection];
+          state = MenuState.values()[selection];
           System.out.println(state);
         }
       }
@@ -108,7 +99,7 @@ public class Menu
       {
         if (Keyboard.getEventKeyState())
         {
-          state = GameState.valueOf("MAIN_MENU");
+          state = MenuState.valueOf("MAIN_MENU");
           System.out.println(state);
         }
       }
@@ -118,55 +109,33 @@ public class Menu
   /**
    * Controls the overall game state
    * 
-   * Use static field state and set it to a game state 
-   * in the following way 
+   * Use static field state and set it to a game state in the following way
    * 
    * state = GameState.NAME_OF_STATE
    */
   public void stateControl()
-  {    
+  {
     switch (state)
     {
       case MAIN_MENU:
         checkMenuInput();
         menuText();
         break;
-      case PLAYGOUND:
-        // mainLoop();
-        break;
-      case TWO_PLAYER:
-        // add two player code
-        if(clients != 2) {
-          state = GameState.ERROR;
-          state.value = 2;
-        }
-        
-        break;
-      case THREE_PLAYER:
-        // add three player code
-        if(clients != 3) {
-          state = GameState.ERROR;
-          state.value = 3;
-        }
-        
-        break;
-      case FOUR_PLAYER:
-        // add four player code
-        if(clients != 4) {
-          state = GameState.ERROR;
-          state.value = 4;
-        }
-        
+      case OFF:
+        // Do nothing
         break;
       case CONTROLS:
         backToMenuControls();
         controlsText();
         break;
-        
+      case HOW_TO:
+        backToMenuControls();
+        howToText();
+        break;
+
       case ERROR:
         backToMenuControls();
         errorText();
-        
         break;
       default:
         break;
@@ -174,7 +143,70 @@ public class Menu
   }
 
   /**
-   * Prints error text
+   * Prints the main menu text
+   */
+  private void menuText()
+  {
+    FontTools.renderText("Connected Clients 0", 650, 7, textColor, 0);
+
+    FontTools.renderText("Welcome to Red Run", 70, 110, textColor, 3);
+
+    FontTools.renderText("Main Menu", 70, 180, options[0], 2);
+    FontTools.renderText("Back to Game", 70, 220, options[1], 2);
+    FontTools.renderText("Controls", 70, 260, options[2], 2);
+    FontTools.renderText("How to Play", 70, 300, options[3], 2);
+
+    FontTools.renderText("Use the arrow keys to select an option then press enter", 20, 540, textColor, 1);
+    FontTools.renderText("Number of clients must match selection", 20, 560, textColor, 1);
+    FontTools.draw3D();
+  }
+
+  /**
+   * Prints text about controlling the game.
+   */
+  private void controlsText()
+  {
+    FontTools.renderText("Connected Clients 0", 650, 7, textColor, 0);
+
+    FontTools.renderText("Controls", 70, 110, textColor, 3);
+    FontTools.renderText("Use WASD controls to walk around the map", 70, 170, textColor, 2);
+    FontTools.renderText("Press SPACE to jump", 70, 220, textColor, 2);
+    FontTools.renderText("In Spectator Mode, use SPACE to move upward and SHIFT", 70, 270, textColor, 2);
+    FontTools.renderText("to move downward", 70, 310, textColor, 2);
+    FontTools.renderText("Press M to open the menu", 70, 360, textColor, 2);
+    FontTools.renderText("Press ESC to close the game", 70, 410, textColor, 2);
+
+    FontTools.renderText("Press enter to return the main menu", 20, 540, textColor, 1);
+  }
+
+  /**
+   * Prints information about how to play the game.
+   */
+  private void howToText()
+  {
+    FontTools.renderText("Connected Clients 0", 650, 7, textColor, 0);
+
+    FontTools.renderText("How to Play", 70, 110, textColor, 3);
+    FontTools.renderText(
+        "Players on the BLUE team try to get from the beginning of the obstacle course to the end without dying.", 70,
+        210, textColor, 1);
+    FontTools.renderText("Players on the RED team try to spring traps that will kill the BLUE team players.", 70, 250,
+        textColor, 1);
+    FontTools
+        .renderText(
+            "To win, all a BLUE player must reach the end of the course. The entire BLUE team loses if all players are dead and without lives.",
+            70, 290, textColor, 1);
+    FontTools
+        .renderText(
+            "The entire RED team only wins if all BLUE players are dead and without lives.  A single RED player cannot win alone.",
+            70, 330, textColor, 1);
+
+    FontTools.renderText("Press enter to return the main menu", 20, 540, textColor, 1);
+    FontTools.draw3D();
+  }
+
+  /**
+   * Prints error text.
    */
   private void errorText()
   {
@@ -182,47 +214,30 @@ public class Menu
     FontTools.renderText("Connected Clients 0", 650, 7, textColor, 0);
 
     FontTools.renderText("I'm sorry there are only " + clients + " clients connected.", 20, 110, textColor, 2);
-    FontTools.renderText("You need " + (state.value-clients) +" more users connect to play a", 20, 150, textColor, 2);
-    FontTools.renderText( state.value + " player round.", 20, 190, textColor, 2);
+    FontTools.renderText("You need " + (Constants.MAX_PLAYERS - clients) + " more users connect to play a", 20, 150,
+        textColor, 2);
     FontTools.renderText("Feel free to test out the controls in the", 20, 240, textColor, 2);
     FontTools.renderText("Play Ground", 20, 280, textColor, 2);
 
     FontTools.renderText("Press enter to return the main menu", 20, 540, textColor, 1);
     FontTools.draw3D();
   }
-
+  
   /**
-   * Prints how to play text
+   * Gets the current state of the menu.
+   * 
+   * @return the menu's current state
    */
-  private void controlsText()
+  public MenuState getState()
   {
-    FontTools.draw2D();
-    FontTools.renderText("Connected Clients 0", 650, 7, textColor, 0);
-
-    FontTools.renderText("How to play...", 70, 110, textColor, 3);
-
-    FontTools.renderText("Press enter to return the main menu", 20, 540, textColor, 1);
-    FontTools.draw3D();
+    return state;
   }
-
+  
   /**
-   * Prints the main menu text
+   * Sets the menu to the MAIN_MENU state.
    */
-  private void menuText()
+  public void setState()
   {
-    FontTools.draw2D();
-    FontTools.renderText("Connected Clients 0", 650, 7, textColor, 0);
-
-    FontTools.renderText("Welcome to Red Run", 70, 110, textColor, 3);
-
-    FontTools.renderText("Practice in the Playground", 70, 180, options[0], 2);
-    FontTools.renderText("Play Two Player Round", 70, 220, options[1], 2);
-    FontTools.renderText("Play Three Player Round", 70, 260, options[2], 2);
-    FontTools.renderText("Play Four Player Round", 70, 300, options[3], 2);
-    FontTools.renderText("Show Game Controls", 70, 340, options[4], 2);
-
-    FontTools.renderText("Use the arrow keys to selcet an option then press enter", 20, 540, textColor, 1);
-    FontTools.renderText("Number of clinets must match selection", 20, 560, textColor, 1);
-    FontTools.draw3D();
+    state = MenuState.MAIN_MENU;
   }
 }

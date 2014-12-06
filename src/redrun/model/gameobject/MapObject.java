@@ -9,16 +9,18 @@ import redrun.model.constants.Direction;
 import redrun.model.constants.TrapType;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.map.Pit;
-import redrun.model.gameobject.trap.DeathPillar;
-import redrun.model.gameobject.trap.ExplodingBoxField;
-import redrun.model.gameobject.trap.JailDoor;
-import redrun.model.gameobject.trap.PoleDance;
-import redrun.model.gameobject.trap.PoleWall;
-import redrun.model.gameobject.trap.RockSmash;
-import redrun.model.gameobject.trap.Spear;
-import redrun.model.gameobject.trap.SpikeField;
-import redrun.model.gameobject.trap.SpikeTrapDoor;
 import redrun.model.gameobject.trap.Trap;
+import redrun.model.gameobject.trap.full.DeathPillar;
+import redrun.model.gameobject.trap.full.ExplodingBoxField;
+import redrun.model.gameobject.trap.full.Jail;
+import redrun.model.gameobject.trap.full.PoleDance;
+import redrun.model.gameobject.trap.full.PoleWall;
+import redrun.model.gameobject.trap.full.RockSmash;
+import redrun.model.gameobject.trap.full.SpikeField;
+import redrun.model.gameobject.trap.full.SpikeTrapDoor;
+import redrun.model.gameobject.trap.piece.JailDoor;
+import redrun.model.gameobject.trap.piece.Rock;
+import redrun.model.gameobject.trap.piece.Spear;
 
 /**
  * This class represents a map object that is used to construct Redrun maps.
@@ -66,15 +68,15 @@ public abstract class MapObject implements Comparable<MapObject>
       {
         break;
       }
-      case JAIL_DOOR:
+      case JAIL:
       {
-        this.trap = new JailDoor(x, y, z, orientation, null);
+        this.trap = new Jail(x, y, z, orientation, null);
         break;
       }
       case SPIKE_FIELD:
       {
-        if (this.getClass() == Pit.class) this.trap = new SpikeField(x, y, z, "s11", orientation, new Dimension(10, 15),  false);
-        else this.trap = new SpikeField(x, y, z,"s11",  orientation, new Dimension(10, 15), true);
+        if (this.getClass() == Pit.class) this.trap = new SpikeField(x, y, z, "ground9", orientation, new Dimension(10, 15),  false);
+        else this.trap = new SpikeField(x, y, z,"ground9",  orientation, new Dimension(10, 15), true);
         break;
       }
       case SPIKE_TRAP_DOOR:
@@ -87,11 +89,11 @@ public abstract class MapObject implements Comparable<MapObject>
       {
         if (orientation == Direction.EAST || orientation == Direction.WEST)
         {
-          this.trap = new PoleWall(x + 10, y, z, orientation, wallTexture);
+          this.trap = new PoleWall(x + 16, y, z, orientation, wallTexture);
         }
         if (orientation == Direction.NORTH || orientation == Direction.SOUTH)
         {
-          this.trap = new PoleWall(x, y, z - 10, orientation, wallTexture);
+          this.trap = new PoleWall(x, y, z - 16, orientation, wallTexture);
         }
         break;
       }
@@ -102,18 +104,13 @@ public abstract class MapObject implements Comparable<MapObject>
       }
       case DEATH_PILLAR:
       {
-        this.trap = new DeathPillar(x, y + 10, z, orientation, "24");
+        this.trap = new DeathPillar(x, y + 10, z, orientation, "brick2");
         break;
       }
       case ROCK_SMASH:
       {
         this.trap = new RockSmash(x, y + 5, z, orientation, "rock" + Constants.random.nextInt(3));
         
-        break;
-      }
-      case SPEAR:
-      {
-        this.trap = new Spear(x, y, z, orientation, null);
         break;
       }
       case EXPLODING_BOX_FIELD:

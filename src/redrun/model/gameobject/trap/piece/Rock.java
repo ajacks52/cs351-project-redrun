@@ -1,4 +1,4 @@
-package redrun.model.gameobject.trap;
+package redrun.model.gameobject.trap.piece;
 
 import static org.lwjgl.opengl.GL11.GL_COMPILE;
 import static org.lwjgl.opengl.GL11.glGenLists;
@@ -12,7 +12,9 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.constants.Constants;
 import redrun.model.constants.Direction;
+import redrun.model.gameobject.trap.Trap;
 import redrun.model.mesh.Face;
 import redrun.model.mesh.Model;
 import redrun.model.physics.BoxPhysicsBody;
@@ -25,9 +27,12 @@ import redrun.model.toolkit.OBJLoader;
  *
  *
  */
-public class RockSmash extends Trap
+public class Rock extends Trap
 {
-  Model model = null;
+  private Model model = null;
+  private float startTime;
+  private int count = 0;
+  private boolean down = true;
 
   /**
    * A rock smashing traps
@@ -37,14 +42,15 @@ public class RockSmash extends Trap
    * @param z
    * @param modeln name rock1, rock2, rock3
    */
-  public RockSmash(float x, float y, float z, Direction orientation, String modelName)
+  public Rock(float x, float y, float z, Direction orientation, String modelName, float startTime)
   {
     super(x, y, z, orientation, null);
 
-    this.body = new SpherePhysicsBody(new Vector3f(x, y, z), 4.5f, 10.0f);
-    //this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(4, 4, 4), new Quat4f(), 100);
+    this.startTime = startTime;
+    //this.body = new SpherePhysicsBody(new Vector3f(x, y, z), 4.5f, 10.0f);
+    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(4, 4, 5), new Quat4f(), 0);
     // load in model
-    model = OBJLoader.loadModel(new File("res/models/" + modelName + ".obj"));
+    model = OBJLoader.loadModel(new File("res/models/" + "rock" + Constants.random.nextInt(2) + ".obj"));
 
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
@@ -90,29 +96,47 @@ public class RockSmash extends Trap
   @Override
   public void activate()
   {
-    // TODO Auto-generated method stub
-
+    this.timer.resume();
   }
 
   @Override
   public void reset()
   {
     // TODO Auto-generated method stub
-
+    this.timer.pause();
+    this.timer.reset();
   }
 
   @Override
   public void interact()
   {
     // TODO Auto-generated method stub
-
   }
 
   @Override
   public void update()
   {
-    // TODO Auto-generated method stub
-
+    if (this.timer.getTime() > startTime && count < 12 && down)
+    {    
+      count++;
+      body.translate(0f, -2f, 0f);
+      if(count == 12)
+      {
+        down=false;
+      }
+    }
+    else if (count > 0 && this.timer.getTime() > startTime && !down)
+    {
+      count--;
+      body.translate(0f, 2f, 0f);
+      if(count == 0)
+      {
+        down=true;
+        if(this.timer.getTime() > 10)
+        {
+          this.reset();
+        }
+      }
+    }
   }
-
 }

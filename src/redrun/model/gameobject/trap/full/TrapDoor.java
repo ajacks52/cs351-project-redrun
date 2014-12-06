@@ -1,6 +1,7 @@
-package redrun.model.gameobject.trap;
+package redrun.model.gameobject.trap.full;
 
 import redrun.model.constants.Direction;
+import redrun.model.gameobject.trap.Trap;
 import redrun.model.toolkit.ShaderLoader;
 import static org.lwjgl.opengl.GL11.*;
 

@@ -1,24 +1,25 @@
-package redrun.model.gameobject.trap;
+package redrun.model.gameobject.trap.full;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.glGetAttribLocation;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL20.glVertexAttrib3f;
 
-import java.util.Random;
-
 import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
 import redrun.model.constants.Direction;
+import redrun.model.gameobject.trap.Trap;
 import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.toolkit.ShaderLoader;
 
 public class PoleWall extends Trap
 {
-  Random rand = new Random();
-  ShaderLoader sl;
+  private ShaderLoader sl;
+  private int count = 0;
+  private boolean down = true;
+  private Direction orientation;
 
   public PoleWall(float x, float y, float z, Direction orientation, String textureName)
   {
@@ -26,14 +27,15 @@ public class PoleWall extends Trap
     float height = 17f;
     float radius = .6f;
     float resolution = .1f;
+    this.orientation = orientation;
 
     if (orientation == Direction.NORTH || orientation == Direction.SOUTH)
     {
-      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(4, 4, 12), new Quat4f(), 0);
+      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(4, 5, 12), new Quat4f(), 0);
     }
     if (orientation == Direction.WEST || orientation == Direction.EAST)
     {
-      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(12, 4, 4), new Quat4f(), 0);
+      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(12, 5, 4), new Quat4f(), 0);
     }
 
     // shaders to color the spikes red
@@ -47,7 +49,7 @@ public class PoleWall extends Trap
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
     {
-      
+
       if (orientation == Direction.NORTH || orientation == Direction.SOUTH)
       {
         glTranslatef(-2, 4, 0);
@@ -62,12 +64,12 @@ public class PoleWall extends Trap
       glColor3f(.1f, .1f, .1f);
       for (int poles = 0; poles < 8; poles++)
       {
-        
-        if (poles > 0  && (orientation == Direction.NORTH || orientation == Direction.SOUTH))
+
+        if (poles > 0 && (orientation == Direction.NORTH || orientation == Direction.SOUTH))
         {
           glTranslatef(4, 0, 6 * (float) (Math.pow(-1, poles)));
         }
-        else if (poles > 0  && (orientation == Direction.WEST || orientation == Direction.EAST))
+        else if (poles > 0 && (orientation == Direction.WEST || orientation == Direction.EAST))
         {
           glTranslatef(6 * (float) (Math.pow(-1, poles)), 0, 4);
         }
@@ -153,29 +155,50 @@ public class PoleWall extends Trap
   @Override
   public void activate()
   {
-    // TODO Auto-generated method stub
-
+    this.timer.resume();
   }
 
   @Override
   public void reset()
   {
     // TODO Auto-generated method stub
-
+    this.timer.pause();
+    this.timer.reset();
   }
 
   @Override
   public void interact()
   {
     // TODO Auto-generated method stub
-
   }
 
   @Override
   public void update()
   {
-    // TODO Auto-generated method stub
-
+    if (this.timer.getTime() > 0 && count < 15 && down)
+    {
+      count++;
+      if (orientation == Direction.EAST || orientation == Direction.WEST) body.translate(-1f, 0f, 0f);
+      if (orientation == Direction.SOUTH || orientation == Direction.NORTH) body.translate(0f, 0f, -1f);
+      if (count == 15)
+      {
+        down = false;
+      }
+    }
+    else if (count > 0 && !down && this.timer.getTime() > 4)
+    {
+      count--;
+      if (orientation == Direction.EAST || orientation == Direction.WEST) body.translate(1f, 0f, 0f);
+      if (orientation == Direction.SOUTH || orientation == Direction.NORTH) body.translate(0f, 0f, 1f);
+      if (count == 0)
+      {
+        down = true;
+      }
+    }
+    if (count == 0 && this.timer.getTime() > 0)
+    {
+      this.reset();
+    }
   }
 
 }

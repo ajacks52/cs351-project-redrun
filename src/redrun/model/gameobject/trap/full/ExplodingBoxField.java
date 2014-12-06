@@ -1,4 +1,4 @@
-package redrun.model.gameobject.trap;
+package redrun.model.gameobject.trap.full;
 
 import static org.lwjgl.opengl.GL11.GL_COMPILE;
 import static org.lwjgl.opengl.GL11.glGenLists;
@@ -6,6 +6,9 @@ import static org.lwjgl.opengl.GL11.glNewList;
 import redrun.model.constants.Constants;
 import redrun.model.constants.Direction;
 import redrun.model.game.GameData;
+import redrun.model.gameobject.trap.Trap;
+import redrun.model.gameobject.trap.piece.ExplosiveBox;
+import redrun.model.gameobject.trap.piece.NonExplosiveBox;
 import redrun.model.gameobject.world.Cube;
 
 public class ExplodingBoxField extends Trap

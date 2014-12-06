@@ -1,4 +1,4 @@
-package redrun.model.gameobject.trap;
+package redrun.model.gameobject.trap.full;
 
 import java.awt.Dimension;
 
@@ -7,6 +7,7 @@ import javax.vecmath.Quat4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import redrun.model.constants.Direction;
+import redrun.model.gameobject.trap.Trap;
 import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.toolkit.ShaderLoader;
 import static org.lwjgl.opengl.GL11.*;
