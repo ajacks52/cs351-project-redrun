@@ -15,5 +15,8 @@ public enum GameState
   WINNER,
 
   /** Player has lost. */
-  LOSER;
+  LOSER,
+  
+  /** Menu is up. */
+  MAIN_MENU;
 }
