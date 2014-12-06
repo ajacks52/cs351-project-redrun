@@ -158,7 +158,6 @@ public class Menu
 
     FontTools.renderText("Use the arrow keys to select an option then press enter", 20, 540, textColor, 1);
     FontTools.renderText("Number of clients must match selection", 20, 560, textColor, 1);
-    FontTools.draw3D();
   }
 
   /**
@@ -202,7 +201,6 @@ public class Menu
             70, 330, textColor, 1);
 
     FontTools.renderText("Press enter to return the main menu", 20, 540, textColor, 1);
-    FontTools.draw3D();
   }
 
   /**
@@ -210,7 +208,6 @@ public class Menu
    */
   private void errorText()
   {
-    FontTools.draw2D();
     FontTools.renderText("Connected Clients 0", 650, 7, textColor, 0);
 
     FontTools.renderText("I'm sorry there are only " + clients + " clients connected.", 20, 110, textColor, 2);
@@ -220,7 +217,6 @@ public class Menu
     FontTools.renderText("Play Ground", 20, 280, textColor, 2);
 
     FontTools.renderText("Press enter to return the main menu", 20, 540, textColor, 1);
-    FontTools.draw3D();
   }
   
   /**
