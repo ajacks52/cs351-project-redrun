@@ -269,9 +269,7 @@ public class GraphicsPhysicsTestJordan
       }
             
       // Draw text to the screen...
-      FontTools.draw2D();
       FontTools.renderText("Position: (" + player.getX() + ", " + player.getY() + ", " + player.getZ() + ")", 10, 10, Color.orange, 1);
-      FontTools.draw3D();
       
       PhysicsWorld.stepSimulation(1 / 60.0f);
       Timer.tick();

@@ -81,16 +81,18 @@ public class FontTools
    */
   public static void renderText(String text, int x, int y, Color color, int size)
   {
+    FontTools.start2DText();
     if (size == 0) fontSmall.drawString(x, y, text, color);
     if (size == 1) fontNormal.drawString(x, y, text, color);
     if (size == 2) fontBig.drawString(x, y, text, color);
     if (size == 3) fontBigger.drawString(x, y, text, color);
+    FontTools.stop2DText();
   }
 
   /**
    * Switches the drawing mode from 3D to 2D
    */
-  public static void draw2D()
+  private static void start2DText()
   {
     glEnable(GL_TEXTURE_2D);
     glShadeModel(GL_SMOOTH);
@@ -112,7 +114,7 @@ public class FontTools
   /**
    * Switches the drawing mode from 2D to 3D.
    */
-  public static void draw3D()
+  private static void stop2DText()
   {
     glDisable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);

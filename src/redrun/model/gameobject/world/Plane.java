@@ -12,7 +12,7 @@ import redrun.model.toolkit.BufferConverter;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
- * This class represents a cube that can be drawn in an OpenGL scene.
+ * This class represents a plane that can be drawn in an OpenGL scene.
  * 
  * @author Troy Squillaci
  * @version 1.0
@@ -21,11 +21,14 @@ import static org.lwjgl.opengl.GL11.*;
 public class Plane extends WorldObject
 {
   /**
-   * Creates a new cube at the specified position.
+   * Creates a new plane of the specified size at the specified location.
    * 
-   * @param x the initial x position
-   * @param y the initial y position
-   * @param z the initial z position
+   * @param x the x position of the plane
+   * @param y the y position of the plane
+   * @param z the z position of the plane
+   * @param textureName the texture to apply to the plane
+   * @param orientation the orientation of the plane
+   * @param size the size of the plane
    */
   public Plane(float x, float y, float z, String textureName, Direction orientation, float size)
   {
@@ -39,41 +42,42 @@ public class Plane extends WorldObject
     {
       glBegin(GL_QUADS);
       {
-        FloatBuffer materialColor = BufferConverter.asFloatBuffer(new float[] {0.2f, 0.2f, 1.0f, 1.0f});
+        FloatBuffer materialAmbient = BufferConverter.asFloatBuffer(new float[] {0.2f, 0.2f, 0.2f, 1.0f});
+        FloatBuffer materialDiffuse = BufferConverter.asFloatBuffer(new float[] {0.8f, 0.8f, 0.8f, 1.0f});
         FloatBuffer materialSpecular = BufferConverter.asFloatBuffer(new float[] {1.0f, 1.0f, 1.0f, 1.0f});
-        FloatBuffer materialEmission = BufferConverter.asFloatBuffer(new float[] {0.05f, 0.05f, 0.05f, 1.0f});
+        FloatBuffer materialShininess = BufferConverter.asFloatBuffer(new float[] {30.0f, 0.0f, 0.0f, 0.0f});
         
-        glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, materialColor);
+        glMaterial(GL_FRONT, GL_AMBIENT, materialAmbient);
+        glMaterial(GL_FRONT, GL_DIFFUSE, materialDiffuse);
         glMaterial(GL_FRONT, GL_SPECULAR, materialSpecular);
-        glMaterial(GL_FRONT, GL_EMISSION, materialEmission);
+        glMaterial(GL_FRONT, GL_SHININESS, materialShininess);
         
-        glNormal3f(0.0f, -1.0f, 0.0f);
-        glColor3f(1.0f, 1.0f, 1.0f);
+        glNormal3f(0.0f, 1.0f, 0.0f);
         
         switch (orientation)
         {
           case NORTH:
           {
-            glVertex3f(-size / 2, 0.0f, -size / 2);
-            glTexCoord2f(0, 0);
-            glVertex3f(size / 2, 0.0f, -size / 2);
-            glTexCoord2f(1, 0);
             glVertex3f(size / 2, 0.0f, size / 2);
-            glTexCoord2f(1, 1);
+            glTexCoord2f(0, 0);
             glVertex3f(-size / 2, 0.0f, size / 2);
             glTexCoord2f(0, 1);
+            glVertex3f(-size / 2, 0.0f, -size / 2);
+            glTexCoord2f(1, 1);
+            glVertex3f(size / 2, 0.0f, -size / 2);
+            glTexCoord2f(1, 0);
             break;
           }
           case EAST:
           {
             glVertex3f(size / 2, 0.0f, size / 2);
-            glTexCoord2f(0, 1);
-            glVertex3f(-size / 2, 0.0f, size / 2);
-            glTexCoord2f(1, 1);
-            glVertex3f(-size / 2, 0.0f, -size / 2);
-            glTexCoord2f(1, 0);
-            glVertex3f(size / 2, 0.0f, -size / 2);
             glTexCoord2f(0, 0);
+            glVertex3f(-size / 2, 0.0f, size / 2);
+            glTexCoord2f(0, 1);
+            glVertex3f(-size / 2, 0.0f, -size / 2);
+            glTexCoord2f(1, 1);
+            glVertex3f(size / 2, 0.0f, -size / 2);
+            glTexCoord2f(1, 0);
             break;
           }
           case SOUTH:

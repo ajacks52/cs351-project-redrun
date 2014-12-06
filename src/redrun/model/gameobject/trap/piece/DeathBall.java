@@ -1,4 +1,4 @@
-package redrun.model.gameobject.world;
+package redrun.model.gameobject.trap.piece;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -7,18 +7,22 @@ import java.nio.FloatBuffer;
 import org.lwjgl.util.glu.Sphere;
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.constants.Direction;
+import redrun.model.gameobject.trap.Trap;
 import redrun.model.physics.SpherePhysicsBody;
 import redrun.model.toolkit.BufferConverter;
 
-public class Ball extends WorldObject
+public class DeathBall extends Trap
 {  
   private Sphere sphere;
 
-  public Ball(float x, float y, float z, String textureName, float radius)
+  public DeathBall(float x, float y, float z,  Direction orientation, String textureName, float startTime)
   {
-    super(x, y, z, textureName);
+    super(x, y, z, orientation, null);
     
     this.sphere = new Sphere();
+    
+    float radius = 5;
     
     this.body = new SpherePhysicsBody(new Vector3f(x, y, z), radius, 1.0f);
     
@@ -62,5 +66,12 @@ public class Ball extends WorldObject
   {
     // TODO Auto-generated method stub
 
+  }
+
+  @Override
+  public void activate()
+  {
+    // TODO Auto-generated method stub
+    
   }
 }

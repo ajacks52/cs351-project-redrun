@@ -25,10 +25,10 @@ public class GameData
   /** The list of most active game objects. */
   private static LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
   
+
   /** Used for constructing the connections map. Holds buttons. */
   private static ArrayList<Button> buttons = new ArrayList<Button>();
-  
-  /** Used for constructing the connections map. Holds buttons. */
+
   private static ArrayList<Trap> traps = new ArrayList<Trap>();
 
   /** The mapping of buttons to traps. */
