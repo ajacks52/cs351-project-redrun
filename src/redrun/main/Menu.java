@@ -7,8 +7,8 @@ import redrun.model.constants.Constants;
 import redrun.model.toolkit.FontTools;
 
 /**
- * The main menu. Controls the keyboard input, state control and other aspects
- * of the main menu.
+ * The main menu. Takes input from the keyboard to display information about the
+ * game and exit the game.
  * 
  * @author Adam Mitchell, J. Jake Nichol
  * @version 1.0
@@ -16,17 +16,37 @@ import redrun.model.toolkit.FontTools;
  */
 public class Menu
 {
-  Color textColor = Color.white;
-  Color textSelectedColor = Color.gray;
-  Color[] options = new Color[5];
+  /** The menu's state. */
   private static MenuState state = MenuState.MAIN_MENU;
-  int selection = 0;
-  int clients = 0;
+
+  /** The menu's default color. */
+  private Color textColor = Color.white;
+
+  /** The menu's selected text color. */
+  private Color textSelectedColor = Color.gray;
+
+  /** An array of colors for the menu. */
+  private Color[] options = new Color[5];
+
+  /** The menu's default indentation. */
+  private int textIndentation = 70;
+
+  /** The number of menu options. */
+  private int numMenuOptions = 4;
+
+  /** The current selection number. */
+  private int selection = 0;
+
+  /** The number of clients. */
+  private int clients = 0;
 
   /**
-   *
+   * Contains all of the possible menu states. Possible states include: OFF,
+   * CONTROLS, HOW_TO, EXIT, MAIN_MENU, ERROR;
    * 
    * @author Adam Mitchell, J. Jake Nichol
+   * @version 1.0
+   * @since 2014-19-10
    */
   public static enum MenuState
   {
@@ -34,7 +54,7 @@ public class Menu
   }
 
   /**
-   * Menu constructor
+   * Creates a new menu.
    */
   public Menu()
   {
@@ -47,71 +67,51 @@ public class Menu
   }
 
   /**
-   * 
+   * Checks for keyboard input and handles it appropriately.
    */
   private void checkMenuInput()
   {
     while (Keyboard.next())
     {
-      if (Keyboard.getEventKey() == Keyboard.KEY_DOWN)
+      if (Keyboard.getEventKey() == Keyboard.KEY_DOWN && Keyboard.getEventKeyState() && selection < numMenuOptions - 1)
       {
-        if (Keyboard.getEventKeyState())
-        {
-          if (selection < 3)
-          {
-            ++selection;
-            options[selection - 1] = textColor;
-            options[selection] = textSelectedColor;
-          }
-        }
+        ++selection;
+        options[selection - 1] = textColor;
+        options[selection] = textSelectedColor;
       }
-      if (Keyboard.getEventKey() == Keyboard.KEY_UP)
+      else if (Keyboard.getEventKey() == Keyboard.KEY_UP && Keyboard.getEventKeyState() && selection > 0)
       {
-        if (Keyboard.getEventKeyState())
-        {
-          if (selection > 0)
-          {
-            --selection;
-            options[selection + 1] = textColor;
-            options[selection] = textSelectedColor;
-          }
-        }
+        --selection;
+        options[selection + 1] = textColor;
+        options[selection] = textSelectedColor;
       }
-      if (Keyboard.getEventKey() == Keyboard.KEY_RETURN)
+      else if (Keyboard.getEventKey() == Keyboard.KEY_RETURN && Keyboard.getEventKeyState())
       {
-        if (Keyboard.getEventKeyState())
-        {
-          state = MenuState.values()[selection];
-          System.out.println(state);
-        }
+        state = MenuState.values()[selection];
+        System.out.println(state);
       }
     }
   }
 
   /**
-   * Allows users to press enter to return to the menu
+   * Allows users to press enter to return to the menu.
    */
   private void backToMenuControls()
   {
     while (Keyboard.next())
     {
-      if (Keyboard.getEventKey() == Keyboard.KEY_RETURN)
+      if (Keyboard.getEventKey() == Keyboard.KEY_RETURN && Keyboard.getEventKeyState())
       {
-        if (Keyboard.getEventKeyState())
-        {
-          state = MenuState.valueOf("MAIN_MENU");
-          System.out.println(state);
-        }
+        state = MenuState.valueOf("MAIN_MENU");
+        System.out.println(state);
       }
     }
   }
 
   /**
-   * Controls the overall game state
+   * Controls the overall menu state.
    * 
-   * Use static field state and set it to a game state in the following way
-   * 
-   * state = GameState.NAME_OF_STATE
+   * Use static field state and set it to a game state in the following way.
    */
   public void stateControl()
   {
@@ -145,19 +145,19 @@ public class Menu
   }
 
   /**
-   * Prints the main menu text
+   * Prints the main menu text.
    */
   private void menuText()
   {
-    FontTools.renderText("Welcome to Red Run", 70, 110, textColor, 3);
+    FontTools.renderText("Welcome to Red Run", textIndentation, 110, textColor, 3);
 
-    FontTools.renderText("Back to Game", 70, 220, options[0], 2);
-    FontTools.renderText("Controls", 70, 260, options[1], 2);
-    FontTools.renderText("How to Play", 70, 300, options[2], 2);
-    FontTools.renderText("Exit", 70, 340, options[3], 2);
+    FontTools.renderText("Back to Game", textIndentation, 220, options[0], 2);
+    FontTools.renderText("Controls", textIndentation, 260, options[1], 2);
+    FontTools.renderText("How to Play", textIndentation, 300, options[2], 2);
+    FontTools.renderText("Exit", textIndentation, 340, options[3], 2);
 
-    FontTools.renderText("Use the arrow keys to select an option then press enter", 70, 540, textColor, 1);
-    FontTools.renderText("Number of clients must match selection", 70, 560, textColor, 1);
+    FontTools.renderText("Use the arrow keys to select an option then press enter", textIndentation, 540, textColor, 1);
+    FontTools.renderText("Number of clients must match selection", textIndentation, 560, textColor, 1);
   }
 
   /**
@@ -165,14 +165,14 @@ public class Menu
    */
   private void controlsText()
   {
-    FontTools.renderText("Controls", 70, 110, textColor, 3);
-    FontTools.renderText("Use WASD controls to walk around the map", 70, 170, textColor, 2);
-    FontTools.renderText("Press SPACE to jump", 70, 220, textColor, 2);
-    FontTools.renderText("In Spectator Mode, use SPACE to move upward and SHIFT", 70, 270, textColor, 2);
-    FontTools.renderText("to move downward", 70, 310, textColor, 2);
-    FontTools.renderText("Press ESC to open the menu", 70, 360, textColor, 2);
+    FontTools.renderText("Controls", textIndentation, 110, textColor, 3);
+    FontTools.renderText("Use WASD controls to walk around the map", textIndentation, 170, textColor, 2);
+    FontTools.renderText("Press SPACE to jump", textIndentation, 220, textColor, 2);
+    FontTools.renderText("In Spectator Mode, use SPACE to move upward and SHIFT", textIndentation, 270, textColor, 2);
+    FontTools.renderText("to move downward", textIndentation, 310, textColor, 2);
+    FontTools.renderText("Press ESC to open the menu", textIndentation, 360, textColor, 2);
 
-    FontTools.renderText("Press enter to return the main menu", 70, 540, textColor, 1);
+    FontTools.renderText("Press enter to return the main menu", textIndentation, 540, textColor, 1);
   }
 
   /**
@@ -180,16 +180,19 @@ public class Menu
    */
   private void howToText()
   {
-    FontTools.renderText("How to Play", 70, 110, textColor, 3);
+    FontTools.renderText("How to Play", textIndentation, 110, textColor, 3);
     FontTools.renderText(
-        "Players on the BLUE team try to get from the beginning of the obstacle course to the end without dying.", 70,
-        210, textColor, 1);
-    FontTools.renderText("Players on the RED team try to spring traps which will kill the BLUE team players.", 70, 250,
-        textColor, 1);
-    FontTools.renderText("For the BLUE team to win, at least one BLUE player must reach the end of the obstacle course.", 70, 290, textColor, 1);
-    FontTools.renderText("For the RED team to win, all of the BLUE players must be dead and without lives.", 70, 330, textColor, 1);
+        "Players on the BLUE team try to get from the beginning of the obstacle course to the end without dying.",
+        textIndentation, 210, textColor, 1);
+    FontTools.renderText("Players on the RED team try to spring traps which will kill the BLUE team players.",
+        textIndentation, 250, textColor, 1);
+    FontTools.renderText(
+        "For the BLUE team to win, at least one BLUE player must reach the end of the obstacle course.",
+        textIndentation, 290, textColor, 1);
+    FontTools.renderText("For the RED team to win, all of the BLUE players must be dead and without lives.",
+        textIndentation, 330, textColor, 1);
 
-    FontTools.renderText("Press enter to return the main menu", 70, 540, textColor, 1);
+    FontTools.renderText("Press enter to return the main menu", textIndentation, 540, textColor, 1);
   }
 
   /**
@@ -203,9 +206,9 @@ public class Menu
     FontTools.renderText("Feel free to test out the controls in the", 20, 240, textColor, 2);
     FontTools.renderText("Play Ground", 20, 280, textColor, 2);
 
-    FontTools.renderText("Press enter to return the main menu", 70, 540, textColor, 1);
+    FontTools.renderText("Press enter to return the main menu", textIndentation, 540, textColor, 1);
   }
-  
+
   /**
    * Gets the current state of the menu.
    * 
@@ -215,7 +218,7 @@ public class Menu
   {
     return state;
   }
-  
+
   /**
    * Sets the menu to the MAIN_MENU state.
    */
