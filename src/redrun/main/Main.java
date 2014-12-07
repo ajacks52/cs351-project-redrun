@@ -60,6 +60,7 @@ import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
+import redrun.model.toolkit.FontTools;
 import redrun.model.toolkit.Timing;
 import redrun.network.Client;
 import redrun.network.UserInput;
@@ -144,7 +145,8 @@ public class Main
     cameraManager = new CameraManager(spectatorCam, playerCam);
     
     // Show loading screen...
-    LoadingScreen.loadingScreen();
+//    LoadingScreen.loadingScreen();
+    FontTools.loadFonts();
   }
 
   /**
