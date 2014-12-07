@@ -40,9 +40,9 @@ public class JailDoor extends Trap
     super(x, y, z, orientation, null);
     // zero in the axis that is flat
     if (orientation == Direction.EAST || orientation == Direction.WEST)
-      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(5, 13, 0), new Quat4f(), 0.0f);
+      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(5, 10, 0), new Quat4f(), 0.0f);
     if (orientation == Direction.SOUTH || orientation == Direction.NORTH)
-      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0, 13, 5), new Quat4f(), 0.0f);
+      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0, 10, 5), new Quat4f(), 0.0f);
     float height = 7f;
     float radius = .5f;
     float resolution = .1f;

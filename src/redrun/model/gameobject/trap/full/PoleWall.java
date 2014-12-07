@@ -9,6 +9,8 @@ import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import com.bulletphysics.collision.dispatch.CollisionObject;
+
 import redrun.model.constants.Direction;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.physics.BoxPhysicsBody;
@@ -31,11 +33,23 @@ public class PoleWall extends Trap
 
     if (orientation == Direction.NORTH || orientation == Direction.SOUTH)
     {
-      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(4, 5, 12), new Quat4f(), 0);
+      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(4, 5, 12), new Quat4f(), 0)
+      {
+        public void collidedWith(CollisionObject other)
+        {
+          
+        }
+      };
     }
     if (orientation == Direction.WEST || orientation == Direction.EAST)
     {
-      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(12, 5, 4), new Quat4f(), 0);
+      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(12, 5, 4), new Quat4f(), 0)
+      {
+        public void collidedWith(CollisionObject other)
+        {
+          
+        }
+      };
     }
 
     // shaders to color the spikes red

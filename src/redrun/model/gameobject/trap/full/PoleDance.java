@@ -28,7 +28,6 @@ public class PoleDance extends Trap
     GameData.addGameObject(spear3);
     GameData.addGameObject(spear4);
     GameData.addGameObject(spear5);
-    
   }
 
   @Override

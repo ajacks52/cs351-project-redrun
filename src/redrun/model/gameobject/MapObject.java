@@ -69,54 +69,6 @@ public abstract class MapObject implements Comparable<MapObject>
       {
         break;
       }
-      case JAIL:
-      {
-        this.trap = new Jail(x, y, z, orientation, null);
-        break;
-      }
-      case SPIKE_FIELD:
-      {
-        if (this.getClass() == Pit.class) this.trap = new SpikeField(x, y, z, "ground9", orientation, new Dimension(10,
-            15), false);
-        else this.trap = new SpikeField(x, y, z, "ground9", orientation, new Dimension(10, 15), true);
-        break;
-      }
-      case SPIKE_TRAP_DOOR:
-      {
-        if (this.getClass() == Pit.class) this.trap = new SpikeTrapDoor(x, y + 0.8f, z, orientation, groundTexture,
-            true);
-        else this.trap = new SpikeTrapDoor(x, y + 0.8f, z, orientation, "ground16", false);
-        break;
-      }
-      case POLE_WALL:
-      {
-        if (orientation == Direction.EAST || orientation == Direction.WEST)
-        {
-          this.trap = new PoleWall(x + 16, y, z, orientation, wallTexture);
-        }
-        if (orientation == Direction.NORTH || orientation == Direction.SOUTH)
-        {
-          this.trap = new PoleWall(x, y, z - 16, orientation, wallTexture);
-        }
-        break;
-      }
-      case POLE_DANCE:
-      {
-        this.trap = new PoleDance(x, y + 0.05f, z, orientation, wallTexture);
-        break;
-      }
-
-      case ROCK_SMASH:
-      {
-        this.trap = new RockSmash(x, y + 5, z, orientation, "rock" + Constants.random.nextInt(3));
-
-        break;
-      }
-      case TRAP_DOOR:
-      {
-        this.trap = new TrapDoor(x, y, z, orientation, "ground16");
-        break;
-      }
 
       case EXPLODING_BOX_FIELD:
       {
@@ -130,6 +82,61 @@ public abstract class MapObject implements Comparable<MapObject>
         }
         break;
       }
+      
+      case JAIL:
+      {
+        this.trap = new Jail(x, y, z, orientation, null);
+        break;
+      }
+
+      case POLE_DANCE:
+      {
+        this.trap = new PoleDance(x, y + 0.05f, z, orientation, wallTexture);
+        break;
+      }
+
+      case POLE_WALL:
+      {
+        if (orientation == Direction.EAST || orientation == Direction.WEST)
+        {
+          this.trap = new PoleWall(x + 16, y, z, orientation, wallTexture);
+        }
+        if (orientation == Direction.NORTH || orientation == Direction.SOUTH)
+        {
+          this.trap = new PoleWall(x, y, z - 16, orientation, wallTexture);
+        }
+        break;
+      }
+      
+      case ROCK_SMASH:
+      {
+        this.trap = new RockSmash(x, y + 5, z, orientation, "rock" + Constants.random.nextInt(3));
+
+        break;
+      }
+      
+      case SPIKE_FIELD:
+      {
+        if (this.getClass() == Pit.class) this.trap = new SpikeField(x, y, z, "ground9", orientation, new Dimension(10,
+            15), false);
+        else this.trap = new SpikeField(x, y, z, "ground9", orientation, new Dimension(10, 15), true);
+        break;
+      }
+      
+      case SPIKE_TRAP_DOOR:
+      {
+        if (this.getClass() == Pit.class) this.trap = new SpikeTrapDoor(x, y + 0.8f, z, orientation, groundTexture,
+            true);
+        else this.trap = new SpikeTrapDoor(x, y + 0.8f, z, orientation, "ground16", false);
+        break;
+      }
+      
+      case TRAP_DOOR:
+      {
+        this.trap = new TrapDoor(x, y, z, orientation, "ground16");
+        break;
+      }
+
       default:
       {
         try
