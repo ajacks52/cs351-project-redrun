@@ -54,7 +54,7 @@ public abstract class BackgroundLoader
         lock.lock();
         redrun.model.toolkit.FontTools.loadFonts();
         lock.unlock();
-        drawable.destroy();
+//        drawable.destroy();
         System.out.println("-- Background Thread finished --");
         running = false;
       }

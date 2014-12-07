@@ -19,6 +19,7 @@ import redrun.model.gameobject.GameObject;
 import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.physics.CapsulePhysicsBody;
 import redrun.model.physics.PhysicsBody;
+import redrun.model.physics.PhysicsTools;
 import redrun.model.physics.PhysicsWorld;
 
 /**
@@ -48,7 +49,6 @@ public class Player extends GameObject
   /** The state of this player's life. */
   private boolean alive;
 
-  private KinematicCharacterController controller;
 
   /**
    * Creates a new player at the specified position.
@@ -65,7 +65,9 @@ public class Player extends GameObject
     super(x, y+10, z, textureName);
 
     
-    body = new CapsulePhysicsBody(new Vector3f(x, y, z), 2f, 100, 3);
+    body = new CapsulePhysicsBody(new Vector3f(x, y, z), 5f, 100f, 0f);
+    body.body.setCollisionFlags(body.body.getCollisionFlags() | CollisionFlags.CUSTOM_MATERIAL_CALLBACK);
+    PhysicsWorld.addToWatchList(body);
     camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, x, y, z, CameraType.PLAYER);
 
     this.name = name;
