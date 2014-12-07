@@ -138,7 +138,7 @@ public class Main
 
     // TODO Need to get the player data from the server...
     // Set up the cameras...
-    player = new Player(0.0f, 1.0f, 0.0f, "Linvala, Keeper of Silence", null, Team.BLUE);
+    player = new Player(0.0f, 1.0f, 0.0f, "Balthazar", null, Team.BLUE);
 
     Camera spectatorCam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f,
         1.0f, 0.0f, CameraType.SPECTATOR);

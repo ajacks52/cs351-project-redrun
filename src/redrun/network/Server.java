@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 import redrun.database.Map;
@@ -25,12 +24,11 @@ public class Server
   public static final String HOST = "127.0.0.1";
   public static final int PORT = 7777;
   private ServerSocket serverSocket;
-  private int counter = -1;
+  private static int counter = -1;
   private static LinkedList<MailMan> allConnections = new LinkedList<MailMan>();
   private static final long time = System.currentTimeMillis();
-
-  // list of players associated with a boolean value. If player data received
-  // for all players, then send
+  public static ArrayList<Map> mapData = new ArrayList<Map>();
+  public static ArrayList<MapObjectDB> mapObjectData = new ArrayList<MapObjectDB>();
 
   /**
    * Server instantiation
@@ -49,6 +47,8 @@ public class Server
       e.printStackTrace();
       System.exit(-1);
     }
+    mapData = RedRunDAO.getAllMaps();
+    mapObjectData = RedRunDAO.getAllMapObjects();
     waitForConnection();
   }
 
@@ -66,35 +66,7 @@ public class Server
         MailMan worker = new MailMan(client);
         worker.start();
         System.out.println("Server: *********** new Connection");
-        Player player = assignPlayer();
-
         allConnections.add(worker);
-        worker.send(player.toString());
-        // send client map
-        ArrayList<Map> mapInformation = RedRunDAO.getAllMaps();
-        for (Map map : mapInformation)
-        {
-          worker.send(map.toString());
-        }
-        // send client map objects
-        ArrayList<MapObjectDB> mapObjects = RedRunDAO.getAllMapObjects();
-        for (MapObjectDB mapObject : mapObjects)
-        {
-          worker.send(mapObject.toString());
-        }
-        // check to see if MailMen are ready to send data
-        // for (String playerRep : players.keySet())
-        // {
-        // if (Boolean.parseBoolean(playerRep))
-        // {
-        // System.out.println("TRUE");
-        // // System.out.println(playerRep.getName());
-        // }
-        // else
-        // {
-        // System.out.println("FALSE");
-        // }
-        // }
       }
       catch (IOException e)
       {
@@ -104,7 +76,7 @@ public class Server
     }
   }
 
-  private Player assignPlayer()
+  public static Player assignPlayer()
   {
     Player[] players = { new Player(0.0f, 1.0f, 0.0f, "Balthazar", null, Team.BLUE),
         new Player(0.0f, 4.0f, 0.0f, "Joel", null, Team.BLUE),
