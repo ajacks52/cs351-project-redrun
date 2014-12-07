@@ -21,10 +21,3 @@ Clone into the repository:
 git clone https://bitbucket.org/ggallinislove/redrun/
 
 ```
-
-### Use Ruby on server ###
-1. rvm use jruby
-
-### QA Ruby Code ###
-1. cd spec/
-2. rspec *
