@@ -36,6 +36,7 @@ import java.util.logging.Logger;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.Timer;
@@ -54,16 +55,14 @@ import redrun.model.game.ObjectFromDB;
 import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.player.Player;
-import redrun.model.gameobject.world.Ball;
 import redrun.model.gameobject.world.Cube;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
-import redrun.model.toolkit.FontTools;
 import redrun.model.toolkit.Timing;
 import redrun.network.Client;
-import redrun.network.UserInput;
+import redrun.sound.Sound;
 
 /**
  * This class is where RedRun begins execution.
@@ -78,7 +77,7 @@ public class Main
   private static boolean running = true;
 
   /** The game menu. */
-  private static Menu menu = new Menu();
+  private static Menu menu = null;
 
   /** The current game state for this client and its player. */
   private static GameState state = GameState.WAIT;
@@ -101,20 +100,15 @@ public class Main
   /** Used to access the database. */
   private static Map map = null;
 
-  private static UserInput input = null;
-
   /**
-   * Performs OpenGL initialization.
+   * Performs initialization.
    */
   private static void createResources()
   {
     // Connect to the server...
     client = new Client("127.0.0.1", 7777);
 
-    // Set up the user input...
-    input = new UserInput();
-
-    // Set up OpenGL...
+    // Set up OpenGL and OpenAL...
     try
     {
       Display.setDisplayMode(new DisplayMode(1280, 720));
@@ -122,10 +116,15 @@ public class Main
       Display.setTitle("RedRun Ice World");
       Display.create();
       Display.setVSyncEnabled(true);
+      
+      AL.create();
     }
     catch (LWJGLException ex)
     {
       Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+      Display.destroy();
+      AL.destroy();
+      System.exit(1);
     }
 
     // Set OpenGL states...
@@ -146,6 +145,8 @@ public class Main
 
     cameraManager = new CameraManager(spectatorCam, playerCam);
 
+    menu = new Menu();
+    
     // Show loading screen...
     LoadingScreen.loadingScreen();
   }
@@ -156,6 +157,9 @@ public class Main
    */
   private static void gameLoop()
   {
+    Sound ambient = new Sound("ambience/iceworld");
+    ambient.play();
+    
     // Create the skybox...
     SkyBox skybox = null;
 
@@ -356,6 +360,8 @@ public class Main
    */
   private static void destroyResources()
   {
+    GameData.soundManager.destroySounds();
+    AL.destroy();
     Display.destroy();
     client.requestDisconnect();
   }
