@@ -11,6 +11,8 @@ import javax.vecmath.Quat4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.util.vector.Vector3f;
 
+import com.bulletphysics.collision.dispatch.CollisionFlags;
+import com.bulletphysics.collision.dispatch.CollisionObject;
 import com.bulletphysics.collision.shapes.CollisionShape;
 import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.linearmath.DefaultMotionState;
@@ -27,6 +29,7 @@ public class PhysicsBody
 {
   private Transform trans = new Transform(); // used only to make getting faster
   public RigidBody body;
+  public boolean canJump = true;
 
   /**
    * Creates a simple physics body
@@ -45,7 +48,7 @@ public class PhysicsBody
     }
     body = new RigidBody(mass, new DefaultMotionState(new Transform(new Matrix4f(direction,
         PhysicsTools.openGLToBullet(center), 1))), collisionShape, fallInertia);
-    PhysicsWorld.addPhysicsBody(body);
+    PhysicsWorld.addPhysicsBody(this);
   }
 
   /**
@@ -101,9 +104,13 @@ public class PhysicsBody
   {
     // direction.normalise();
     float mass = getMass();
-    System.out.println("push: " + direction);
+//    System.out.println("push: " + direction);
     // body.applyCentralForce(PhysicsTools.openGLToBullet(direction));
-    body.setLinearVelocity(PhysicsTools.openGLToBullet(direction));
+    javax.vecmath.Vector3f vel = PhysicsTools.openGLToBullet(new Vector3f());
+    vel = body.getLinearVelocity(vel);
+    vel.x = direction.x;
+    vel.z = direction.z;
+    body.setLinearVelocity(vel);
   }
 
   /**
@@ -112,7 +119,10 @@ public class PhysicsBody
   public void jump()
   {
     // about 7 times their mass allows them to jump 2 meters
-    body.applyCentralImpulse(PhysicsTools.openGLToBullet(new Vector3f(0, getMass() * 7, 0)));
+    if (canJump) {
+      body.setLinearVelocity(PhysicsTools.openGLToBullet(new Vector3f(0, 50f, 0)));
+      canJump = false;
+    }
   }
 
   public float getPitch()
@@ -219,5 +229,17 @@ public class PhysicsBody
   public CollisionShape getCollisionShape()
   {
     return body.getCollisionShape();
+  }
+  
+  
+  public void callback()
+  {
+    
+  }
+  
+  public void collidedWith(CollisionObject other)
+  {
+    canJump = true;
+    System.out.println("collided with");
   }
 }

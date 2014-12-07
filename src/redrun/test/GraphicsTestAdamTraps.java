@@ -426,11 +426,14 @@ public class GraphicsTestAdamTraps
     // Movement related input...
     if (camera.getType() == CameraType.PLAYER)
     {
-      if (!Keyboard.isKeyDown(Keyboard.KEY_W) && !Keyboard.isKeyDown(Keyboard.KEY_A)
-          && !Keyboard.isKeyDown(Keyboard.KEY_D) && !Keyboard.isKeyDown(Keyboard.KEY_S))
-      {
-        
-      }
+//      if (!Keyboard.isKeyDown(Keyboard.KEY_W) && !Keyboard.isKeyDown(Keyboard.KEY_A)
+//          && !Keyboard.isKeyDown(Keyboard.KEY_D) && !Keyboard.isKeyDown(Keyboard.KEY_S))
+//      {
+//        player.getBody().body.setFriction(0);
+//      } else 
+//      {
+//        player.getBody().body.setFriction(15);
+//      }
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
       {
         camera.moveForward(movementSpeed * 2);

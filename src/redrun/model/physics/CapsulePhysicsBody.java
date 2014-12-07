@@ -4,6 +4,7 @@ import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import com.bulletphysics.collision.dispatch.CollisionFlags;
 import com.bulletphysics.collision.shapes.CapsuleShape;
 
 public class CapsulePhysicsBody extends PhysicsBody
@@ -20,7 +21,9 @@ public class CapsulePhysicsBody extends PhysicsBody
 
     body.setSleepingThresholds(0, 0);
     body.setAngularFactor(0);
-    //body.setDamping(.05f, 1);
-    body.setFriction(15f);
+    body.setDamping(0.85f, 1);
+    body.setFriction(1f);
+    body.setGravity(PhysicsTools.openGLToBullet(new Vector3f(0f,-100f,0f)));
+    body.setCollisionFlags(body.getCollisionFlags() | CollisionFlags.CUSTOM_MATERIAL_CALLBACK);
   }
 }
