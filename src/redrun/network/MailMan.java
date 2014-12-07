@@ -25,6 +25,7 @@ public class MailMan extends Thread
   private Socket client;
   private PrintWriter clientWriter;
   private BufferedReader clientReader;
+  private String playerName;
 
   /**
    * MailMan Instantiation
@@ -72,7 +73,7 @@ public class MailMan extends Thread
    */
   public void run()
   {
-    Pattern requestMapObjects = Pattern.compile("Send MapObjects");
+    Pattern inboundPlayerData = Pattern.compile("===\\sPlayer\\s===\\sLocation:(.*?)\\sName:(.*?)Texture:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s=== ");
     Pattern quitServer = Pattern.compile("quit$", Pattern.CASE_INSENSITIVE);
 
     while (true)
@@ -82,7 +83,7 @@ public class MailMan extends Thread
         String incomingMessage = clientReader.readLine();
         System.out.println("DICKNUTS: " + incomingMessage);
 
-        Matcher matchRequestMapObjects = requestMapObjects.matcher(incomingMessage);
+        Matcher matchInboundPlayer = inboundPlayerData.matcher(incomingMessage);
         Matcher matchQuitServer = quitServer.matcher(incomingMessage);
 
         if (matchQuitServer.find())
@@ -92,7 +93,7 @@ public class MailMan extends Thread
           Server.deleteClientFromList(this);
           break;
         }
-        else if (matchRequestMapObjects.find())
+        else if (matchInboundPlayer.find())
         {
           ArrayList<MapObjectDB> mapObjects = RedRunDAO.getAllMapObjects();
           for (MapObjectDB mapObject : mapObjects)
@@ -123,5 +124,22 @@ public class MailMan extends Thread
         e.printStackTrace();
       }
     }
+  }
+
+  /**
+   * @return the playerName
+   */
+  public String getPlayerName()
+  {
+    return playerName;
+  }
+
+  /**
+   * @param playerName the playerName to set
+   */
+  public void setPlayerName(String playerName)
+  {
+    System.out.println(playerName);
+    this.playerName = playerName;
   }
 }

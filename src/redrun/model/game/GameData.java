@@ -10,32 +10,39 @@ import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.world.Button;
+import redrun.sound.SoundManager;
 
 public class GameData
 {
-  // TODO Make this not public...
+  // Network related data...
   /** The network data that is to be turned into map objects or game objects. */
   public static volatile CopyOnWriteArrayList<String> networkData = new CopyOnWriteArrayList<String>();
 
   /** Used to keep track of the current map. */
-  private static Map map = null;
+  public static Map map = null;
 
+  // GameObject and MapObject realted data...
   /** The list of most active map objects. */
   public static LinkedList<MapObject> mapObjects = new LinkedList<MapObject>();
 
   /** The list of most active game objects. */
-  private static LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
+  public static LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
 
   /** Used for constructing the connections map. Holds buttons. */
-  private static ArrayList<Button> buttons = new ArrayList<Button>();
+  public static ArrayList<Button> buttons = new ArrayList<Button>();
 
-  private static ArrayList<Trap> traps = new ArrayList<Trap>();
+  /** Used for constructing the connections map. Holds traps. */
+  public static ArrayList<Trap> traps = new ArrayList<Trap>();
 
   /** The mapping of buttons to traps. */
-  private static HashMap<Button, Trap> connections = new HashMap<Button, Trap>();
+  public static HashMap<Button, Trap> connections = new HashMap<Button, Trap>();
+  
+  // Sounds related data...
+  /** The active sound manager. */
+  public static SoundManager soundManager = new SoundManager();
 
-  // Add methods...
-
+  
+  
   public static void addButton(Button button)
   {
     buttons.add(button);
@@ -132,5 +139,10 @@ public class GameData
         connections.put(buttons.get(i), traps.get(i));
       }
     }
+  }
+  
+  public static void destroy()
+  {
+    soundManager.destroySounds();
   }
 }
