@@ -50,7 +50,6 @@ import redrun.main.Menu.MenuState;
 import redrun.model.constants.CameraType;
 import redrun.model.constants.GameState;
 import redrun.model.constants.NetworkType;
-import redrun.model.constants.Team;
 import redrun.model.game.GameData;
 import redrun.model.game.ObjectFromDB;
 import redrun.model.gameobject.GameObject;
@@ -109,7 +108,7 @@ public class Main
   {
     // Connect to the server...
     client = new Client("127.0.0.1", 7777);
-    
+
     client.requestMapObjects();
     client.requestPlayer();
 
@@ -119,7 +118,7 @@ public class Main
       Display.setDisplayMode(new DisplayMode(1280, 720));
       Display.create();
       Display.setVSyncEnabled(true);
-      
+
       AL.create();
     }
     catch (LWJGLException ex)
@@ -139,7 +138,7 @@ public class Main
     glShadeModel(GL_SMOOTH);
 
     menu = new Menu();
-    
+
     // Show loading screen...
     LoadingScreen.loadingScreen();
   }
@@ -152,19 +151,21 @@ public class Main
   {
     Sound ambient = new Sound("ambience/iceworld");
     ambient.play();
-    
+
     // Create the skybox...
     SkyBox skybox = null;
 
     // Create the floor...
     Plane floor = null;
-    
+
+    // While information is being received from the network, parse it and
+    // display it accordingly
     while (!GameData.networkData.isEmpty())
     {
       for (String networkData : GameData.networkData)
       {
         NetworkType type = ObjectFromDB.parseNetworkType(networkData);
-        
+
         switch (type)
         {
           case MAP:
@@ -187,8 +188,8 @@ public class Main
           case PLAYER:
           {
             player = ObjectFromDB.createPlayer(networkData);
-            Camera spectatorCam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f,
-                1.0f, 0.0f, CameraType.SPECTATOR);
+            Camera spectatorCam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000,
+                0.0f, 1.0f, 0.0f, CameraType.SPECTATOR);
             Camera playerCam = player.getCamera();
             cameraManager = new CameraManager(spectatorCam, playerCam);
             break;
@@ -238,7 +239,7 @@ public class Main
         for (String networkData : GameData.networkData)
         {
           NetworkType type = ObjectFromDB.parseNetworkType(networkData);
-          
+
           switch (type)
           {
             case MAP:
@@ -282,7 +283,7 @@ public class Main
         }
         break;
       }
-      
+
       camera = cameraManager.getActiveCamera();
 
       // Get input from the user...
@@ -395,6 +396,7 @@ public class Main
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
     float dy = 0.0f;
+    @SuppressWarnings("unused")
     float dt = 0.0f;
 
     // Set the mouse sensitivity...
@@ -455,6 +457,11 @@ public class Main
     running = false;
   }
 
+  /**
+   * Main statement
+   * 
+   * @param args
+   */
   public static void main(String[] args)
   {
     createResources();

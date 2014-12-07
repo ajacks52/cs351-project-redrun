@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
  */
 public class StartLocation
 {
+  /** Location specified by x, y, and z for a starting location */
   private float x, y, z;
 
   /**
