@@ -197,7 +197,7 @@ public class Client
   /**
    * Requests to be disconnected from the server.
    */
-  public void requestDisconnet()
+  public void requestDisconnect()
   {
     this.write.println("Disconnect");
   }
