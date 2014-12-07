@@ -207,7 +207,6 @@ public class Client
     this.write.println(input.toString());
   }
   
-  
   public void sendPlayer(Player player)
   {
     this.write.println(player.toString());

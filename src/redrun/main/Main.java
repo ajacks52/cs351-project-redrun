@@ -290,11 +290,8 @@ public class Main
       
       if (ObjectFromDB.mapDrawn == true)
       {
-        // GameData.mapObjects.clear();
         GameData.networkData.clear();
-        client.requestMapObjects();
-        
-        //TODO For each game object, send to server.
+        client.sendPlayer(player);
       }
     }
   }
@@ -347,8 +344,6 @@ public class Main
     if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) camera.moveUp(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) camera.moveDown(movementSpeed * dt);
-    
-    System.out.println(input.toString());
   }
   
   /**
