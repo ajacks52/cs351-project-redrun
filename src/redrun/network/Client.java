@@ -40,7 +40,8 @@ public class Client
     System.out.println("Starting Client: " + timeDiff());
 
     // Try to connect until a connection is established...
-    while (!openConnection(host, portNumber));
+    while (!openConnection(host, portNumber))
+      ;
 
     // Start listening thread...
     listener = new ClientListener();
@@ -144,27 +145,26 @@ public class Client
 
     while (true)
     {
-//      System.out.println("Enter Command (Buy: #amount #price | Sell: #amount #price | Inventory | Quit):");
-//      String cmd = keyboard.nextLine();
-      
-      
+      // System.out.println("Enter Command (Buy: #amount #price | Sell: #amount #price | Inventory | Quit):");
+      // String cmd = keyboard.nextLine();
+
       if (information == null) continue;
       if (information.length() < 1) continue;
       // Matchers for checking input values
-//      Matcher matchBuy = buy.matcher(cmd);
-//      Matcher matchSell = sell.matcher(cmd);
-//      Matcher matchInventory = inventory.matcher(cmd);
-//      Matcher matchQuit = quit.matcher(cmd);
+      // Matcher matchBuy = buy.matcher(cmd);
+      // Matcher matchSell = sell.matcher(cmd);
+      // Matcher matchInventory = inventory.matcher(cmd);
+      // Matcher matchQuit = quit.matcher(cmd);
 
       // Check input if specified for buying
-//      if (matchBuy.find()) write.println(cmd);
-//      else if (matchSell.find()) write.println(cmd);
-//      else if (matchQuit.find())
-//      {
-        write.println(information);
-        break;
-//      }
-//      else System.out.println("Invalid input, please stop that!");
+      // if (matchBuy.find()) write.println(cmd);
+      // else if (matchSell.find()) write.println(cmd);
+      // else if (matchQuit.find())
+      // {
+      write.println(information);
+      break;
+      // }
+      // else System.out.println("Invalid input, please stop that!");
     }
   }
 
@@ -193,7 +193,7 @@ public class Client
   {
     this.write.println("Send MapObjects");
   }
-  
+
   /**
    * Requests to be disconnected from the server.
    */
@@ -201,12 +201,12 @@ public class Client
   {
     this.write.println("Disconnect");
   }
-  
+
   public void sendUserInput(UserInput input)
   {
     this.write.println(input.toString());
   }
-  
+
   public void sendPlayer(Player player)
   {
     this.write.println(player.toString());
@@ -248,6 +248,7 @@ public class Client
 
         Pattern getMapObject = Pattern
             .compile("(===\\sMap\\sObject\\s===)\\sID:(\\d+)\\sName:(\\w+)\\sLocation:(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\sGround Texture:(\\w+)\\sWall Texture:(\\w+)\\sDirection:(\\w+)\\sTrap Type:(.*?)\\sMap\\sID:(\\d+)\\s===");
+        Pattern quitGame = Pattern.compile("Disconnecting client...");
 
         // Pattern getGameObject = Pattern
         // .compile(".*(Game\\sObject).*ID:(\\d+)\\sPosition:(\\d+\\.\\d+),\\s(\\d+\\.\\d+),\\s(\\d+\\.\\d+)\\sPhysics:\\sMass:(-?\\d+\\.\\d+)\\sName:\\s(\\w+)\\s(===)");
@@ -262,6 +263,7 @@ public class Client
 
           Matcher matchMap = getMap.matcher(msg);
           Matcher matchMapObject = getMapObject.matcher(msg);
+          Matcher matchQuitGame = quitGame.matcher(msg);
           // Matcher matchGameObject = getGameObject.matcher(msg);
 
           if (matchMap.find())
@@ -272,6 +274,11 @@ public class Client
           else if (matchMapObject.find())
           {
             GameData.networkData.add(msg);
+          }
+          else if (matchQuitGame.find())
+          {
+            write.println(msg);
+            break;
           }
           // else if (matchGameObject.find())
           // {
