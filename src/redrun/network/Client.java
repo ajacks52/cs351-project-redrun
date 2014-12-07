@@ -139,7 +139,7 @@ public class Client
    */
   public void requestMapObjects()
   {
-    this.write.println("Send MapObjects");
+    this.write.println("Map");
   }
 
   /**
@@ -221,7 +221,7 @@ public class Client
         {
           // Wait for the next message from the server...
           String msg = reader.readLine();
-
+          
           Matcher matchMap = getMap.matcher(msg);
           Matcher matchMapObject = getMapObject.matcher(msg);
           Matcher matchQuitGame = quitGame.matcher(msg);

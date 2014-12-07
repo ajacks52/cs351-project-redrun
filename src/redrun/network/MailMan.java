@@ -91,7 +91,7 @@ public class MailMan extends Thread
   {
     Pattern playerData = Pattern
         .compile("===\\sPlayer\\s===\\sLocation:(.*?)\\sName:(.*?)\\sTexture:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
-    Pattern quitServer = Pattern.compile("quit$", Pattern.CASE_INSENSITIVE);
+    Pattern requestDisconnect = Pattern.compile("Disconnect");
     Pattern requestPlayer = Pattern.compile("Player");
     Pattern requestMapData = Pattern.compile("Map");
 
@@ -103,11 +103,11 @@ public class MailMan extends Thread
         // System.out.println("DICKNUTS: " + incomingMessage);
 
         Matcher matchInboundPlayer = playerData.matcher(incomingMessage);
-        Matcher matchQuitServer = quitServer.matcher(incomingMessage);
+        Matcher matchRequestDisconnect = requestDisconnect.matcher(incomingMessage);
         Matcher matchRequestPlayer = requestPlayer.matcher(incomingMessage);
         Matcher matchRequestMapData = requestMapData.matcher(incomingMessage);
 
-        if (matchQuitServer.find())
+        if (matchRequestDisconnect.find())
         {
           System.out.println("Quitting!");
           send("Disconnecting client...");
@@ -121,31 +121,21 @@ public class MailMan extends Thread
         }
         else if (matchRequestPlayer.find())
         {
-          send(Server.assignPlayer().toString());
+          send(Server.assignPlayer());
         }
         else if (matchRequestMapData.find())
         {
+          System.out.println("Client Requested Map Data");
+          
           for (Map map : Server.mapData)
           {
             this.send(map.toString());
           }
-          // send client map objects
           for (MapObjectDB mapObject : Server.mapObjectData)
           {
             this.send(mapObject.toString());
           }
         }
-        System.out.println("PLAYA: " + incomingMessage);
-
-        // Server.players;
-        // System.out.println("MailMan:" + mapObject);
-        // send(mapObject.toString());
-
-        // else
-        // {
-        // send(incomingMessage);
-        // }
-        // else Server.broadcast(incomingMessage);
       }
       catch (IOException e)
       {

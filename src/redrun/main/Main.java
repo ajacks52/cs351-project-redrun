@@ -49,6 +49,7 @@ import redrun.graphics.selection.Picker;
 import redrun.main.Menu.MenuState;
 import redrun.model.constants.CameraType;
 import redrun.model.constants.GameState;
+import redrun.model.constants.NetworkType;
 import redrun.model.constants.Team;
 import redrun.model.game.GameData;
 import redrun.model.game.ObjectFromDB;
@@ -108,13 +109,14 @@ public class Main
   {
     // Connect to the server...
     client = new Client("127.0.0.1", 7777);
+    
+    client.requestMapObjects();
+    client.requestPlayer();
 
     // Set up OpenGL and OpenAL...
     try
     {
       Display.setDisplayMode(new DisplayMode(1280, 720));
-      // TODO - Need to have the name of the active map be in the title...
-      Display.setTitle("RedRun Ice World");
       Display.create();
       Display.setVSyncEnabled(true);
       
@@ -135,16 +137,6 @@ public class Main
     glEnable(GL_LIGHT0);
     glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
-
-    // TODO Need to get the player data from the server...
-    // Set up the cameras...
-    player = new Player(0.0f, 1.0f, 0.0f, "Balthazar", null, Team.BLUE);
-
-    Camera spectatorCam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f,
-        1.0f, 0.0f, CameraType.SPECTATOR);
-    Camera playerCam = player.getCamera();
-
-    cameraManager = new CameraManager(spectatorCam, playerCam);
 
     menu = new Menu();
     
@@ -167,27 +159,54 @@ public class Main
     // Create the floor...
     Plane floor = null;
     
-    client.requestMapObjects();
-
     while (!GameData.networkData.isEmpty())
     {
-      for (String networkItem : GameData.networkData)
+      for (String networkData : GameData.networkData)
       {
-        if (!ObjectFromDB.mapDrawn)
+        NetworkType type = ObjectFromDB.parseNetworkType(networkData);
+        
+        switch (type)
         {
-          map = ObjectFromDB.createMap(networkItem);
-          if (!(map == null))
+          case MAP:
           {
+            map = ObjectFromDB.createMap(networkData);
+            Display.setTitle("RedRun " + map.getMapName());
             skybox = ObjectFromDB.createSkybox(map.getSkyBox());
             floor = ObjectFromDB.createFloor(map.getFloor());
+            break;
           }
-        }
-        else
-        {
-          MapObject object = ObjectFromDB.createMapObject(networkItem);
-          if (!GameData.mapObjects.contains(object))
+          case MAP_OBJECT:
           {
-            GameData.mapObjects.add(ObjectFromDB.createMapObject(networkItem));
+            MapObject object = ObjectFromDB.createMapObject(networkData);
+            if (!GameData.mapObjects.contains(object))
+            {
+              GameData.mapObjects.add(object);
+            }
+            break;
+          }
+          case PLAYER:
+          {
+            player = ObjectFromDB.createPlayer(networkData);
+            Camera spectatorCam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f,
+                1.0f, 0.0f, CameraType.SPECTATOR);
+            Camera playerCam = player.getCamera();
+            cameraManager = new CameraManager(spectatorCam, playerCam);
+            break;
+          }
+          case TRAP:
+          {
+            break;
+          }
+          default:
+          {
+            try
+            {
+              throw new IllegalArgumentException();
+            }
+            catch (IllegalArgumentException e)
+            {
+              e.printStackTrace();
+            }
           }
         }
       }
@@ -214,6 +233,56 @@ public class Main
 
     while (!Display.isCloseRequested() && running)
     {
+      while (!GameData.networkData.isEmpty())
+      {
+        for (String networkData : GameData.networkData)
+        {
+          NetworkType type = ObjectFromDB.parseNetworkType(networkData);
+          
+          switch (type)
+          {
+            case MAP:
+            {
+              map = ObjectFromDB.createMap(networkData);
+              Display.setTitle("RedRun " + map.getMapName());
+              skybox = ObjectFromDB.createSkybox(map.getSkyBox());
+              floor = ObjectFromDB.createFloor(map.getFloor());
+              break;
+            }
+            case MAP_OBJECT:
+            {
+              MapObject object = ObjectFromDB.createMapObject(networkData);
+              if (!GameData.mapObjects.contains(object))
+              {
+                GameData.mapObjects.add(object);
+              }
+              break;
+            }
+            case PLAYER:
+            {
+              ObjectFromDB.updatePlayer(networkData);
+              break;
+            }
+            case TRAP:
+            {
+              break;
+            }
+            default:
+            {
+              try
+              {
+                throw new IllegalArgumentException();
+              }
+              catch (IllegalArgumentException e)
+              {
+                e.printStackTrace();
+              }
+            }
+          }
+        }
+        break;
+      }
+      
       camera = cameraManager.getActiveCamera();
 
       // Get input from the user...

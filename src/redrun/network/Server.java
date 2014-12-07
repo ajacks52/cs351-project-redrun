@@ -9,8 +9,6 @@ import java.util.LinkedList;
 import redrun.database.Map;
 import redrun.database.MapObjectDB;
 import redrun.database.RedRunDAO;
-import redrun.model.constants.Team;
-import redrun.model.gameobject.player.Player;
 
 /**
  * Facilitate server functionality
@@ -24,7 +22,7 @@ public class Server
   public static final String HOST = "127.0.0.1";
   public static final int PORT = 7777;
   private ServerSocket serverSocket;
-  private static int counter = -1;
+  private static int counter = 0;
   private static LinkedList<MailMan> allConnections = new LinkedList<MailMan>();
   private static final long time = System.currentTimeMillis();
   public static ArrayList<Map> mapData = new ArrayList<Map>();
@@ -47,8 +45,10 @@ public class Server
       e.printStackTrace();
       System.exit(-1);
     }
+    
     mapData = RedRunDAO.getAllMaps();
     mapObjectData = RedRunDAO.getAllMapObjects();
+    
     waitForConnection();
   }
 
@@ -76,14 +76,15 @@ public class Server
     }
   }
 
-  public static Player assignPlayer()
+  public static String assignPlayer()
   {
-    Player[] players = { new Player(0.0f, 1.0f, 0.0f, "Balthazar", null, Team.BLUE),
-        new Player(0.0f, 4.0f, 0.0f, "Joel", null, Team.BLUE),
-        new Player(0.0f, 8.0f, 0.0f, "Archimedes", null, Team.BLUE),
-        new Player(0.0f, 1.0f, 0.0f, "Leeroy Jenkins", null, Team.BLUE) };
-    counter++;
-    return players[counter];
+    String[] players = {
+        "=== Player === Location:0.0, 1.0, 0.0 Name:Balthazar Texture:button Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
+        "=== Player === Location:0.0, 1.0, 0.0 Name:Joel Texture:button Team Name:RED Health:100 Lives left:5 Alive:true ===",
+        "=== Player === Location:0.0, 1.0, 0.0 Name:Archimedes Texture:button Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
+        "=== Player === Location:0.0, 1.0, 0.0 Name:Leeroy Jenkins Texture:button Team Name:BLUE Health:100 Lives left:5 Alive:true ==="
+    };
+    return players[counter++];
   }
 
   /**
