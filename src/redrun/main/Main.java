@@ -68,7 +68,8 @@ import redrun.sound.Sound;
 /**
  * This class is where RedRun begins execution.
  * 
- * @author Troy Squillaci, Jake Nichol, Jayson Grace, Adam Michell, Jordan Medlock
+ * @author Troy Squillaci, Jake Nichol, Jayson Grace, Adam Michell, Jordan
+ *         Medlock
  * @version 1.0
  * @since 2014-11-09
  */
@@ -327,7 +328,7 @@ public class Main
 
     // Set the mouse sensitivity...
     float mouseSensitivity = 0.08f;
-    float movementSpeed = 0.02f;
+    float movementSpeed = 20.0f;
 
     dx = Mouse.getDX();
     dy = Mouse.getDY();
@@ -343,16 +344,25 @@ public class Main
     }
 
     // Movement related input...
-    if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+    if (camera.getType() == CameraType.PLAYER)
     {
-      camera.moveForward(movementSpeed * dt * 2);
+      if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+      {
+        player.walkForward(movementSpeed * 2);
+      }
+      else if (Keyboard.isKeyDown(Keyboard.KEY_W)) player.walkForward(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_S)) player.walkBackward(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_A)) player.walkLeft(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_D)) player.walkRight(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) player.jump();
     }
-    else if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) camera.moveUp(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) camera.moveDown(movementSpeed * dt);
+    else if (camera.getType() == CameraType.SPECTATOR)
+    {
+      if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed);
+    }
   }
 
   /**
