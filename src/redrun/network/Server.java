@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import redrun.database.Map;
 import redrun.database.MapObjectDB;
 import redrun.database.RedRunDAO;
+import redrun.model.constants.Team;
+import redrun.model.gameobject.player.Player;
 
 /**
  * Facilitate server functionality
@@ -22,8 +25,12 @@ public class Server
   public static final String HOST = "127.0.0.1";
   public static final int PORT = 7777;
   private ServerSocket serverSocket;
+  private int counter = -1;
   private static LinkedList<MailMan> allConnections = new LinkedList<MailMan>();
   private static final long time = System.currentTimeMillis();
+
+  // list of players associated with a boolean value. If player data received
+  // for all players, then send
 
   /**
    * Server instantiation
@@ -59,7 +66,10 @@ public class Server
         MailMan worker = new MailMan(client);
         worker.start();
         System.out.println("Server: *********** new Connection");
+        Player player = assignPlayer();
+
         allConnections.add(worker);
+        worker.send(player.toString());
         // send client map
         ArrayList<Map> mapInformation = RedRunDAO.getAllMaps();
         for (Map map : mapInformation)
@@ -72,6 +82,19 @@ public class Server
         {
           worker.send(mapObject.toString());
         }
+        // check to see if MailMen are ready to send data
+        // for (String playerRep : players.keySet())
+        // {
+        // if (Boolean.parseBoolean(playerRep))
+        // {
+        // System.out.println("TRUE");
+        // // System.out.println(playerRep.getName());
+        // }
+        // else
+        // {
+        // System.out.println("FALSE");
+        // }
+        // }
       }
       catch (IOException e)
       {
@@ -79,6 +102,16 @@ public class Server
         e.printStackTrace();
       }
     }
+  }
+
+  private Player assignPlayer()
+  {
+    Player[] players = { new Player(0.0f, 1.0f, 0.0f, "Balthazar", null, Team.BLUE),
+        new Player(0.0f, 4.0f, 0.0f, "Joel", null, Team.BLUE),
+        new Player(0.0f, 8.0f, 0.0f, "Archimedes", null, Team.BLUE),
+        new Player(0.0f, 1.0f, 0.0f, "Leeroy Jenkins", null, Team.BLUE) };
+    counter++;
+    return players[counter];
   }
 
   /**

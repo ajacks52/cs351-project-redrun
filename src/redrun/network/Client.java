@@ -23,13 +23,13 @@ public class Client
 {
   /** The socket connection to the server. */
   private Socket clientSocket;
-  
+
   /** For sending messages to the server. */
   private PrintWriter write;
-  
+
   /** For receiving messages from the server. */
   private BufferedReader reader;
-  
+
   /** Listens for messages from the server. */
   private ClientListener listener;
 
@@ -42,7 +42,8 @@ public class Client
   public Client(String host, int portNumber)
   {
     // Try to connect until a connection is established...
-    while (!openConnection(host, portNumber));
+    while (!openConnection(host, portNumber))
+      ;
 
     // Start listening thread...
     listener = new ClientListener();
@@ -202,9 +203,11 @@ public class Client
 
         Pattern getMapObject = Pattern
             .compile("(===\\sMap\\sObject\\s===)\\sID:(\\d+)\\sName:(\\w+)\\sLocation:(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\sGround Texture:(\\w+)\\sWall Texture:(\\w+)\\sDirection:(\\w+)\\sTrap Type:(.*?)\\sMap\\sID:(\\d+)\\s===");
+        Pattern inboundPlayerData = Pattern
+            .compile("===\\sPlayer\\s===\\sLocation:(.*?)\\sName:(.*?)\\sTexture:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
         Pattern quitGame = Pattern.compile("Disconnecting client...");
-        
-        //TODO Parse incoming player information.
+
+        // TODO Parse incoming player information.
 
         try
         {
@@ -214,6 +217,7 @@ public class Client
           Matcher matchMap = getMap.matcher(msg);
           Matcher matchMapObject = getMapObject.matcher(msg);
           Matcher matchQuitGame = quitGame.matcher(msg);
+          Matcher matchInboundPlayerData = inboundPlayerData.matcher(msg);
 
           if (matchMap.find())
           {
@@ -227,6 +231,10 @@ public class Client
           {
             write.println(msg);
             break;
+          }
+          else if (matchInboundPlayerData.find())
+          {
+            GameData.networkData.add(msg);
           }
           else
           {

@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,7 +27,20 @@ public class MailMan extends Thread
   private Socket client;
   private PrintWriter clientWriter;
   private BufferedReader clientReader;
-  private String playerName;
+  private String playerData;
+  private boolean playerReady = false;
+  private boolean trapReady = false;
+
+  protected boolean isReady()
+  {
+    return playerReady && trapReady;
+  }
+
+  protected void resetReady()
+  {
+    this.playerReady = false;
+    this.trapReady = false;
+  }
 
   /**
    * MailMan Instantiation
@@ -73,7 +88,8 @@ public class MailMan extends Thread
    */
   public void run()
   {
-    Pattern inboundPlayerData = Pattern.compile("===\\sPlayer\\s===\\sLocation:(.*?)\\sName:(.*?)Texture:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s=== ");
+    Pattern inboundPlayerData = Pattern
+        .compile("===\\sPlayer\\s===\\sLocation:(.*?)\\sName:(.*?)\\sTexture:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
     Pattern quitServer = Pattern.compile("quit$", Pattern.CASE_INSENSITIVE);
 
     while (true)
@@ -81,7 +97,7 @@ public class MailMan extends Thread
       try
       {
         String incomingMessage = clientReader.readLine();
-        System.out.println("DICKNUTS: " + incomingMessage);
+        // System.out.println("DICKNUTS: " + incomingMessage);
 
         Matcher matchInboundPlayer = inboundPlayerData.matcher(incomingMessage);
         Matcher matchQuitServer = quitServer.matcher(incomingMessage);
@@ -95,22 +111,14 @@ public class MailMan extends Thread
         }
         else if (matchInboundPlayer.find())
         {
-          ArrayList<MapObjectDB> mapObjects = RedRunDAO.getAllMapObjects();
-          for (MapObjectDB mapObject : mapObjects)
-          {
-            // System.out.println("MailMan:" + mapObject);
-            send(mapObject.toString());
-          }
+          this.playerData = incomingMessage;
+          playerReady = true;
         }
-        // ArrayList<MapObjectDB> mapStuff = RedRunDAO.getAllMapObjects();
-        // for (MapObjectDB mapObject : mapStuff)
-        // {
+        System.out.println("PLAYA: " + incomingMessage);
+
+        // Server.players;
+        // System.out.println("MailMan:" + mapObject);
         // send(mapObject.toString());
-        // }
-        // break;
-        // }
-        // if client is sending updated game object information, send to all
-        // other clients
 
         // else
         // {
@@ -124,22 +132,5 @@ public class MailMan extends Thread
         e.printStackTrace();
       }
     }
-  }
-
-  /**
-   * @return the playerName
-   */
-  public String getPlayerName()
-  {
-    return playerName;
-  }
-
-  /**
-   * @param playerName the playerName to set
-   */
-  public void setPlayerName(String playerName)
-  {
-    System.out.println(playerName);
-    this.playerName = playerName;
   }
 }
