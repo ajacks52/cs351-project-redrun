@@ -261,7 +261,7 @@ public class Player extends GameObject
   public String toString()
   {
     //@formatter:off
-    return "=== Map Object === " + "Location:" + body.getX() + ", " + body.getY() + ", " + body.getZ() + " Name:" + this.name
+    return "=== Player === " + "Location:" + body.getX() + ", " + body.getY() + ", " + body.getZ() + " Name:" + this.name
         + " Texture:" + this.texture + " Team Name:" + this.team + " Health:"
         + this.health + " Lives left:" + this.lives + " Alive:" + this.alive + " ===";
     //@formatter:on
