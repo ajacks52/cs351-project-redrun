@@ -408,7 +408,7 @@ public class GraphicsTestAdamTraps
 
     // Set the mouse sensitivity...
     float mouseSensitivity = 0.08f;
-    float movementSpeed = 10f;
+    float movementSpeed = 20f;
 
     dx = Mouse.getDX();
     dy = Mouse.getDY();
@@ -426,6 +426,7 @@ public class GraphicsTestAdamTraps
     // Movement related input...
     if (camera.getType() == CameraType.PLAYER)
     {
+      
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
       {
         camera.moveForward(movementSpeed * 2);

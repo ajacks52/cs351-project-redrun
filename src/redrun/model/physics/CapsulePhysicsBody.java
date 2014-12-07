@@ -5,7 +5,6 @@ import javax.vecmath.Quat4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.bulletphysics.collision.shapes.CapsuleShape;
-import com.bulletphysics.collision.shapes.SphereShape;
 
 public class CapsulePhysicsBody extends PhysicsBody
 {
@@ -21,5 +20,7 @@ public class CapsulePhysicsBody extends PhysicsBody
 
     body.setSleepingThresholds(0, 0);
     body.setAngularFactor(0);
+    //body.setDamping(.05f, 1);
+    body.setFriction(15f);
   }
 }

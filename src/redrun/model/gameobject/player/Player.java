@@ -62,11 +62,11 @@ public class Player extends GameObject
    */
   public Player(float x, float y, float z, String name, String textureName, Team team)
   {
-    super(x, y, z, textureName);
+    super(x, y+10, z, textureName);
 
     
-    body = new CapsulePhysicsBody(new Vector3f(x, y, z), .5f, 10, 1);
-    camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, -x, -y, -z, CameraType.PLAYER);
+    body = new CapsulePhysicsBody(new Vector3f(x, y, z), 4f, 100, 3);
+    camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, x, y, z, CameraType.PLAYER);
 
     this.name = name;
     this.team = team;
@@ -128,7 +128,7 @@ public class Player extends GameObject
 
   public void lookThrough()
   {
-    camera.updatePosition(this.getX(), this.getY() + 2f, this.getZ(), body.getPitch(), body.getYaw());
+    camera.updatePosition(this.getX(), this.getY() + 3f, this.getZ(), body.getPitch(), body.getYaw());
     camera.lookThrough();
   }
 

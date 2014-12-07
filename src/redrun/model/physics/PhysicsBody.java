@@ -154,8 +154,8 @@ public class PhysicsBody
     Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
     // float x = -(float) (Math.sin(PhysicsTools.yawFromQuat(q)) * speed);
     // float z = (float) (Math.cos(PhysicsTools.yawFromQuat(q)) * speed);
-    float x = -(float) (Math.sin(yaw) * speed);
-    float z = (float) (Math.cos(yaw) * speed);
+    float x = (float) (Math.sin(Math.toRadians(yaw)) * speed);
+    float z = -(float) (Math.cos(Math.toRadians(yaw)) * speed);
     push(new Vector3f(x, 0, z));
   }
 
@@ -165,8 +165,8 @@ public class PhysicsBody
     Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
     // float x = (float) (Math.sin(PhysicsTools.yawFromQuat(q)) * speed);
     // float z = -(float) (Math.cos(PhysicsTools.yawFromQuat(q)) * speed);
-    float x = (float) (Math.sin(yaw) * speed);
-    float z = -(float) (Math.cos(yaw) * speed);
+    float x = -(float) (Math.sin(Math.toRadians(yaw)) * speed);
+    float z = (float) (Math.cos(Math.toRadians(yaw)) * speed);
 
     push(new Vector3f(x, 0, z));
   }
@@ -180,8 +180,8 @@ public class PhysicsBody
     // speed);
     // float z = (float) (Math.sin(PhysicsTools.yawFromQuat(q) + Math.PI / 4) *
     // speed);
-    float x = (float) (Math.sin(yaw) * speed);
-    float z = (float) (Math.cos(yaw) * speed);
+    float x = (float) (Math.sin(Math.toRadians(yaw - 90)) * speed);
+    float z = -(float) (Math.cos(Math.toRadians(yaw - 90)) * speed);
     push(new Vector3f(x, 0, z));
   }
 
@@ -193,9 +193,9 @@ public class PhysicsBody
     // speed);
     // float y = (float) (Math.sin(PhysicsTools.yawFromQuat(q) - Math.PI / 4) *
     // speed);
-    float x = -(float) (Math.sin(yaw) * speed);
-    float y = (float) (Math.cos(yaw) * speed);
-    push(new Vector3f(x, y, 0));
+    float x = (float) (Math.sin(Math.toRadians(yaw + 90)) * speed);
+    float z = -(float) (Math.cos(Math.toRadians(yaw + 90)) * speed);
+    push(new Vector3f(x, 0, z));
   }
 
   public FloatBuffer getOpenGLTransformMatrix()
