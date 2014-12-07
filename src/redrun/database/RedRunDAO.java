@@ -92,41 +92,6 @@ public class RedRunDAO
   }
 
   /**
-   * Insert new character into the Character table
-   * 
-   * @param characterName name of new character
-   * @param image image associated with new character
-   * @param team team of new character
-   * @param startLocation starting location of new character
-   * @param mapId associated map id
-   * @return true if character created, otherwise false
-   */
-  public static boolean insertCharacter(String characterName, String image, String team, String startLocation, int mapId)
-  {
-    try
-    {
-      String sql = "INSERT INTO characters(character_name, image, team, start_loc, map_id) VALUES (?, ?, ?, ?, ?)";
-
-      /** F**k SQL Injections. */
-      PreparedStatement pstmt = c.prepareStatement(sql);
-      pstmt.setString(1, characterName);
-      pstmt.setString(2, image);
-      pstmt.setString(3, team);
-      pstmt.setString(4, startLocation);
-      pstmt.setInt(5, mapId);
-      pstmt.executeUpdate();
-      pstmt.close();
-      return true;
-    }
-    catch (SQLException e)
-    {
-      System.err.println(e.getClass().getName() + ": " + e.getMessage());
-      System.exit(0);
-    }
-    return false;
-  }
-
-  /**
    * 
    * @param objectName name of map object
    * @param location location of map object
@@ -275,52 +240,6 @@ public class RedRunDAO
   }
 
   /**
-   * Get a list of all characters in the Character table
-   * 
-   * @return list of all items in the Characters database
-   */
-  public static ArrayList<Character> getAllCharacters()
-  {
-    ArrayList<Character> characterList = new ArrayList<Character>();
-    try
-    {
-      Statement sqlStatement = c.createStatement();
-
-      ResultSet rs = sqlStatement.executeQuery("SELECT * FROM characters;");
-      while (rs.next())
-      {
-        int id = rs.getInt("id");
-        String characterName = rs.getString("character_name");
-        String image = rs.getString("image");
-        String team = rs.getString("team");
-        String startLocation = rs.getString("start_loc");
-        int mapId = rs.getInt("map_id");
-        Character character = new Character(id, characterName, image, team, startLocation, mapId);
-
-        characterList.add(character);
-        if (DEBUG)
-        {
-          System.out.println(id);
-          System.out.println(characterName);
-          System.out.println(image);
-          System.out.println(team);
-          System.out.println(startLocation);
-          System.out.println(mapId);
-        }
-      }
-      rs.close();
-      sqlStatement.close();
-      return characterList;
-    }
-    catch (SQLException e)
-    {
-      System.err.println(e.getClass().getName() + ": " + e.getMessage());
-      System.exit(0);
-    }
-    return null;
-  }
-
-  /**
    * Get a list of all map objects in the MapObjects table
    * 
    * @return list of all items in the MapObjects database
@@ -383,31 +302,6 @@ public class RedRunDAO
     {
       Statement sqlStatement = c.createStatement();
       String sql = "DELETE FROM maps WHERE map_name = " + "'" + mapName + "'";
-
-      sqlStatement.execute(sql);
-      sqlStatement.close();
-      return true;
-    }
-    catch (SQLException e)
-    {
-      System.err.println(e.getClass().getName() + ": " + e.getMessage());
-      System.exit(0);
-    }
-    return false;
-  }
-
-  /**
-   * Delete a specified character out of the Character table
-   * 
-   * @param characterName name of character to delete
-   * @return true if successfully deleted, false otherwise
-   */
-  public static boolean deleteCharacter(String characterName)
-  {
-    try
-    {
-      Statement sqlStatement = c.createStatement();
-      String sql = "DELETE FROM characters WHERE character_name = " + "'" + characterName + "'";
 
       sqlStatement.execute(sql);
       sqlStatement.close();
