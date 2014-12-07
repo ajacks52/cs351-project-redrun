@@ -83,6 +83,21 @@ public class PhysicsBody
     trans = body.getMotionState().getWorldTransform(trans);
     return trans.origin.z;
   }
+  
+  /**
+   * Sets the global position of the PhysicsBody
+   * 
+   * @param x
+   * @param y
+   * @param z
+   */
+  public void setPosition(float x, float y, float z)
+  {
+    trans = body.getMotionState().getWorldTransform(trans);
+    trans.origin.x = x;
+    trans.origin.y = y;
+    trans.origin.z = z;
+  }
 
   /**
    * Gets the mass
