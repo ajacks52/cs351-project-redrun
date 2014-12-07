@@ -147,26 +147,10 @@ public class Spear extends Trap
   {
   }
 
-  private void restart()
-  {
-    this.timer.reset();
-  }
-
   @Override
   public void update()
   {
-    if (count == 0 && this.timer.getTime() > startTime)
-    {
-      this.restart();
-      System.out.println(" " + this.timer.getTime() + " " + time + 7000);
-      //System.out.println(this.body.getY());
-      if (Timing.getTime() > time + 7000)
-      {
-        System.out.println("**********************");
-        this.reset();
-      }
-    }
-    
+
     if (this.timer.getTime() > startTime && count < 14 && !down)
     {
       count++;
@@ -176,13 +160,18 @@ public class Spear extends Trap
         down = true;
       }
     }
-    else if (count > 0 && this.timer.getTime() > startTime && down)
+
+    if (count > 0 && this.timer.getTime() > startTime && down)
     {
       count--;
       body.translate(0f, -.5f, 0f);
       if (count == 0)
       {
         down = false;
+        if (Timing.getTime() > time + 7000)
+        {
+          this.reset();
+        }
       }
     }
 
