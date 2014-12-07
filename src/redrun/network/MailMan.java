@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import redrun.database.Map;
 import redrun.database.MapObjectDB;
 import redrun.database.RedRunDAO;
 
@@ -88,9 +89,11 @@ public class MailMan extends Thread
    */
   public void run()
   {
-    Pattern inboundPlayerData = Pattern
+    Pattern playerData = Pattern
         .compile("===\\sPlayer\\s===\\sLocation:(.*?)\\sName:(.*?)\\sTexture:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
     Pattern quitServer = Pattern.compile("quit$", Pattern.CASE_INSENSITIVE);
+    Pattern requestPlayer = Pattern.compile("Player");
+    Pattern requestMapData = Pattern.compile("Map");
 
     while (true)
     {
@@ -99,8 +102,10 @@ public class MailMan extends Thread
         String incomingMessage = clientReader.readLine();
         // System.out.println("DICKNUTS: " + incomingMessage);
 
-        Matcher matchInboundPlayer = inboundPlayerData.matcher(incomingMessage);
+        Matcher matchInboundPlayer = playerData.matcher(incomingMessage);
         Matcher matchQuitServer = quitServer.matcher(incomingMessage);
+        Matcher matchRequestPlayer = requestPlayer.matcher(incomingMessage);
+        Matcher matchRequestMapData = requestMapData.matcher(incomingMessage);
 
         if (matchQuitServer.find())
         {
@@ -113,6 +118,22 @@ public class MailMan extends Thread
         {
           this.playerData = incomingMessage;
           playerReady = true;
+        }
+        else if (matchRequestPlayer.find())
+        {
+          send(Server.assignPlayer().toString());
+        }
+        else if (matchRequestMapData.find())
+        {
+          for (Map map : Server.mapData)
+          {
+            this.send(map.toString());
+          }
+          // send client map objects
+          for (MapObjectDB mapObject : Server.mapObjectData)
+          {
+            this.send(mapObject.toString());
+          }
         }
         System.out.println("PLAYA: " + incomingMessage);
 
