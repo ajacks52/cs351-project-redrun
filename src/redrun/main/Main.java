@@ -194,7 +194,7 @@ public class Main
     // Create balls above the staircase...
     for (int i = 0; i < 10; i++)
     {
-      GameData.addGameObject(new Ball(45.0f, 50.0f + (5 * i), 15.0f, "crate1", 1.5f));
+      //GameData.addGameObject(new Ball(45.0f, 50.0f + (5 * i), 15.0f, "crate1", 1.5f));
     }
             
     // Hide the mouse cursor...
