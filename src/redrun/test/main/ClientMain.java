@@ -86,7 +86,7 @@ public class ClientMain
   private static boolean running = true;
 
   /** The game menu. */
-  private static Menu menu = new Menu();
+  private static Menu menu = null;
 
   /** The current game state for this client and its player. */
   private static GameState state = GameState.WAIT;
@@ -120,6 +120,8 @@ public class ClientMain
     {
       Logger.getLogger(ClientMain.class.getName()).log(Level.SEVERE, null, ex);
     }
+
+    menu = new Menu();
 
     player = new Player(0.0f, 1.0f, 0.0f, "Linvala, Keeper of Silence", null, Team.BLUE);
 
@@ -406,7 +408,7 @@ public class ClientMain
       // Draw the game objects...
       for (GameObject gameObject : GameData.getGameObjects())
       {
-        gameObject.draw();
+         gameObject.draw(); // TODO
       }
 
       // Draw text to the screen...
