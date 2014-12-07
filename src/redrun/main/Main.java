@@ -352,7 +352,7 @@ public class Main
   private static void destroyResources()
   {
     Display.destroy();
-    client.requestDisconnet();
+    client.requestDisconnect();
   }
   
   /**
