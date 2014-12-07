@@ -8,6 +8,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import redrun.database.Map;
 import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
+import redrun.model.gameobject.player.Player;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.world.Button;
 import redrun.sound.SoundManager;
@@ -22,6 +23,9 @@ public class GameData
   public static Map map = null;
 
   // GameObject and MapObject realted data...
+  /** The list of players. */
+  public static LinkedList<Player> players = new LinkedList<Player>();
+  
   /** The list of most active map objects. */
   public static LinkedList<MapObject> mapObjects = new LinkedList<MapObject>();
 

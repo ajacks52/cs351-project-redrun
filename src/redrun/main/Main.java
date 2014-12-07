@@ -67,8 +67,7 @@ import redrun.sound.Sound;
 /**
  * This class is where RedRun begins execution.
  * 
- * @author Troy Squillaci, Jake Nichol, Jayson Grace, Adam Michell, Jordan
- *         Medlock
+ * @author Troy Squillaci, Jake Nichol, Jayson Grace, Adam Michell, Jordan Medlock
  * @version 1.0
  * @since 2014-11-09
  */

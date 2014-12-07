@@ -19,6 +19,7 @@ import redrun.model.gameobject.map.Platform;
 import redrun.model.gameobject.map.Staircase;
 import redrun.model.gameobject.map.Start;
 import redrun.model.gameobject.map.Tunnel;
+import redrun.model.gameobject.player.Player;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
 
@@ -224,6 +225,29 @@ public class ObjectFromDB
       }
     }
     return null;
+  }
+  
+  public static void updatePlayer(String playerNetwork)
+  {
+    Pattern inboundPlayerData = Pattern.compile("===\\sPlayer\\s===\\sLocation:(.*?)\\sName:(.*?)\\sTexture:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
+    Matcher matchInboundPlayer = inboundPlayerData.matcher(playerNetwork); 
+    
+    //TODO Location
+    String name = matchInboundPlayer.group(2);
+    //TODO Texture (not changing)
+    //TODO Team Color
+    int health = Integer.parseInt(matchInboundPlayer.group(5));   
+    int lives = Integer.parseInt(matchInboundPlayer.group(6));   
+    boolean alive = Boolean.parseBoolean(matchInboundPlayer.group(7));
+    
+    for (Player player : GameData.players)
+    {
+      if (name.equals(player.getName()))
+      {
+        player.setHealth(health);
+        player.setLives(health);
+      }
+    }
   }
 
   /**
