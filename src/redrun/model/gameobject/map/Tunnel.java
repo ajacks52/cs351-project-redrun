@@ -3,6 +3,7 @@ package redrun.model.gameobject.map;
 import redrun.model.constants.Direction;
 import redrun.model.constants.Scale;
 import redrun.model.constants.TrapType;
+import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.RectangularPrism;
@@ -79,6 +80,10 @@ public class Tunnel extends MapObject
           ex.printStackTrace();
         }
       }
+    }
+    for (GameObject go : components)
+    {
+      go.getBody().body.setFriction(1);
     }
   }
 

@@ -1,4 +1,4 @@
-package redrun.main;
+package redrun.model.toolkit;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -10,19 +10,18 @@ import org.lwjgl.opengl.SharedDrawable;
 import redrun.graphics.camera.HUD_Manager;
 import redrun.model.constants.Constants;
 import redrun.model.gameobject.GameObject;
-import redrun.model.toolkit.BackgroundLoader;
 
 /**
  * @author Adam Mitchell
  * @version 1.0
  * @since 2014-19-10
  * 
- *        Game object the draws loading screen text.
+ * Game object the draws loading screen text.
  */
 public class LoadingScreen extends GameObject
 {
   private static BackgroundLoader backgroundLoader;
-  
+
   public LoadingScreen(String texture)
   {
     super(0, 0, 0, texture);
@@ -87,7 +86,7 @@ public class LoadingScreen extends GameObject
     }
     HUD_Manager.make3D();
   }
-  
+
   @Override
   public void interact()
   {
