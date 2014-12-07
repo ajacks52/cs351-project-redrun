@@ -431,10 +431,16 @@ public class Main
     }
     else if (camera.getType() == CameraType.SPECTATOR)
     {
-      if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed);
-      if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed);
-      if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed);
-      if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+      {
+        camera.moveForward(movementSpeed / 20);
+      }
+      if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) camera.moveUp(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) camera.moveDown(movementSpeed / 40);
     }
   }
 
