@@ -80,7 +80,7 @@ public class MailMan extends Thread
       try
       {
         String incomingMessage = clientReader.readLine();
-        // System.out.println(incomingMessage);
+        System.out.println("THIS: " + incomingMessage);
 
         Matcher matchRequestMapObjects = requestMapObjects.matcher(incomingMessage);
         Matcher matchQuitServer = quitServer.matcher(incomingMessage);
@@ -97,8 +97,8 @@ public class MailMan extends Thread
           ArrayList<MapObjectDB> mapObjects = RedRunDAO.getAllMapObjects();
           for (MapObjectDB mapObject : mapObjects)
           {
-//            System.out.println("MailMan:" + mapObject);
-             send(mapObject.toString());
+            // System.out.println("MailMan:" + mapObject);
+            send(mapObject.toString());
           }
         }
         // ArrayList<MapObjectDB> mapStuff = RedRunDAO.getAllMapObjects();

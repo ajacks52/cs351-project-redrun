@@ -1,6 +1,7 @@
 package redrun.test;
 
 import java.nio.FloatBuffer;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -119,19 +120,24 @@ public class GraphicsTestJayson
     GameObject floor = null;
 
     // Create cubes above the staircase...
-    for (int i = 0; i < 500; i++)
-    {
-      GameData.addGameObject(new Cube(45.0f, 50.0f + (2 * i), 45.0f, "crate1"));
-    }
+    // for (int i = 0; i < 500; i++)
+    // {
+    // GameData.addGameObject(new Cube(45.0f, 50.0f + (2 * i), 45.0f,
+    // "crate1"));
+    // }
 
     // Create balls above the staircase...
-    for (int i = 0; i < 10; i++)
-    {
-      GameData.addGameObject(new Ball(45.0f, 50.0f + (5 * i), 15.0f, "crate1", 1.5f));
-    }
+    // for (int i = 0; i < 10; i++)
+    // {
+    // GameData.addGameObject(new Ball(45.0f, 50.0f + (5 * i), 15.0f, "crate1",
+    // 1.5f));
+    // }
 
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
+
+    Cube cube = new Cube(45.0f, 50.0f + 20, 45.0f, "crate1");
+    GameData.addGameObject(cube);
 
     while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
@@ -231,11 +237,11 @@ public class GraphicsTestJayson
         mapObject.draw();
       }
 
-      // // Draw the game objects...
-      // for (GameObject gameObject : GameData.getGameObjects())
-      // {
-      // gameObject.draw();
-      // }
+      // Draw the game objects...
+      for (GameObject gameObject : GameData.getGameObjects())
+      {
+        gameObject.draw();
+      }
 
       // Draw text to the screen...
       if (camera.getType() == CameraType.SPECTATOR)
@@ -255,7 +261,7 @@ public class GraphicsTestJayson
       // Update...
       cameraManager.update();
       PhysicsWorld.stepSimulation(1 / 60.0f);
-      Timer.tick();
+      Timer.tick(); 
       Display.update();
       Display.sync(60);
 
@@ -264,6 +270,7 @@ public class GraphicsTestJayson
         // GameData.mapObjects.clear();
         GameData.networkData.clear();
         client.requestMapObjects();
+        client.sendToServer(Float.toString(cube.getX()) + Float.toString(cube.getY()) + Float.toString(cube.getZ()));
       }
     }
   }
