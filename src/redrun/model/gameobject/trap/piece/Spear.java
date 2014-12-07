@@ -11,6 +11,7 @@ import redrun.model.constants.Direction;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.toolkit.ShaderLoader;
+import redrun.model.toolkit.Timing;
 
 public class Spear extends Trap
 {
@@ -18,8 +19,8 @@ public class Spear extends Trap
   private float startTime;
   private int count = 0;
   private boolean down = false;
+  private long time = 0;
 
-  
   public Spear(float x, float y, float z, Direction orientation, String textureName, float startTime)
   {
     super(x, y, z, orientation, textureName);
@@ -27,11 +28,9 @@ public class Spear extends Trap
     float radius = .3f;
     float resolution = .1f;
     this.startTime = startTime;
-    
 
-    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.2f, 12f, 0.2f), new Quat4f(), 0);
+    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, 12f, 0.3f), new Quat4f(), 0);
 
-    // shaders to color the spikes
     sl = new ShaderLoader();
     sl.loadShader("bloodf.fs");
     sl.loadShader("bloodv.vs");
@@ -133,13 +132,13 @@ public class Spear extends Trap
   public void activate()
   {
     this.timer.resume();
+    time = Timing.getTime();
   }
 
   @Override
   public void reset()
   {
-    // TODO Auto-generated method stub
-    //this.timer.pause();
+    this.timer.pause();
     this.timer.reset();
   }
 
@@ -147,33 +146,45 @@ public class Spear extends Trap
   public void interact()
   {
   }
-  
-  
+
+  private void restart()
+  {
+    this.timer.reset();
+  }
 
   @Override
   public void update()
   {
-    if (this.timer.getTime() > startTime && count < 12 && !down)
-    {    
-      count++;
-      body.translate(0f, 1f, 0f);
-      if(count == 12)
+    if (count == 0 && this.timer.getTime() > startTime)
+    {
+      this.restart();
+      System.out.println(" " + this.timer.getTime() + " " + time + 7000);
+      //System.out.println(this.body.getY());
+      if (Timing.getTime() > time + 7000)
       {
-        down=true;
+        System.out.println("**********************");
+        this.reset();
       }
     }
-    else if (count > 0 &&this.timer.getTime() > startTime && down)
+    
+    if (this.timer.getTime() > startTime && count < 14 && !down)
+    {
+      count++;
+      body.translate(0f, .5f, 0f);
+      if (count == 14)
+      {
+        down = true;
+      }
+    }
+    else if (count > 0 && this.timer.getTime() > startTime && down)
     {
       count--;
-      body.translate(0f, -1f, 0f);
-      if(count == 0)
+      body.translate(0f, -.5f, 0f);
+      if (count == 0)
       {
-        down=false;
+        down = false;
       }
     }
-    else if(count == 0 && this.timer.getTime() > startTime)
-    {
-      this.reset();
-    }
+
   }
 }

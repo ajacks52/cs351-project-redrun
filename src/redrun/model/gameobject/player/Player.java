@@ -17,6 +17,7 @@ import redrun.model.constants.CameraType;
 import redrun.model.constants.Team;
 import redrun.model.gameobject.GameObject;
 import redrun.model.physics.BoxPhysicsBody;
+import redrun.model.physics.CapsulePhysicsBody;
 import redrun.model.physics.PhysicsBody;
 import redrun.model.physics.PhysicsWorld;
 
@@ -63,7 +64,7 @@ public class Player extends GameObject
   {
     super(x, y, z, textureName);
     
-//    body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.5f, 1.0f, 0.5f), new Quat4f(), 100.0f);
+    body = new CapsulePhysicsBody(new Vector3f(x, y, z), .5f, 10, 1);
     camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, -x, -y, -z, CameraType.PLAYER);
 
     this.name = name;
@@ -126,7 +127,7 @@ public class Player extends GameObject
 
   public void lookThrough()
   {
-    camera.updatePosition(this.getX(), this.getY(), this.getZ(), body.getPitch(), body.getYaw());
+    camera.updatePosition(this.getX(), this.getY() + 2f, this.getZ(), body.getPitch(), body.getYaw());
     camera.lookThrough();
   }
 

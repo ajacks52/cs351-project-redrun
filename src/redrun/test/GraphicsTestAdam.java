@@ -115,10 +115,10 @@ public class GraphicsTestAdam
         .addMapObject(new Corridor(40.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EXPLODING_BOX_FIELD));
     GameData.addMapObject(new Corridor(60.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.WEST, TrapType.EXPLODING_BOX_FIELD));
 
-    GameData.addMapObject(new Corridor(0.0f, 0f, 90.0f, "ground14", "brick8", Direction.EAST, TrapType.DEATH_PILLAR));
-    GameData.addMapObject(new Corridor(20.0f, 0.0f, 90.0f, "ground14", "brick8", Direction.NORTH, TrapType.DEATH_PILLAR));
-    GameData.addMapObject(new Corridor(40.0f, 0.0f, 90.0f, "ground14", "brick8", Direction.SOUTH, TrapType.DEATH_PILLAR));
-    GameData.addMapObject(new Corridor(60.0f, 0.0f, 90.0f, "ground14", "brick8", Direction.WEST, TrapType.DEATH_PILLAR));
+    GameData.addMapObject(new Corridor(0.0f, 0f, 90.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(20.0f, 0.0f, 90.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(40.0f, 0.0f, 90.0f, "ground14", "brick8", Direction.SOUTH, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(60.0f, 0.0f, 90.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
 
     GameData.addMapObject(new Corridor(0.0f, 15.0f, 120.0f, "ground14", "brick8", Direction.EAST, TrapType.POLE_DANCE));
     GameData.addMapObject(new Corridor(20.0f, 15.0f, 120.0f, "ground14", "brick8", Direction.NORTH, TrapType.POLE_DANCE));

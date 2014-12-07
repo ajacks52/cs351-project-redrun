@@ -100,7 +100,7 @@ public abstract class GameObject
       {
         glEnable(GL_TEXTURE_2D);
         texture.bind();
-        glMultMatrix(body.getOpenGLTransformMatrix());
+        glMultMatrix(body.getOpenGLTransformMatrix()); 
         glCallList(displayListId);
         glDisable(GL_TEXTURE_2D);
       }

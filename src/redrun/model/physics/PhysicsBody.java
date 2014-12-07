@@ -17,8 +17,9 @@ import com.bulletphysics.linearmath.DefaultMotionState;
 import com.bulletphysics.linearmath.Transform;
 
 /**
- * Super class for all other physics bodies.
- * creates convenience methods that can be used in the model objects to perform operations on the physics bodies.
+ * Super class for all other physics bodies. creates convenience methods that
+ * can be used in the model objects to perform operations on the physics bodies.
+ * 
  * @author jem
  *
  */
@@ -26,32 +27,30 @@ public class PhysicsBody
 {
   private Transform trans = new Transform(); // used only to make getting faster
   public RigidBody body;
+
   /**
    * Creates a simple physics body
+   * 
    * @param mass in kg if mass is 0 it is static
-   * @param direction 
+   * @param direction
    * @param center in meters
    * @param collisionShape
    */
-  public PhysicsBody(float mass, Quat4f direction, Vector3f center,
-      CollisionShape collisionShape)
+  public PhysicsBody(float mass, Quat4f direction, Vector3f center, CollisionShape collisionShape)
   {
-    javax.vecmath.Vector3f fallInertia = PhysicsTools.openGLToBullet(new Vector3f(0,0,0));
+    javax.vecmath.Vector3f fallInertia = PhysicsTools.openGLToBullet(new Vector3f(0, 0, 0));
     if (collisionShape != null && mass != 0.0f)
     {
       collisionShape.calculateLocalInertia(mass, fallInertia);
     }
-    body = new RigidBody(mass, 
-        new DefaultMotionState(
-            new Transform(
-                new Matrix4f(direction,PhysicsTools.openGLToBullet(center), 1))), 
-        collisionShape,
-        fallInertia);
+    body = new RigidBody(mass, new DefaultMotionState(new Transform(new Matrix4f(direction,
+        PhysicsTools.openGLToBullet(center), 1))), collisionShape, fallInertia);
     PhysicsWorld.addPhysicsBody(body);
   }
-  
+
   /**
    * Gets the X value
+   * 
    * @return x value
    */
   public float getX()
@@ -59,9 +58,10 @@ public class PhysicsBody
     trans = body.getMotionState().getWorldTransform(trans);
     return trans.origin.x;
   }
-  
+
   /**
    * Gets the Y value
+   * 
    * @return y value
    */
   public float getY()
@@ -69,9 +69,10 @@ public class PhysicsBody
     trans = body.getMotionState().getWorldTransform(trans);
     return trans.origin.y;
   }
-  
+
   /**
    * Gets the Z value
+   * 
    * @return z value
    */
   public float getZ()
@@ -79,106 +80,131 @@ public class PhysicsBody
     trans = body.getMotionState().getWorldTransform(trans);
     return trans.origin.z;
   }
-  
+
   /**
-   * Gets the mass 
+   * Gets the mass
+   * 
    * @return mass
    */
   public float getMass()
   {
-    return 1f/body.getInvMass();
+    return 1f / body.getInvMass();
   }
-  
+
   /**
-   * applies a force in the normalised direction
-   * this isn't a collision this is like the hand of god pushing the object
+   * applies a force in the normalised direction this isn't a collision this is
+   * like the hand of god pushing the object
+   * 
    * @param direction
    */
   public void push(Vector3f direction)
   {
-    direction.normalise();
+    // direction.normalise();
     float mass = getMass();
     System.out.println("push: " + direction);
-    body.applyCentralForce(PhysicsTools.openGLToBullet(direction));
+    // body.applyCentralForce(PhysicsTools.openGLToBullet(direction));
+    body.setLinearVelocity(PhysicsTools.openGLToBullet(direction));
   }
-  
-  
-  
+
   /**
-   * jump in the y direcion 
+   * jump in the y direcion
    */
   public void jump()
   {
-    body.applyCentralImpulse(PhysicsTools.openGLToBullet(new Vector3f(0,getMass()*7,0))); // about 7 times their mass allows them to jump 2 meters
+    body.applyCentralImpulse(PhysicsTools.openGLToBullet(new Vector3f(0, getMass() * 7, 0))); // about
+                                                                                              // 7
+                                                                                              // times
+                                                                                              // their
+                                                                                              // mass
+                                                                                              // allows
+                                                                                              // them
+                                                                                              // to
+                                                                                              // jump
+                                                                                              // 2
+                                                                                              // meters
   }
-  
+
   public float getPitch()
   {
     trans = body.getMotionState().getWorldTransform(trans);
     Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
     return PhysicsTools.pitchFromQuat(q);
   }
-  
+
   public float getYaw()
   {
     trans = body.getMotionState().getWorldTransform(trans);
     Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
     return PhysicsTools.yawFromQuat(q);
   }
-  
+
   public float getRoll()
   {
     trans = body.getMotionState().getWorldTransform(trans);
     Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
     return PhysicsTools.rollFromQuat(q);
   }
- 
-  public void pitch(float pitch)
-  {
-    body.setAngularVelocity(PhysicsTools.openGLToBullet(new Vector3f(0,pitch*10,0)));
-  }
-  
-  public void yaw(float yaw)
-  {
-    body.setAngularVelocity(PhysicsTools.openGLToBullet(new Vector3f(0,0,yaw*10)));
-  }
 
-  public void moveForward(float speed)
+  // public void pitch(float pitch)
+  // {
+  // body.setAngularVelocity(PhysicsTools.openGLToBullet(new Vector3f(0, pitch *
+  // 10, 0)));
+  // }
+  //
+  // public void yaw(float yaw)
+  // {
+  // body.setAngularVelocity(PhysicsTools.openGLToBullet(new Vector3f(0, 0, yaw
+  // * 10)));
+  // }
+
+  public void moveForward(float speed, float yaw)
   {
     trans = body.getMotionState().getWorldTransform(trans);
     Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
-    float x = - (float) (Math.sin(PhysicsTools.yawFromQuat(q)) * speed);
-    float z = (float) (Math.cos(PhysicsTools.yawFromQuat(q)) * speed);
-    push(new Vector3f(x,0,z));
+    // float x = -(float) (Math.sin(PhysicsTools.yawFromQuat(q)) * speed);
+    // float z = (float) (Math.cos(PhysicsTools.yawFromQuat(q)) * speed);
+    float x = -(float) (Math.sin(yaw) * speed);
+    float z = (float) (Math.cos(yaw) * speed);
+    push(new Vector3f(x, 0, z));
   }
 
-  public void moveBackward(float speed)
+  public void moveBackward(float speed, float yaw)
   {
     trans = body.getMotionState().getWorldTransform(trans);
     Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
-    float x = (float) (Math.sin(PhysicsTools.yawFromQuat(q)) * speed);
-    float z = - (float) (Math.cos(PhysicsTools.yawFromQuat(q)) * speed);
-    push(new Vector3f(x,0,z));
+    // float x = (float) (Math.sin(PhysicsTools.yawFromQuat(q)) * speed);
+    // float z = -(float) (Math.cos(PhysicsTools.yawFromQuat(q)) * speed);
+    float x = (float) (Math.sin(yaw) * speed);
+    float z = -(float) (Math.cos(yaw) * speed);
+
+    push(new Vector3f(x, 0, z));
   }
 
-  public void moveLeft(float speed)
+  public void moveLeft(float speed, float yaw)
   {
     trans = body.getMotionState().getWorldTransform(trans);
     Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
-    float x = - (float) (Math.cos(PhysicsTools.yawFromQuat(q)) * speed);
-    float z = (float) (Math.sin(PhysicsTools.yawFromQuat(q)) * speed);
-    push(new Vector3f(x,0,z));
+
+    // float x = (float) (Math.cos(PhysicsTools.yawFromQuat(q) + Math.PI / 4) *
+    // speed);
+    // float z = (float) (Math.sin(PhysicsTools.yawFromQuat(q) + Math.PI / 4) *
+    // speed);
+    float x = (float) (Math.sin(yaw) * speed);
+    float z = (float) (Math.cos(yaw) * speed);
+    push(new Vector3f(x, 0, z));
   }
 
-  public void moveRight(float speed)
+  public void moveRight(float speed, float yaw)
   {
     trans = body.getMotionState().getWorldTransform(trans);
     Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
-    float x = (float) (Math.cos(PhysicsTools.yawFromQuat(q)) * speed);
-    float y = - (float) (Math.sin(PhysicsTools.yawFromQuat(q)) * speed);
-    push(new Vector3f(x,y,0));
+//    float x = -(float) (Math.cos(PhysicsTools.yawFromQuat(q) - Math.PI / 4) * speed);
+//    float y = (float) (Math.sin(PhysicsTools.yawFromQuat(q) - Math.PI / 4) * speed);
+    float x = -(float) (Math.sin(yaw) * speed);
+    float y = (float) (Math.cos(yaw) * speed);
+    push(new Vector3f(x, y, 0));
   }
-  
+
   public FloatBuffer getOpenGLTransformMatrix()
   {
     float[] m = new float[16];
@@ -190,12 +216,13 @@ public class PhysicsBody
     buffer.flip();
     return buffer;
   }
-  
+
   public void translate(float x, float y, float z)
   {
-    body.translate(PhysicsTools.openGLToBullet(new Vector3f(x,y,z)));
+    body.translate(PhysicsTools.openGLToBullet(new Vector3f(x, y, z)));
+    body.activate(true);
   }
-  
+
   public CollisionShape getCollisionShape()
   {
     return body.getCollisionShape();
