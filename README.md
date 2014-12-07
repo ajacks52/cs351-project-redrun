@@ -1,4 +1,4 @@
-**### Red Run ###** 
+### Red Run ###
 *Version 1.0
 
 #Authors
