@@ -46,7 +46,7 @@ public class Player extends GameObject
 
   /** The state of this player's life. */
   private boolean alive;
-  
+
   private KinematicCharacterController controller;
 
   /**
@@ -62,9 +62,11 @@ public class Player extends GameObject
   public Player(float x, float y, float z, String name, String textureName, Team team)
   {
     super(x, y, z, textureName);
-    
-//    body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.5f, 1.0f, 0.5f), new Quat4f(), 100.0f);
-    camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, -x, -y, -z, CameraType.PLAYER);
+
+    // body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.5f, 1.0f,
+    // 0.5f), new Quat4f(), 100.0f);
+    camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, -x, -y, -z,
+        CameraType.PLAYER);
 
     this.name = name;
     this.team = team;
@@ -209,7 +211,7 @@ public class Player extends GameObject
   {
     return this.camera;
   }
-  
+
   public PhysicsBody getBody()
   {
     return body;
@@ -259,16 +261,9 @@ public class Player extends GameObject
   public String toString()
   {
     //@formatter:off
-    return 
-      "=== " + this.name + " ===\n" +
-      "Team: " + this.team + "\n" + 
-      "Health: " + this.health + "\n" + 
-      "Lives left: " + this.lives + "\n" + 
-      "Alive: " + this.alive + "\n" + 
-      "ID: " + id + "\n" +
-      "Position: (" + body.getX() + ", " + body.getY() + ", " + body.getZ() + ")\n" +
-      "Physics: " + body.toString() + "\n" +
-      "===================\n";
+    return "=== Map Object === " + "Location:" + body.getX() + ", " + body.getY() + ", " + body.getZ() + " Name:" + this.name
+        + " Texture:" + this.texture + " Team Name:" + this.team + " Health:"
+        + this.health + " Lives left:" + this.lives + " Alive:" + this.alive + " ===";
     //@formatter:on
   }
 }
