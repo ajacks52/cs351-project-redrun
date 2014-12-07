@@ -147,8 +147,7 @@ public class Main
     cameraManager = new CameraManager(spectatorCam, playerCam);
 
     // Show loading screen...
-    // LoadingScreen.loadingScreen();
-    FontTools.loadFonts();
+    LoadingScreen.loadingScreen();
   }
 
   /**

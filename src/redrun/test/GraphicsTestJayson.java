@@ -270,7 +270,6 @@ public class GraphicsTestJayson
         // GameData.mapObjects.clear();
         GameData.networkData.clear();
         client.requestMapObjects();
-        client.sendToServer(Float.toString(cube.getX()) + Float.toString(cube.getY()) + Float.toString(cube.getZ()));
       }
     }
   }
