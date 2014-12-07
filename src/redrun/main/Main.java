@@ -60,6 +60,7 @@ import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
+import redrun.model.toolkit.LoadingScreen;
 import redrun.model.toolkit.Timing;
 import redrun.network.Client;
 import redrun.network.UserInput;

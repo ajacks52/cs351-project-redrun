@@ -65,7 +65,7 @@ public class Player extends GameObject
     super(x, y+10, z, textureName);
 
     
-    body = new CapsulePhysicsBody(new Vector3f(x, y, z), 4f, 100, 3);
+    body = new CapsulePhysicsBody(new Vector3f(x, y, z), 2f, 100, 3);
     camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, x, y, z, CameraType.PLAYER);
 
     this.name = name;

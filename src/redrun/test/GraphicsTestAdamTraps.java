@@ -19,7 +19,6 @@ import redrun.graphics.camera.Camera;
 import redrun.graphics.camera.CameraManager;
 import redrun.graphics.camera.HUD_Manager;
 import redrun.graphics.selection.Picker;
-import redrun.main.LoadingScreen;
 import redrun.model.constants.CameraType;
 import redrun.model.constants.Constants;
 import redrun.model.constants.Direction;
@@ -46,6 +45,7 @@ import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BackgroundLoader;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
+import redrun.model.toolkit.LoadingScreen;
 import redrun.model.toolkit.Timing;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -426,7 +426,11 @@ public class GraphicsTestAdamTraps
     // Movement related input...
     if (camera.getType() == CameraType.PLAYER)
     {
-      
+      if (!Keyboard.isKeyDown(Keyboard.KEY_W) && !Keyboard.isKeyDown(Keyboard.KEY_A)
+          && !Keyboard.isKeyDown(Keyboard.KEY_D) && !Keyboard.isKeyDown(Keyboard.KEY_S))
+      {
+        
+      }
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
       {
         camera.moveForward(movementSpeed * 2);
@@ -437,7 +441,7 @@ public class GraphicsTestAdamTraps
       if (Keyboard.isKeyDown(Keyboard.KEY_D)) player.walkRight(movementSpeed);
       if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) player.jump();
     }
-    else if(camera.getType() == CameraType.SPECTATOR) 
+    else if (camera.getType() == CameraType.SPECTATOR)
     {
       if (Keyboard.isKeyDown(Keyboard.KEY_W)) player.walkForward(movementSpeed);
       if (Keyboard.isKeyDown(Keyboard.KEY_S)) player.walkBackward(movementSpeed);
