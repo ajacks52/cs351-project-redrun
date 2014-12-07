@@ -62,6 +62,7 @@ import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.Timing;
 import redrun.network.Client;
+import redrun.network.UserInput;
 
 /**
  * This class is where RedRun begins execution.
@@ -97,6 +98,8 @@ public class Main
 
   /** Used to access the database. */
   private static Map map = null;
+  
+  private static UserInput input = null;
 
   /**
    * Performs OpenGL initialization.
@@ -105,6 +108,9 @@ public class Main
   {
     // Connect to the server...
     client = new Client("127.0.0.1", 7777);
+    
+    // Set up the user input...
+    input = new UserInput();
     
     // Set up OpenGL...
     try
@@ -333,6 +339,9 @@ public class Main
     {
       GameData.addGameObject(new Ball(45.0f, 50.0f + (5 * i), 15.0f, "crate1", 1.5f));
     }
+    
+    Cube dickmunch = new Cube(-45.0f, 50.0f, -45.0f, "crate1");
+    GameData.addGameObject(dickmunch);
         
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
@@ -455,6 +464,9 @@ public class Main
         // GameData.mapObjects.clear();
         GameData.networkData.clear();
         client.requestMapObjects();
+        
+        //TODO For each game object, send to server.
+        client.sendToServer(Float.toString(dickmunch.getX()) + Float.toString(dickmunch.getY()) + Float.toString(dickmunch.getZ()));
       }
     }
   }
@@ -507,6 +519,8 @@ public class Main
     if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) camera.moveUp(movementSpeed * dt);
     if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) camera.moveDown(movementSpeed * dt);
+    
+    System.out.println(input.toString());
   }
   
   /**
@@ -515,6 +529,7 @@ public class Main
   private static void destroyResources()
   {
     Display.destroy();
+    client.requestDisconnet();
   }
   
   /**

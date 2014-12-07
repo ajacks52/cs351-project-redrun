@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import redrun.model.game.GameData;
+import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
 import redrun.test.GraphicsTestTroy;
 
@@ -196,6 +197,24 @@ public class Client
   public void requestMapObjects()
   {
     this.write.println("Send MapObjects");
+  }
+  
+  /**
+   * Requests to be disconnected from the server.
+   */
+  public void requestDisconnet()
+  {
+    this.write.println("Disconnect");
+  }
+  
+  public void sendUserInput(UserInput input)
+  {
+    this.write.println(input.toString());
+  }
+  
+  public void sendGameObjects(LinkedList<GameObject> gameObjects)
+  {
+    
   }
 
   /**

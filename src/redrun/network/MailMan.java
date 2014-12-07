@@ -80,7 +80,7 @@ public class MailMan extends Thread
       try
       {
         String incomingMessage = clientReader.readLine();
-        System.out.println("THIS: " + incomingMessage);
+        //System.out.println("THIS: " + incomingMessage);
 
         Matcher matchRequestMapObjects = requestMapObjects.matcher(incomingMessage);
         Matcher matchQuitServer = quitServer.matcher(incomingMessage);
