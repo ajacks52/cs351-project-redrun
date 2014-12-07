@@ -139,11 +139,6 @@ public class ObjectFromDB
           type = TrapType.POLE_DANCE;
           break;
         }
-        case "DEATH_PILLAR":
-        {
-          type = TrapType.DEATH_PILLAR;
-          break;
-        }
         case "ROCK_SMASH":
         {
           type = TrapType.ROCK_SMASH;

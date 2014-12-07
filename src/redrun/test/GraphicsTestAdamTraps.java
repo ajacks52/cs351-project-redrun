@@ -67,8 +67,6 @@ public class GraphicsTestAdamTraps
   /** The player associated with the client. */
   private static Player player = null;
 
- 
-
   /**
    * Performs OpenGL initialization.
    */
@@ -104,7 +102,6 @@ public class GraphicsTestAdamTraps
     glShadeModel(GL_SMOOTH);
 
     LoadingScreen.loadingScreen();
-
   }
 
   /**
@@ -113,30 +110,17 @@ public class GraphicsTestAdamTraps
    */
   private static void gameLoop()
   {
+
     // Create the map objects...
 
     // Make the obstacle course...
-    // GameData.addMapObject(new Start(0.0f, 0.0f, 0.0f, "ground14", "brick8",
-    // Direction.WEST, TrapType.EMPTY));
-    //
-    // GameData.addMapObject(new Corridor(0.0f, 0.0f, 15.0f, "ground14",
-    // "brick8", Direction.EAST, TrapType.EMPTY));
-    // GameData.addMapObject(new Corridor(0.0f, 0.0f, 30.0f, "ground14",
-    // "brick8", Direction.EAST, TrapType.EMPTY));
-    // GameData.addMapObject(new Corridor(0.0f, 0.0f, 45.0f, "ground14",
-    // "brick8", Direction.EAST, TrapType.TRAP_DOOR)); //
-    // GameData.addMapObject(new Corridor(0.0f, 0.0f, 60.0f, "ground14",
-    // "brick8", Direction.EAST, TrapType.EMPTY));
-    // GameData.addMapObject(new Corridor(0.0f, 0.0f, 75.0f, "ground14",
-    // "brick8", Direction.EAST, TrapType.EMPTY));
-
     GameData.addMapObject(new Start(0.0f, 0.0f, 0.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Pit(0.0f, 15.0f, 15.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
-    GameData.addMapObject(new Pit(0.0f, 15.0f, 30.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
-    GameData.addMapObject(new Pit(0.0f, 15.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.TRAP_DOOR)); //
-    GameData.addMapObject(new Pit(0.0f, 15.0f, 60.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
-    GameData.addMapObject(new Pit(0.0f, 15.0f, 75.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 30.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.POLE_DANCE)); //
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
     GameData.addMapObject(new Staircase(0.0f, 0.0f, 90.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
@@ -424,7 +408,7 @@ public class GraphicsTestAdamTraps
 
     // Set the mouse sensitivity...
     float mouseSensitivity = 0.08f;
-    float movementSpeed = 0.02f;
+    float movementSpeed = 10f;
 
     dx = Mouse.getDX();
     dy = Mouse.getDY();
@@ -440,16 +424,28 @@ public class GraphicsTestAdamTraps
     }
 
     // Movement related input...
-    if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+    if (camera.getType() == CameraType.PLAYER)
     {
-      camera.moveForward(movementSpeed * dt * 2);
+      if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+      {
+        camera.moveForward(movementSpeed * 2);
+      }
+      else if (Keyboard.isKeyDown(Keyboard.KEY_W)) player.walkForward(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_S)) player.walkBackward(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_A)) player.walkLeft(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_D)) player.walkRight(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) player.jump();
     }
-    else if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_UP)) camera.moveUp(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) camera.moveDown(movementSpeed * dt);
+    else if(camera.getType() == CameraType.SPECTATOR) 
+    {
+      if (Keyboard.isKeyDown(Keyboard.KEY_W)) player.walkForward(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_S)) player.walkBackward(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_A)) player.walkLeft(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_D)) player.walkRight(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) player.jump();
+    }
+
+    // if (Keyboard.isKeyDown(Keyboard.KEY_DOWN))
   }
 
   /**

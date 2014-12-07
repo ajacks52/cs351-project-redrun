@@ -17,6 +17,7 @@ import redrun.model.constants.CameraType;
 import redrun.model.constants.Team;
 import redrun.model.gameobject.GameObject;
 import redrun.model.physics.BoxPhysicsBody;
+import redrun.model.physics.CapsulePhysicsBody;
 import redrun.model.physics.PhysicsBody;
 import redrun.model.physics.PhysicsWorld;
 
@@ -63,10 +64,9 @@ public class Player extends GameObject
   {
     super(x, y, z, textureName);
 
-    // body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.5f, 1.0f,
-    // 0.5f), new Quat4f(), 100.0f);
-    camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, -x, -y, -z,
-        CameraType.PLAYER);
+    
+    body = new CapsulePhysicsBody(new Vector3f(x, y, z), .5f, 10, 1);
+    camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, -x, -y, -z, CameraType.PLAYER);
 
     this.name = name;
     this.team = team;
@@ -96,39 +96,39 @@ public class Player extends GameObject
     body.push(vec);
   }
 
-  public void pitch(float pitch)
-  {
-    body.pitch(pitch);
-  }
-
-  public void yaw(float yaw)
-  {
-    body.yaw(yaw);
-  }
+//  public void pitch(float pitch)
+//  {
+//    body.pitch(pitch);
+//  }
+//
+//  public void yaw(float yaw)
+//  {
+//    body.yaw(yaw);
+//  }
 
   public void walkForward(float speed)
   {
-    body.moveForward(speed);
+    body.moveForward(speed, camera.getYaw());
   }
 
   public void walkBackward(float speed)
   {
-    body.moveBackward(speed);
+    body.moveBackward(speed, camera.getYaw());
   }
 
   public void walkLeft(float speed)
   {
-    body.moveLeft(speed);
+    body.moveLeft(speed, camera.getYaw());
   }
 
   public void walkRight(float speed)
   {
-    body.moveRight(speed);
+    body.moveRight(speed, camera.getYaw());
   }
 
   public void lookThrough()
   {
-    camera.updatePosition(this.getX(), this.getY(), this.getZ(), body.getPitch(), body.getYaw());
+    camera.updatePosition(this.getX(), this.getY() + 2f, this.getZ(), body.getPitch(), body.getYaw());
     camera.lookThrough();
   }
 
