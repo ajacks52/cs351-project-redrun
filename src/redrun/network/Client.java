@@ -6,15 +6,11 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import redrun.model.game.GameData;
-import redrun.model.gameobject.GameObject;
-import redrun.model.gameobject.MapObject;
-import redrun.test.GraphicsTestTroy;
+import redrun.model.gameobject.player.Player;
 
 /**
  * Facilitate client interaction with the server
@@ -44,8 +40,7 @@ public class Client
     System.out.println("Starting Client: " + timeDiff());
 
     // Try to connect until a connection is established...
-    while (!openConnection(host, portNumber))
-      ;
+    while (!openConnection(host, portNumber));
 
     // Start listening thread...
     listener = new ClientListener();
@@ -212,9 +207,10 @@ public class Client
     this.write.println(input.toString());
   }
   
-  public void sendGameObjects(LinkedList<GameObject> gameObjects)
+  
+  public void sendPlayer(Player player)
   {
-    
+    this.write.println(player.toString());
   }
 
   /**
