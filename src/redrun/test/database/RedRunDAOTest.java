@@ -3,7 +3,6 @@ package redrun.test.database;
 import redrun.database.Map;
 import redrun.database.MapObjectDB;
 import redrun.database.RedRunDAO;
-import redrun.database.Character;
 
 /**
  * Testing class for the RedRunDAO class
