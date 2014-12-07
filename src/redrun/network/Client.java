@@ -149,6 +149,14 @@ public class Client
   {
     this.write.println("Disconnect");
   }
+  
+  /**
+   * Requests the player data to make the player.
+   */
+  public void requestPlayer()
+  {
+    this.write.println("Player");
+  }
 
   /**
    * Sends the user input for the current frame to the server.

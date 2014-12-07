@@ -166,6 +166,8 @@ public class Main
 
     // Create the floor...
     Plane floor = null;
+    
+    client.requestMapObjects();
 
     while (!GameData.networkData.isEmpty())
     {
