@@ -37,16 +37,12 @@ import redrun.model.gameobject.map.Staircase;
 import redrun.model.gameobject.map.Start;
 import redrun.model.gameobject.map.Tunnel;
 import redrun.model.gameobject.player.Player;
-import redrun.model.gameobject.world.Ball;
 import redrun.model.gameobject.world.Cube;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
-import redrun.model.toolkit.BackgroundLoader;
 import redrun.model.toolkit.BufferConverter;
-import redrun.model.toolkit.FontTools;
 import redrun.model.toolkit.LoadingScreen;
-import redrun.model.toolkit.Timing;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -74,7 +70,6 @@ public class GraphicsTestAdamTraps
   {
     try
     {
-
       Display.setDisplayMode(new DisplayMode(Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT));
       // TODO - Need to have the name of the active map be in the title...
       Display.setTitle("RedRun Ice World");
@@ -404,7 +399,6 @@ public class GraphicsTestAdamTraps
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
     float dy = 0.0f;
-    float dt = 0.0f;
 
     // Set the mouse sensitivity...
     float mouseSensitivity = 0.08f;
@@ -412,7 +406,6 @@ public class GraphicsTestAdamTraps
 
     dx = Mouse.getDX();
     dy = Mouse.getDY();
-    dt = Timing.getDelta();
 
     camera.yaw(dx * mouseSensitivity);
     camera.pitch(-dy * mouseSensitivity);
@@ -426,17 +419,9 @@ public class GraphicsTestAdamTraps
     // Movement related input...
     if (camera.getType() == CameraType.PLAYER)
     {
-//      if (!Keyboard.isKeyDown(Keyboard.KEY_W) && !Keyboard.isKeyDown(Keyboard.KEY_A)
-//          && !Keyboard.isKeyDown(Keyboard.KEY_D) && !Keyboard.isKeyDown(Keyboard.KEY_S))
-//      {
-//        player.getBody().body.setFriction(0);
-//      } else 
-//      {
-//        player.getBody().body.setFriction(15);
-//      }
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
       {
-        camera.moveForward(movementSpeed * 2);
+        player.walkForward(movementSpeed * 2);
       }
       else if (Keyboard.isKeyDown(Keyboard.KEY_W)) player.walkForward(movementSpeed);
       if (Keyboard.isKeyDown(Keyboard.KEY_S)) player.walkBackward(movementSpeed);
@@ -446,14 +431,11 @@ public class GraphicsTestAdamTraps
     }
     else if (camera.getType() == CameraType.SPECTATOR)
     {
-      if (Keyboard.isKeyDown(Keyboard.KEY_W)) player.walkForward(movementSpeed);
-      if (Keyboard.isKeyDown(Keyboard.KEY_S)) player.walkBackward(movementSpeed);
-      if (Keyboard.isKeyDown(Keyboard.KEY_A)) player.walkLeft(movementSpeed);
-      if (Keyboard.isKeyDown(Keyboard.KEY_D)) player.walkRight(movementSpeed);
-      if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) player.jump();
+      if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed);
     }
-
-    // if (Keyboard.isKeyDown(Keyboard.KEY_DOWN))
   }
 
   /**
