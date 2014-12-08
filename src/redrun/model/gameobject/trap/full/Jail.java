@@ -46,7 +46,7 @@ public class Jail extends Trap
     
     fire = new Fire(x, y+10, z, orientation);
     
-    GameData.addGameObject(fire);
+    //GameData.addGameObject(fire);
     GameData.addGameObject(door1);
     GameData.addGameObject(door2);
   }
@@ -57,7 +57,7 @@ public class Jail extends Trap
     System.out.println("Interacting with the game object: " + this.id);
     door1.activate();
     door2.activate();
-    fire.activate();
+    //fire.activate();
   }
 
   @Override
@@ -78,7 +78,7 @@ public class Jail extends Trap
   public void update()
   {
     // TODO Auto-generated method stub
-
+    fire.update();
   }
 
 }

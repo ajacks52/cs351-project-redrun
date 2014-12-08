@@ -61,7 +61,6 @@ import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.LoadingScreen;
-import redrun.model.toolkit.Timing;
 import redrun.network.Client;
 import redrun.sound.Sound;
 
@@ -387,8 +386,6 @@ public class Main
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
     float dy = 0.0f;
-    @SuppressWarnings("unused")
-    float dt = 0.0f;
 
     // Set the mouse sensitivity...
     float mouseSensitivity = 0.08f;
@@ -396,7 +393,6 @@ public class Main
 
     dx = Mouse.getDX();
     dy = Mouse.getDY();
-    dt = Timing.getDelta();
 
     // Camera related input...
     if (Keyboard.isKeyDown(Keyboard.KEY_R))
