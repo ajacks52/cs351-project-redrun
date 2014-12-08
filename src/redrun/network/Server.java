@@ -5,10 +5,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import redrun.database.Map;
 import redrun.database.MapObjectDB;
 import redrun.database.RedRunDAO;
+import redrun.model.game.GameData;
 
 /**
  * Facilitate server functionality
@@ -35,7 +38,7 @@ public class Server
   public static ArrayList<Map> mapData = new ArrayList<Map>();
   /** Keep track of data associated with items in the map */
   public static ArrayList<MapObjectDB> mapObjectData = new ArrayList<MapObjectDB>();
-
+  
   /**
    * Server instantiation
    * 
@@ -81,26 +84,6 @@ public class Server
         System.err.println("Server error: Failed to connect to client.");
         e.printStackTrace();
       }
-      
-      boolean isReady = true;
-      
-      for (MailMan workers : allConnections)
-      {
-        if (!workers.isReady())
-        {
-          isReady = false;
-          break;
-        }
-      }
-      
-      if (isReady)
-      {
-        for (MailMan workers : allConnections)
-        {
-          broadcast(workers.getPlayerData());
-          workers.resetReady();
-        }
-      }
     }
   }
 
@@ -133,6 +116,34 @@ public class Server
   public static void deleteClientFromList(MailMan worker)
   {
     allConnections.remove(worker);
+  }
+  
+  public static void checkBroadcast()
+  {
+    System.out.println("===================");
+    System.out.println("Checking broadcast status...");
+
+    boolean isReady = true;
+    
+    for (MailMan workers : allConnections)
+    {
+      if (!workers.isReady())
+      {
+        isReady = false;
+        break;
+      }
+    }
+    
+    if (isReady)
+    {
+      System.out.println("Broadcasting...");
+      
+      for (MailMan workers : allConnections)
+      {
+        broadcast(workers.getPlayerData());
+        workers.resetReady();
+      }
+    }
   }
 
   /**

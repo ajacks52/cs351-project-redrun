@@ -102,6 +102,7 @@ public class MailMan extends Thread
         {
           this.setPlayerData(incomingMessage);
           playerReady = true;
+          Server.checkBroadcast();
         }
         else if (matchRequestPlayer.find())
         {
