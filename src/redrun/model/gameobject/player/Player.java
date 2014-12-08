@@ -97,7 +97,12 @@ public class Player extends GameObject
         {
           System.out.println("Instant death!!!!");
           kill();
+        } 
+        else if ((collisionFlags & CollisionTypes.MINIMAL_DAMAGE_COLLISION_TYPE) != 0)
+        {
+          hurt();
         }
+        
       }
     };
     body.body.setCollisionFlags(body.body.getCollisionFlags() | CollisionFlags.CUSTOM_MATERIAL_CALLBACK);
@@ -346,6 +351,17 @@ public class Player extends GameObject
     lives --;
     body.body.setWorldTransform(startPos);
     body.body.activate(true);
+    health = 100;
+
+  }
+  
+  public void hurt()
+  {
+    health--;
+    if (health <= 0)
+    {
+      kill();
+    }
   }
 
   @Override

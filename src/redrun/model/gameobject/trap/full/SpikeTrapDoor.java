@@ -7,6 +7,7 @@ import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.constants.CollisionTypes;
 import redrun.model.constants.Direction;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.physics.BoxPhysicsBody;
@@ -29,6 +30,8 @@ public class SpikeTrapDoor extends Trap
   float occilate = 0;
   float occilate2 = 0;
   float movementSpeed = 0.15f;
+  int count = 0;
+  boolean down = true;
 
   /**
    * The spike trap constructor pass in x,y,z
@@ -43,7 +46,7 @@ public class SpikeTrapDoor extends Trap
     super(x, y, z, orientation, null);
 
     // Physics body...
-    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(5, 5, 5), new Quat4f(), 0.0f);
+    this.body = new BoxPhysicsBody(new Vector3f(x, y-3f, z), new Vector3f(5, 1, 5), new Quat4f(), 0.0f, CollisionTypes.MINIMAL_DAMAGE_COLLISION_TYPE);
     sl = new ShaderLoader();
     sl.loadShader("bloodf.fs");
     sl.loadShader("bloodv.vs");
@@ -54,7 +57,7 @@ public class SpikeTrapDoor extends Trap
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
     {
-      glTranslatef(0.0f, -1.65f, 0.0f);
+//      glTranslatef(0.0f, -1.65f, 0.0f);
       glScalef(0.3f, 2.f, 0.2f);
       glColor3f(0.5f, 0.5f, 0.5f);
       for (float z_axis = -10; z_axis < 20; z_axis += 7f)
@@ -117,7 +120,7 @@ public class SpikeTrapDoor extends Trap
         {
           glUseProgram(sl.getShaderProgram());
           {
-            glTranslatef(body.getX(), (float) ((body.getY() - 1) + 2 * Math.sin(occilate)), body.getZ());
+            glMultMatrix(body.getOpenGLTransformMatrix()); 
             glCallList(displayListId);
           }
           glUseProgram(0);
@@ -150,26 +153,56 @@ public class SpikeTrapDoor extends Trap
   {
   }
 
-  @Override
+//  @Override
+//  public void update()
+//  {
+//    if (this.timer.getTime() == 0)
+//    {
+//      occilate2 = 0;
+//      occilate = 0;
+//    }
+//    else if (occilate2 < 6)
+//    {
+//      occilate2 += 0.85f;
+//    }
+//    else
+//    {
+//      occilate += 0.095f;
+//    }
+//    if ((int) this.timer.getTime() == 4)
+//    {
+//      System.out.println("Resetting game object: " + this.id);
+//      reset();
+//    }
+//  }
   public void update()
   {
-    if (this.timer.getTime() == 0)
-    {
-      occilate2 = 0;
-      occilate = 0;
+    body.getY();
+//    System.out.println("body.getY: " + body.getOpenGLTransformMatrix());
+    int time = 40;
+    int startTime = 0;
+    
+    if (this.timer.getTime() > startTime && count < time && down)
+    {    
+      count++;
+      body.translate(0f, 0.1f, 0f);
+      if(count == time)
+      {
+        down=false;
+      }
     }
-    else if (occilate2 < 6)
+    else if (count > 0 && this.timer.getTime() > startTime && !down)
     {
-      occilate2 += 0.85f;
-    }
-    else
-    {
-      occilate += 0.095f;
-    }
-    if ((int) this.timer.getTime() == 4)
-    {
-      System.out.println("Resetting game object: " + this.id);
-      reset();
+      count--;
+      body.translate(0f, -0.1f, 0f);
+      if(count == 0)
+      {
+        down=true;
+        if(this.timer.getTime() > 10)
+        {
+          this.reset();
+        }
+      }
     }
   }
 
