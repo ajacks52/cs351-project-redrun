@@ -71,7 +71,7 @@ public class PhysicsBody
   public float getY()
   {
     FloatBuffer fb = this.getOpenGLTransformMatrix();
-    System.out.println(fb.get(1) + " " + fb.get(5) + " " + fb.get(9) + " " + fb.get(13));
+//    System.out.println(fb.get(1) + " " + fb.get(5) + " " + fb.get(9) + " " + fb.get(13));
     return trans.origin.y;
   }
 
