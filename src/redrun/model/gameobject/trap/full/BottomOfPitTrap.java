@@ -21,4 +21,32 @@ public class BottomOfPitTrap extends Trap
         (float) (dim.height / 3)), new Quat4f(), 0.0f, CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
   }
 
+  @Override
+  public void activate()
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void reset()
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void interact()
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void update()
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
 }

@@ -164,8 +164,9 @@ public class Spear extends Trap
     if (this.timer.getTime() > startTime && count < 14 && !down)
     {
       count++;
+      if (xyz.equals("x")) body.translate(.5f, 0f, 0f);
+
       if (xyz.equals("y")) body.translate(0f, .5f, 0f);
-      if (xyz.equals("x")) body.translate(.5f, 5f, 0f);
       if (xyz.equals("z")) body.translate(0f, 0f, .5f);
       
       if (count == 14)
