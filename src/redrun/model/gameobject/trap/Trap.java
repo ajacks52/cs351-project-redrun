@@ -24,7 +24,12 @@ public abstract class Trap extends GameObject
     super(x, y, z, textureName);
     // TODO Auto-generated constructor stub
   }
-
+  
+  public String getNetworkString()
+  {
+    return "=== Trap === ID:" + this.id + " ===";
+  }
+  
   /**
    * Activates the trap.
    */
