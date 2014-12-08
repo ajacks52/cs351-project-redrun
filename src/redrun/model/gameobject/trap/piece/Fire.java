@@ -1,5 +1,6 @@
 package redrun.model.gameobject.trap.piece;
 
+import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector3f;
 
 import redrun.model.constants.Direction;
@@ -46,18 +47,11 @@ public class Fire extends Trap
     }
   }
 
-  @Override
-  public void draw()
-  {
-    glPushMatrix();
-    {
-      glColor3f(1f, 1f, 1f);
-      glMultMatrix(body.getOpenGLTransformMatrix());
-      particleEmitter.draw();
-    }
-    glPopMatrix();
-    update();
-  }
+  // @Override
+  // public void draw()
+  // {
+  //
+  // }
 
   @Override
   public void activate()
@@ -74,9 +68,23 @@ public class Fire extends Trap
   {
   }
 
+
   @Override
   public void update()
   {
     logic();
+
+    System.out.println("hhii");
+    glPushMatrix();
+    {
+      glEnable(GL_TEXTURE_2D);
+      // glColor3f(1f, 1f, 1f);
+      glMultMatrix(body.getOpenGLTransformMatrix());
+      glBindTexture(GL_TEXTURE_2D, 0);
+      particleEmitter.draw();
+      glDisable(GL_TEXTURE_2D);
+    }
+    glPopMatrix();
+
   }
 }

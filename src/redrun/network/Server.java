@@ -19,24 +19,24 @@ import redrun.database.RedRunDAO;
  */
 public class Server
 {
-  /** Server IP address. */  
+  /** Server IP address. */
   public static final String HOST = "127.0.0.1";
-  
+
   /** Server listening port. */
   public static final int PORT = 7777;
-  
+
   /** Used to listen for in-bound client connections. */
   private ServerSocket serverSocket;
-  
+
   /** Used to assign unique players to each connected client. */
   private static int playerCounter = 0;
-  
+
   /** List of all connections to server. */
   private static LinkedList<MailMan> allConnections = new LinkedList<MailMan>();
-  
+
   /** Keeps track of data associated with the map. */
   public static ArrayList<Map> mapData = new ArrayList<Map>();
-  
+
   /** Keeps track of data associated with items that make up the map. */
   public static ArrayList<MapObjectDB> mapObjectData = new ArrayList<MapObjectDB>();
 
@@ -99,8 +99,7 @@ public class Server
         "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 4.0, 2.0, 4.0] Name:Balthazar Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
         "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 4.0, 2.0, -4.0] Name:Joel Team Name:RED Health:100 Lives left:5 Alive:true ===",
         "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -4.0, 2.0, 4.0] Name:Archimedes Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
-        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -4.0, 2.0, -4.0] Name:Leeroy Jenkins Team Name:BLUE Health:100 Lives left:5 Alive:true ==="
-    };
+        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -4.0, 2.0, -4.0] Name:Leeroy Jenkins Team Name:BLUE Health:100 Lives left:5 Alive:true ===" };
     return players[playerCounter++];
   }
 
@@ -119,9 +118,10 @@ public class Server
   {
     allConnections.remove(worker);
   }
-  
+
   /**
-   * Checks to see if all workers are ready to broadcast, if they are ready a broadcast will occur.
+   * Checks to see if all workers are ready to broadcast, if they are ready a
+   * broadcast will occur.
    */
   public static void checkBroadcast()
   {
@@ -148,7 +148,7 @@ public class Server
         workers.resetPlayerReady();
       }
     }
-    
+
     if (isTrapReady)
     {
       for (MailMan workers : allConnections)
@@ -170,6 +170,17 @@ public class Server
     {
       workers.send(networkData);
     }
+  }
+
+  /**
+   * Get the number of connected clients to the server
+   * 
+   * @return get number of clients
+   */
+  public static String numberOfConnections()
+  {
+    Integer connections = allConnections.size();
+    return "=== Number Players === Number:" + connections.toString() + " ===";
   }
 
   /**

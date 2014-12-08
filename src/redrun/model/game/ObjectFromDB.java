@@ -417,6 +417,7 @@ public class ObjectFromDB
       float z = Float.parseFloat(playerMatcher.group(16));
       
       String name = playerMatcher.group(17);
+      
       Team team = null;
  
       switch(playerMatcher.group(18))
