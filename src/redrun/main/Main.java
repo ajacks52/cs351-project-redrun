@@ -359,7 +359,7 @@ public class Main
       // Show the HUD...
       if (state != GameState.MAIN_MENU) HUD_Manager.huds(camera, GameData.players.get(0));
       // Show the menu...
-      if (state == GameState.MAIN_MENU) menu.stateControl();
+      if (state == GameState.MAIN_MENU || state == GameState.WAIT) menu.stateControl();
       cameraManager.update();
       PhysicsWorld.stepSimulation(1 / 60.0f);
       Timer.tick();
@@ -374,6 +374,7 @@ public class Main
   private static void getInput()
   {
     // Menu control...
+    if (Keyboard.isKeyDown(Keyboard.KEY_APOSTROPHE)) state = GameState.PLAY;
     if (menu.getState() == MenuState.OFF) state = previousState;
     if (state == GameState.MAIN_MENU) return; // Take no input if menu is up.
     if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
@@ -382,6 +383,7 @@ public class Main
       state = GameState.MAIN_MENU;
       menu.setState();
     }
+    if(state == GameState.WAIT) return;
 
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
@@ -414,6 +416,7 @@ public class Main
       if (Keyboard.isKeyDown(Keyboard.KEY_A)) GameData.players.get(0).walkLeft(movementSpeed);
       if (Keyboard.isKeyDown(Keyboard.KEY_S)) GameData.players.get(0).walkBackward(movementSpeed);
       if (Keyboard.isKeyDown(Keyboard.KEY_D)) GameData.players.get(0).walkRight(movementSpeed);
+      
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_D))
       {
         GameData.players.get(0).walkForwardRight(movementSpeed);
