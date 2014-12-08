@@ -26,7 +26,7 @@ public class Spear extends Trap
   public Spear(float x, float y, float z, Direction orientation, String textureName, float startTime, String xyz)
   {
     super(x, y, z, orientation, textureName);
-    float height = 10f;
+    float height = 15f;
     float radius = .3f;
     float resolution = .1f;
     this.startTime = startTime;
@@ -50,6 +50,7 @@ public class Spear extends Trap
       // do nothing  if (xyz.equals("y"))  glRotatef(1, 1, 1, 1);
       if (xyz.equals("z")) glRotatef(90, -1, 0, 0);
 
+      glTranslatef(0, -5.5f, 0);
       glUseProgram(sl.getShaderProgram());
       glBegin(GL_TRIANGLE_FAN);
       {
@@ -99,7 +100,7 @@ public class Spear extends Trap
 
       glPushMatrix();
       glScalef(0.3f, 3f, 0.3f);
-      glTranslatef(0.0f, 4.31f, 0.0f);
+      glTranslatef(0.0f, 5.31f, 0.0f);
       glUseProgram(sl.getShaderProgram());
 
       glBegin(GL_TRIANGLES);
