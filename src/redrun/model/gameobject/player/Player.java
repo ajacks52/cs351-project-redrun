@@ -244,8 +244,6 @@ public class Player extends GameObject
   @Override
   public void interact()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
