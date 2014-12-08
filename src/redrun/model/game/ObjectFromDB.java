@@ -27,28 +27,29 @@ public class ObjectFromDB
 {
   // Regex Patterns...
   /** The map pattern. */
-  private static Pattern mapPattern = Pattern.compile("(===\\sMap\\s===)\\sID:(\\d+)\\sName:(.*?)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\sLight Position:(.*?)\\s===");
-  
+  private static Pattern mapPattern = Pattern
+      .compile("(===\\sMap\\s===)\\sID:(\\d+)\\sName:(.*?)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\sLight Position:(.*?)\\s===");
+
   /** The map objects pattern. */
-  private static Pattern mapObjectPattern = Pattern.compile("(===\\sMap\\sObject\\s===)\\sID:(\\d+)\\sName:(\\w+)\\sLocation:(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\sGround Texture:(\\w+)\\sWall Texture:(\\w+)\\sDirection:(\\w+)\\sTrap Type:(.*?)\\sMap\\sID:(\\d+)\\s===");
- 
+  private static Pattern mapObjectPattern = Pattern
+      .compile("(===\\sMap\\sObject\\s===)\\sID:(\\d+)\\sName:(\\w+)\\sLocation:(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\sGround Texture:(\\w+)\\sWall Texture:(\\w+)\\sDirection:(\\w+)\\sTrap Type:(.*?)\\sMap\\sID:(\\d+)\\s===");
+
   /** The player pattern. */
-  private static Pattern playerPattern = Pattern.compile("===\\sPlayer\\s===\\sLocation:\\[(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?)\\]\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
-  
-  // Regex Matchers...  
+  private static Pattern playerPattern = Pattern
+      .compile("===\\sPlayer\\s===\\sLocation:(.*?),\\s(.*?),\\s(.*?)\\sRotation:(.*?)\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
+
+  // Regex Matchers...
   /** The map matcher. */
   private static Matcher mapMatcher = null;
 
   /** The map objects matcher. */
   private static Matcher mapObjectMatcher = null;
-  
+
   /** The player matcher. */
   private static Matcher playerMatcher = null;
 
   public static boolean mapDrawn = false;
-  
- 
-  
+
   public static NetworkType parseNetworkType(String networkData)
   {
     mapMatcher = mapPattern.matcher(networkData);
@@ -72,18 +73,16 @@ public class ObjectFromDB
       return null;
     }
   }
-  
-  
-  
+
   public static Map createMap(String networkItem)
   {
     mapMatcher = mapPattern.matcher(networkItem);
-    
+
     if (mapMatcher.find())
     {
       mapDrawn = true;
-      return new Map(Integer.parseInt(mapMatcher.group(2)), mapMatcher.group(3), mapMatcher.group(4), mapMatcher.group(5),
-          mapMatcher.group(6));
+      return new Map(Integer.parseInt(mapMatcher.group(2)), mapMatcher.group(3), mapMatcher.group(4),
+          mapMatcher.group(5), mapMatcher.group(6));
     }
     return null;
   }
@@ -257,42 +256,30 @@ public class ObjectFromDB
     }
     return null;
   }
-  
+
   public static void updatePlayer(String networkData)
   {
     System.out.println("Updaing player...");
-    
+
     playerMatcher = playerPattern.matcher(networkData);
 
     if (playerMatcher.find())
     {
-      float buf1 = Float.parseFloat(playerMatcher.group(1));
-      float buf2 = Float.parseFloat(playerMatcher.group(2));
-      float buf3 = Float.parseFloat(playerMatcher.group(3));
-      float buf4 = Float.parseFloat(playerMatcher.group(4));
-      float buf5 = Float.parseFloat(playerMatcher.group(5));
-      float buf6 = Float.parseFloat(playerMatcher.group(6));
-      float buf7 = Float.parseFloat(playerMatcher.group(7));
-      float buf8 = Float.parseFloat(playerMatcher.group(8));
-      float buf9 = Float.parseFloat(playerMatcher.group(9));
-      float buf10 = Float.parseFloat(playerMatcher.group(10));
-      float buf11 = Float.parseFloat(playerMatcher.group(11));
-      float buf12 = Float.parseFloat(playerMatcher.group(12));
-      float buf13 = Float.parseFloat(playerMatcher.group(13));
-      float buf14 = Float.parseFloat(playerMatcher.group(14));
-      float buf15 = Float.parseFloat(playerMatcher.group(15));
-      float buf16 = Float.parseFloat(playerMatcher.group(16));
-      
-      float[] buffer = {buf1, buf2, buf3, buf4, buf5, buf6, buf7, buf8, buf9, buf10, buf11, buf12, buf13, buf14, buf15, buf16};
-      
-      String name = playerMatcher.group(17);
+      float x = Float.parseFloat(playerMatcher.group(1));
+      float y = Float.parseFloat(playerMatcher.group(2));
+      float z = Float.parseFloat(playerMatcher.group(3));
+      float rotation = Float.parseFloat(playerMatcher.group(4));
+      // TODO Is this right?
+      float[] buffer = { x, y, z };
 
-      int health = Integer.parseInt(playerMatcher.group(19));   
-      int lives = Integer.parseInt(playerMatcher.group(20));   
-      boolean alive = Boolean.parseBoolean(playerMatcher.group(21));
-      
+      String name = playerMatcher.group(5);
+
+      int health = Integer.parseInt(playerMatcher.group(7));
+      int lives = Integer.parseInt(playerMatcher.group(8));
+      boolean alive = Boolean.parseBoolean(playerMatcher.group(9));
+
       boolean isFound = false;
-      
+
       for (Player player : GameData.players)
       {
         if (name.equals(player.getName()))
@@ -307,24 +294,24 @@ public class ObjectFromDB
           isFound = true;
         }
       }
-      
+
       if (!isFound)
       {
         GameData.players.add(createPlayer(networkData));
       }
     }
   }
-  
+
   public static Player createPlayer(String networkData)
   {
     playerMatcher = playerPattern.matcher(networkData);
-    
+
     if (playerMatcher.find())
     {
-      String name = playerMatcher.group(17);
-      Team team = null;  
-      
-      switch(playerMatcher.group(18))
+      String name = playerMatcher.group(5);
+      Team team = null;
+
+      switch (playerMatcher.group(6))
       {
         case "RED":
         {
@@ -348,10 +335,10 @@ public class ObjectFromDB
           }
         }
       }
-      
+
       return new Player(0.0f, 1.0f, 0.0f, name, team);
     }
-    
+
     return null;
   }
 
