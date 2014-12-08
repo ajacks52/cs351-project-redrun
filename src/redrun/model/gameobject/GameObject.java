@@ -197,6 +197,16 @@ public abstract class GameObject
   {
     return body;
   }
+  
+  /**
+   * Indicates if the game object is active.
+   * 
+   * @return a indicator if the game object is active
+   */
+  public boolean isActive()
+  {
+    return timer.getTime() > 0 ? true : false; 
+  }
 
   // Overridden methods from Object...
   @Override

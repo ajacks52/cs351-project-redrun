@@ -35,16 +35,6 @@ public abstract class Trap extends GameObject
   }
   
   /**
-   * Indicates if the trap is active.
-   * 
-   * @return a indicator if the trap is active
-   */
-  public boolean isActive()
-  {
-    return timer.getTime() > 0 ? true : false; 
-  }
-  
-  /**
    * Activates the trap.
    */
   public abstract void activate();

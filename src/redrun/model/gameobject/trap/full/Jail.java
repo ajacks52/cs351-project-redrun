@@ -56,7 +56,6 @@ public class Jail extends Trap
   public void activate()
   {
     System.out.println("Interacting with the game object: " + this.id);
-    Main.client.sendTrap(this);
     door1.activate();
     door2.activate();
     //fire.activate();

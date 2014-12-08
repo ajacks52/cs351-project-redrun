@@ -318,10 +318,8 @@ public class ObjectFromDB
       {
         Trap trap = (Trap) object;
         
-        if (!trap.isActive())
-        {
-          trap.activate();
-        }
+        System.out.println("Activating.........");
+        trap.activate();
       }
       else
       {

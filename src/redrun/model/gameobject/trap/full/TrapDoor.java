@@ -87,7 +87,6 @@ public class TrapDoor extends Trap
   @Override
   public void activate()
   {
-    Main.client.sendTrap(this);
     this.timer.resume();
   }
 

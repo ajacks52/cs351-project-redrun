@@ -133,7 +133,6 @@ public class SpikeTrapDoor extends Trap
   public void activate()
   {
     System.out.println("Interacting with the game object: " + this.id);
-    Main.client.sendTrap(this);
     this.timer.resume();
   }
 
