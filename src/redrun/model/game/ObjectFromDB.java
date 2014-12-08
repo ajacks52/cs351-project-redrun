@@ -333,7 +333,6 @@ public class ObjectFromDB
       float y = Float.parseFloat(playerMatcher.group(15));
       float z = Float.parseFloat(playerMatcher.group(16));
       
-
       String name = playerMatcher.group(17);
       
       Team team = null;
