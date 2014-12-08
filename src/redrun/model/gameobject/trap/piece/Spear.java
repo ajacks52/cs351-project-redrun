@@ -33,9 +33,9 @@ public class Spear extends Trap
     this.orientation = orientation;
     this.xyz = xyz;
 
-    if (xyz.equals("x"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(12f, 0.3f, 0.3f), new Quat4f(), 0);
-    if (xyz.equals("y"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, 12f, 0.3f), new Quat4f(), 0);
-    if (xyz.equals("z"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, 0.3f, 12f), new Quat4f(), 0);
+    if (xyz.equals("x"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(5f, 0.3f, 0.3f), new Quat4f(), 0);
+    if (xyz.equals("y"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, 5f, 0.3f), new Quat4f(), 0);
+    if (xyz.equals("z"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, 0.3f, 5f), new Quat4f(), 0);
 
     sl = new ShaderLoader();
     sl.loadShader("bloodf.fs");
@@ -46,9 +46,9 @@ public class Spear extends Trap
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
     {
-      if (xyz.equals("x")) glRotatef(90, 0, 1, 0);
+      if (xyz.equals("x")) glRotatef(90, 0, 0, -1);
       // do nothing  if (xyz.equals("y"))  glRotatef(1, 1, 1, 1);
-      if (xyz.equals("z")) glRotatef(90, 0, 0, 1);
+      if (xyz.equals("z")) glRotatef(90, -1, 0, 0);
 
       glUseProgram(sl.getShaderProgram());
       glBegin(GL_TRIANGLE_FAN);
