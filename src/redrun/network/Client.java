@@ -15,7 +15,7 @@ import redrun.model.gameobject.player.Player;
 /**
  * Facilitate client interaction with the server
  * 
- * @author Jayson Grace ( jaysong@unm.edu )
+ * @author Jayson Grace ( jaysong@unm.edu ), Troy Squillaci ( zivia@unm.edu )
  * @version 1.0
  * @since 2014-11-22
  */
@@ -149,7 +149,7 @@ public class Client
   {
     this.write.println("Disconnect");
   }
-  
+
   /**
    * Requests the player data to make the player.
    */
@@ -215,13 +215,11 @@ public class Client
             .compile("===\\sPlayer\\s===\\sLocation:(.*?)\\sName:(.*?)\\sTexture:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
         Pattern quitGame = Pattern.compile("Disconnecting client...");
 
-        // TODO Parse incoming player information.
-
         try
         {
           // Wait for the next message from the server...
           String msg = reader.readLine();
-          
+
           Matcher matchMap = getMap.matcher(msg);
           Matcher matchMapObject = getMapObject.matcher(msg);
           Matcher matchQuitGame = quitGame.matcher(msg);

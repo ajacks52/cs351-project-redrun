@@ -9,16 +9,22 @@ package redrun.database;
  */
 public class MapObjectDB
 {
+  /** Primary key */
   private int id;
+  /** Object name */
   private String objectName;
+  /** Location of object in map */
   private String location;
+  /** Location of image used for groundTexture */
   private String groundTexture;
+  /** Location of image used for wallTextrue */
   private String wallTexture;
+  /** Orientation of object */
   private String direction;
+  /** Type of trap associated with object */
   private String trapType;
+  /** Associated map */
   private int mapId;
-
-  // private StartLocation parsedStart;
 
   /**
    * MapObject instantiation

@@ -9,9 +9,13 @@ package redrun.database;
  */
 public class GameObjectDB
 {
+  /** Primary key */
   private int id;
+  /** Name of map associated */
   private String mapName;
+  /** Location of skybox image used */
   private String skyBox;
+  /** Location of floor image used */
   private String floor;
 
   /**

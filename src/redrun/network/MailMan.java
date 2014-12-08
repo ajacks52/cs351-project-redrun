@@ -5,15 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import redrun.database.Map;
 import redrun.database.MapObjectDB;
-import redrun.database.RedRunDAO;
 
 /**
  * Directs the flow of information between a client and the server
@@ -31,17 +28,6 @@ public class MailMan extends Thread
   private String playerData;
   private boolean playerReady = false;
   private boolean trapReady = false;
-
-  protected boolean isReady()
-  {
-    return playerReady && trapReady;
-  }
-
-  protected void resetReady()
-  {
-    this.playerReady = false;
-    this.trapReady = false;
-  }
 
   /**
    * MailMan Instantiation
@@ -79,13 +65,11 @@ public class MailMan extends Thread
    */
   public void send(String msg)
   {
-    // System.out.println("MailMan.send(" + msg + ")");
     clientWriter.println(msg);
   }
 
   /**
-   * Either take input to kill a particular client thread or broadcast new game
-   * information to all players
+   * Facilitate responding to client requests from the server
    */
   public void run()
   {
@@ -100,13 +84,13 @@ public class MailMan extends Thread
       try
       {
         String incomingMessage = clientReader.readLine();
-        // System.out.println("DICKNUTS: " + incomingMessage);
 
         Matcher matchInboundPlayer = playerData.matcher(incomingMessage);
         Matcher matchRequestDisconnect = requestDisconnect.matcher(incomingMessage);
         Matcher matchRequestPlayer = requestPlayer.matcher(incomingMessage);
         Matcher matchRequestMapData = requestMapData.matcher(incomingMessage);
 
+        // TODO: Add trap parser
         if (matchRequestDisconnect.find())
         {
           System.out.println("Quitting!");
@@ -116,7 +100,7 @@ public class MailMan extends Thread
         }
         else if (matchInboundPlayer.find())
         {
-          this.playerData = incomingMessage;
+          this.setPlayerData(incomingMessage);
           playerReady = true;
         }
         else if (matchRequestPlayer.find())
@@ -126,7 +110,7 @@ public class MailMan extends Thread
         else if (matchRequestMapData.find())
         {
           System.out.println("Client Requested Map Data");
-          
+
           for (Map map : Server.mapData)
           {
             this.send(map.toString());
@@ -143,5 +127,41 @@ public class MailMan extends Thread
         e.printStackTrace();
       }
     }
+  }
+
+  /**
+   * Check to see if both player and trap information are prepared for
+   * transmission
+   * 
+   * @return true if both are ready, false otherwise
+   */
+  protected boolean isReady()
+  {
+    return playerReady && trapReady;
+  }
+
+  /**
+   * Reset the ready state of player and trap information
+   */
+  protected void resetReady()
+  {
+    this.playerReady = false;
+    this.trapReady = false;
+  }
+
+  /**
+   * @return the playerData
+   */
+  public String getPlayerData()
+  {
+    return playerData;
+  }
+
+  /**
+   * @param playerData the playerData to set
+   */
+  public void setPlayerData(String playerData)
+  {
+    this.playerData = playerData;
   }
 }

@@ -9,10 +9,15 @@ package redrun.database;
  */
 public class Map
 {
+  /** Primary key */
   private int id;
+  /** Name of associated map */
   private String mapName;
+  /** Location of skybox image used */
   private String skyBox;
+  /** Location of floor image used */
   private String floor;
+  /** Location of light position for map */
   private String lightPosition;
 
   /**
@@ -64,6 +69,7 @@ public class Map
 
   /**
    * Get skybox associated with map
+   * 
    * @return skybox for current map
    */
   public String getSkyBox()
@@ -73,6 +79,7 @@ public class Map
 
   /**
    * Get floor associated with map
+   * 
    * @return floor for current map
    */
   public String getFloor()
@@ -82,6 +89,7 @@ public class Map
 
   /**
    * Get light position associated with map
+   * 
    * @return light position for current map
    */
   public String getLightPosition()

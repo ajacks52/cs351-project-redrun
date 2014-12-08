@@ -17,7 +17,9 @@ import java.util.ArrayList;
  */
 public class RedRunDAO
 {
+  /** Set DEBUG */
   private static final boolean DEBUG = false;
+  /** Connection to Database */
   private static Connection c = RedRunDAO.connectToDB();
 
   /**
