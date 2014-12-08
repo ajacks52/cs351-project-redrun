@@ -20,9 +20,19 @@ public class CubePhysicsBody extends BoxPhysicsBody
    * @param direction
    * @param mass
    */
-  public CubePhysicsBody(Vector3f center, float radius, Quat4f direction, float mass)
+  public CubePhysicsBody(Vector3f center, float radius, Quat4f direction, float mass, int collisionTypes)
   {
-    super(center, new Vector3f(radius,radius,radius), direction, mass);
+    super(center, new Vector3f(radius,radius,radius), direction, mass, collisionTypes);
   }
 
+  /**
+   * @param center
+   * @param radiuses
+   * @param direction
+   * @param mass
+   */
+  public CubePhysicsBody(Vector3f center, float radius, Quat4f direction, float mass)
+  {
+    super(center, new Vector3f(radius,radius,radius), direction, mass, 0);
+  }
 }

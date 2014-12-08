@@ -14,6 +14,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.bulletphysics.collision.dispatch.CollisionFlags;
+import com.bulletphysics.collision.dispatch.CollisionObject;
 import com.bulletphysics.collision.dispatch.GhostPairCallback;
 import com.bulletphysics.collision.dispatch.PairCachingGhostObject;
 import com.bulletphysics.collision.shapes.CapsuleShape;
@@ -22,6 +23,7 @@ import com.bulletphysics.dynamics.character.KinematicCharacterController;
 
 import redrun.graphics.camera.Camera;
 import redrun.model.constants.CameraType;
+import redrun.model.constants.CollisionTypes;
 import redrun.model.constants.Constants;
 import redrun.model.constants.Team;
 import redrun.model.gameobject.GameObject;
@@ -59,7 +61,7 @@ public class Player extends GameObject
   private int lives;
 
   /** The state of this player's life. */
-  private boolean alive;
+  private boolean alive; 
   
   /** The players model */
   private Model model = null;
@@ -80,7 +82,19 @@ public class Player extends GameObject
     super(x, y+10, z, textureName);
 
     
-    body = new CapsulePhysicsBody(new Vector3f(x, y, z), 2f, 100f, 0f);
+    body = new CapsulePhysicsBody(new Vector3f(x, y, z), 2f, 100f, 0f)
+    {
+      public void collidedWith(CollisionObject other)
+      {
+        super.collidedWith(other);
+        int collisionFlags = other.getCollisionFlags();
+        if ((collisionFlags & CollisionTypes.INSTANT_DEATH_COLLISION_TYPE) != 0)
+        {
+          System.out.println("Instant death!!!!");
+          lives--;
+        }
+      }
+    };
     body.body.setCollisionFlags(body.body.getCollisionFlags() | CollisionFlags.CUSTOM_MATERIAL_CALLBACK);
     PhysicsWorld.addToWatchList(body);
     camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, x, y, z, CameraType.PLAYER);
@@ -188,7 +202,7 @@ public class Player extends GameObject
 
   public void lookThrough()
   {
-    camera.updatePosition(this.getX(), this.getY() + 5f, this.getZ(), body.getPitch(), body.getYaw());
+    camera.updatePosition(this.getX(), this.getY() - 5f, this.getZ(), body.getPitch(), body.getYaw());
     camera.lookThrough();
   }
 

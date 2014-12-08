@@ -39,7 +39,7 @@ public class PhysicsBody
    * @param center in meters
    * @param collisionShape
    */
-  public PhysicsBody(float mass, Quat4f direction, Vector3f center, CollisionShape collisionShape)
+  public PhysicsBody(float mass, Quat4f direction, Vector3f center, CollisionShape collisionShape, int collisionType)
   {
     javax.vecmath.Vector3f fallInertia = PhysicsTools.openGLToBullet(new Vector3f(0, 0, 0));
     if (collisionShape != null && mass != 0.0f)
@@ -48,6 +48,7 @@ public class PhysicsBody
     }
     body = new RigidBody(mass, new DefaultMotionState(new Transform(new Matrix4f(direction,
         PhysicsTools.openGLToBullet(center), 1))), collisionShape, fallInertia);
+    body.setCollisionFlags(body.getCollisionFlags() | collisionType);
     PhysicsWorld.addPhysicsBody(this);
   }
 
@@ -69,7 +70,8 @@ public class PhysicsBody
    */
   public float getY()
   {
-    trans = body.getMotionState().getWorldTransform(trans);
+    FloatBuffer fb = this.getOpenGLTransformMatrix();
+    System.out.println(fb.get(1) + " " + fb.get(5) + " " + fb.get(9) + " " + fb.get(13));
     return trans.origin.y;
   }
 
@@ -240,6 +242,5 @@ public class PhysicsBody
   public void collidedWith(CollisionObject other)
   {
     canJump = true;
-    System.out.println("collided with");
   }
 }

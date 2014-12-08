@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.constants.CollisionTypes;
 import redrun.model.constants.Constants;
 import redrun.model.constants.Direction;
 import redrun.model.gameobject.trap.Trap;
@@ -48,7 +49,8 @@ public class Rock extends Trap
 
     this.startTime = startTime;
     //this.body = new SpherePhysicsBody(new Vector3f(x, y, z), 4.5f, 10.0f);
-    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(4, 4, 5), new Quat4f(), 0);
+    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(4, 4, 5), new Quat4f(), 0, CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
+    
     // load in model
     model = OBJLoader.loadModel(new File("res/models/" + "rock" + Constants.random.nextInt(2) + ".obj"));
 
@@ -116,11 +118,14 @@ public class Rock extends Trap
   @Override
   public void update()
   {
-    if (this.timer.getTime() > startTime && count < 12 && down)
+    body.getY();
+//    System.out.println("body.getY: " + body.getOpenGLTransformMatrix());
+    int time = 40;
+    if (this.timer.getTime() > startTime && count < time && down)
     {    
       count++;
-      body.translate(0f, -2f, 0f);
-      if(count == 12)
+      body.translate(0f, -0.5f, 0f);
+      if(count == time)
       {
         down=false;
       }
@@ -128,7 +133,7 @@ public class Rock extends Trap
     else if (count > 0 && this.timer.getTime() > startTime && !down)
     {
       count--;
-      body.translate(0f, 2f, 0f);
+      body.translate(0f, 0.5f, 0f);
       if(count == 0)
       {
         down=true;

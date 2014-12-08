@@ -21,8 +21,19 @@ public class SpherePhysicsBody extends PhysicsBody
    * @param radius in meters
    * @param mass in kg
    */
+  public SpherePhysicsBody(Vector3f center, float radius, float mass, int collisionTypes)
+  {
+    super(mass, new Quat4f(0,0,0,1), center, new SphereShape(radius), collisionTypes);
+  }
+  
+  /**
+   * Creates a spherical physics body 
+   * @param center in meters
+   * @param radius in meters
+   * @param mass in kg
+   */
   public SpherePhysicsBody(Vector3f center, float radius, float mass)
   {
-    super(mass, new Quat4f(0,0,0,1), center, new SphereShape(radius));
+    super(mass, new Quat4f(0,0,0,1), center, new SphereShape(radius), 0);
   }
 }
