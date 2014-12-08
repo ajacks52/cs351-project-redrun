@@ -92,9 +92,6 @@ public class Main
   /** The active camera. */
   private static Camera camera = null;
 
-  /** The player associated with the client. */
-  //private static Player player = null;
-
   /** Used to interface with the network client. */
   private static Client client = null;
 
@@ -222,13 +219,6 @@ public class Main
       GameData.addGameObject(new Cube(45.0f, 50.0f + (2 * i), 45.0f, "crate1"));
     }
 
-    // Create balls above the staircase...
-    for (int i = 0; i < 10; i++)
-    {
-      // GameData.addGameObject(new Ball(45.0f, 50.0f + (5 * i), 15.0f,
-      // "crate1", 1.5f));
-    }
-
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
 
@@ -289,11 +279,8 @@ public class Main
       // Get input from the user...
       getInput();
       
-      if (ObjectFromDB.mapDrawn == true)
-      {
-        GameData.networkData.clear();
-        client.sendPlayer(GameData.players.get(0));
-      }
+      GameData.networkData.clear();
+      client.sendPlayer(GameData.players.get(0));
 
       // Prepare for rendering...
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -347,9 +334,6 @@ public class Main
         }
         Picker.stopPicking();
       }
-
-      // Draw the player...
-      //player.draw();
       
       // Draw the other players...
       for (Player player : GameData.players)
@@ -413,9 +397,6 @@ public class Main
     dy = Mouse.getDY();
     dt = Timing.getDelta();
 
-    camera.yaw(dx * mouseSensitivity);
-    camera.pitch(-dy * mouseSensitivity);
-
     // Camera related input...
     if (Keyboard.isKeyDown(Keyboard.KEY_R))
     {
@@ -425,25 +406,47 @@ public class Main
     // Movement related input...
     if (camera.getType() == CameraType.PLAYER)
     {
+      GameData.players.get(0).yaw(dx * mouseSensitivity);
+      GameData.players.get(0).pitch(-dy * mouseSensitivity);
+      
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
       {
         GameData.players.get(0).walkForward(movementSpeed * 2);
       }
       else if (Keyboard.isKeyDown(Keyboard.KEY_W)) GameData.players.get(0).walkForward(movementSpeed);
-      if (Keyboard.isKeyDown(Keyboard.KEY_S)) GameData.players.get(0).walkBackward(movementSpeed);
       if (Keyboard.isKeyDown(Keyboard.KEY_A)) GameData.players.get(0).walkLeft(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_S)) GameData.players.get(0).walkBackward(movementSpeed);
       if (Keyboard.isKeyDown(Keyboard.KEY_D)) GameData.players.get(0).walkRight(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_D))
+      {
+        GameData.players.get(0).walkForwardRight(movementSpeed);
+      }
+      if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_A))
+      {
+        GameData.players.get(0).walkForwardLeft(movementSpeed);
+      }
+      if (Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_D))
+      {
+        GameData.players.get(0).walkBackRight(movementSpeed);
+      }
+      if (Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_A))
+      {
+        GameData.players.get(0).walkBackLeft(movementSpeed);
+      }
       if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) GameData.players.get(0).jump();
     }
     else if (camera.getType() == CameraType.SPECTATOR)
     {
+      camera.yaw(dx * mouseSensitivity);
+      camera.pitch(-dy * mouseSensitivity);
+      
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
       {
         camera.moveForward(movementSpeed / 20);
       }
       if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed / 40);
-      if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed / 40);
       if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed / 40);
       if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed / 40);
       if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) camera.moveUp(movementSpeed / 40);
       if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) camera.moveDown(movementSpeed / 40);
