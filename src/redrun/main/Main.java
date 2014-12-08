@@ -92,7 +92,7 @@ public class Main
   private static Camera camera = null;
 
   /** Used to interface with the network client. */
-  private static Client client = null;
+  public static Client client = null;
 
   /** Used to access the database. */
   private static Map map = null;
@@ -255,6 +255,7 @@ public class Main
             }
             case TRAP:
             {
+              ObjectFromDB.updateTrap(networkData);
               break;
             }
             default:

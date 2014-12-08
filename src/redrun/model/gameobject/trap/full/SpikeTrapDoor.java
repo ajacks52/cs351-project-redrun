@@ -7,6 +7,7 @@ import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.main.Main;
 import redrun.model.constants.CollisionTypes;
 import redrun.model.constants.Direction;
 import redrun.model.gameobject.trap.Trap;
@@ -132,6 +133,7 @@ public class SpikeTrapDoor extends Trap
   public void activate()
   {
     System.out.println("Interacting with the game object: " + this.id);
+    Main.client.sendTrap(this);
     this.timer.resume();
   }
 

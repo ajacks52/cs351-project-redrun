@@ -11,6 +11,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import com.bulletphysics.collision.dispatch.CollisionObject;
 
+import redrun.main.Main;
 import redrun.model.constants.Direction;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.trap.Trap;
@@ -61,6 +62,7 @@ public class PoleWall extends Trap
   public void activate()
   {
     System.out.println("Interacting with the game object: " + this.id);
+    Main.client.sendTrap(this);
     spear1.activate();
     spear2.activate();
     spear3.activate();

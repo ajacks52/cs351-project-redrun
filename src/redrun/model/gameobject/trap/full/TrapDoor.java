@@ -6,6 +6,7 @@ import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.main.Main;
 import redrun.model.constants.Direction;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.trap.Trap;
@@ -86,6 +87,7 @@ public class TrapDoor extends Trap
   @Override
   public void activate()
   {
+    Main.client.sendTrap(this);
     this.timer.resume();
   }
 

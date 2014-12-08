@@ -1,5 +1,6 @@
 package redrun.model.gameobject.trap.full;
 
+import redrun.main.Main;
 import redrun.model.constants.Direction;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.trap.Trap;
@@ -34,6 +35,7 @@ public class PoleDance extends Trap
   public void activate()
   {
     System.out.println("Interacting with the game object: " + this.id);
+    Main.client.sendTrap(this);
     spear1.activate();
     spear2.activate();
     spear3.activate();

@@ -1,5 +1,6 @@
 package redrun.model.gameobject.trap.full;
 
+import redrun.main.Main;
 import redrun.model.constants.Direction;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.trap.Trap;
@@ -43,6 +44,7 @@ public class RockSmash extends Trap
   public void activate()
   {
     System.out.println("Interacting with the game object: " + this.id);
+    Main.client.sendTrap(this);
     rock1.activate();
     rock2.activate();
     rock3.activate();
