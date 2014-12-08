@@ -88,6 +88,14 @@ public class Camera
   public void pitch(float amount)
   {
     pitch += amount;
+    if (pitch < -90)
+    {
+      pitch = -90;
+    }
+    if (pitch > 90)
+    {
+      pitch = 90;
+    }
   }
 
   // Movement methods...
@@ -283,6 +291,7 @@ public class Camera
   public void lookThrough()
   {
     GL11.glRotatef(pitch, 1.0f, 0.0f, 0.0f);
+    GL11.glTranslatef(0, 0, 2);
     GL11.glRotatef(yaw, 0.0f, 1.0f, 0.0f);
     GL11.glTranslatef(-position.x, -position.y, -position.z);
   }

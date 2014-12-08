@@ -1,9 +1,15 @@
 package redrun.model.gameobject.player;
 
 import static org.lwjgl.opengl.GL11.GL_COMPILE;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glCallList;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glGenLists;
 import static org.lwjgl.opengl.GL11.glMultMatrix;
 import static org.lwjgl.opengl.GL11.glNewList;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
 
 import java.io.File;
 
@@ -137,6 +143,36 @@ public class Player extends GameObject
     GL11.glEndList();
 
   }
+  
+  
+  public void draw()
+  {
+    if (texture != null)
+    {
+      glPushMatrix();
+      {
+        glEnable(GL_TEXTURE_2D);
+        texture.bind();
+        glMultMatrix(body.getOpenGLTransformMatrix());
+        GL11.glRotatef(camera.getYaw()+180, 0, -1, 0);
+        glCallList(displayListId);
+        glDisable(GL_TEXTURE_2D);
+      }
+      glPopMatrix();
+    }
+    else
+    {
+      glPushMatrix();
+      {
+        glMultMatrix(body.getOpenGLTransformMatrix());
+        GL11.glRotatef(camera.getYaw()+180, 0, -1, 0);
+        glCallList(displayListId);
+      }
+      glPopMatrix();
+    }
+
+    update();
+  }
 
   /**
    * Makes the player jump about 2 meters into the air.
@@ -203,7 +239,7 @@ public class Player extends GameObject
   @Override
   public void update()
   {
-    camera.updatePosition(this.getX(), this.getY() + 5f, this.getZ() + .5f, body.getPitch(), body.getYaw());
+    camera.updatePosition(this.getX(), this.getY() + 5f, this.getZ(), body.getPitch(), body.getYaw());
   }
 
   @Override
