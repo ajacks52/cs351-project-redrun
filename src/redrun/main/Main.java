@@ -93,7 +93,7 @@ public class Main
   private static Camera camera = null;
 
   /** The player associated with the client. */
-  private static Player player = null;
+  //private static Player player = null;
 
   /** Used to interface with the network client. */
   private static Client client = null;
@@ -187,10 +187,10 @@ public class Main
           }
           case PLAYER:
           {
-            player = ObjectFromDB.createPlayer(networkData);
+            GameData.players.add(ObjectFromDB.createPlayer(networkData));
             Camera spectatorCam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000,
                 0.0f, 1.0f, 0.0f, CameraType.SPECTATOR);
-            Camera playerCam = player.getCamera();
+            Camera playerCam = GameData.players.get(0).getCamera();
             cameraManager = new CameraManager(spectatorCam, playerCam);
             break;
           }
@@ -239,6 +239,8 @@ public class Main
         for (String networkData : GameData.networkData)
         {
           NetworkType type = ObjectFromDB.parseNetworkType(networkData);
+          
+          System.out.println(networkData);
 
           switch (type)
           {
@@ -343,7 +345,13 @@ public class Main
       }
 
       // Draw the player...
-      player.draw();
+      //player.draw();
+      
+      // Draw the other players...
+      for (Player player : GameData.players)
+      {
+        player.draw();
+      }
 
       // Draw the floor...
       floor.draw();
@@ -361,7 +369,7 @@ public class Main
       }
 
       // Show the HUD...
-      if (state != GameState.MAIN_MENU) HUD_Manager.huds(camera, player);
+      if (state != GameState.MAIN_MENU) HUD_Manager.huds(camera, GameData.players.get(0));
       // Show the menu...
       if (state == GameState.MAIN_MENU) menu.stateControl();
       cameraManager.update();
@@ -373,7 +381,7 @@ public class Main
       if (ObjectFromDB.mapDrawn == true)
       {
         GameData.networkData.clear();
-        client.sendPlayer(player);
+        client.sendPlayer(GameData.players.get(0));
       }
     }
   }
@@ -421,13 +429,13 @@ public class Main
     {
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
       {
-        player.walkForward(movementSpeed * 2);
+        GameData.players.get(0).walkForward(movementSpeed * 2);
       }
-      else if (Keyboard.isKeyDown(Keyboard.KEY_W)) player.walkForward(movementSpeed);
-      if (Keyboard.isKeyDown(Keyboard.KEY_S)) player.walkBackward(movementSpeed);
-      if (Keyboard.isKeyDown(Keyboard.KEY_A)) player.walkLeft(movementSpeed);
-      if (Keyboard.isKeyDown(Keyboard.KEY_D)) player.walkRight(movementSpeed);
-      if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) player.jump();
+      else if (Keyboard.isKeyDown(Keyboard.KEY_W)) GameData.players.get(0).walkForward(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_S)) GameData.players.get(0).walkBackward(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_A)) GameData.players.get(0).walkLeft(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_D)) GameData.players.get(0).walkRight(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) GameData.players.get(0).jump();
     }
     else if (camera.getType() == CameraType.SPECTATOR)
     {

@@ -53,7 +53,8 @@ public class Fire extends Trap
     {
       glPushMatrix();
       {
-        //   255-165-0 glColor3f(1f, 1f, 1f);
+        // 255-165-0 
+        glColor3f(1f, .64f, 0f);
         glMultMatrix(body.getOpenGLTransformMatrix());
         particleEmitter.draw();
       }

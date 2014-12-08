@@ -5,10 +5,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import redrun.database.Map;
 import redrun.database.MapObjectDB;
 import redrun.database.RedRunDAO;
+import redrun.model.game.GameData;
 
 /**
  * Facilitate server functionality
@@ -35,7 +38,7 @@ public class Server
   public static ArrayList<Map> mapData = new ArrayList<Map>();
   /** Keep track of data associated with items in the map */
   public static ArrayList<MapObjectDB> mapObjectData = new ArrayList<MapObjectDB>();
-
+  
   /**
    * Server instantiation
    * 
@@ -114,18 +117,48 @@ public class Server
   {
     allConnections.remove(worker);
   }
+  
+  public static void checkBroadcast()
+  {
+    System.out.println("===================");
+    System.out.println("Checking broadcast status...");
+
+    boolean isReady = true;
+    
+    for (MailMan workers : allConnections)
+    {
+      if (!workers.isReady())
+      {
+        isReady = false;
+        break;
+      }
+    }
+    
+    if (isReady)
+    {
+      System.out.println("Broadcasting...");
+      
+      for (MailMan workers : allConnections)
+      {
+        broadcast(workers.getPlayerData());
+        workers.resetReady();
+      }
+    }
+  }
 
   /**
    * Broadcast a message to all connected clients
    * 
    * @param s Message to broadcast to connected clients
    */
-  public static void broadcast(MailMan currentWorker, String s)
+  public static void broadcast(String networkData)
   {
+    System.out.println("=======================");
+    
     for (MailMan workers : allConnections)
     {
-      // Send message to all workers except the sender
-      if (!currentWorker.equals(workers)) workers.send(s);
+      System.out.println(networkData);
+      workers.send(networkData);
     }
   }
 

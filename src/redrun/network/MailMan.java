@@ -27,7 +27,7 @@ public class MailMan extends Thread
   private BufferedReader clientReader;
   private String playerData;
   private boolean playerReady = false;
-  private boolean trapReady = false;
+  private boolean trapReady = true;
 
   /**
    * MailMan Instantiation
@@ -102,6 +102,7 @@ public class MailMan extends Thread
         {
           this.setPlayerData(incomingMessage);
           playerReady = true;
+          Server.checkBroadcast();
         }
         else if (matchRequestPlayer.find())
         {
@@ -146,7 +147,8 @@ public class MailMan extends Thread
   protected void resetReady()
   {
     this.playerReady = false;
-    this.trapReady = false;
+    //TODO
+    this.trapReady = true;
   }
 
   /**

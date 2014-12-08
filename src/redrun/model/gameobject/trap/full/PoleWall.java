@@ -32,21 +32,24 @@ public class PoleWall extends Trap
 
     if (orientation == Direction.EAST || orientation == Direction.WEST)
     {
-      spear1 = new Spear(x, y, z, orientation, null, 0f, "x");
-      spear2 = new Spear(x - 3, y, z + 3, orientation, null, 0f, "x");
-      spear3 = new Spear(x + 3, y, z - 3, orientation, null, 0f, "x");
-      spear4 = new Spear(x + 3, y, z + 3, orientation, null, 0f, "x");
-      spear5 = new Spear(x - 3, y, z - 3, orientation, null, 0f, "x");
+      spear1 = new Spear(x - 35, y + 3, z - 5, orientation, null, 0f, "x");
+      spear2 = new Spear(x - 35, y + 3, z + 0, orientation, null, 0f, "x");
+      spear3 = new Spear(x - 35, y + 3, z + 5, orientation, null, 0f, "x");
+      spear4 = new Spear(x - 35, y + 5, z + 3, orientation, null, 0f, "x");
+      spear5 = new Spear(x - 35, y + 5, z - 3, orientation, null, 0f, "x");
     }
     else if (orientation == Direction.SOUTH || orientation == Direction.NORTH)
     {
-      spear1 = new Spear(x, y, z, orientation, null, 0f, "z");
-      spear2 = new Spear(x - 3, y, z + 3, orientation, null, 0f, "z");
-      spear3 = new Spear(x + 3, y, z - 3, orientation, null, 0f, "z");
-      spear4 = new Spear(x + 3, y, z + 3, orientation, null, 0f, "z");
-      spear5 = new Spear(x - 3, y, z - 3, orientation, null, 0f, "z");
+      spear1 = new Spear(x - 5, y + 3, z + 35, orientation, null, 0f, "z");
+      spear2 = new Spear(x + 0, y + 3, z + 35, orientation, null, 0f, "z");
+      spear3 = new Spear(x + 5, y + 3, z + 35, orientation, null, 0f, "z");
+      spear4 = new Spear(x - 3, y + 5, z + 35, orientation, null, 0f, "z");
+      spear5 = new Spear(x + 3, y + 5, z + 35, orientation, null, 0f, "z");
     }
 
+    ///   *-5     *0     *+5  +5
+    ///            +
+    ///       *-3     *+3     +3
     GameData.addGameObject(spear1);
     GameData.addGameObject(spear2);
     GameData.addGameObject(spear3);

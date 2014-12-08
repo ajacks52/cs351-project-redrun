@@ -381,7 +381,7 @@ public class Player extends GameObject
   
   public void hurt()
   {
-    health--;
+    health -= 2;
     if (health <= 0)
     {
       kill();
