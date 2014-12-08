@@ -1,10 +1,7 @@
 package redrun.model.gameobject.player;
 
 import static org.lwjgl.opengl.GL11.GL_COMPILE;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glCallList;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glGenLists;
 import static org.lwjgl.opengl.GL11.glMultMatrix;
 import static org.lwjgl.opengl.GL11.glNewList;
@@ -14,8 +11,6 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 import java.io.File;
 import java.util.Arrays;
 
-import javax.vecmath.Quat4f;
-
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
@@ -23,25 +18,17 @@ import org.lwjgl.util.vector.Vector3f;
 
 import com.bulletphysics.collision.dispatch.CollisionFlags;
 import com.bulletphysics.collision.dispatch.CollisionObject;
-import com.bulletphysics.collision.dispatch.GhostPairCallback;
-import com.bulletphysics.collision.dispatch.PairCachingGhostObject;
-import com.bulletphysics.collision.shapes.CapsuleShape;
-import com.bulletphysics.collision.shapes.CollisionShape;
-import com.bulletphysics.dynamics.character.KinematicCharacterController;
 import com.bulletphysics.linearmath.Transform;
 
 import redrun.graphics.camera.Camera;
 import redrun.model.constants.CameraType;
 import redrun.model.constants.CollisionTypes;
-import redrun.model.constants.Constants;
 import redrun.model.constants.Team;
 import redrun.model.gameobject.GameObject;
 import redrun.model.mesh.Face;
 import redrun.model.mesh.Model;
-import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.physics.CapsulePhysicsBody;
 import redrun.model.physics.PhysicsBody;
-import redrun.model.physics.PhysicsTools;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.OBJLoader;
 
@@ -70,14 +57,12 @@ public class Player extends GameObject
   private int lives;
 
   /** The state of this player's life. */
-  private boolean alive; 
-  
+  private boolean alive;
+
   /** The players model */
   private Model model = null;
-  
-  
-  private Transform startPos;
 
+  private Transform startPos;
 
   /**
    * Creates a new player at the specified position.
@@ -91,9 +76,8 @@ public class Player extends GameObject
    */
   public Player(float x, float y, float z, String name, Team team)
   {
-    super(x, y+10, z, null);
+    super(x, y + 10, z, null);
 
-    
     body = new CapsulePhysicsBody(new Vector3f(x, y, z), 2f, 100f, 0f)
     {
       public void collidedWith(CollisionObject other)
@@ -104,29 +88,29 @@ public class Player extends GameObject
         {
           System.out.println("Instant death!!!!");
           kill();
-        } 
+        }
         else if ((collisionFlags & CollisionTypes.MINIMAL_DAMAGE_COLLISION_TYPE) != 0)
         {
           hurt();
         }
-        
+
       }
     };
     body.body.setCollisionFlags(body.body.getCollisionFlags() | CollisionFlags.CUSTOM_MATERIAL_CALLBACK);
     startPos = new Transform();
-    
+
     startPos = body.body.getWorldTransform(startPos);
-    
+
     PhysicsWorld.addToWatchList(body);
-    camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, x, y, z, CameraType.PLAYER);
+    camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, x, y, z,
+        CameraType.PLAYER);
 
     this.name = name;
     this.team = team;
     this.health = 100;
     this.lives = 5;
     this.alive = true;
-    
-    
+
     model = OBJLoader.loadModel(new File("res/models/" + "guy11" + ".obj"));
 
     displayListId = glGenLists(1);
@@ -171,18 +155,17 @@ public class Player extends GameObject
     GL11.glEndList();
 
   }
-  
-  
+
   public void draw()
   {
-    
-      glPushMatrix();
-      {
-        glMultMatrix(body.getOpenGLTransformMatrix());
-        GL11.glRotatef(camera.getYaw()+180, 0, -1, 0);
-        glCallList(displayListId);
-      }
-      glPopMatrix();
+
+    glPushMatrix();
+    {
+      glMultMatrix(body.getOpenGLTransformMatrix());
+      GL11.glRotatef(camera.getYaw() + 180, 0, -1, 0);
+      glCallList(displayListId);
+    }
+    glPopMatrix();
 
     update();
   }
@@ -386,11 +369,10 @@ public class Player extends GameObject
   {
     this.lives = lives;
   }
-  
-  
+
   public void kill()
   {
-    lives --;
+    lives--;
     body.body.setWorldTransform(startPos);
     body.body.activate(true);
     health = 100;
@@ -399,7 +381,7 @@ public class Player extends GameObject
       alive = false;
     }
   }
-  
+
   public void hurt()
   {
     health--;
@@ -413,8 +395,8 @@ public class Player extends GameObject
   public String toString()
   {
     //@formatter:off
-    return "=== Player === " + "Location:" + Arrays.toString(body.getOpenGLTransformMatrixArray()) + " Name:" + this.name
-        + " Team Name:" + this.team + " Health:"
+    return "=== Player === " + "Location:" + body.getX() + ", " + body.getY() + ", " + body.getZ()
+        + " Rotation:" + camera.getYaw() + " Name:" + this.name + " Team Name:" + this.team + " Health:"
         + this.health + " Lives left:" + this.lives + " Alive:" + this.alive + " ===";
     //@formatter:on
   }
