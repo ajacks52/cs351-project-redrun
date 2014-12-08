@@ -214,6 +214,7 @@ public class Client
         Pattern inboundPlayerData = Pattern
             .compile("===\\sPlayer\\s===\\sLocation:\\[(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?)\\]\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
         Pattern quitGame = Pattern.compile("Disconnecting client...");
+        Pattern requestTrapData = Pattern.compile("===\\sTrap\\s===\\sID:(\\d+)\\s===");
 
         try
         {
@@ -224,6 +225,7 @@ public class Client
           Matcher matchMapObject = getMapObject.matcher(msg);
           Matcher matchQuitGame = quitGame.matcher(msg);
           Matcher matchInboundPlayerData = inboundPlayerData.matcher(msg);
+          Matcher matchTrapData = requestTrapData.matcher(msg);
 
           if (matchMap.find())
           {
@@ -242,6 +244,10 @@ public class Client
           {
             GameData.networkData.add(msg);
           }
+          // else if (matchTrapData.find())
+          // {
+          // GameData.networkData.add(msg);
+          // }
           else
           {
             System.out.println("Unrecognized message " + msg + " sent, error!");
