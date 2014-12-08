@@ -13,31 +13,35 @@ import redrun.database.RedRunDAO;
 /**
  * Facilitate server functionality
  * 
- * @author Jayson Grace ( jaysong@unm.edu )
+ * @author Jayson Grace ( jaysong@unm.edu ), Troy Squillaci
  * @version 1.0
  * @since 2014-11-17
  */
 public class Server
 {
-  /** Server ip address */
+  /** Server IP address. */  
   public static final String HOST = "127.0.0.1";
-  /** Server listening port */
-  public static final int PORT = 7777;
-  /** Used to listen for inbound client connections */
-  private ServerSocket serverSocket;
-  /** Used to assign unique players to each connected client */
-  private static int counter = 0;
-  /** Maintain list of all connections to server */
-  private static LinkedList<MailMan> allConnections = new LinkedList<MailMan>();
-  /** Server time */
-  private static final long time = System.currentTimeMillis();
-  /** Keep track of data associated with the map */
-  public static ArrayList<Map> mapData = new ArrayList<Map>();
-  /** Keep track of data associated with items in the map */
-  public static ArrayList<MapObjectDB> mapObjectData = new ArrayList<MapObjectDB>();
   
+  /** Server listening port. */
+  public static final int PORT = 7777;
+  
+  /** Used to listen for in-bound client connections. */
+  private ServerSocket serverSocket;
+  
+  /** Used to assign unique players to each connected client. */
+  private static int playerCounter = 0;
+  
+  /** List of all connections to server. */
+  private static LinkedList<MailMan> allConnections = new LinkedList<MailMan>();
+  
+  /** Keeps track of data associated with the map. */
+  public static ArrayList<Map> mapData = new ArrayList<Map>();
+  
+  /** Keeps track of data associated with items that make up the map. */
+  public static ArrayList<MapObjectDB> mapObjectData = new ArrayList<MapObjectDB>();
+
   /**
-   * Server instantiation
+   * Creates a new RedRun server on the specified port.
    * 
    * @param portNumber port number for clients to connect to
    */
@@ -61,24 +65,24 @@ public class Server
   }
 
   /**
-   * Wait for client to connect
+   * Waits for client to connect.
    */
   public void waitForConnection()
   {
     while (true)
     {
-      System.out.println("Server: waiting for Connection");
+      System.out.println("RedRun Server: Waiting for a client...");
       try
       {
         Socket client = serverSocket.accept();
         MailMan worker = new MailMan(client);
         worker.start();
-        System.out.println("Server: *********** new Connection");
+        System.out.println("RedRun Server: A new client has connected!");
         allConnections.add(worker);
       }
       catch (IOException e)
       {
-        System.err.println("Server error: Failed to connect to client.");
+        System.err.println("RedRun Server Error: Failed to connect to client...");
         e.printStackTrace();
       }
     }
@@ -92,15 +96,15 @@ public class Server
   public static String assignPlayer()
   {
     String[] players = {
-      "=== Player === Location:0.0, 1.0, 0.0 Rotation:90.0 Name:Balthazar Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
-      "=== Player === Location:0.0, 1.0, 0.0 Rotation:90.0 Name:Joel Team Name:RED Health:100 Lives left:5 Alive:true ===",
-      "=== Player === Location:0.0, 1.0, 0.0 Rotation:90.0 Name:Archimedes Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
-      "=== Player === Location:0.0, 1.0, 0.0 Rotation:90.0 Name:Leeroy Jenkins Team Name:BLUE Health:100 Lives left:5 Alive:true ===" };
-    return players[counter++];
+        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 4.0, 2.0, 4.0] Name:Balthazar Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
+        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 4.0, 2.0, -4.0] Name:Joel Team Name:RED Health:100 Lives left:5 Alive:true ===",
+        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -4.0, 2.0, 4.0] Name:Archimedes Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
+        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -4.0, 2.0, -4.0] Name:Leeroy Jenkins Team Name:BLUE Health:100 Lives left:5 Alive:true ===" };
+    return players[playerCounter++];
   }
 
   /**
-   * Clear all connections
+   * Clear all connections.
    */
   public void cleanConnectionList()
   {
@@ -108,20 +112,20 @@ public class Server
   }
 
   /**
-   * Delete single client from our list of connections
+   * Deletes a single client from the list of connections.
    */
   public static void deleteClientFromList(MailMan worker)
   {
     allConnections.remove(worker);
   }
   
+  /**
+   * Checks to see if all workers are ready to broadcast, if they are ready a broadcast will occur.
+   */
   public static void checkBroadcast()
   {
-    //System.out.println("===================");
-    //System.out.println("Checking broadcast status...");
-
     boolean isReady = true;
-    
+
     for (MailMan workers : allConnections)
     {
       if (!workers.isReady())
@@ -130,11 +134,9 @@ public class Server
         break;
       }
     }
-    
+
     if (isReady)
     {
-      //System.out.println("Broadcasting...");
-      
       for (MailMan workers : allConnections)
       {
         broadcast(workers.getPlayerData());
@@ -144,38 +146,22 @@ public class Server
   }
 
   /**
-   * Broadcast a message to all connected clients
+   * Broadcasts a message to all connected clients.
    * 
-   * @param s Message to broadcast to connected clients
+   * @param networkData the message to send to all clients
    */
   public static void broadcast(String networkData)
   {
-    //System.out.println("=======================");
-    
     for (MailMan workers : allConnections)
     {
-//      System.out.println(networkData);
       workers.send(networkData);
     }
   }
 
   /**
-   * Get elapsed time from the start of running the Server class and when the
-   * method is called
+   * Entry point of the program.
    * 
-   * @return time elapsed time
-   */
-  public static String getElapsedTime()
-  {
-    long nanoSecDiff = System.currentTimeMillis() - time;
-    double secDiff = (double) nanoSecDiff / 1000.0f;
-    return String.format("%.3f", secDiff);
-  }
-
-  /**
-   * Main statement for the Server
-   * 
-   * @param args
+   * @param args the command line arguments
    */
   public static void main(String args[])
   {
