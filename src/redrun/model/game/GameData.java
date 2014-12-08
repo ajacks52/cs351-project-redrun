@@ -8,10 +8,18 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import redrun.database.Map;
 import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
+import redrun.model.gameobject.player.Player;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.world.Button;
 import redrun.sound.SoundManager;
 
+/**
+ * Used to maintain data for the game
+ * 
+ * @author Troy Squillaci
+ * @version 1.0
+ * @since 2014-11-09
+ */
 public class GameData
 {
   // Network related data...
@@ -22,6 +30,9 @@ public class GameData
   public static Map map = null;
 
   // GameObject and MapObject realted data...
+  /** The list of players. */
+  public static LinkedList<Player> players = new LinkedList<Player>();
+
   /** The list of most active map objects. */
   public static LinkedList<MapObject> mapObjects = new LinkedList<MapObject>();
 
@@ -36,13 +47,11 @@ public class GameData
 
   /** The mapping of buttons to traps. */
   public static HashMap<Button, Trap> connections = new HashMap<Button, Trap>();
-  
+
   // Sounds related data...
   /** The active sound manager. */
   public static SoundManager soundManager = new SoundManager();
 
-  
-  
   public static void addButton(Button button)
   {
     buttons.add(button);
@@ -140,7 +149,7 @@ public class GameData
       }
     }
   }
-  
+
   public static void destroy()
   {
     soundManager.destroySounds();

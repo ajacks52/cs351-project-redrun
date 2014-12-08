@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import redrun.database.Map;
 import redrun.database.MapObjectDB;
-import redrun.database.RedRunDAO;
 
 /**
  * Directs the flow of information between a client and the server
@@ -25,7 +25,9 @@ public class MailMan extends Thread
   private Socket client;
   private PrintWriter clientWriter;
   private BufferedReader clientReader;
-  private String playerName;
+  private String playerData;
+  private boolean playerReady = false;
+  private boolean trapReady = false;
 
   /**
    * MailMan Instantiation
@@ -63,30 +65,33 @@ public class MailMan extends Thread
    */
   public void send(String msg)
   {
-    // System.out.println("MailMan.send(" + msg + ")");
     clientWriter.println(msg);
   }
 
   /**
-   * Either take input to kill a particular client thread or broadcast new game
-   * information to all players
+   * Facilitate responding to client requests from the server
    */
   public void run()
   {
-    Pattern inboundPlayerData = Pattern.compile("===\\sPlayer\\s===\\sLocation:(.*?)\\sName:(.*?)Texture:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s=== ");
-    Pattern quitServer = Pattern.compile("quit$", Pattern.CASE_INSENSITIVE);
+    Pattern playerData = Pattern
+        .compile("===\\sPlayer\\s===\\sLocation:(.*?)\\sName:(.*?)\\sTexture:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
+    Pattern requestDisconnect = Pattern.compile("Disconnect");
+    Pattern requestPlayer = Pattern.compile("Player");
+    Pattern requestMapData = Pattern.compile("Map");
 
     while (true)
     {
       try
       {
         String incomingMessage = clientReader.readLine();
-        System.out.println("DICKNUTS: " + incomingMessage);
 
-        Matcher matchInboundPlayer = inboundPlayerData.matcher(incomingMessage);
-        Matcher matchQuitServer = quitServer.matcher(incomingMessage);
+        Matcher matchInboundPlayer = playerData.matcher(incomingMessage);
+        Matcher matchRequestDisconnect = requestDisconnect.matcher(incomingMessage);
+        Matcher matchRequestPlayer = requestPlayer.matcher(incomingMessage);
+        Matcher matchRequestMapData = requestMapData.matcher(incomingMessage);
 
-        if (matchQuitServer.find())
+        // TODO: Add trap parser
+        if (matchRequestDisconnect.find())
         {
           System.out.println("Quitting!");
           send("Disconnecting client...");
@@ -95,28 +100,26 @@ public class MailMan extends Thread
         }
         else if (matchInboundPlayer.find())
         {
-          ArrayList<MapObjectDB> mapObjects = RedRunDAO.getAllMapObjects();
-          for (MapObjectDB mapObject : mapObjects)
+          this.setPlayerData(incomingMessage);
+          playerReady = true;
+        }
+        else if (matchRequestPlayer.find())
+        {
+          send(Server.assignPlayer());
+        }
+        else if (matchRequestMapData.find())
+        {
+          System.out.println("Client Requested Map Data");
+
+          for (Map map : Server.mapData)
           {
-            // System.out.println("MailMan:" + mapObject);
-            send(mapObject.toString());
+            this.send(map.toString());
+          }
+          for (MapObjectDB mapObject : Server.mapObjectData)
+          {
+            this.send(mapObject.toString());
           }
         }
-        // ArrayList<MapObjectDB> mapStuff = RedRunDAO.getAllMapObjects();
-        // for (MapObjectDB mapObject : mapStuff)
-        // {
-        // send(mapObject.toString());
-        // }
-        // break;
-        // }
-        // if client is sending updated game object information, send to all
-        // other clients
-
-        // else
-        // {
-        // send(incomingMessage);
-        // }
-        // else Server.broadcast(incomingMessage);
       }
       catch (IOException e)
       {
@@ -127,19 +130,38 @@ public class MailMan extends Thread
   }
 
   /**
-   * @return the playerName
+   * Check to see if both player and trap information are prepared for
+   * transmission
+   * 
+   * @return true if both are ready, false otherwise
    */
-  public String getPlayerName()
+  protected boolean isReady()
   {
-    return playerName;
+    return playerReady && trapReady;
   }
 
   /**
-   * @param playerName the playerName to set
+   * Reset the ready state of player and trap information
    */
-  public void setPlayerName(String playerName)
+  protected void resetReady()
   {
-    System.out.println(playerName);
-    this.playerName = playerName;
+    this.playerReady = false;
+    this.trapReady = false;
+  }
+
+  /**
+   * @return the playerData
+   */
+  public String getPlayerData()
+  {
+    return playerData;
+  }
+
+  /**
+   * @param playerData the playerData to set
+   */
+  public void setPlayerData(String playerData)
+  {
+    this.playerData = playerData;
   }
 }

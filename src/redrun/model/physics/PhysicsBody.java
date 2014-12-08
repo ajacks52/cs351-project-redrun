@@ -42,7 +42,7 @@ public class PhysicsBody
    * @param collisionShape
    * @param  
    */
-  public PhysicsBody(float mass, Quat4f direction, Vector3f center, CollisionShape collisionShape)
+  public PhysicsBody(float mass, Quat4f direction, Vector3f center, CollisionShape collisionShape, int collisionType)
   {
     javax.vecmath.Vector3f fallInertia = PhysicsTools.openGLToBullet(new Vector3f(0, 0, 0));
     if (collisionShape != null && mass != 0.0f)
@@ -51,6 +51,7 @@ public class PhysicsBody
     }
     body = new RigidBody(mass, new DefaultMotionState(new Transform(new Matrix4f(direction,
         PhysicsTools.openGLToBullet(center), 1))), collisionShape, fallInertia);
+    body.setCollisionFlags(body.getCollisionFlags() | collisionType);
     PhysicsWorld.addPhysicsBody(this);
   }
 
@@ -72,7 +73,8 @@ public class PhysicsBody
    */
   public float getY()
   {
-    trans = body.getMotionState().getWorldTransform(trans);
+    FloatBuffer fb = this.getOpenGLTransformMatrix();
+    System.out.println(fb.get(1) + " " + fb.get(5) + " " + fb.get(9) + " " + fb.get(13));
     return trans.origin.y;
   }
 
@@ -85,6 +87,21 @@ public class PhysicsBody
   {
     trans = body.getMotionState().getWorldTransform(trans);
     return trans.origin.z;
+  }
+  
+  /**
+   * Sets the global position of the PhysicsBody
+   * 
+   * @param x
+   * @param y
+   * @param z
+   */
+  public void setPosition(float x, float y, float z)
+  {
+    trans = body.getMotionState().getWorldTransform(trans);
+    trans.origin.x = x;
+    trans.origin.y = y;
+    trans.origin.z = z;
   }
 
   /**
@@ -149,17 +166,6 @@ public class PhysicsBody
     return PhysicsTools.rollFromQuat(q);
   }
 
-  // public void pitch(float pitch)
-  // {
-  // body.setAngularVelocity(PhysicsTools.openGLToBullet(new Vector3f(0, pitch *
-  // 10, 0)));
-  // }
-  //
-  // public void yaw(float yaw)
-  // {
-  // body.setAngularVelocity(PhysicsTools.openGLToBullet(new Vector3f(0, 0, yaw
-  // * 10)));
-  // }
 
   public void moveForward(float speed, float yaw)
   {
@@ -222,6 +228,22 @@ public class PhysicsBody
     buffer.flip();
     return buffer;
   }
+  
+
+  public float[] getOpenGLTransformMatrixArray()
+  {
+    float[] m = new float[16];
+    trans = body.getWorldTransform(trans);
+    trans.getOpenGLMatrix(m);
+    return m;
+  }
+  
+  public void setFromOpenGLTransformMatrix(float[] m)
+  {
+    trans = body.getWorldTransform(trans);
+    trans.setFromOpenGLMatrix(m);
+    body.setWorldTransform(trans);
+  }
 
   public void translate(float x, float y, float z)
   {
@@ -243,6 +265,5 @@ public class PhysicsBody
   public void collidedWith(CollisionObject other)
   {
     canJump = true;
-    System.out.println("collided with");
   }
 }

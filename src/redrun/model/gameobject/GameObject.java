@@ -61,7 +61,7 @@ public abstract class GameObject
    */
   public GameObject(float x, float y, float z, String textureName)
   {
-    body = new PhysicsBody(0, new Quat4f(0, 0, 0, 1), new Vector3f(x, y, z), null);
+    body = new PhysicsBody(0, new Quat4f(0, 0, 0, 1), new Vector3f(x, y, z), null, 0);
 
     if (textureName != null)
     {

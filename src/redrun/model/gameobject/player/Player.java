@@ -1,8 +1,15 @@
 package redrun.model.gameobject.player;
 
 import static org.lwjgl.opengl.GL11.GL_COMPILE;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glCallList;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glGenLists;
+import static org.lwjgl.opengl.GL11.glMultMatrix;
 import static org.lwjgl.opengl.GL11.glNewList;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
 
 import java.io.File;
 
@@ -14,14 +21,17 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.bulletphysics.collision.dispatch.CollisionFlags;
+import com.bulletphysics.collision.dispatch.CollisionObject;
 import com.bulletphysics.collision.dispatch.GhostPairCallback;
 import com.bulletphysics.collision.dispatch.PairCachingGhostObject;
 import com.bulletphysics.collision.shapes.CapsuleShape;
 import com.bulletphysics.collision.shapes.CollisionShape;
 import com.bulletphysics.dynamics.character.KinematicCharacterController;
+import com.bulletphysics.linearmath.Transform;
 
 import redrun.graphics.camera.Camera;
 import redrun.model.constants.CameraType;
+import redrun.model.constants.CollisionTypes;
 import redrun.model.constants.Constants;
 import redrun.model.constants.Team;
 import redrun.model.gameobject.GameObject;
@@ -59,10 +69,13 @@ public class Player extends GameObject
   private int lives;
 
   /** The state of this player's life. */
-  private boolean alive;
+  private boolean alive; 
   
   /** The players model */
   private Model model = null;
+  
+  
+  private Transform startPos;
 
 
   /**
@@ -80,8 +93,29 @@ public class Player extends GameObject
     super(x, y+10, z, textureName);
 
     
-    body = new CapsulePhysicsBody(new Vector3f(x, y, z), 2f, 100f, 0f);
+    body = new CapsulePhysicsBody(new Vector3f(x, y, z), 2f, 100f, 0f)
+    {
+      public void collidedWith(CollisionObject other)
+      {
+        super.collidedWith(other);
+        int collisionFlags = other.getCollisionFlags();
+        if ((collisionFlags & CollisionTypes.INSTANT_DEATH_COLLISION_TYPE) != 0)
+        {
+          System.out.println("Instant death!!!!");
+          kill();
+        } 
+        else if ((collisionFlags & CollisionTypes.MINIMAL_DAMAGE_COLLISION_TYPE) != 0)
+        {
+          hurt();
+        }
+        
+      }
+    };
     body.body.setCollisionFlags(body.body.getCollisionFlags() | CollisionFlags.CUSTOM_MATERIAL_CALLBACK);
+    startPos = new Transform();
+    
+    startPos = body.body.getWorldTransform(startPos);
+    
     PhysicsWorld.addToWatchList(body);
     camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, x, y, z, CameraType.PLAYER);
 
@@ -97,6 +131,7 @@ public class Player extends GameObject
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
     {
+      glMultMatrix(body.getOpenGLTransformMatrix());
       int currentTexture = -1;
       GL11.glEnable(GL11.GL_TEXTURE_2D);
       Face face = null;
@@ -135,6 +170,21 @@ public class Player extends GameObject
     GL11.glEndList();
 
   }
+  
+  
+  public void draw()
+  {
+    
+      glPushMatrix();
+      {
+        glMultMatrix(body.getOpenGLTransformMatrix());
+        GL11.glRotatef(camera.getYaw()+180, 0, -1, 0);
+        glCallList(displayListId);
+      }
+      glPopMatrix();
+
+    update();
+  }
 
   /**
    * Makes the player jump about 2 meters into the air.
@@ -156,15 +206,15 @@ public class Player extends GameObject
     body.push(vec);
   }
 
-//  public void pitch(float pitch)
-//  {
-//    body.pitch(pitch);
-//  }
-//
-//  public void yaw(float yaw)
-//  {
-//    body.yaw(yaw);
-//  }
+  public void pitch(float pitch)
+  {
+    camera.pitch(pitch);
+  }
+
+  public void yaw(float yaw)
+  {
+    camera.yaw(yaw);
+  }
 
   public void walkForward(float speed)
   {
@@ -188,7 +238,6 @@ public class Player extends GameObject
 
   public void lookThrough()
   {
-    camera.updatePosition(this.getX(), this.getY() + 5f, this.getZ(), body.getPitch(), body.getYaw());
     camera.lookThrough();
   }
 
@@ -202,7 +251,7 @@ public class Player extends GameObject
   @Override
   public void update()
   {
-    camera.updatePosition(this.getX(), this.getY(), this.getZ(), body.getPitch(), body.getYaw());
+    camera.updatePosition(this.getX(), this.getY() + 5f, this.getZ(), body.getPitch(), body.getYaw());
   }
 
   @Override
@@ -315,6 +364,28 @@ public class Player extends GameObject
   public void setLives(int lives)
   {
     this.lives = lives;
+  }
+  
+  
+  public void kill()
+  {
+    lives --;
+    body.body.setWorldTransform(startPos);
+    body.body.activate(true);
+    health = 100;
+    if (lives <= 0)
+    {
+      alive = false;
+    }
+  }
+  
+  public void hurt()
+  {
+    health--;
+    if (health <= 0)
+    {
+      kill();
+    }
   }
 
   @Override

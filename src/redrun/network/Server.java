@@ -19,11 +19,22 @@ import redrun.database.RedRunDAO;
  */
 public class Server
 {
+  /** Server ip address */
   public static final String HOST = "127.0.0.1";
+  /** Server listening port */
   public static final int PORT = 7777;
+  /** Used to listen for inbound client connections */
   private ServerSocket serverSocket;
+  /** Used to assign unique players to each connected client */
+  private static int counter = 0;
+  /** Maintain list of all connections to server */
   private static LinkedList<MailMan> allConnections = new LinkedList<MailMan>();
+  /** Server time */
   private static final long time = System.currentTimeMillis();
+  /** Keep track of data associated with the map */
+  public static ArrayList<Map> mapData = new ArrayList<Map>();
+  /** Keep track of data associated with items in the map */
+  public static ArrayList<MapObjectDB> mapObjectData = new ArrayList<MapObjectDB>();
 
   /**
    * Server instantiation
@@ -42,6 +53,10 @@ public class Server
       e.printStackTrace();
       System.exit(-1);
     }
+
+    mapData = RedRunDAO.getAllMaps();
+    mapObjectData = RedRunDAO.getAllMapObjects();
+
     waitForConnection();
   }
 
@@ -60,18 +75,6 @@ public class Server
         worker.start();
         System.out.println("Server: *********** new Connection");
         allConnections.add(worker);
-        // send client map
-        ArrayList<Map> mapInformation = RedRunDAO.getAllMaps();
-        for (Map map : mapInformation)
-        {
-          worker.send(map.toString());
-        }
-        // send client map objects
-        ArrayList<MapObjectDB> mapObjects = RedRunDAO.getAllMapObjects();
-        for (MapObjectDB mapObject : mapObjects)
-        {
-          worker.send(mapObject.toString());
-        }
       }
       catch (IOException e)
       {
@@ -79,6 +82,21 @@ public class Server
         e.printStackTrace();
       }
     }
+  }
+
+  /**
+   * Assign a player to each connected client
+   * 
+   * @return player to assign
+   */
+  public static String assignPlayer()
+  {
+    String[] players = {
+        "=== Player === Location:0.0, 1.0, 0.0 Name:Balthazar Texture:button Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
+        "=== Player === Location:0.0, 1.0, 0.0 Name:Joel Texture:button Team Name:RED Health:100 Lives left:5 Alive:true ===",
+        "=== Player === Location:0.0, 1.0, 0.0 Name:Archimedes Texture:button Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
+        "=== Player === Location:0.0, 1.0, 0.0 Name:Leeroy Jenkins Texture:button Team Name:BLUE Health:100 Lives left:5 Alive:true ===" };
+    return players[counter++];
   }
 
   /**
