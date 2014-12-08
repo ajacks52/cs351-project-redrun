@@ -53,13 +53,11 @@ public class PhysicsWorld
         {
           if (body.body == o1)
           {
-            System.out.println("Collisions");
 
             body.collidedWith(o2);
           } 
           else if (body.body == o2)
           {
-            System.out.println("Collisions");
 
             body.collidedWith(o1);
           }

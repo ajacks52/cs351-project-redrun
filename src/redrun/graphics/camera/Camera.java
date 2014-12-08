@@ -77,6 +77,7 @@ public class Camera
   public void yaw(float amount)
   {
     yaw += amount;
+    
   }
 
   /**
