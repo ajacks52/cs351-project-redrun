@@ -35,7 +35,7 @@ public class Server
   public static ArrayList<Map> mapData = new ArrayList<Map>();
   /** Keep track of data associated with items in the map */
   public static ArrayList<MapObjectDB> mapObjectData = new ArrayList<MapObjectDB>();
-  
+
   /**
    * Server instantiation
    * 
@@ -92,10 +92,10 @@ public class Server
   public static String assignPlayer()
   {
     String[] players = {
-      "=== Player === Location:0.0, 1.0, 0.0 Rotation:90.0 Name:Balthazar Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
-      "=== Player === Location:0.0, 1.0, 0.0 Rotation:90.0 Name:Joel Team Name:RED Health:100 Lives left:5 Alive:true ===",
-      "=== Player === Location:0.0, 1.0, 0.0 Rotation:90.0 Name:Archimedes Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
-      "=== Player === Location:0.0, 1.0, 0.0 Rotation:90.0 Name:Leeroy Jenkins Team Name:BLUE Health:100 Lives left:5 Alive:true ===" };
+        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 4.0, 2.0, 4.0] Name:Balthazar Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
+        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 4.0, 2.0, -4.0] Name:Joel Team Name:RED Health:100 Lives left:5 Alive:true ===",
+        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -4.0, 2.0, 4.0] Name:Archimedes Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
+        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -4.0, 2.0, -4.0] Name:Leeroy Jenkins Team Name:BLUE Health:100 Lives left:5 Alive:true ===" };
     return players[counter++];
   }
 
@@ -114,14 +114,14 @@ public class Server
   {
     allConnections.remove(worker);
   }
-  
+
   public static void checkBroadcast()
   {
-    //System.out.println("===================");
-    //System.out.println("Checking broadcast status...");
+    // System.out.println("===================");
+    // System.out.println("Checking broadcast status...");
 
     boolean isReady = true;
-    
+
     for (MailMan workers : allConnections)
     {
       if (!workers.isReady())
@@ -130,11 +130,11 @@ public class Server
         break;
       }
     }
-    
+
     if (isReady)
     {
-      //System.out.println("Broadcasting...");
-      
+      // System.out.println("Broadcasting...");
+
       for (MailMan workers : allConnections)
       {
         broadcast(workers.getPlayerData());
@@ -150,11 +150,11 @@ public class Server
    */
   public static void broadcast(String networkData)
   {
-    //System.out.println("=======================");
-    
+    // System.out.println("=======================");
+
     for (MailMan workers : allConnections)
     {
-//      System.out.println(networkData);
+      // System.out.println(networkData);
       workers.send(networkData);
     }
   }
