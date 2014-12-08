@@ -22,12 +22,26 @@ public abstract class Trap extends GameObject
   public Trap(float x, float y, float z, Direction orientation, String textureName)
   {
     super(x, y, z, textureName);
-    // TODO Auto-generated constructor stub
   }
   
+  /**
+   * Gets the network string representation of the trap.
+   * 
+   * @return the network string representation of the trap
+   */
   public String getNetworkString()
   {
     return "=== Trap === ID:" + this.id + " ===";
+  }
+  
+  /**
+   * Indicates if the trap is active.
+   * 
+   * @return a indicator if the trap is active
+   */
+  public boolean isActive()
+  {
+    return timer.getTime() > 0 ? true : false; 
   }
   
   /**
