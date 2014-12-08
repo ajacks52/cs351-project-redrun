@@ -39,7 +39,7 @@ public class Server
   
   /** Keeps track of data associated with items that make up the map. */
   public static ArrayList<MapObjectDB> mapObjectData = new ArrayList<MapObjectDB>();
-  
+
   /**
    * Creates a new RedRun server on the specified port.
    * 
@@ -96,10 +96,10 @@ public class Server
   public static String assignPlayer()
   {
     String[] players = {
-      "=== Player === Location:4.0, 2.0, 4.0 Rotation:90.0 Name:Balthazar Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
-      "=== Player === Location:4.0, 2.0, -4.0 Rotation:90.0 Name:Joel Team Name:RED Health:100 Lives left:5 Alive:true ===",
-      "=== Player === Location:-4.0, 2.0, 4.0 Rotation:90.0 Name:Archimedes Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
-      "=== Player === Location:-4.0, 2.0, -4.0 Rotation:90.0 Name:Leeroy Jenkins Team Name:BLUE Health:100 Lives left:5 Alive:true ===" };
+        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 4.0, 2.0, 4.0] Name:Balthazar Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
+        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 4.0, 2.0, -4.0] Name:Joel Team Name:RED Health:100 Lives left:5 Alive:true ===",
+        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -4.0, 2.0, 4.0] Name:Archimedes Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
+        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -4.0, 2.0, -4.0] Name:Leeroy Jenkins Team Name:BLUE Health:100 Lives left:5 Alive:true ===" };
     return players[playerCounter++];
   }
 
@@ -125,7 +125,7 @@ public class Server
   public static void checkBroadcast()
   {
     boolean isReady = true;
-    
+
     for (MailMan workers : allConnections)
     {
       if (!workers.isReady())
@@ -134,9 +134,9 @@ public class Server
         break;
       }
     }
-    
+
     if (isReady)
-    {      
+    {
       for (MailMan workers : allConnections)
       {
         broadcast(workers.getPlayerData());
@@ -151,7 +151,7 @@ public class Server
    * @param networkData the message to send to all clients
    */
   public static void broadcast(String networkData)
-  {    
+  {
     for (MailMan workers : allConnections)
     {
       workers.send(networkData);
