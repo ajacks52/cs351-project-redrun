@@ -116,6 +116,7 @@ public class MailMan extends Thread
         }
         else if (matchRequestPlayer.find())
         {
+          System.out.println("Dick Pickles");
           send(Server.assignPlayer());
         }
         else if (matchRequestMapData.find())
@@ -128,6 +129,10 @@ public class MailMan extends Thread
           {
             this.send(mapObject.toString());
           }
+        }
+        else
+        {
+          System.out.println("Unknown message from client: " + incomingMessage);
         }
       }
       catch (IOException e)
