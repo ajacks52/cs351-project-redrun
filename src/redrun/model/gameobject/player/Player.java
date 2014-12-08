@@ -234,6 +234,10 @@ public class Player extends GameObject
 
   public void yaw(float yaw)
   {
+    Transform trans = new Transform();
+    body.body.getWorldTransform(trans);
+    trans.basis.rotY(camera.getYaw() + yaw);
+    body.body.setWorldTransform(trans);
     camera.yaw(yaw);
   }
 
