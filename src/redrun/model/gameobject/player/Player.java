@@ -193,19 +193,19 @@ public class Player extends GameObject
 
   }
 
-  public void draw()
-  {
-
-    glPushMatrix();
-    {
-      glMultMatrix(body.getOpenGLTransformMatrix());
-      GL11.glRotatef(camera.getYaw() + 180, 0, -1, 0);
-      glCallList(displayListId);
-    }
-    glPopMatrix();
-
-    update();
-  }
+//  public void draw()
+//  {
+//
+//    glPushMatrix();
+//    {
+//      glMultMatrix(body.getOpenGLTransformMatrix());
+//      GL11.glRotatef(camera.getYaw() + 180, 0, -1, 0);
+//      glCallList(displayListId);
+//    }
+//    glPopMatrix();
+//
+//    update();
+//  }
 
   /**
    * Makes the player jump about 2 meters into the air.
@@ -236,7 +236,7 @@ public class Player extends GameObject
   {
     Transform trans = new Transform();
     body.body.getWorldTransform(trans);
-    trans.basis.rotY(camera.getYaw() + yaw);
+    trans.basis.rotY((float)Math.toRadians( - (camera.getYaw() + yaw - 180) ));
     body.body.setWorldTransform(trans);
     camera.yaw(yaw);
   }
