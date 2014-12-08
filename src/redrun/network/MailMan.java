@@ -23,19 +23,19 @@ public class MailMan extends Thread
 {
   /** For sending messages to the client. */
   private PrintWriter clientWriter;
-  
+
   /** For receiving messages from the client. */
   private BufferedReader clientReader;
-  
+
   /** Holds player data sent from the client each frame. */
   private String playerData;
-  
+
   /** Holds trap data send from the client each frame. */
   private String trapData;
-  
+
   /** Indicates if the worker is ready to broadcast player data. */
   private boolean playerReady = false;
-  
+
   /** Indicates if the worker is ready to broadcast trap data. */
   private boolean trapReady = false;
 
@@ -81,23 +81,26 @@ public class MailMan extends Thread
    */
   public void run()
   {
-    Pattern playerData = Pattern.compile("===\\sPlayer\\s===\\sLocation:\\[(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?)\\]\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
+    Pattern playerData = Pattern
+        .compile("===\\sPlayer\\s===\\sLocation:\\[(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?)\\]\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
     Pattern trapData = Pattern.compile("===\\sTrap\\s===\\sID:(\\d+)\\s===");
     Pattern requestDisconnect = Pattern.compile("Disconnect");
     Pattern requestPlayer = Pattern.compile("^Player$");
     Pattern requestMapData = Pattern.compile("Map");
+    Pattern requestNumberPlayers = Pattern.compile("^Number Players$");
 
     while (true)
     {
       try
       {
         String incomingMessage = clientReader.readLine();
-        
+
         Matcher matchInboundPlayer = playerData.matcher(incomingMessage);
         Matcher matchTrapData = trapData.matcher(incomingMessage);
         Matcher matchRequestDisconnect = requestDisconnect.matcher(incomingMessage);
         Matcher matchRequestPlayer = requestPlayer.matcher(incomingMessage);
         Matcher matchRequestMapData = requestMapData.matcher(incomingMessage);
+        Matcher matchRequestNumberPlayers = requestNumberPlayers.matcher(incomingMessage);
 
         if (matchInboundPlayer.find())
         {
@@ -113,7 +116,6 @@ public class MailMan extends Thread
         }
         else if (matchRequestPlayer.find())
         {
-          System.out.println("Dick Pickles");
           send(Server.assignPlayer());
         }
         else if (matchRequestMapData.find())
@@ -133,6 +135,10 @@ public class MailMan extends Thread
           send("Disconnecting client...");
           Server.deleteClientFromList(this);
           break;
+        }
+        else if (matchRequestNumberPlayers.find())
+        {
+          send(Server.numberOfConnections());
         }
         else
         {
@@ -157,7 +163,7 @@ public class MailMan extends Thread
   {
     return playerReady;
   }
-  
+
   /**
    * Check to see if both player and trap information are prepared for
    * transmission
@@ -176,7 +182,7 @@ public class MailMan extends Thread
   {
     this.playerReady = false;
   }
-  
+
   /**
    * Reset the ready state of trap information.
    */
@@ -192,7 +198,7 @@ public class MailMan extends Thread
   {
     return playerData;
   }
-  
+
   /**
    * @return the trapData
    */
@@ -208,7 +214,7 @@ public class MailMan extends Thread
   {
     this.playerData = playerData;
   }
-  
+
   /**
    * @param trapData the trapData to set
    */
