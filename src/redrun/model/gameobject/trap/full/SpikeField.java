@@ -6,6 +6,7 @@ import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.constants.CollisionTypes;
 import redrun.model.constants.Direction;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.physics.BoxPhysicsBody;
@@ -39,13 +40,13 @@ public class SpikeField extends Trap
     if (low)
     {
       this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f((float) (dim.width / 2), 1.3f,
-          (float) (dim.height / 2)), new Quat4f(), 0.0f);
+          (float) (dim.height / 2)), new Quat4f(), 0.0f, CollisionTypes.MINIMAL_DAMAGE_COLLISION_TYPE);
     }
 
     else if (!low)
     {
       this.body = new BoxPhysicsBody(new Vector3f(x, y - 10, z), new Vector3f((float) (dim.width / 3), 3.0f,
-          (float) (dim.height / 3)), new Quat4f(), 0.0f);
+          (float) (dim.height / 3)), new Quat4f(), 0.0f, CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
     }
 
     this.dim = dim;

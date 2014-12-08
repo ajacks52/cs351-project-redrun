@@ -10,6 +10,7 @@ import redrun.model.constants.TrapType;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.map.Pit;
 import redrun.model.gameobject.trap.Trap;
+import redrun.model.gameobject.trap.full.BottomOfPitTrap;
 import redrun.model.gameobject.trap.full.ExplodingBoxField;
 import redrun.model.gameobject.trap.full.Jail;
 import redrun.model.gameobject.trap.full.PoleDance;
@@ -133,7 +134,13 @@ public abstract class MapObject implements Comparable<MapObject>
       
       case TRAP_DOOR:
       {
-        this.trap = new TrapDoor(x, y, z, orientation, "ground16");
+        this.trap = new TrapDoor(x, y+15f, z, orientation, "ground16");
+        break;
+      }
+      
+      case PIT:
+      {
+        this.trap = new BottomOfPitTrap(x, y, z, orientation, new Dimension(10, 15));
         break;
       }
 

@@ -109,7 +109,7 @@ public class GraphicsTestAdam
 
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 30.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
-    GameData.addMapObject(new Tunnel(0.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.SOUTH, TrapType.POLE_WALL)); //
+    GameData.addMapObject(new Pit(0.0f, 15.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.TRAP_DOOR)); //
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
