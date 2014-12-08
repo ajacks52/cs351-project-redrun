@@ -11,6 +11,8 @@ import javax.vecmath.Quat4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.gameobject.GameObject;
+
 import com.bulletphysics.collision.dispatch.CollisionFlags;
 import com.bulletphysics.collision.dispatch.CollisionObject;
 import com.bulletphysics.collision.shapes.CollisionShape;
@@ -38,6 +40,7 @@ public class PhysicsBody
    * @param direction
    * @param center in meters
    * @param collisionShape
+   * @param  
    */
   public PhysicsBody(float mass, Quat4f direction, Vector3f center, CollisionShape collisionShape)
   {

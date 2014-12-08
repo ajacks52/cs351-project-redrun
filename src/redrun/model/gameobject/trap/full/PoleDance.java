@@ -17,11 +17,11 @@ public class PoleDance extends Trap
   {
     super(x, y, z, orientation, textureName);
 
-    spear1 = new Spear(x, y - 13.5f, z, orientation, null, 0f);
-    spear2 = new Spear(x - 3, y - 13.5f, z + 3, orientation, null, 1f);
-    spear3 = new Spear(x + 3, y - 13.5f, z - 3, orientation, null, 1.5f);
-    spear4 = new Spear(x + 3, y - 13.5f, z + 3, orientation, null, 2.3f);
-    spear5 = new Spear(x - 3, y - 13.5f, z - 3, orientation, null, 3f);
+    spear1 = new Spear(x, y - 13.5f, z, orientation, null, 0f, "y");
+    spear2 = new Spear(x - 3, y - 13.5f, z + 3, orientation, null, 1f, "y");
+    spear3 = new Spear(x + 3, y - 13.5f, z - 3, orientation, null, 1.5f, "y");
+    spear4 = new Spear(x + 3, y - 13.5f, z + 3, orientation, null, 2.3f, "y");
+    spear5 = new Spear(x - 3, y - 13.5f, z - 3, orientation, null, 3f, "y");
 
     GameData.addGameObject(spear1);
     GameData.addGameObject(spear2);
