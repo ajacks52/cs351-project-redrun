@@ -158,15 +158,15 @@ public class Player extends GameObject
     body.push(vec);
   }
 
-//  public void pitch(float pitch)
-//  {
-//    body.pitch(pitch);
-//  }
-//
-//  public void yaw(float yaw)
-//  {
-//    body.yaw(yaw);
-//  }
+  public void pitch(float pitch)
+  {
+    camera.pitch(pitch);
+  }
+
+  public void yaw(float yaw)
+  {
+    camera.yaw(yaw);
+  }
 
   public void walkForward(float speed)
   {

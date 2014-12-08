@@ -161,17 +161,6 @@ public class PhysicsBody
     return PhysicsTools.rollFromQuat(q);
   }
 
-  // public void pitch(float pitch)
-  // {
-  // body.setAngularVelocity(PhysicsTools.openGLToBullet(new Vector3f(0, pitch *
-  // 10, 0)));
-  // }
-  //
-  // public void yaw(float yaw)
-  // {
-  // body.setAngularVelocity(PhysicsTools.openGLToBullet(new Vector3f(0, 0, yaw
-  // * 10)));
-  // }
 
   public void moveForward(float speed, float yaw)
   {
@@ -271,6 +260,5 @@ public class PhysicsBody
   public void collidedWith(CollisionObject other)
   {
     canJump = true;
-    System.out.println("collided with");
   }
 }
