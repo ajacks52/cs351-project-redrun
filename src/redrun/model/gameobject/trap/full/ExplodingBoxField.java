@@ -1,20 +1,16 @@
 package redrun.model.gameobject.trap.full;
 
-import static org.lwjgl.opengl.GL11.GL_COMPILE;
-import static org.lwjgl.opengl.GL11.glGenLists;
-import static org.lwjgl.opengl.GL11.glNewList;
 import redrun.model.constants.Constants;
 import redrun.model.constants.Direction;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.trap.piece.ExplosiveBox;
 import redrun.model.gameobject.trap.piece.NonExplosiveBox;
-import redrun.model.gameobject.world.Cube;
 
 public class ExplodingBoxField extends Trap
 {
 
-  public ExplodingBoxField(float x, float y, float z, Direction orientation, String textureName, boolean low)
+  public ExplodingBoxField(float x, float y, float z, Direction orientation, String textureName)
   {
     super(x, y, z, orientation, textureName);
 
@@ -22,8 +18,7 @@ public class ExplodingBoxField extends Trap
 
     if (orientation == Direction.EAST || orientation == Direction.WEST)
     {
-      // for (int i = -2; i < 3; i++)
-      for (int i = 0; i < 1; i++)
+      for (int i = -2; i < 3; i++)
       {
         if (row == 0)
         {
@@ -121,11 +116,6 @@ public class ExplodingBoxField extends Trap
         }
       }
     }
-    // displayListId = glGenLists(1);
-    // glNewList(displayListId, GL_COMPILE);
-    // {
-    //
-    // }
 
   }
 

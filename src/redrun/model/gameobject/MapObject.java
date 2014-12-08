@@ -10,6 +10,7 @@ import redrun.model.constants.TrapType;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.map.Pit;
 import redrun.model.gameobject.trap.Trap;
+import redrun.model.gameobject.trap.full.BottomOfPitTrap;
 import redrun.model.gameobject.trap.full.ExplodingBoxField;
 import redrun.model.gameobject.trap.full.Jail;
 import redrun.model.gameobject.trap.full.PoleDance;
@@ -72,17 +73,10 @@ public abstract class MapObject implements Comparable<MapObject>
 
       case EXPLODING_BOX_FIELD:
       {
-        if (this.getClass() == Pit.class)
-        {
-          this.trap = new ExplodingBoxField(x, y + 5, z, orientation, "crate1", false);
-        }
-        else
-        {
-          this.trap = new ExplodingBoxField(x, y + 5, z, orientation, null, true);
-        }
+        this.trap = new ExplodingBoxField(x, y + 5, z, orientation, null);
         break;
       }
-      
+
       case JAIL:
       {
         this.trap = new Jail(x, y, z, orientation, null);
@@ -107,22 +101,21 @@ public abstract class MapObject implements Comparable<MapObject>
         }
         break;
       }
-      
+
       case ROCK_SMASH:
       {
         this.trap = new RockSmash(x, y + 5, z, orientation, "rock" + Constants.random.nextInt(3));
-
         break;
       }
-      
+
       case SPIKE_FIELD:
       {
         if (this.getClass() == Pit.class) this.trap = new SpikeField(x, y, z, "ground9", orientation, new Dimension(10,
             15), false);
-        else this.trap = new SpikeField(x, y, z, "ground9", orientation, new Dimension(10, 15), true);
+        else this.trap = new SpikeField(x, y, z, "ground9", orientation, new Dimension(15, 15), true);
         break;
       }
-      
+
       case SPIKE_TRAP_DOOR:
       {
         if (this.getClass() == Pit.class) this.trap = new SpikeTrapDoor(x, y + 0.8f, z, orientation, groundTexture,
@@ -130,10 +123,16 @@ public abstract class MapObject implements Comparable<MapObject>
         else this.trap = new SpikeTrapDoor(x, y + 0.8f, z, orientation, "ground16", false);
         break;
       }
-      
+
       case TRAP_DOOR:
       {
-        this.trap = new TrapDoor(x, y, z, orientation, "ground16");
+        this.trap = new TrapDoor(x, y, z, orientation, "ground14");
+        break;
+      }
+
+      case PIT:
+      {
+        this.trap = new BottomOfPitTrap(x, y, z, orientation, new Dimension(10, 15));
         break;
       }
 

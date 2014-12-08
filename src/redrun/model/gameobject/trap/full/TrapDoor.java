@@ -1,10 +1,13 @@
 package redrun.model.gameobject.trap.full;
 
+import java.awt.Dimension;
+
 import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
 import redrun.model.constants.Direction;
+import redrun.model.game.GameData;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.physics.BoxPhysicsBody;
 import static org.lwjgl.opengl.GL11.*;
@@ -34,12 +37,14 @@ public class TrapDoor extends Trap
    */
   public TrapDoor(float x, float y, float z, Direction orientation, String textureName)
   {
-    super(x, y -99f , z, orientation, textureName);
+    super(x, y+.01f, z, orientation, textureName);
 
-    this.body = new BoxPhysicsBody(new Vector3f(x, y -99f, z), new Vector3f(6, 0f, 6), new Quat4f(), 0.0f);
+    this.body = new BoxPhysicsBody(new Vector3f(x, y+.01f, z), new Vector3f(7, 0f, 7), new Quat4f(), 0.0f);
 
     this.orientation = orientation;
 
+    BottomOfPitTrap bottomTrap = new BottomOfPitTrap(x, y, z, orientation, new Dimension(10, 15)); 
+    GameData.addGameObject(bottomTrap);
     displayListId = glGenLists(1);
 
     glNewList(displayListId, GL_COMPILE);
@@ -68,7 +73,7 @@ public class TrapDoor extends Trap
     {
       glColor3f(1f, 1f, 1f);
       glMultMatrix(body.getOpenGLTransformMatrix());
-      glScalef(6f, 1f, 6f);
+      glScalef(7f, 1f, 7f);
       glEnable(GL_TEXTURE_2D);
       texture.bind();
       glCallList(displayListId);

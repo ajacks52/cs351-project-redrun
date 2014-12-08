@@ -66,7 +66,7 @@ public class GraphicsTestAdamTrapPlayGround
       Logger.getLogger(GraphicsTestAdamTrapPlayGround.class.getName()).log(Level.SEVERE, null, ex);
     }
 
-    player = new Player(0.0f, 1.0f, 0.0f, "Linvala, Keeper of Silence", null, Team.BLUE);
+    player = new Player(0.0f, 1.0f, 0.0f, "Linvala, Keeper of Silence", Team.BLUE);
 
     Camera spectatorCam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f,
         0.0f, 0.0f, CameraType.SPECTATOR);

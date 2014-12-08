@@ -248,8 +248,6 @@ public class Player extends GameObject
   @Override
   public void interact()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
@@ -384,7 +382,7 @@ public class Player extends GameObject
 
   public void hurt()
   {
-    health--;
+    health -= 2;
     if (health <= 0)
     {
       kill();

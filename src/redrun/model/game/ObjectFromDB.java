@@ -336,8 +336,13 @@ public class ObjectFromDB
           }
         }
       }
+<<<<<<< HEAD
+      
+      return new Player(x, y, z, name, team);
+=======
 
       return new Player(0.0f, 1.0f, 0.0f, name, team);
+>>>>>>> develop
     }
 
     return null;

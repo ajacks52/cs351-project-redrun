@@ -7,6 +7,7 @@ import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import redrun.model.constants.CollisionTypes;
 import redrun.model.constants.Direction;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.physics.BoxPhysicsBody;
@@ -33,9 +34,9 @@ public class Spear extends Trap
     this.orientation = orientation;
     this.xyz = xyz;
 
-    if (xyz.equals("x"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(5f, 0.3f, 0.3f), new Quat4f(), 0);
-    if (xyz.equals("y"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, 5f, 0.3f), new Quat4f(), 0);
-    if (xyz.equals("z"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, 0.3f, 5f), new Quat4f(), 0);
+    if (xyz.equals("x"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(height/2, 0.3f, 0.3f), new Quat4f(), 0, CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
+    if (xyz.equals("y"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, height/2, 0.3f), new Quat4f(), 0, CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
+    if (xyz.equals("z"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, 0.3f, height/2), new Quat4f(), 0, CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
 
     sl = new ShaderLoader();
     sl.loadShader("bloodf.fs");
@@ -50,7 +51,7 @@ public class Spear extends Trap
       // do nothing  if (xyz.equals("y"))  glRotatef(1, 1, 1, 1);
       if (xyz.equals("z")) glRotatef(90, -1, 0, 0);
 
-      glTranslatef(0, -5.5f, 0);
+      glTranslatef(0, -7.5f, 0);
       glUseProgram(sl.getShaderProgram());
       glBegin(GL_TRIANGLE_FAN);
       {
@@ -100,7 +101,7 @@ public class Spear extends Trap
 
       glPushMatrix();
       glScalef(0.3f, 3f, 0.3f);
-      glTranslatef(0.0f, 5.31f, 0.0f);
+      glTranslatef(0.0f, 6f, 0.0f);
       glUseProgram(sl.getShaderProgram());
 
       glBegin(GL_TRIANGLES);
@@ -162,15 +163,17 @@ public class Spear extends Trap
   public void update()
   {
 
-    if (this.timer.getTime() > startTime && count < 14 && !down)
+    float speed = 0.4f;
+    int limit = 40;
+    if (this.timer.getTime() > startTime && count < limit && !down)
     {
       count++;
-      if (xyz.equals("x")) body.translate(.5f, 0f, 0f);
+      if (xyz.equals("x")) body.translate(speed, 0f, 0f);
 
-      if (xyz.equals("y")) body.translate(0f, .5f, 0f);
-      if (xyz.equals("z")) body.translate(0f, 0f, .5f);
+      if (xyz.equals("y")) body.translate(0f, speed, 0f);
+      if (xyz.equals("z")) body.translate(0f, 0f, -speed);
       
-      if (count == 14)
+      if (count == limit)
       {
         down = true;
       }
@@ -179,10 +182,10 @@ public class Spear extends Trap
     if (count > 0 && this.timer.getTime() > startTime && down)
     {
       count--;
-      
-      if (xyz.equals("y")) body.translate(0f, -.5f, 0f);
-      if (xyz.equals("x")) body.translate(0f, -.5f, 0f);
-      if (xyz.equals("z")) body.translate(0f, -.5f, 0f);
+      if (xyz.equals("x")) body.translate(-speed, 0f, 0f);
+
+      if (xyz.equals("y")) body.translate(0f, -speed, 0f);
+      if (xyz.equals("z")) body.translate(0f, 0f, speed);
       
       if (count == 0)
       {

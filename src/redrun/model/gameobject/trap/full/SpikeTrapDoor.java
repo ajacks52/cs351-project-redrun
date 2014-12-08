@@ -25,8 +25,6 @@ import redrun.model.toolkit.ShaderLoader;
 public class SpikeTrapDoor extends Trap
 {
   ShaderLoader sl;
-  TrapDoor td1;
-  TrapDoor td2;
   float occilate = 0;
   float occilate2 = 0;
   float movementSpeed = 0.15f;
@@ -46,18 +44,16 @@ public class SpikeTrapDoor extends Trap
     super(x, y, z, orientation, null);
 
     // Physics body...
-    this.body = new BoxPhysicsBody(new Vector3f(x, y-3f, z), new Vector3f(5, 1, 5), new Quat4f(), 0.0f, CollisionTypes.MINIMAL_DAMAGE_COLLISION_TYPE);
+    this.body = new BoxPhysicsBody(new Vector3f(x, y-3f, z), new Vector3f(5, 1, 5), new Quat4f(), 0.0f, CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
     sl = new ShaderLoader();
     sl.loadShader("bloodf.fs");
     sl.loadShader("bloodv.vs");
     sl.deleteShaders();
-    td1 = new TrapDoor(x, y, z, orientation, textureName);
     int program = glGetAttribLocation(sl.getShaderProgram(), "atr1");
 
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
     {
-//      glTranslatef(0.0f, -1.65f, 0.0f);
       glScalef(0.3f, 2.f, 0.2f);
       glColor3f(0.5f, 0.5f, 0.5f);
       for (float z_axis = -10; z_axis < 20; z_axis += 7f)
@@ -130,14 +126,12 @@ public class SpikeTrapDoor extends Trap
       glPopMatrix();
     }
     update();
-    td1.draw();
   }
 
   @Override
   public void activate()
   {
     System.out.println("Interacting with the game object: " + this.id);
-    td1.activate();
     this.timer.resume();
   }
 
@@ -153,32 +147,9 @@ public class SpikeTrapDoor extends Trap
   {
   }
 
-//  @Override
-//  public void update()
-//  {
-//    if (this.timer.getTime() == 0)
-//    {
-//      occilate2 = 0;
-//      occilate = 0;
-//    }
-//    else if (occilate2 < 6)
-//    {
-//      occilate2 += 0.85f;
-//    }
-//    else
-//    {
-//      occilate += 0.095f;
-//    }
-//    if ((int) this.timer.getTime() == 4)
-//    {
-//      System.out.println("Resetting game object: " + this.id);
-//      reset();
-//    }
-//  }
+
   public void update()
   {
-    body.getY();
-//    System.out.println("body.getY: " + body.getOpenGLTransformMatrix());
     int time = 40;
     int startTime = 0;
     

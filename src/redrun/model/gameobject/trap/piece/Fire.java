@@ -49,46 +49,34 @@ public class Fire extends Trap
   @Override
   public void draw()
   {
-    if (this.timer.getTime() > 0)
+    glPushMatrix();
     {
-      glPushMatrix();
-      {
-        //   255-165-0 glColor3f(1f, 1f, 1f);
-        glMultMatrix(body.getOpenGLTransformMatrix());
-        particleEmitter.draw();
-      }
-      glPopMatrix();
-      update();
+      glColor3f(1f, 1f, 1f);
+      glMultMatrix(body.getOpenGLTransformMatrix());
+      particleEmitter.draw();
     }
+    glPopMatrix();
+    update();
   }
 
   @Override
   public void activate()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void reset()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void interact()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void update()
   {
-    // TODO Auto-generated method stub
     logic();
-    draw();
   }
-
 }
