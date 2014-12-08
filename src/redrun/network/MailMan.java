@@ -86,7 +86,7 @@ public class MailMan extends Thread
   {
     Pattern playerData = Pattern.compile("===\\sPlayer\\s===\\sLocation:\\[(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?)\\]\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
     Pattern requestDisconnect = Pattern.compile("Disconnect");
-    Pattern requestPlayer = Pattern.compile("Player");
+    Pattern requestPlayer = Pattern.compile("^Player$");
     Pattern requestMapData = Pattern.compile("Map");
 
     while (true)
@@ -94,7 +94,7 @@ public class MailMan extends Thread
       try
       {
         String incomingMessage = clientReader.readLine();
-
+        System.out.println(incomingMessage);
         Matcher matchInboundPlayer = playerData.matcher(incomingMessage);
         Matcher matchRequestDisconnect = requestDisconnect.matcher(incomingMessage);
         Matcher matchRequestPlayer = requestPlayer.matcher(incomingMessage);
