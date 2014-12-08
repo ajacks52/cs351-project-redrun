@@ -33,7 +33,7 @@ public class ObjectFromDB
   private static Pattern mapObjectPattern = Pattern.compile("(===\\sMap\\sObject\\s===)\\sID:(\\d+)\\sName:(\\w+)\\sLocation:(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\sGround Texture:(\\w+)\\sWall Texture:(\\w+)\\sDirection:(\\w+)\\sTrap Type:(.*?)\\sMap\\sID:(\\d+)\\s===");
  
   /** The player pattern. */
-  private static Pattern playerPattern = Pattern.compile("===\\sPlayer\\s===\\sLocation:(\\d+\\.\\d+),\\s(\\d+\\.\\d+),\\s(\\d+\\.\\d+)\\sName:(.*?)\\sTexture:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
+  private static Pattern playerPattern = Pattern.compile("===\\sPlayer\\s===\\sLocation:(.*?),\\s(.*?),\\s(.*?)\\sName:(.*?)\\sTexture:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
   
   // Regex Matchers...  
   /** The map matcher. */
