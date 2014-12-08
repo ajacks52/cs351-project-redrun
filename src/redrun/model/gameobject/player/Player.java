@@ -2,6 +2,7 @@ package redrun.model.gameobject.player;
 
 import static org.lwjgl.opengl.GL11.GL_COMPILE;
 import static org.lwjgl.opengl.GL11.glGenLists;
+import static org.lwjgl.opengl.GL11.glMultMatrix;
 import static org.lwjgl.opengl.GL11.glNewList;
 
 import java.io.File;
@@ -111,6 +112,7 @@ public class Player extends GameObject
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
     {
+      glMultMatrix(body.getOpenGLTransformMatrix());
       int currentTexture = -1;
       GL11.glEnable(GL11.GL_TEXTURE_2D);
       Face face = null;
@@ -202,7 +204,6 @@ public class Player extends GameObject
 
   public void lookThrough()
   {
-    camera.updatePosition(this.getX(), this.getY() - 5f, this.getZ(), body.getPitch(), body.getYaw());
     camera.lookThrough();
   }
 
@@ -216,7 +217,7 @@ public class Player extends GameObject
   @Override
   public void update()
   {
-    camera.updatePosition(this.getX(), this.getY(), this.getZ(), body.getPitch(), body.getYaw());
+    camera.updatePosition(this.getX(), this.getY() + 5f, this.getZ() + .5f, body.getPitch(), body.getYaw());
   }
 
   @Override

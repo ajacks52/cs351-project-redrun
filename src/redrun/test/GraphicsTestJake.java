@@ -12,12 +12,16 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.Timer;
 import org.newdawn.slick.Color;
 
+import redrun.database.Map;
 import redrun.graphics.camera.Camera;
 import redrun.graphics.camera.CameraManager;
 import redrun.graphics.camera.HUD_Manager;
 import redrun.graphics.selection.Picker;
+import redrun.main.Menu;
+import redrun.main.Menu.MenuState;
 import redrun.model.constants.CameraType;
 import redrun.model.constants.Direction;
+import redrun.model.constants.GameState;
 import redrun.model.constants.Team;
 import redrun.model.constants.TrapType;
 import redrun.model.game.GameData;
@@ -40,7 +44,9 @@ import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
 import redrun.model.toolkit.FontTools;
+import redrun.model.toolkit.LoadingScreen;
 import redrun.model.toolkit.Timing;
+import redrun.network.Client;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -52,6 +58,17 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class GraphicsTestJake
 {
+  private static boolean running = true;
+
+  /** The game menu. */
+  private static Menu menu = null;
+
+  /** The current game state for this client and its player. */
+  private static GameState state = GameState.WAIT;
+
+  /** The current game state for this client and its player. */
+  private static GameState previousState = GameState.WAIT;
+
   /** The active camera manager. */
   private static CameraManager cameraManager = null;
 
@@ -94,7 +111,10 @@ public class GraphicsTestJake
     glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
 
-    FontTools.loadFonts();
+    menu = new Menu();
+
+    // Show loading screen...
+    LoadingScreen.loadingScreen();
   }
 
   /**
@@ -289,7 +309,7 @@ public class GraphicsTestJake
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
 
-    while (!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+    while (!Display.isCloseRequested() && running)
     {
       camera = cameraManager.getActiveCamera();
 
@@ -375,6 +395,10 @@ public class GraphicsTestJake
       PhysicsWorld.stepSimulation(1 / 60.0f); // (float) lastFPS
 
       // Update...
+      // Show the HUD...
+      if (state != GameState.MAIN_MENU) HUD_Manager.huds(camera, player);
+      // Show the menu...
+      if (state == GameState.MAIN_MENU) menu.stateControl();
       cameraManager.update();
       PhysicsWorld.stepSimulation(1 / 60.0f);
       Timer.tick();
@@ -388,18 +412,29 @@ public class GraphicsTestJake
    */
   private static void getInput()
   {
+    // TODO Not to be used in production code.
+    if (menu.getState() == MenuState.EXIT) requestClose();
+
+    // Menu control...
+    if (menu.getState() == MenuState.OFF) state = previousState;
+    if (state == GameState.MAIN_MENU) return; // Take no input if menu is up.
+    if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+    {
+      if (state != GameState.MAIN_MENU) previousState = state;
+      state = GameState.MAIN_MENU;
+      menu.setState();
+    }
+
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
     float dy = 0.0f;
-    float dt = 0.0f;
 
     // Set the mouse sensitivity...
     float mouseSensitivity = 0.08f;
-    float movementSpeed = 0.02f;
+    float movementSpeed = 20.0f;
 
     dx = Mouse.getDX();
     dy = Mouse.getDY();
-    dt = Timing.getDelta();
 
     camera.yaw(dx * mouseSensitivity);
     camera.pitch(-dy * mouseSensitivity);
@@ -411,16 +446,39 @@ public class GraphicsTestJake
     }
 
     // Movement related input...
-    if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+    if (camera.getType() == CameraType.PLAYER)
     {
-      camera.moveForward(movementSpeed * dt * 2);
+      if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+      {
+        player.walkForward(movementSpeed * 2);
+      }
+      else if (Keyboard.isKeyDown(Keyboard.KEY_W)) player.walkForward(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_S)) player.walkBackward(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_A)) player.walkLeft(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_D)) player.walkRight(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) player.jump();
     }
-    else if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_UP)) camera.moveUp(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) camera.moveDown(movementSpeed * dt);
+    else if (camera.getType() == CameraType.SPECTATOR)
+    {
+      if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+      {
+        camera.moveForward(movementSpeed / 20);
+      }
+      if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) camera.moveUp(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) camera.moveDown(movementSpeed / 40);
+    }
+  }
+
+  /**
+   * Breaks out of the game loop which leads to the program exiting.
+   */
+  public static void requestClose()
+  {
+    running = false;
   }
 
   /**

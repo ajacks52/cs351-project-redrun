@@ -49,7 +49,7 @@ import redrun.graphics.selection.Picker;
 import redrun.main.Menu.MenuState;
 import redrun.model.constants.CameraType;
 import redrun.model.constants.GameState;
-import redrun.model.constants.Team;
+import redrun.model.constants.NetworkType;
 import redrun.model.game.GameData;
 import redrun.model.game.ObjectFromDB;
 import redrun.model.gameobject.GameObject;
@@ -109,15 +109,16 @@ public class Main
     // Connect to the server...
     client = new Client("127.0.0.1", 7777);
 
+    client.requestMapObjects();
+    client.requestPlayer();
+
     // Set up OpenGL and OpenAL...
     try
     {
       Display.setDisplayMode(new DisplayMode(1280, 720));
-      // TODO - Need to have the name of the active map be in the title...
-      Display.setTitle("RedRun Ice World");
       Display.create();
       Display.setVSyncEnabled(true);
-      
+
       AL.create();
     }
     catch (LWJGLException ex)
@@ -136,18 +137,8 @@ public class Main
     glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
 
-    // TODO Need to get the player data from the server...
-    // Set up the cameras...
-    player = new Player(0.0f, 1.0f, 0.0f, "Linvala, Keeper of Silence", null, Team.BLUE);
-
-    Camera spectatorCam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f,
-        1.0f, 0.0f, CameraType.SPECTATOR);
-    Camera playerCam = player.getCamera();
-
-    cameraManager = new CameraManager(spectatorCam, playerCam);
-
     menu = new Menu();
-    
+
     // Show loading screen...
     LoadingScreen.loadingScreen();
   }
@@ -160,32 +151,63 @@ public class Main
   {
     Sound ambient = new Sound("ambience/iceworld");
     ambient.play();
-    
+
     // Create the skybox...
     SkyBox skybox = null;
 
     // Create the floor...
     Plane floor = null;
 
+    // While information is being received from the network, parse it and
+    // display it accordingly
     while (!GameData.networkData.isEmpty())
     {
-      for (String networkItem : GameData.networkData)
+      for (String networkData : GameData.networkData)
       {
-        if (!ObjectFromDB.mapDrawn)
+        NetworkType type = ObjectFromDB.parseNetworkType(networkData);
+
+        switch (type)
         {
-          map = ObjectFromDB.createMap(networkItem);
-          if (!(map == null))
+          case MAP:
           {
+            map = ObjectFromDB.createMap(networkData);
+            Display.setTitle("RedRun " + map.getMapName());
             skybox = ObjectFromDB.createSkybox(map.getSkyBox());
             floor = ObjectFromDB.createFloor(map.getFloor());
+            break;
           }
-        }
-        else
-        {
-          MapObject object = ObjectFromDB.createMapObject(networkItem);
-          if (!GameData.mapObjects.contains(object))
+          case MAP_OBJECT:
           {
-            GameData.mapObjects.add(ObjectFromDB.createMapObject(networkItem));
+            MapObject object = ObjectFromDB.createMapObject(networkData);
+            if (!GameData.mapObjects.contains(object))
+            {
+              GameData.mapObjects.add(object);
+            }
+            break;
+          }
+          case PLAYER:
+          {
+            player = ObjectFromDB.createPlayer(networkData);
+            Camera spectatorCam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000,
+                0.0f, 1.0f, 0.0f, CameraType.SPECTATOR);
+            Camera playerCam = player.getCamera();
+            cameraManager = new CameraManager(spectatorCam, playerCam);
+            break;
+          }
+          case TRAP:
+          {
+            break;
+          }
+          default:
+          {
+            try
+            {
+              throw new IllegalArgumentException();
+            }
+            catch (IllegalArgumentException e)
+            {
+              e.printStackTrace();
+            }
           }
         }
       }
@@ -212,6 +234,56 @@ public class Main
 
     while (!Display.isCloseRequested() && running)
     {
+      while (!GameData.networkData.isEmpty())
+      {
+        for (String networkData : GameData.networkData)
+        {
+          NetworkType type = ObjectFromDB.parseNetworkType(networkData);
+
+          switch (type)
+          {
+            case MAP:
+            {
+              map = ObjectFromDB.createMap(networkData);
+              Display.setTitle("RedRun " + map.getMapName());
+              skybox = ObjectFromDB.createSkybox(map.getSkyBox());
+              floor = ObjectFromDB.createFloor(map.getFloor());
+              break;
+            }
+            case MAP_OBJECT:
+            {
+              MapObject object = ObjectFromDB.createMapObject(networkData);
+              if (!GameData.mapObjects.contains(object))
+              {
+                GameData.mapObjects.add(object);
+              }
+              break;
+            }
+            case PLAYER:
+            {
+              ObjectFromDB.updatePlayer(networkData);
+              break;
+            }
+            case TRAP:
+            {
+              break;
+            }
+            default:
+            {
+              try
+              {
+                throw new IllegalArgumentException();
+              }
+              catch (IllegalArgumentException e)
+              {
+                e.printStackTrace();
+              }
+            }
+          }
+        }
+        break;
+      }
+
       camera = cameraManager.getActiveCamera();
 
       // Get input from the user...
@@ -324,11 +396,12 @@ public class Main
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
     float dy = 0.0f;
+    @SuppressWarnings("unused")
     float dt = 0.0f;
 
     // Set the mouse sensitivity...
     float mouseSensitivity = 0.08f;
-    float movementSpeed = 0.02f;
+    float movementSpeed = 20.0f;
 
     dx = Mouse.getDX();
     dy = Mouse.getDY();
@@ -344,16 +417,31 @@ public class Main
     }
 
     // Movement related input...
-    if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+    if (camera.getType() == CameraType.PLAYER)
     {
-      camera.moveForward(movementSpeed * dt * 2);
+      if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+      {
+        player.walkForward(movementSpeed * 2);
+      }
+      else if (Keyboard.isKeyDown(Keyboard.KEY_W)) player.walkForward(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_S)) player.walkBackward(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_A)) player.walkLeft(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_D)) player.walkRight(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) player.jump();
     }
-    else if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) camera.moveUp(movementSpeed * dt);
-    if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) camera.moveDown(movementSpeed * dt);
+    else if (camera.getType() == CameraType.SPECTATOR)
+    {
+      if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+      {
+        camera.moveForward(movementSpeed / 20);
+      }
+      if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) camera.moveUp(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) camera.moveDown(movementSpeed / 40);
+    }
   }
 
   /**
@@ -375,6 +463,11 @@ public class Main
     running = false;
   }
 
+  /**
+   * Main statement
+   * 
+   * @param args
+   */
   public static void main(String[] args)
   {
     createResources();

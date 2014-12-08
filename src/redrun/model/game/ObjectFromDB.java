@@ -1,13 +1,13 @@
 package redrun.model.game;
 
-import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import redrun.database.Map;
 import redrun.model.constants.Direction;
+import redrun.model.constants.NetworkType;
+import redrun.model.constants.Team;
 import redrun.model.constants.TrapType;
-import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.map.Corner;
 import redrun.model.gameobject.map.Corridor;
@@ -19,30 +19,71 @@ import redrun.model.gameobject.map.Platform;
 import redrun.model.gameobject.map.Staircase;
 import redrun.model.gameobject.map.Start;
 import redrun.model.gameobject.map.Tunnel;
+import redrun.model.gameobject.player.Player;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
 
 public class ObjectFromDB
 {
-  /** The map objects that make up the level. */
-  public static LinkedList<MapObject> mapObjects = new LinkedList<MapObject>();
+  // Regex Patterns...
+  /** The map pattern. */
+  private static Pattern mapPattern = Pattern.compile("(===\\sMap\\s===)\\sID:(\\d+)\\sName:(.*?)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\sLight Position:(.*?)\\s===");
+  
+  /** The map objects pattern. */
+  private static Pattern mapObjectPattern = Pattern.compile("(===\\sMap\\sObject\\s===)\\sID:(\\d+)\\sName:(\\w+)\\sLocation:(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\sGround Texture:(\\w+)\\sWall Texture:(\\w+)\\sDirection:(\\w+)\\sTrap Type:(.*?)\\sMap\\sID:(\\d+)\\s===");
+ 
+  /** The player pattern. */
+  private static Pattern playerPattern = Pattern.compile("===\\sPlayer\\s===\\sLocation:(\\d+\\.\\d+),\\s(\\d+\\.\\d+),\\s(\\d+\\.\\d+)\\sName:(.*?)\\sTexture:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
+  
+  // Regex Matchers...  
+  /** The map matcher. */
+  private static Matcher mapMatcher = null;
 
-  /** The game objects that are in the level. */
-  public static LinkedList<GameObject> gameObjects = new LinkedList<GameObject>();
+  /** The map objects matcher. */
+  private static Matcher mapObjectMatcher = null;
+  
+  /** The player matcher. */
+  private static Matcher playerMatcher = null;
 
-  public Map map;
   public static boolean mapDrawn = false;
+  
+ 
+  
+  public static NetworkType parseNetworkType(String networkData)
+  {
+    mapMatcher = mapPattern.matcher(networkData);
+    mapObjectMatcher = mapObjectPattern.matcher(networkData);
+    playerMatcher = playerPattern.matcher(networkData);
 
+    if (playerMatcher.find())
+    {
+      return NetworkType.PLAYER;
+    }
+    else if (mapObjectMatcher.find())
+    {
+      return NetworkType.MAP_OBJECT;
+    }
+    else if (mapMatcher.find())
+    {
+      return NetworkType.MAP;
+    }
+    else
+    {
+      return null;
+    }
+  }
+  
+  
+  
   public static Map createMap(String networkItem)
   {
-    Pattern getMap = Pattern
-        .compile("(===\\sMap\\s===)\\sID:(\\d+)\\sName:(.*?)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\sLight Position:(.*?)\\s===");
-    Matcher matchMap = getMap.matcher(networkItem);
-    if (matchMap.find())
+    mapMatcher = mapPattern.matcher(networkItem);
+    
+    if (mapMatcher.find())
     {
       mapDrawn = true;
-      return new Map(Integer.parseInt(matchMap.group(2)), matchMap.group(3), matchMap.group(4), matchMap.group(5),
-          matchMap.group(6));
+      return new Map(Integer.parseInt(mapMatcher.group(2)), mapMatcher.group(3), mapMatcher.group(4), mapMatcher.group(5),
+          mapMatcher.group(6));
     }
     return null;
   }
@@ -54,28 +95,24 @@ public class ObjectFromDB
    * @param mapDBForm the database representation of the map object
    * @return the new map object
    */
-  public static MapObject createMapObject(String mapDBForm)
+  public static MapObject createMapObject(String networkData)
   {
-    // System.out.println(mapDBForm);
-    Pattern getMapObject = Pattern
-        .compile("(===\\sMap\\sObject\\s===)\\sID:(\\d+)\\sName:(\\w+)\\sLocation:(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\sGround Texture:(\\w+)\\sWall Texture:(\\w+)\\sDirection:(\\w+)\\sTrap Type:(.*?)\\sMap\\sID:(\\d+)\\s===");
+    mapObjectMatcher = mapObjectPattern.matcher(networkData);
 
-    Matcher matchMapObject = getMapObject.matcher(mapDBForm);
-
-    if (matchMapObject.find())
+    if (mapObjectMatcher.find())
     {
       // The position of the map object...
-      float x = Float.parseFloat(matchMapObject.group(4));
-      float y = Float.parseFloat(matchMapObject.group(5));
-      float z = Float.parseFloat(matchMapObject.group(6));
+      float x = Float.parseFloat(mapObjectMatcher.group(4));
+      float y = Float.parseFloat(mapObjectMatcher.group(5));
+      float z = Float.parseFloat(mapObjectMatcher.group(6));
 
       // The textures to apply to the map object...
-      final String groundTexture = matchMapObject.group(7);
-      final String wallTexture = matchMapObject.group(8);
+      final String groundTexture = mapObjectMatcher.group(7);
+      final String wallTexture = mapObjectMatcher.group(8);
 
       // The orientation of the map object...
       Direction orientation = null;
-      switch (matchMapObject.group(9))
+      switch (mapObjectMatcher.group(9))
       {
         case "NORTH":
         {
@@ -112,7 +149,7 @@ public class ObjectFromDB
 
       // The trap placed on the map object...
       TrapType type = null;
-      switch (matchMapObject.group(10))
+      switch (mapObjectMatcher.group(10))
       {
         case "JAIL_DOOR":
         {
@@ -163,7 +200,7 @@ public class ObjectFromDB
       }
 
       // Make and return the map object...
-      switch (matchMapObject.group(3))
+      switch (mapObjectMatcher.group(3))
       {
         case "Corner":
         {
@@ -220,6 +257,78 @@ public class ObjectFromDB
     }
     return null;
   }
+  
+  public static void updatePlayer(String networkData)
+  {
+    playerMatcher = playerPattern.matcher(networkData);
+    
+    if (playerMatcher.find())
+    {
+      float x = Float.parseFloat(playerMatcher.group(1));
+      float y = Float.parseFloat(playerMatcher.group(2));
+      float z = Float.parseFloat(playerMatcher.group(3));
+      String name = playerMatcher.group(4);
+      int health = Integer.parseInt(playerMatcher.group(7));   
+      int lives = Integer.parseInt(playerMatcher.group(8));   
+      boolean alive = Boolean.parseBoolean(playerMatcher.group(9));
+
+      for (Player player : GameData.players)
+      {
+        if (name.equals(player.getName()))
+        {
+          //TODO Update location...
+          player.setHealth(health);
+          player.setLives(lives);
+          player.setAlive(alive);
+          break;
+        }
+      }
+    }
+  }
+  
+  public static Player createPlayer(String networkData)
+  {
+    playerMatcher = playerPattern.matcher(networkData);
+    
+    if (playerMatcher.find())
+    {
+      float x = Float.parseFloat(playerMatcher.group(1));
+      float y = Float.parseFloat(playerMatcher.group(2));
+      float z = Float.parseFloat(playerMatcher.group(3));
+      String name = playerMatcher.group(4);
+      String texture = playerMatcher.group(5);
+      Team team = null;  
+      
+      switch(playerMatcher.group(6))
+      {
+        case "RED":
+        {
+          team = Team.RED;
+          break;
+        }
+        case "BLUE":
+        {
+          team = Team.BLUE;
+          break;
+        }
+        default:
+        {
+          try
+          {
+            throw new IllegalArgumentException();
+          }
+          catch (IllegalArgumentException e)
+          {
+            e.printStackTrace();
+          }
+        }
+      }
+      
+      return new Player(x, y, z, name, texture, team);
+    }
+    
+    return null;
+  }
 
   /**
    * Creates and returns a new skybox with the specified texture from the
@@ -248,7 +357,7 @@ public class ObjectFromDB
   }
 
   /**
-   * Parse title from map
+   * Get the title from the map.
    * 
    * @param map name of map
    * @param mapID id for map
