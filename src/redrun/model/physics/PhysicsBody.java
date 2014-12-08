@@ -163,17 +163,6 @@ public class PhysicsBody
     return PhysicsTools.rollFromQuat(q);
   }
 
-  // public void pitch(float pitch)
-  // {
-  // body.setAngularVelocity(PhysicsTools.openGLToBullet(new Vector3f(0, pitch *
-  // 10, 0)));
-  // }
-  //
-  // public void yaw(float yaw)
-  // {
-  // body.setAngularVelocity(PhysicsTools.openGLToBullet(new Vector3f(0, 0, yaw
-  // * 10)));
-  // }
 
   public void moveForward(float speed, float yaw)
   {
@@ -235,6 +224,22 @@ public class PhysicsBody
     buffer.put(m);
     buffer.flip();
     return buffer;
+  }
+  
+
+  public float[] getOpenGLTransformMatrixArray()
+  {
+    float[] m = new float[16];
+    trans = body.getWorldTransform(trans);
+    trans.getOpenGLMatrix(m);
+    return m;
+  }
+  
+  public void setFromOpenGLTransformMatrix(float[] m)
+  {
+    trans = body.getWorldTransform(trans);
+    trans.setFromOpenGLMatrix(m);
+    body.setWorldTransform(trans);
   }
 
   public void translate(float x, float y, float z)
