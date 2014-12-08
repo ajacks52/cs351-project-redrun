@@ -240,7 +240,7 @@ public class Main
         {
           NetworkType type = ObjectFromDB.parseNetworkType(networkData);
           
-          System.out.println(networkData);
+//          System.out.println(networkData);
 
           switch (type)
           {

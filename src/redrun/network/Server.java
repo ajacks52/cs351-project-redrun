@@ -154,7 +154,7 @@ public class Server
     
     for (MailMan workers : allConnections)
     {
-      System.out.println(networkData);
+//      System.out.println(networkData);
       workers.send(networkData);
     }
   }
