@@ -77,7 +77,7 @@ public class GraphicsTestAdam
       Logger.getLogger(GraphicsTestAdam.class.getName()).log(Level.SEVERE, null, ex);
     }
 
-    player = new Player(0.0f, 1.0f, 0.0f, "Linvala, Keeper of Silence", Team.BLUE);
+    player = new Player(0.0f, 1.0f, 45.0f, "Linvala, Keeper of Silence", Team.BLUE);
 
     Camera spectatorCam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f,
         1.0f, 0.0f, CameraType.SPECTATOR);
@@ -110,7 +110,7 @@ public class GraphicsTestAdam
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 30.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(0.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.JAIL)); //
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.TRAP_DOOR)); //
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
@@ -406,10 +406,15 @@ public class GraphicsTestAdam
       {
         player.walkForward(Constants.MOVEMENT_SPEED_PLAYER * 2);
       }
+      else if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_D)) player.walkForwardRight(Constants.MOVEMENT_SPEED_PLAYER);
+      else if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_A)) player.walkForwardLeft(Constants.MOVEMENT_SPEED_PLAYER);
+      else if (Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_D)) player.walkBackRight(Constants.MOVEMENT_SPEED_PLAYER);
+      else if (Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_A)) player.walkBackLeft(Constants.MOVEMENT_SPEED_PLAYER);
+      
       else if (Keyboard.isKeyDown(Keyboard.KEY_W)) player.walkForward(Constants.MOVEMENT_SPEED_PLAYER);
-      if (Keyboard.isKeyDown(Keyboard.KEY_S)) player.walkBackward(Constants.MOVEMENT_SPEED_PLAYER);
-      if (Keyboard.isKeyDown(Keyboard.KEY_A)) player.walkLeft(Constants.MOVEMENT_SPEED_PLAYER);
-      if (Keyboard.isKeyDown(Keyboard.KEY_D)) player.walkRight(Constants.MOVEMENT_SPEED_PLAYER);
+      else if (Keyboard.isKeyDown(Keyboard.KEY_S)) player.walkBackward(Constants.MOVEMENT_SPEED_PLAYER);
+      else if (Keyboard.isKeyDown(Keyboard.KEY_A)) player.walkLeft(Constants.MOVEMENT_SPEED_PLAYER);
+      else if (Keyboard.isKeyDown(Keyboard.KEY_D)) player.walkRight(Constants.MOVEMENT_SPEED_PLAYER);
       if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) player.jump();
     }
     else if (camera.getType() == CameraType.SPECTATOR)
