@@ -9,6 +9,8 @@ import redrun.model.constants.Direction;
 import redrun.model.constants.TrapType;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.map.Pit;
+import redrun.model.gameobject.map.Corridor;
+import redrun.model.gameobject.map.Field;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.trap.full.BottomOfPitTrap;
 import redrun.model.gameobject.trap.full.ExplodingBoxField;
@@ -73,7 +75,18 @@ public abstract class MapObject implements Comparable<MapObject>
 
       case EXPLODING_BOX_FIELD:
       {
-        this.trap = new ExplodingBoxField(x, y + 5, z, orientation, null);
+        if (this.getClass() == Pit.class)
+        {
+          this.trap = new ExplodingBoxField(x, y + 5, z, null, "pit");
+        }
+        if (this.getClass() == Corridor.class)
+        {
+          this.trap = new ExplodingBoxField(x, y + 5, z, null, "corridor");
+        }
+        if (this.getClass() == Field.class)
+        {
+          this.trap = new ExplodingBoxField(x, y + 5, z, null, "field");
+        }
         break;
       }
 

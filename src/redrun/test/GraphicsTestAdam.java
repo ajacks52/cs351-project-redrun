@@ -110,7 +110,7 @@ public class GraphicsTestAdam
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 30.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Tunnel(0.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.JAIL)); //
+    GameData.addMapObject(new Pit(-30.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.EXPLODING_BOX_FIELD)); //
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
@@ -277,14 +277,14 @@ public class GraphicsTestAdam
     // Create the floor...
     Plane floor = new Plane(0, -1.0f, 0, "marble", Direction.EAST, 2000);
 
-    for (int i = 0; i < 5; i++)
-    {
-      GameData.addGameObject(new Cube(0.0f, 25.0f + (2 * i), 45.0f, "crate1"));
-      GameData.addGameObject(new Cube(3.0f, 70.0f + (2 * i), 45 + 3.0f, "crate1"));
-      GameData.addGameObject(new Cube(-3.0f, 105.0f + (2 * i), 45 - 3.0f, "crate1"));
-      GameData.addGameObject(new Cube(-3.0f, 150.0f + (2 * i), 45 + 3.0f, "crate1"));
-      GameData.addGameObject(new Cube(3.0f, 195.0f + (2 * i), 45 - 3.0f, "crate1"));
-    }
+//    for (int i = 0; i < 5; i++)
+//    {
+//      GameData.addGameObject(new Cube(0.0f, 25.0f + (2 * i), 45.0f, "crate1"));
+//      GameData.addGameObject(new Cube(3.0f, 70.0f + (2 * i), 45 + 3.0f, "crate1"));
+//      GameData.addGameObject(new Cube(-3.0f, 105.0f + (2 * i), 45 - 3.0f, "crate1"));
+//      GameData.addGameObject(new Cube(-3.0f, 150.0f + (2 * i), 45 + 3.0f, "crate1"));
+//      GameData.addGameObject(new Cube(3.0f, 195.0f + (2 * i), 45 - 3.0f, "crate1"));
+//    }
     
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
