@@ -74,7 +74,7 @@ public class MailMan extends Thread
   public void run()
   {
     Pattern playerData = Pattern
-        .compile("===\\sPlayer\\s===\\sLocation:(.*?),\\s(.*?),\\s(.*?)\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
+        .compile("===\\sPlayer\\s===\\sLocation:\\[(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?)\\]\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
     Pattern requestDisconnect = Pattern.compile("Disconnect");
     Pattern requestPlayer = Pattern.compile("Player");
     Pattern requestMapData = Pattern.compile("Map");

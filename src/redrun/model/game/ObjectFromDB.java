@@ -33,7 +33,7 @@ public class ObjectFromDB
   private static Pattern mapObjectPattern = Pattern.compile("(===\\sMap\\sObject\\s===)\\sID:(\\d+)\\sName:(\\w+)\\sLocation:(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\sGround Texture:(\\w+)\\sWall Texture:(\\w+)\\sDirection:(\\w+)\\sTrap Type:(.*?)\\sMap\\sID:(\\d+)\\s===");
  
   /** The player pattern. */
-  private static Pattern playerPattern = Pattern.compile("===\\sPlayer\\s===\\sLocation:(.*?),\\s(.*?),\\s(.*?)\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
+  private static Pattern playerPattern = Pattern.compile("===\\sPlayer\\s===\\sLocation:\\[(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?)\\]\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
   
   // Regex Matchers...  
   /** The map matcher. */
@@ -264,21 +264,36 @@ public class ObjectFromDB
 
     if (playerMatcher.find())
     {
-      float x = Float.parseFloat(playerMatcher.group(1));
-      float y = Float.parseFloat(playerMatcher.group(2));
-      float z = Float.parseFloat(playerMatcher.group(3));
-      String name = playerMatcher.group(4);
+      float buf1 = Float.parseFloat(playerMatcher.group(1));
+      float buf2 = Float.parseFloat(playerMatcher.group(2));
+      float buf3 = Float.parseFloat(playerMatcher.group(3));
+      float buf4 = Float.parseFloat(playerMatcher.group(4));
+      float buf5 = Float.parseFloat(playerMatcher.group(5));
+      float buf6 = Float.parseFloat(playerMatcher.group(6));
+      float buf7 = Float.parseFloat(playerMatcher.group(7));
+      float buf8 = Float.parseFloat(playerMatcher.group(8));
+      float buf9 = Float.parseFloat(playerMatcher.group(9));
+      float buf10 = Float.parseFloat(playerMatcher.group(10));
+      float buf11 = Float.parseFloat(playerMatcher.group(11));
+      float buf12 = Float.parseFloat(playerMatcher.group(12));
+      float buf13 = Float.parseFloat(playerMatcher.group(13));
+      float buf14 = Float.parseFloat(playerMatcher.group(14));
+      float buf15 = Float.parseFloat(playerMatcher.group(15));
+      float buf16 = Float.parseFloat(playerMatcher.group(16));
+      
+      float[] buffer = {buf1, buf2, buf3, buf4, buf5, buf6, buf7, buf8, buf9, buf10, buf11, buf12, buf13, buf14, buf15, buf16};
+      
+      String name = playerMatcher.group(17);
 
-
-      int health = Integer.parseInt(playerMatcher.group(6));   
-      int lives = Integer.parseInt(playerMatcher.group(7));   
-      boolean alive = Boolean.parseBoolean(playerMatcher.group(8));
+      int health = Integer.parseInt(playerMatcher.group(19));   
+      int lives = Integer.parseInt(playerMatcher.group(20));   
+      boolean alive = Boolean.parseBoolean(playerMatcher.group(21));
 
       for (Player player : GameData.players)
       {
         if (name.equals(player.getName()))
         {
-          //TODO Update location...
+          player.getBody().setFromOpenGLTransformMatrix(buffer);
           player.setHealth(health);
           player.setLives(lives);
           player.setAlive(alive);
@@ -296,13 +311,10 @@ public class ObjectFromDB
     
     if (playerMatcher.find())
     {
-      float x = Float.parseFloat(playerMatcher.group(1));
-      float y = Float.parseFloat(playerMatcher.group(2));
-      float z = Float.parseFloat(playerMatcher.group(3));
-      String name = playerMatcher.group(4);
+      String name = playerMatcher.group(17);
       Team team = null;  
       
-      switch(playerMatcher.group(5))
+      switch(playerMatcher.group(18))
       {
         case "RED":
         {
@@ -327,7 +339,7 @@ public class ObjectFromDB
         }
       }
       
-      return new Player(x, y, z, name, team);
+      return new Player(0.0f, 0.0f, 0.0f, name, team);
     }
     
     return null;

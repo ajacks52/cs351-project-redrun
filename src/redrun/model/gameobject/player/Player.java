@@ -12,6 +12,7 @@ import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 
 import java.io.File;
+import java.util.Arrays;
 
 import javax.vecmath.Quat4f;
 
@@ -392,7 +393,7 @@ public class Player extends GameObject
   public String toString()
   {
     //@formatter:off
-    return "=== Player === " + "Location:" + body.getX() + ", " + body.getY() + ", " + body.getZ() + " Name:" + this.name
+    return "=== Player === " + "Location:" + Arrays.toString(body.getOpenGLTransformMatrixArray()) + " Name:" + this.name
         + " Team Name:" + this.team + " Health:"
         + this.health + " Lives left:" + this.lives + " Alive:" + this.alive + " ===";
     //@formatter:on
