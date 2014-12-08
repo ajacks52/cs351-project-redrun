@@ -96,10 +96,10 @@ public class Server
   public static String assignPlayer()
   {
     String[] players = {
-      "=== Player === Location:0.0, 1.0, 0.0 Rotation:90.0 Name:Balthazar Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
-      "=== Player === Location:0.0, 1.0, 0.0 Rotation:90.0 Name:Joel Team Name:RED Health:100 Lives left:5 Alive:true ===",
-      "=== Player === Location:0.0, 1.0, 0.0 Rotation:90.0 Name:Archimedes Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
-      "=== Player === Location:0.0, 1.0, 0.0 Rotation:90.0 Name:Leeroy Jenkins Team Name:BLUE Health:100 Lives left:5 Alive:true ===" };
+      "=== Player === Location:3.0, 2.0, 3.0 Rotation:90.0 Name:Balthazar Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
+      "=== Player === Location:3.0, 2.0, -3.0 Rotation:90.0 Name:Joel Team Name:RED Health:100 Lives left:5 Alive:true ===",
+      "=== Player === Location:-3.0, 2.0, 3.0 Rotation:90.0 Name:Archimedes Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
+      "=== Player === Location:-3.0, 2.0, -3.0 Rotation:90.0 Name:Leeroy Jenkins Team Name:BLUE Health:100 Lives left:5 Alive:true ===" };
     return players[playerCounter++];
   }
 

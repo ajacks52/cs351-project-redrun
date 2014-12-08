@@ -319,6 +319,9 @@ public class ObjectFromDB
 
     if (playerMatcher.find())
     {
+      float x = Float.parseFloat(playerMatcher.group(1));
+      float y = Float.parseFloat(playerMatcher.group(2));
+      float z = Float.parseFloat(playerMatcher.group(3));
       String name = playerMatcher.group(5);
       Team team = null;
 
@@ -347,7 +350,7 @@ public class ObjectFromDB
         }
       }
 
-      return new Player(0.0f, 1.0f, 0.0f, name, team);
+      return new Player(x, y, z, name, team);
     }
 
     return null;
