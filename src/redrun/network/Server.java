@@ -5,13 +5,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import redrun.database.Map;
 import redrun.database.MapObjectDB;
 import redrun.database.RedRunDAO;
-import redrun.model.game.GameData;
 
 /**
  * Facilitate server functionality
@@ -95,10 +92,10 @@ public class Server
   public static String assignPlayer()
   {
     String[] players = {
-        "=== Player === Location:0.0, 1.0, 0.0 Name:Balthazar Texture:button Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
-        "=== Player === Location:0.0, 1.0, 0.0 Name:Joel Texture:button Team Name:RED Health:100 Lives left:5 Alive:true ===",
-        "=== Player === Location:0.0, 1.0, 0.0 Name:Archimedes Texture:button Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
-        "=== Player === Location:0.0, 1.0, 0.0 Name:Leeroy Jenkins Texture:button Team Name:BLUE Health:100 Lives left:5 Alive:true ===" };
+      "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0] Name:Balthazar Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
+      "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0] Name:Joel Team Name:RED Health:100 Lives left:5 Alive:true ===",
+      "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0] Name:Archimedes Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
+      "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0] Name:Leeroy Jenkins Team Name:BLUE Health:100 Lives left:5 Alive:true ===" };
     return players[counter++];
   }
 
@@ -120,8 +117,8 @@ public class Server
   
   public static void checkBroadcast()
   {
-    System.out.println("===================");
-    System.out.println("Checking broadcast status...");
+    //System.out.println("===================");
+    //System.out.println("Checking broadcast status...");
 
     boolean isReady = true;
     
@@ -136,7 +133,7 @@ public class Server
     
     if (isReady)
     {
-      System.out.println("Broadcasting...");
+      //System.out.println("Broadcasting...");
       
       for (MailMan workers : allConnections)
       {
@@ -153,11 +150,11 @@ public class Server
    */
   public static void broadcast(String networkData)
   {
-    System.out.println("=======================");
+    //System.out.println("=======================");
     
     for (MailMan workers : allConnections)
     {
-      System.out.println(networkData);
+//      System.out.println(networkData);
       workers.send(networkData);
     }
   }

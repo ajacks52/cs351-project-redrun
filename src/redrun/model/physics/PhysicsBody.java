@@ -182,8 +182,6 @@ public class PhysicsBody
   {
     trans = body.getMotionState().getWorldTransform(trans);
     Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
-    // float x = (float) (Math.sin(PhysicsTools.yawFromQuat(q)) * speed);
-    // float z = -(float) (Math.cos(PhysicsTools.yawFromQuat(q)) * speed);
     float x = -(float) (Math.sin(Math.toRadians(yaw)) * speed);
     float z = (float) (Math.cos(Math.toRadians(yaw)) * speed);
 
@@ -194,11 +192,6 @@ public class PhysicsBody
   {
     trans = body.getMotionState().getWorldTransform(trans);
     Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
-
-    // float x = (float) (Math.cos(PhysicsTools.yawFromQuat(q) + Math.PI / 4) *
-    // speed);
-    // float z = (float) (Math.sin(PhysicsTools.yawFromQuat(q) + Math.PI / 4) *
-    // speed);
     float x = (float) (Math.sin(Math.toRadians(yaw - 90)) * speed);
     float z = -(float) (Math.cos(Math.toRadians(yaw - 90)) * speed);
     push(new Vector3f(x, 0, z));
@@ -208,12 +201,44 @@ public class PhysicsBody
   {
     trans = body.getMotionState().getWorldTransform(trans);
     Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
-    // float x = -(float) (Math.cos(PhysicsTools.yawFromQuat(q) - Math.PI / 4) *
-    // speed);
-    // float y = (float) (Math.sin(PhysicsTools.yawFromQuat(q) - Math.PI / 4) *
-    // speed);
     float x = (float) (Math.sin(Math.toRadians(yaw + 90)) * speed);
     float z = -(float) (Math.cos(Math.toRadians(yaw + 90)) * speed);
+    push(new Vector3f(x, 0, z));
+  }
+  
+  public void moveForwardRight(float speed, float yaw)
+  {
+    trans = body.getMotionState().getWorldTransform(trans);
+    Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
+    float x = (float) (Math.sin(Math.toRadians(yaw + 45)) * speed);
+    float z = -(float) (Math.cos(Math.toRadians(yaw + 45)) * speed);
+    push(new Vector3f(x, 0, z));
+  }
+  
+  public void moveForwardLeft(float speed, float yaw)
+  {
+    trans = body.getMotionState().getWorldTransform(trans);
+    Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
+    float x = (float) (Math.sin(Math.toRadians(yaw - 45)) * speed);
+    float z = -(float) (Math.cos(Math.toRadians(yaw - 45)) * speed);
+    push(new Vector3f(x, 0, z));
+  }
+  
+  public void moveBackRight(float speed, float yaw)
+  {
+    trans = body.getMotionState().getWorldTransform(trans);
+    Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
+    float x = -(float) (Math.sin(Math.toRadians(yaw - 45)) * speed);
+    float z = (float) (Math.cos(Math.toRadians(yaw - 45)) * speed);
+    push(new Vector3f(x, 0, z));
+  }
+  
+  public void moveBackLeft(float speed, float yaw)
+  {
+    trans = body.getMotionState().getWorldTransform(trans);
+    Quat4f q = PhysicsTools.quatFromMatrix(trans.basis);
+    float x = -(float) (Math.sin(Math.toRadians(yaw + 45)) * speed);
+    float z = (float) (Math.cos(Math.toRadians(yaw + 45)) * speed);
     push(new Vector3f(x, 0, z));
   }
 

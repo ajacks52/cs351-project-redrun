@@ -27,28 +27,29 @@ public class ObjectFromDB
 {
   // Regex Patterns...
   /** The map pattern. */
-  private static Pattern mapPattern = Pattern.compile("(===\\sMap\\s===)\\sID:(\\d+)\\sName:(.*?)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\sLight Position:(.*?)\\s===");
-  
+  private static Pattern mapPattern = Pattern
+      .compile("(===\\sMap\\s===)\\sID:(\\d+)\\sName:(.*?)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\sLight Position:(.*?)\\s===");
+
   /** The map objects pattern. */
-  private static Pattern mapObjectPattern = Pattern.compile("(===\\sMap\\sObject\\s===)\\sID:(\\d+)\\sName:(\\w+)\\sLocation:(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\sGround Texture:(\\w+)\\sWall Texture:(\\w+)\\sDirection:(\\w+)\\sTrap Type:(.*?)\\sMap\\sID:(\\d+)\\s===");
- 
+  private static Pattern mapObjectPattern = Pattern
+      .compile("(===\\sMap\\sObject\\s===)\\sID:(\\d+)\\sName:(\\w+)\\sLocation:(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\sGround Texture:(\\w+)\\sWall Texture:(\\w+)\\sDirection:(\\w+)\\sTrap Type:(.*?)\\sMap\\sID:(\\d+)\\s===");
+
   /** The player pattern. */
-  private static Pattern playerPattern = Pattern.compile("===\\sPlayer\\s===\\sLocation:(.*?),\\s(.*?),\\s(.*?)\\sName:(.*?)\\sTexture:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
-  
-  // Regex Matchers...  
+  private static Pattern playerPattern = Pattern
+      .compile("===\\sPlayer\\s===\\sLocation:(.*?),\\s(.*?),\\s(.*?)\\sRotation:(.*?)\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
+
+  // Regex Matchers...
   /** The map matcher. */
   private static Matcher mapMatcher = null;
 
   /** The map objects matcher. */
   private static Matcher mapObjectMatcher = null;
-  
+
   /** The player matcher. */
   private static Matcher playerMatcher = null;
 
   public static boolean mapDrawn = false;
-  
- 
-  
+
   public static NetworkType parseNetworkType(String networkData)
   {
     mapMatcher = mapPattern.matcher(networkData);
@@ -72,18 +73,16 @@ public class ObjectFromDB
       return null;
     }
   }
-  
-  
-  
+
   public static Map createMap(String networkItem)
   {
     mapMatcher = mapPattern.matcher(networkItem);
-    
+
     if (mapMatcher.find())
     {
       mapDrawn = true;
-      return new Map(Integer.parseInt(mapMatcher.group(2)), mapMatcher.group(3), mapMatcher.group(4), mapMatcher.group(5),
-          mapMatcher.group(6));
+      return new Map(Integer.parseInt(mapMatcher.group(2)), mapMatcher.group(3), mapMatcher.group(4),
+          mapMatcher.group(5), mapMatcher.group(6));
     }
     return null;
   }
@@ -257,53 +256,62 @@ public class ObjectFromDB
     }
     return null;
   }
-  
+
   public static void updatePlayer(String networkData)
   {
+    System.out.println("Updaing player...");
+
     playerMatcher = playerPattern.matcher(networkData);
-    
+
     if (playerMatcher.find())
     {
       float x = Float.parseFloat(playerMatcher.group(1));
       float y = Float.parseFloat(playerMatcher.group(2));
       float z = Float.parseFloat(playerMatcher.group(3));
-      String name = playerMatcher.group(4);
-      String texture = playerMatcher.group(5);
+      float rotation = Float.parseFloat(playerMatcher.group(4));
+      // TODO Is this right?
+      float[] buffer = { x, y, z };
 
-      int health = Integer.parseInt(playerMatcher.group(7));   
-      int lives = Integer.parseInt(playerMatcher.group(8));   
+      String name = playerMatcher.group(5);
+
+      int health = Integer.parseInt(playerMatcher.group(7));
+      int lives = Integer.parseInt(playerMatcher.group(8));
       boolean alive = Boolean.parseBoolean(playerMatcher.group(9));
+
+      boolean isFound = false;
 
       for (Player player : GameData.players)
       {
         if (name.equals(player.getName()))
         {
-          //TODO Update location...
-          player.setHealth(health);
-          player.setLives(lives);
-          player.setAlive(alive);
-          return;
+          if (!name.equals(GameData.players.get(0).getName()))
+          {
+            player.getBody().setFromOpenGLTransformMatrix(buffer);
+            player.setHealth(health);
+            player.setLives(lives);
+            player.setAlive(alive);
+          }
+          isFound = true;
         }
       }
-      
-      GameData.players.add(createPlayer(networkData));
+
+      if (!isFound)
+      {
+        GameData.players.add(createPlayer(networkData));
+      }
     }
   }
-  
+
   public static Player createPlayer(String networkData)
   {
     playerMatcher = playerPattern.matcher(networkData);
-    
+
     if (playerMatcher.find())
     {
-      float x = Float.parseFloat(playerMatcher.group(1));
-      float y = Float.parseFloat(playerMatcher.group(2));
-      float z = Float.parseFloat(playerMatcher.group(3));
-      String name = playerMatcher.group(4);
-      String texture = playerMatcher.group(5);
-      Team team = null;  
-      
-      switch(playerMatcher.group(6))
+      String name = playerMatcher.group(5);
+      Team team = null;
+
+      switch (playerMatcher.group(6))
       {
         case "RED":
         {
@@ -327,10 +335,15 @@ public class ObjectFromDB
           }
         }
       }
+<<<<<<< HEAD
       
       return new Player(x, y, z, name, team);
+=======
+
+      return new Player(0.0f, 1.0f, 0.0f, name, team);
+>>>>>>> develop
     }
-    
+
     return null;
   }
 

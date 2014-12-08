@@ -240,8 +240,6 @@ public class Main
         {
           NetworkType type = ObjectFromDB.parseNetworkType(networkData);
           
-          System.out.println(networkData);
-
           switch (type)
           {
             case MAP:
@@ -290,6 +288,12 @@ public class Main
 
       // Get input from the user...
       getInput();
+      
+      if (ObjectFromDB.mapDrawn == true)
+      {
+        GameData.networkData.clear();
+        client.sendPlayer(GameData.players.get(0));
+      }
 
       // Prepare for rendering...
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -377,12 +381,6 @@ public class Main
       Timer.tick();
       Display.update();
       Display.sync(60);
-
-      if (ObjectFromDB.mapDrawn == true)
-      {
-        GameData.networkData.clear();
-        client.sendPlayer(GameData.players.get(0));
-      }
     }
   }
 
