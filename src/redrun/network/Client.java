@@ -229,14 +229,10 @@ public class Client
             write.println(msg);
             break;
           }
-          else if (matchInboundPlayerData.find())
+          else if (matchInboundPlayerData.find() || matchTrapData.find())
           {
             GameData.networkData.add(msg);
           }
-          // else if (matchTrapData.find())
-          // {
-          // GameData.networkData.add(msg);
-          // }
           else
           {
             System.out.println("Unrecognized message " + msg + " sent, error!");

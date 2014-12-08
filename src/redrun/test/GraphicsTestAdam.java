@@ -401,7 +401,6 @@ public class GraphicsTestAdam
     {
       player.yaw(Constants.DX * Constants.MOUSE_SENSITIVITY);
       player.pitch(-Constants.DY * Constants.MOUSE_SENSITIVITY);
-
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
       {
         player.walkForward(Constants.MOVEMENT_SPEED_PLAYER * 2);

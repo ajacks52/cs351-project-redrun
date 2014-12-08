@@ -223,7 +223,7 @@ public class Main
     Mouse.setGrabbed(true);
 
     while (!Display.isCloseRequested() && running)
-    {
+    {  
       while (!GameData.networkData.isEmpty())
       {
         for (String networkData : GameData.networkData)
