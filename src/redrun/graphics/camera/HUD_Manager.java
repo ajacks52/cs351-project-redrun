@@ -207,6 +207,10 @@ public class HUD_Manager
         {
           glColor3f(1, 0, 0);
         }
+        else if (player.getHealth() < 50)
+        {
+          glColor3f(1, 1, 0);
+        }
         else
         {
           glColor3f(0, 1, 0);
