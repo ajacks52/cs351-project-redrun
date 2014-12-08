@@ -390,9 +390,7 @@ public class GraphicsTestAdam
     Constants.DX = Mouse.getDX();
     Constants.DY = Mouse.getDY();
 
-    camera.yaw(Constants.DX * Constants.MOUSE_SENSITIVITY);
-    camera.pitch(-Constants.DY * Constants.MOUSE_SENSITIVITY);
-
+   
     // Camera related input...
     if (Keyboard.isKeyDown(Keyboard.KEY_R))
     {
@@ -402,6 +400,10 @@ public class GraphicsTestAdam
     // Movement related input...
     if (camera.getType() == CameraType.PLAYER)
     {
+
+      player.yaw(Constants.DX * Constants.MOUSE_SENSITIVITY);
+      player.pitch(-Constants.DY * Constants.MOUSE_SENSITIVITY);
+      
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
       {
         player.walkForward(Constants.MOVEMENT_SPEED_PLAYER * 2);
@@ -419,6 +421,9 @@ public class GraphicsTestAdam
     }
     else if (camera.getType() == CameraType.SPECTATOR)
     {
+      camera.yaw(Constants.DX * Constants.MOUSE_SENSITIVITY);
+      camera.pitch(-Constants.DY * Constants.MOUSE_SENSITIVITY);
+
       if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(Constants.MOVEMENT_SPEED_SPECTATOR);
       if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(Constants.MOVEMENT_SPEED_SPECTATOR);
       if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(Constants.MOVEMENT_SPEED_SPECTATOR);
