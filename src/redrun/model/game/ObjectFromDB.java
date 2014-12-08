@@ -33,7 +33,7 @@ public class ObjectFromDB
   private static Pattern mapObjectPattern = Pattern.compile("(===\\sMap\\sObject\\s===)\\sID:(\\d+)\\sName:(\\w+)\\sLocation:(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\sGround Texture:(\\w+)\\sWall Texture:(\\w+)\\sDirection:(\\w+)\\sTrap Type:(.*?)\\sMap\\sID:(\\d+)\\s===");
  
   /** The player pattern. */
-  private static Pattern playerPattern = Pattern.compile("===\\sPlayer\\s===\\sLocation:(.*?),\\s(.*?),\\s(.*?)\\sName:(.*?)\\sTexture:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
+  private static Pattern playerPattern = Pattern.compile("===\\sPlayer\\s===\\sLocation:(.*?),\\s(.*?),\\s(.*?)\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
   
   // Regex Matchers...  
   /** The map matcher. */
@@ -261,18 +261,18 @@ public class ObjectFromDB
   public static void updatePlayer(String networkData)
   {
     playerMatcher = playerPattern.matcher(networkData);
-    
+
     if (playerMatcher.find())
     {
       float x = Float.parseFloat(playerMatcher.group(1));
       float y = Float.parseFloat(playerMatcher.group(2));
       float z = Float.parseFloat(playerMatcher.group(3));
       String name = playerMatcher.group(4);
-      String texture = playerMatcher.group(5);
 
-      int health = Integer.parseInt(playerMatcher.group(7));   
-      int lives = Integer.parseInt(playerMatcher.group(8));   
-      boolean alive = Boolean.parseBoolean(playerMatcher.group(9));
+
+      int health = Integer.parseInt(playerMatcher.group(6));   
+      int lives = Integer.parseInt(playerMatcher.group(7));   
+      boolean alive = Boolean.parseBoolean(playerMatcher.group(8));
 
       for (Player player : GameData.players)
       {
@@ -300,10 +300,9 @@ public class ObjectFromDB
       float y = Float.parseFloat(playerMatcher.group(2));
       float z = Float.parseFloat(playerMatcher.group(3));
       String name = playerMatcher.group(4);
-      String texture = playerMatcher.group(5);
       Team team = null;  
       
-      switch(playerMatcher.group(6))
+      switch(playerMatcher.group(5))
       {
         case "RED":
         {
@@ -328,7 +327,7 @@ public class ObjectFromDB
         }
       }
       
-      return new Player(x, y, z, name, texture, team);
+      return new Player(x, y, z, name, team);
     }
     
     return null;
