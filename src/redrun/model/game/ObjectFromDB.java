@@ -260,6 +260,8 @@ public class ObjectFromDB
   
   public static void updatePlayer(String networkData)
   {
+    System.out.println("Updaing player...");
+    
     playerMatcher = playerPattern.matcher(networkData);
 
     if (playerMatcher.find())
@@ -288,20 +290,28 @@ public class ObjectFromDB
       int health = Integer.parseInt(playerMatcher.group(19));   
       int lives = Integer.parseInt(playerMatcher.group(20));   
       boolean alive = Boolean.parseBoolean(playerMatcher.group(21));
-
+      
+      boolean isFound = false;
+      
       for (Player player : GameData.players)
       {
         if (name.equals(player.getName()))
         {
-          player.getBody().setFromOpenGLTransformMatrix(buffer);
-          player.setHealth(health);
-          player.setLives(lives);
-          player.setAlive(alive);
-          return;
+          if (!name.equals(GameData.players.get(0).getName()))
+          {
+            player.getBody().setFromOpenGLTransformMatrix(buffer);
+            player.setHealth(health);
+            player.setLives(lives);
+            player.setAlive(alive);
+          }
+          isFound = true;
         }
       }
       
-      GameData.players.add(createPlayer(networkData));
+      if (!isFound)
+      {
+        GameData.players.add(createPlayer(networkData));
+      }
     }
   }
   
@@ -339,7 +349,7 @@ public class ObjectFromDB
         }
       }
       
-      return new Player(0.0f, 0.0f, 0.0f, name, team);
+      return new Player(0.0f, 1.0f, 0.0f, name, team);
     }
     
     return null;
