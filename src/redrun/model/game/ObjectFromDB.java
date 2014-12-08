@@ -287,6 +287,7 @@ public class ObjectFromDB
           if (!name.equals(GameData.players.get(0).getName()))
           {
             player.getBody().setFromOpenGLTransformMatrix(buffer);
+            player.getCamera().setYaw(rotation);
             player.setHealth(health);
             player.setLives(lives);
             player.setAlive(alive);
