@@ -234,6 +234,22 @@ public class PhysicsBody
     buffer.flip();
     return buffer;
   }
+  
+
+  public float[] getOpenGLTransformMatrixArray()
+  {
+    float[] m = new float[16];
+    trans = body.getWorldTransform(trans);
+    trans.getOpenGLMatrix(m);
+    return m;
+  }
+  
+  public void setFromOpenGLTransformMatrix(float[] m)
+  {
+    trans = body.getWorldTransform(trans);
+    trans.setFromOpenGLMatrix(m);
+    body.setWorldTransform(trans);
+  }
 
   public void translate(float x, float y, float z)
   {
