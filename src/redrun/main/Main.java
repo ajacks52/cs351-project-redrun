@@ -397,18 +397,18 @@ public class Main
     dy = Mouse.getDY();
     dt = Timing.getDelta();
 
-    camera.yaw(dx * mouseSensitivity);
-    camera.pitch(-dy * mouseSensitivity);
-
     // Camera related input...
     if (Keyboard.isKeyDown(Keyboard.KEY_R))
     {
       cameraManager.chooseNextCamera();
     }
 
- // Movement related input...
+    // Movement related input...
     if (camera.getType() == CameraType.PLAYER)
     {
+      GameData.players.get(0).yaw(dx * mouseSensitivity);
+      GameData.players.get(0).pitch(-dy * mouseSensitivity);
+      
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
       {
         GameData.players.get(0).walkForward(movementSpeed * 2);
@@ -437,6 +437,9 @@ public class Main
     }
     else if (camera.getType() == CameraType.SPECTATOR)
     {
+      camera.yaw(dx * mouseSensitivity);
+      camera.pitch(-dy * mouseSensitivity);
+      
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
       {
         camera.moveForward(movementSpeed / 20);
