@@ -8,6 +8,7 @@ import redrun.model.constants.Direction;
 import redrun.model.constants.NetworkType;
 import redrun.model.constants.Team;
 import redrun.model.constants.TrapType;
+import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.map.Corner;
 import redrun.model.gameobject.map.Corridor;
@@ -20,6 +21,7 @@ import redrun.model.gameobject.map.Staircase;
 import redrun.model.gameobject.map.Start;
 import redrun.model.gameobject.map.Tunnel;
 import redrun.model.gameobject.player.Player;
+import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
 
@@ -35,6 +37,9 @@ public class ObjectFromDB
   /** The player pattern. */
   private static Pattern playerPattern = Pattern.compile("===\\sPlayer\\s===\\sLocation:\\[(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?)\\]\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
   
+  /** The trap pattern. */
+  private static Pattern trapPattern = Pattern.compile("===\\sTrap\\s===\\sID:(\\d+)\\s===");
+  
   // Regex Matchers...  
   /** The map matcher. */
   private static Matcher mapMatcher = null;
@@ -44,16 +49,32 @@ public class ObjectFromDB
   
   /** The player matcher. */
   private static Matcher playerMatcher = null;
+  
+  /** The trap matcher. */
+  private static Matcher trapMatcher = null;
 
+  
+  
+  /**
+   * Determines the type of network data that is received by the client from the server.
+   * 
+   * @param networkData the network data string
+   * @return the type of network data
+   */
   public static NetworkType parseNetworkType(String networkData)
   {
     mapMatcher = mapPattern.matcher(networkData);
     mapObjectMatcher = mapObjectPattern.matcher(networkData);
     playerMatcher = playerPattern.matcher(networkData);
-
+    trapMatcher = trapPattern.matcher(networkData);
+    
     if (playerMatcher.find())
     {
       return NetworkType.PLAYER;
+    }
+    else if (trapMatcher.find())
+    {
+      return NetworkType.TRAP;
     }
     else if (mapObjectMatcher.find())
     {
@@ -71,9 +92,15 @@ public class ObjectFromDB
   
   
   
-  public static Map createMap(String networkItem)
+  /**
+   * Populates the map fields on the client. This includes everything except map objects.
+   * 
+   * @param networkItem 
+   * @return
+   */
+  public static Map createMap(String networkData)
   {
-    mapMatcher = mapPattern.matcher(networkItem);
+    mapMatcher = mapPattern.matcher(networkData);
     
     if (mapMatcher.find())
     {
@@ -83,11 +110,13 @@ public class ObjectFromDB
     return null;
   }
 
+  
+  
   /**
    * Creates and returns a new map object from the string representation of the
    * database object.
    * 
-   * @param mapDBForm the database representation of the map object
+   * @param networkData the database representation of the map object
    * @return the new map object
    */
   public static MapObject createMapObject(String networkData)
@@ -268,6 +297,53 @@ public class ObjectFromDB
     return null;
   }
   
+  
+  
+  /**
+   * Updates traps on the client end from network data.
+   * 
+   * @param networkData the networkData from the server
+   */
+  public static void updateTrap(String networkData)
+  {
+    trapMatcher = trapPattern.matcher(networkData);
+    
+    if (trapMatcher.find())
+    {
+      int id = Integer.parseInt(trapMatcher.group(1));
+      
+      GameObject object = GameObject.getGameObject(id);
+      
+      if (object instanceof Trap)
+      {
+        Trap trap = (Trap) object;
+        
+        if (!trap.isActive())
+        {
+          trap.activate();
+        }
+      }
+      else
+      {
+        try
+        {
+          throw new IllegalStateException();
+        }
+        catch (IllegalStateException ex)
+        {
+          ex.printStackTrace();
+        }
+      }
+    }
+  }
+  
+  
+  
+  /**
+   * Updates players on the client end from network data.
+   * 
+   * @param networkData the networkData from the server
+   */
   public static void updatePlayer(String networkData)
   {
     playerMatcher = playerPattern.matcher(networkData);
@@ -323,6 +399,13 @@ public class ObjectFromDB
     }
   }
   
+  
+  
+  /**
+   * Creates a new player from the network data.
+   * 
+   * @param networkData the networkData from the server
+   */
   public static Player createPlayer(String networkData)
   {
     playerMatcher = playerPattern.matcher(networkData);
@@ -367,6 +450,8 @@ public class ObjectFromDB
     return null;
   }
 
+  
+  
   /**
    * Creates and returns a new skybox with the specified texture from the
    * database.
@@ -380,6 +465,8 @@ public class ObjectFromDB
     return new SkyBox(0, 0, 0, skyboxTexture);
   }
 
+  
+  
   /**
    * Creates and returns a new plane with the specified texture from the
    * database.
@@ -392,6 +479,8 @@ public class ObjectFromDB
   {
     return new Plane(0, -0.5f, 0, groundTexture, Direction.NORTH, 1000);
   }
+  
+  
 
   /**
    * Get the title from the map.

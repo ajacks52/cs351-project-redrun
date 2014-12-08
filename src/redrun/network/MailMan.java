@@ -21,10 +21,6 @@ import redrun.database.MapObjectDB;
  */
 public class MailMan extends Thread
 {
-  @SuppressWarnings("unused")
-  /** The socket connection to the client. */
-  private Socket client;
-  
   /** For sending messages to the client. */
   private PrintWriter clientWriter;
   
@@ -34,11 +30,14 @@ public class MailMan extends Thread
   /** Holds player data sent from the client each frame. */
   private String playerData;
   
+  /** Holds trap data send from the client each frame. */
+  private String trapData;
+  
   /** Indicates if the worker is ready to broadcast player data. */
   private boolean playerReady = false;
   
   /** Indicates if the worker is ready to broadcast trap data. */
-  private boolean trapReady = true;
+  private boolean trapReady = false;
 
   /**
    * Creates a new mailman that handles client-server interactions.
@@ -47,8 +46,6 @@ public class MailMan extends Thread
    */
   public MailMan(Socket client)
   {
-    this.client = client;
-
     try
     {
       clientWriter = new PrintWriter(client.getOutputStream(), true);
@@ -85,6 +82,7 @@ public class MailMan extends Thread
   public void run()
   {
     Pattern playerData = Pattern.compile("===\\sPlayer\\s===\\sLocation:\\[(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?)\\]\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
+    Pattern trapData = Pattern.compile("===\\sTrap\\s===\\sID:(\\d+)\\s===");
     Pattern requestDisconnect = Pattern.compile("Disconnect");
     Pattern requestPlayer = Pattern.compile("^Player$");
     Pattern requestMapData = Pattern.compile("Map");
@@ -96,22 +94,21 @@ public class MailMan extends Thread
         String incomingMessage = clientReader.readLine();
         
         Matcher matchInboundPlayer = playerData.matcher(incomingMessage);
+        Matcher matchTrapData = trapData.matcher(incomingMessage);
         Matcher matchRequestDisconnect = requestDisconnect.matcher(incomingMessage);
         Matcher matchRequestPlayer = requestPlayer.matcher(incomingMessage);
         Matcher matchRequestMapData = requestMapData.matcher(incomingMessage);
 
-        // TODO: Add trap parser
-        if (matchRequestDisconnect.find())
+        if (matchInboundPlayer.find())
         {
-          System.out.println("Client Disconnecting!");
-          send("Disconnecting client...");
-          Server.deleteClientFromList(this);
-          break;
-        }
-        else if (matchInboundPlayer.find())
-        {
-          this.setPlayerData(incomingMessage);
+          setPlayerData(incomingMessage);
           playerReady = true;
+          Server.checkBroadcast();
+        }
+        else if (matchTrapData.find())
+        {
+          setTrapData(incomingMessage);
+          trapReady = true;
           Server.checkBroadcast();
         }
         else if (matchRequestPlayer.find())
@@ -122,12 +119,19 @@ public class MailMan extends Thread
         {
           for (Map map : Server.mapData)
           {
-            this.send(map.toString());
+            send(map.toString());
           }
           for (MapObjectDB mapObject : Server.mapObjectData)
           {
-            this.send(mapObject.toString());
+            send(mapObject.toString());
           }
+        }
+        else if (matchRequestDisconnect.find())
+        {
+          System.out.println("Client Disconnecting!");
+          send("Disconnecting client...");
+          Server.deleteClientFromList(this);
+          break;
         }
         else
         {
@@ -148,19 +152,36 @@ public class MailMan extends Thread
    * 
    * @return true if both are ready, false otherwise
    */
-  protected boolean isReady()
+  protected boolean isPlayerReady()
   {
-    return playerReady && trapReady;
+    return playerReady;
+  }
+  
+  /**
+   * Check to see if both player and trap information are prepared for
+   * transmission
+   * 
+   * @return true if both are ready, false otherwise
+   */
+  protected boolean isTrapReady()
+  {
+    return trapReady;
   }
 
   /**
-   * Reset the ready state of player and trap information
+   * Reset the ready state of player information.
    */
-  protected void resetReady()
+  protected void resetPlayerReady()
   {
     this.playerReady = false;
-    // TODO
-    this.trapReady = true;
+  }
+  
+  /**
+   * Reset the ready state of trap information.
+   */
+  protected void resetTrapReady()
+  {
+    this.trapReady = false;
   }
 
   /**
@@ -170,6 +191,14 @@ public class MailMan extends Thread
   {
     return playerData;
   }
+  
+  /**
+   * @return the trapData
+   */
+  public String getTrapData()
+  {
+    return trapData;
+  }
 
   /**
    * @param playerData the playerData to set
@@ -177,5 +206,13 @@ public class MailMan extends Thread
   public void setPlayerData(String playerData)
   {
     this.playerData = playerData;
+  }
+  
+  /**
+   * @param trapData the trapData to set
+   */
+  public void setTrapData(String trapData)
+  {
+    this.trapData = trapData;
   }
 }

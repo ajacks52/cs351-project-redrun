@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 import redrun.model.game.GameData;
 import redrun.model.gameobject.player.Player;
+import redrun.model.gameobject.trap.Trap;
 
 /**
  * Facilitate client interaction with the server
@@ -167,6 +168,16 @@ public class Client
   {
     this.write.println(player.toString());
   }
+  
+  /**
+   * Sends activated trap data to the server.
+   * 
+   * @param trap the activated trap
+   */
+  public void sendTrap(Trap trap)
+  {
+    trap.getNetworkString();
+  }
 
   /**
    * This class listens for and handles messages received from the server.
@@ -216,11 +227,7 @@ public class Client
           Matcher matchInboundPlayerData = inboundPlayerData.matcher(msg);
           Matcher matchTrapData = requestTrapData.matcher(msg);
 
-          if (matchMap.find())
-          {
-            GameData.networkData.add(msg);
-          }
-          else if (matchMapObject.find())
+          if (matchMap.find() || matchMapObject.find() || matchInboundPlayerData.find() || matchTrapData.find())
           {
             GameData.networkData.add(msg);
           }
@@ -228,10 +235,6 @@ public class Client
           {
             write.println(msg);
             break;
-          }
-          else if (matchInboundPlayerData.find() || matchTrapData.find())
-          {
-            GameData.networkData.add(msg);
           }
           else
           {
