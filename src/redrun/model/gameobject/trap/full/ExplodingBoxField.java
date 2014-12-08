@@ -1,5 +1,7 @@
 package redrun.model.gameobject.trap.full;
 
+import java.util.ArrayList;
+
 import redrun.model.constants.Constants;
 import redrun.model.constants.Direction;
 import redrun.model.game.GameData;
@@ -11,125 +13,51 @@ import redrun.model.physics.PhysicsWorld;
 public class ExplodingBoxField extends Trap
 {
 
-  private ExplosiveBox[] explosiveBoxes = new ExplosiveBox[5];
-  
-  public ExplodingBoxField(float x, float y, float z, Direction orientation, String textureName)
+  private ArrayList<ExplosiveBox> explosiveBoxes = new  ArrayList<ExplosiveBox>(220);
+  int size = 0;
+  int pit_height = 2;
+
+  public ExplodingBoxField(float x, float y, float z, String textureName, String type)
   {
-    super(x, y, z, orientation, textureName);
+    super(x, y, z, null, textureName);
 
-    int row = Constants.random.nextInt(4);
-
-    if (orientation == Direction.EAST || orientation == Direction.WEST)
+    if (type.equals("pit"))
     {
-      for (int i = -2; i < 3; i++)
+      size = 3;
+      pit_height = 7;
+    }
+    else if (type.equals("corridor"))
+    {
+      size = 3;
+    }
+    else if (type.equals("field"))
+    {
+      size = 9;
+    }
+
+    for (int y_axis = 1; y_axis < pit_height; y_axis++)
+    {
+      for (int x_axis = -(size+1); x_axis < size; x_axis++)
       {
-        if (row == 0)
+        for (int z_axis = -size; z_axis < size; z_axis++)
         {
-          ExplosiveBox box1 = new ExplosiveBox(x + 4, y - 4, z + 2 * i, null, "crate2", this);
-          explosiveBoxes[i+2] = box1;
-          NonExplosiveBox box2 = new NonExplosiveBox(x + 1, y - 4, z + 2 * i, null, "crate1");
-          NonExplosiveBox box3 = new NonExplosiveBox(x - 2, y - 4, z + 2 * i, null, "crate1");
-          NonExplosiveBox box4 = new NonExplosiveBox(x - 5, y - 4, z + 2 * i, null, "crate1");
-          GameData.addGameObject(box1);
-          GameData.addGameObject(box2);
-          GameData.addGameObject(box3);
-          GameData.addGameObject(box4);
-        }
-        if (row == 1)
-        {
-          ExplosiveBox box1 = new ExplosiveBox(x + 1, y - 4, z + 2 * i, null, "crate2", this);
-          explosiveBoxes[i+2] = box1;
-          NonExplosiveBox box2 = new NonExplosiveBox(x - 5, y - 4, z + 2 * i, null, "crate1");
-          NonExplosiveBox box3 = new NonExplosiveBox(x + 4, y - 4, z + 2 * i, null, "crate1");
-          NonExplosiveBox box4 = new NonExplosiveBox(x - 2, y - 4, z + 2 * i, null, "crate1");
-          GameData.addGameObject(box1);
-          GameData.addGameObject(box2);
-          GameData.addGameObject(box3);
-          GameData.addGameObject(box4);
-        }
-        if (row == 2)
-        {
-          ExplosiveBox box1 = new ExplosiveBox(x - 5, y - 4, z + 2 * i, null, "crate2", this);
-          explosiveBoxes[i+2] = box1;
-          NonExplosiveBox box2 = new NonExplosiveBox(x + 1, y - 4, z + 2 * i, null, "crate1");
-          NonExplosiveBox box3 = new NonExplosiveBox(x - 2, y - 4, z + 2 * i, null, "crate1");
-          NonExplosiveBox box4 = new NonExplosiveBox(x + 4, y - 4, z + 2 * i, null, "crate1");
-          GameData.addGameObject(box1);
-          GameData.addGameObject(box2);
-          GameData.addGameObject(box3);
-          GameData.addGameObject(box4);
-        }
-        if (row == 3)
-        {
-          ExplosiveBox box1 = new ExplosiveBox(x - 2, y - 4, z + 2 * i, null, "crate2", this);
-          explosiveBoxes[i+2] = box1;
-          NonExplosiveBox box2 = new NonExplosiveBox(x + 1, y - 4, z + 2 * i, null, "crate1");
-          NonExplosiveBox box3 = new NonExplosiveBox(x + 4, y - 4, z + 2 * i, null, "crate1");
-          NonExplosiveBox box4 = new NonExplosiveBox(x - 5, y - 4, z + 2 * i, null, "crate1");
-          GameData.addGameObject(box1);
-          GameData.addGameObject(box2);
-          GameData.addGameObject(box3);
-          GameData.addGameObject(box4);
+          int rand = Constants.random.nextInt(3);
+          if (rand == 0)
+          {
+            ExplosiveBox box1 = new ExplosiveBox(x + 2 * x_axis, y - 4 * y_axis, z + 2 * z_axis, null, "crate2", this);
+            explosiveBoxes.add(box1);
+            GameData.addGameObject(box1);
+          }
+          else
+          {
+            NonExplosiveBox box2 = new NonExplosiveBox(x + 2 * x_axis, y - 4 * y_axis, z + 2 * z_axis, null, "crate1");
+            GameData.addGameObject(box2);
+          }
         }
       }
     }
-    if (orientation == Direction.NORTH || orientation == Direction.SOUTH)
-    {
-      for (int i = -2; i < 3; i++)
-      {
-        if (row == 0)
-        {
-          ExplosiveBox box1 = new ExplosiveBox(x + 2 * i, y - 4, z + 4, null, "crate2", this);
-          explosiveBoxes[i+2] = box1;
-         NonExplosiveBox box2 = new NonExplosiveBox(x + 2 * i, y - 4, z + 1, null, "crate1");
-          NonExplosiveBox box3 = new NonExplosiveBox(x + 2 * i, y - 4, z - 2, null, "crate1");
-          NonExplosiveBox box4 = new NonExplosiveBox(x + 2 * i, y - 4, z - 5, null, "crate1");
-          GameData.addGameObject(box1);
-          GameData.addGameObject(box2);
-          GameData.addGameObject(box3);
-          GameData.addGameObject(box4);
-        }
-        if (row == 1)
-        {
-          ExplosiveBox box1 = new ExplosiveBox(x + 2 * i, y - 4, z + 1, null, "crate2", this);
-          explosiveBoxes[i+2] = box1;
-          NonExplosiveBox box2 = new NonExplosiveBox(x + 2 * i, y - 4, z - 5, null, "crate1");
-          NonExplosiveBox box3 = new NonExplosiveBox(x + 2 * i, y - 4, z - 2, null, "crate1");
-          NonExplosiveBox box4 = new NonExplosiveBox(x + 2 * i, y - 4, z + 4, null, "crate1");
-          GameData.addGameObject(box1);
-          GameData.addGameObject(box2);
-          GameData.addGameObject(box3);
-          GameData.addGameObject(box4);
-        }
-        if (row == 2)
-        {
-          ExplosiveBox box1 = new ExplosiveBox(x + 2 * i, y - 4, z - 2, null, "crate2", this);
-          explosiveBoxes[i+2] = box1;
-          NonExplosiveBox box2 = new NonExplosiveBox(x + 2 * i, y - 4, z - 5, null, "crate1");
-          NonExplosiveBox box3 = new NonExplosiveBox(x + 2 * i, y - 4, z + 1, null, "crate1");
-          NonExplosiveBox box4 = new NonExplosiveBox(x + 2 * i, y - 4, z + 4, null, "crate1");
-          GameData.addGameObject(box1);
-          GameData.addGameObject(box2);
-          GameData.addGameObject(box3);
-          GameData.addGameObject(box4);
-        }
-        if (row == 3)
-        {
-          ExplosiveBox box1 = new ExplosiveBox(x + 2 * i, y - 4, z - 5, null, "crate2", this);
-          explosiveBoxes[i+2] = box1;
-          NonExplosiveBox box2 = new NonExplosiveBox(x + 2 * i, y - 4, z - 2, null, "crate1");
-          NonExplosiveBox box3 = new NonExplosiveBox(x + 2 * i, y - 4, z + 4, null, "crate1");
-          NonExplosiveBox box4 = new NonExplosiveBox(x + 2 * i, y - 4, z + 1, null, "crate1");
-          GameData.addGameObject(box1);
-          GameData.addGameObject(box2);
-          GameData.addGameObject(box3);
-          GameData.addGameObject(box4);
-        }
-      }
-    }
-
   }
-  
+
   public void explode()
   {
     for (ExplosiveBox box : explosiveBoxes)

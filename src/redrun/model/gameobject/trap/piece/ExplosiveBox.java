@@ -151,6 +151,5 @@ public class ExplosiveBox extends Trap
   public void update()
   {
     // TODO Auto-generated method stub
-//    System.out.println(this.body.getY());
   }
 }

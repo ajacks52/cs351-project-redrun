@@ -168,7 +168,7 @@ public class Client
   {
     this.write.println(player.toString());
   }
-  
+
   /**
    * Sends activated trap data to the server.
    * 
@@ -215,6 +215,7 @@ public class Client
             .compile("===\\sPlayer\\s===\\sLocation:\\[(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?)\\]\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
         Pattern quitGame = Pattern.compile("Disconnecting client...");
         Pattern requestTrapData = Pattern.compile("===\\sTrap\\s===\\sID:(\\d+)\\s===");
+        Pattern numberPlayers = Pattern.compile("^===\\sNumber Players\\s===\\sNumber:(\\d+)\\s===$");
 
         try
         {
@@ -226,8 +227,10 @@ public class Client
           Matcher matchQuitGame = quitGame.matcher(msg);
           Matcher matchInboundPlayerData = inboundPlayerData.matcher(msg);
           Matcher matchTrapData = requestTrapData.matcher(msg);
+          Matcher matchNumberPlayers = numberPlayers.matcher(msg);
 
-          if (matchMap.find() || matchMapObject.find() || matchInboundPlayerData.find() || matchTrapData.find())
+          if (matchMap.find() || matchMapObject.find() || matchInboundPlayerData.find() || matchTrapData.find()
+              || matchNumberPlayers.find())
           {
             GameData.networkData.add(msg);
           }

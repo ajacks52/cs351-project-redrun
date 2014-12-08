@@ -156,6 +156,7 @@ public class Player extends GameObject
     };
     body.body.setCollisionFlags(body.body.getCollisionFlags()
         | CollisionFlags.CUSTOM_MATERIAL_CALLBACK);
+    
     startPos = new Transform();
 
     startPos = body.body.getWorldTransform(startPos);
@@ -182,7 +183,7 @@ public class Player extends GameObject
       drawWithModel(models[i], dispIds[i]);
     }
     
-
+    yaw(90);
   }
 
   
