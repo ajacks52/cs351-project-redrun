@@ -436,9 +436,8 @@ public class Player extends GameObject
   public String toString()
   {
     //@formatter:off
-    return "=== Player === " + "Location:" + body.getX() + ", " + body.getY() + ", " + body.getZ()
-        + " Rotation:" + camera.getYaw() + " Name:" + this.name + " Team Name:" + this.team + " Health:"
-        + this.health + " Lives left:" + this.lives + " Alive:" + this.alive + " ===";
+    return "=== Player === " + "Location:" + Arrays.toString(body.getOpenGLTransformMatrixArray()) + " Name:" + this.name +
+      " Team Name:" + this.team + " Health:" + this.health + " Lives left:" + this.lives + " Alive:" + this.alive + " ===";
     //@formatter:on
   }
 }

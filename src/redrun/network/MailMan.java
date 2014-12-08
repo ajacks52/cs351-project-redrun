@@ -94,7 +94,7 @@ public class MailMan extends Thread
       try
       {
         String incomingMessage = clientReader.readLine();
-        System.out.println(incomingMessage);
+        
         Matcher matchInboundPlayer = playerData.matcher(incomingMessage);
         Matcher matchRequestDisconnect = requestDisconnect.matcher(incomingMessage);
         Matcher matchRequestPlayer = requestPlayer.matcher(incomingMessage);
@@ -116,7 +116,6 @@ public class MailMan extends Thread
         }
         else if (matchRequestPlayer.find())
         {
-          System.out.println("Dick Pickles");
           send(Server.assignPlayer());
         }
         else if (matchRequestMapData.find())
