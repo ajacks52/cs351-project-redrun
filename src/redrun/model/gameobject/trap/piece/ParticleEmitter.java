@@ -1,4 +1,4 @@
-package redrun.model.gameobject.trap.piece;
+ package redrun.model.gameobject.trap.piece;
 
 
 import org.lwjgl.util.vector.Vector3f;
