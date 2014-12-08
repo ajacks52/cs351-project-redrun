@@ -142,8 +142,11 @@ public class Server
    */
   public static void broadcast(String networkData)
   {
+    System.out.println("=======================");
+    
     for (MailMan workers : allConnections)
     {
+      System.out.println(networkData);
       workers.send(networkData);
     }
   }
