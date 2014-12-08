@@ -270,7 +270,7 @@ public class ObjectFromDB
       float z = Float.parseFloat(playerMatcher.group(3));
       float rotation = Float.parseFloat(playerMatcher.group(4));
       // TODO Is this right?
-      float[] buffer = { x, y, z };
+      float[] buffer = { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, x, y, z };
 
       String name = playerMatcher.group(5);
 
