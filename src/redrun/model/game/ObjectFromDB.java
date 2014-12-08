@@ -151,7 +151,16 @@ public class ObjectFromDB
       TrapType type = null;
       switch (mapObjectMatcher.group(10))
       {
-        case "JAIL_DOOR":
+        case "PIT":
+        {
+          break;
+        }
+        case "EXPLODING_BOX_FIELD":
+        {
+          type = TrapType.EXPLODING_BOX_FIELD;
+          break;
+        }
+        case "JAIL":
         {
           type = TrapType.JAIL;
           break;
