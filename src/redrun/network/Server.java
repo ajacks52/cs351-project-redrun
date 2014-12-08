@@ -117,8 +117,8 @@ public class Server
   
   public static void checkBroadcast()
   {
-    System.out.println("===================");
-    System.out.println("Checking broadcast status...");
+    //System.out.println("===================");
+    //System.out.println("Checking broadcast status...");
 
     boolean isReady = true;
     
@@ -133,7 +133,7 @@ public class Server
     
     if (isReady)
     {
-      System.out.println("Broadcasting...");
+      //System.out.println("Broadcasting...");
       
       for (MailMan workers : allConnections)
       {
@@ -150,7 +150,7 @@ public class Server
    */
   public static void broadcast(String networkData)
   {
-    System.out.println("=======================");
+    //System.out.println("=======================");
     
     for (MailMan workers : allConnections)
     {
