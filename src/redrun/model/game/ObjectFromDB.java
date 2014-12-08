@@ -333,11 +333,9 @@ public class ObjectFromDB
       float y = Float.parseFloat(playerMatcher.group(15));
       float z = Float.parseFloat(playerMatcher.group(16));
       
-<<<<<<< HEAD
-      String name = playerMatcher.group(5);
-=======
+
       String name = playerMatcher.group(17);
->>>>>>> a136a584524793d131624a62b7d6c97fc07cd99a
+      
       Team team = null;
  
       switch(playerMatcher.group(18))
