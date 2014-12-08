@@ -34,14 +34,14 @@ public class Jail extends Trap
 
     if (orientation == Direction.EAST || orientation == Direction.WEST)
     {
-      door1 = new JailDoor(x, y+15, z - 6.5f, orientation, null);
-      door2 = new JailDoor(x, y+15, z + 6.5f, orientation, null);
+      door1 = new JailDoor(x, y+25, z - 6.5f, orientation, null);
+      door2 = new JailDoor(x, y+25, z + 6.5f, orientation, null);
     }
 
     if (orientation == Direction.SOUTH || orientation == Direction.NORTH)
     {
-      door1 = new JailDoor(x - 6.5f, y+15, z, orientation, null);
-      door2 = new JailDoor(x + 6.5f, y+15, z, orientation, null);
+      door1 = new JailDoor(x - 6.5f, y+25, z, orientation, null);
+      door2 = new JailDoor(x + 6.5f, y+25, z, orientation, null);
     }
     
     fire = new Fire(x, y+10, z, orientation);

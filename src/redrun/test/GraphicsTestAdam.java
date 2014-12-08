@@ -77,7 +77,7 @@ public class GraphicsTestAdam
       Logger.getLogger(GraphicsTestAdam.class.getName()).log(Level.SEVERE, null, ex);
     }
 
-    player = new Player(0.0f, 1.0f, 45.0f, "Linvala, Keeper of Silence", Team.BLUE);
+    player = new Player(0.0f, 1.0f, 0.0f, "Linvala, Keeper of Silence", Team.BLUE);
 
     Camera spectatorCam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f,
         1.0f, 0.0f, CameraType.SPECTATOR);
@@ -110,7 +110,7 @@ public class GraphicsTestAdam
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 30.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Corridor(0.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.TRAP_DOOR)); //
+    GameData.addMapObject(new Tunnel(0.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.JAIL)); //
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
@@ -390,7 +390,6 @@ public class GraphicsTestAdam
     Constants.DX = Mouse.getDX();
     Constants.DY = Mouse.getDY();
 
-   
     // Camera related input...
     if (Keyboard.isKeyDown(Keyboard.KEY_R))
     {
@@ -400,10 +399,8 @@ public class GraphicsTestAdam
     // Movement related input...
     if (camera.getType() == CameraType.PLAYER)
     {
-
       player.yaw(Constants.DX * Constants.MOUSE_SENSITIVITY);
       player.pitch(-Constants.DY * Constants.MOUSE_SENSITIVITY);
-      
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
       {
         player.walkForward(Constants.MOVEMENT_SPEED_PLAYER * 2);

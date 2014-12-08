@@ -7,6 +7,7 @@ import static org.lwjgl.opengl.GL20.glVertexAttrib3f;
 
 import javax.vecmath.Quat4f;
 
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 
 import redrun.model.constants.Direction;
@@ -40,9 +41,9 @@ public class JailDoor extends Trap
     super(x, y, z, orientation, null);
     // zero in the axis that is flat
     if (orientation == Direction.EAST || orientation == Direction.WEST)
-      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(5, 10, 0), new Quat4f(), 0.0f);
+      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(5, 10f, 0.1f), new Quat4f(), 0.0f);
     if (orientation == Direction.SOUTH || orientation == Direction.NORTH)
-      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0, 10, 5), new Quat4f(), 0.0f);
+      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.1f, 10f, 5), new Quat4f(), 0.0f);
     float height = 7f;
     float radius = .5f;
     float resolution = .1f;
@@ -58,7 +59,7 @@ public class JailDoor extends Trap
     {
       glPushMatrix();
       // glRotatef(90, 1, 0, 0);
-
+      GL11.glTranslatef(0,-10f, 0);
       glUseProgram(sl.getShaderProgram());
 
       glScalef(0.3f, 2f, 0.3f);
@@ -117,6 +118,7 @@ public class JailDoor extends Trap
       glPopMatrix();
       glPushMatrix();
       {
+        GL11.glTranslatef(0,-10f, 0);
         glUseProgram(sl.getShaderProgram());
         if (orientation == Direction.NORTH || orientation == Direction.SOUTH)
         {

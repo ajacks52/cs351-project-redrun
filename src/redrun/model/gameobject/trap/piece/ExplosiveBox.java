@@ -32,7 +32,8 @@ public class ExplosiveBox extends Trap
         if ((collisionFlags & CollisionTypes.PLAYER_COLLISION_TYPE) != 0)
         {
           exploded = true;
-          boxField.explode();
+          PhysicsWorld.removePhysicsBody(this);
+//          boxField.explode();
         }
       }
     };
