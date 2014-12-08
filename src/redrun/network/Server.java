@@ -126,17 +126,12 @@ public class Server
   public static void checkBroadcast()
   {
     boolean isPlayerReady = true;
-    boolean isTrapReady = true;
 
     for (MailMan workers : allConnections)
     {
       if (!workers.isPlayerReady())
       {
         isPlayerReady = false;
-      }
-      if (!workers.isTrapReady())
-      {
-        isTrapReady = false;
       }
     }
 
@@ -149,9 +144,9 @@ public class Server
       }
     }
 
-    if (isTrapReady)
-    {
-      for (MailMan workers : allConnections)
+    for (MailMan workers : allConnections)
+    {      
+      if (workers.isTrapReady())
       {
         broadcast(workers.getTrapData());
         workers.resetTrapReady();

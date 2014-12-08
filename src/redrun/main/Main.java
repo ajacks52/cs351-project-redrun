@@ -280,7 +280,7 @@ public class Main
       getInput();
       
       GameData.networkData.clear();
-      client.sendPlayer(GameData.players.get(0));
+      //client.sendPlayer(GameData.players.get(0));
 
       // Prepare for rendering...
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

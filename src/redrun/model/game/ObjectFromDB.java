@@ -62,7 +62,7 @@ public class ObjectFromDB
    * @return the type of network data
    */
   public static NetworkType parseNetworkType(String networkData)
-  {
+  {    
     mapMatcher = mapPattern.matcher(networkData);
     mapObjectMatcher = mapObjectPattern.matcher(networkData);
     playerMatcher = playerPattern.matcher(networkData);

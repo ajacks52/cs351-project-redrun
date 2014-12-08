@@ -138,7 +138,6 @@ public class Button extends WorldObject
       Main.client.sendTrap(GameData.getTrap(this));
       timer.resume();
     }
-    //GameData.getTrap(this).activate();
   }
 
   @Override

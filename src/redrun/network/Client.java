@@ -176,7 +176,7 @@ public class Client
    */
   public void sendTrap(Trap trap)
   {
-    trap.getNetworkString();
+    this.write.println(trap.getNetworkString());
   }
 
   /**
