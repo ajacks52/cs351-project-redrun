@@ -283,6 +283,11 @@ public class Camera
   {
   	return type;
   }
+  
+  public void setYaw(float yaw)
+  {
+    this.yaw = yaw;
+  }
 
   /**
    * Adjusts the camera to view the next frame properly. Should be called before
