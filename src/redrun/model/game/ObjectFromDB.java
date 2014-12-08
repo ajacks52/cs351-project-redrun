@@ -48,8 +48,6 @@ public class ObjectFromDB
   /** The player matcher. */
   private static Matcher playerMatcher = null;
 
-  public static boolean mapDrawn = false;
-
   public static NetworkType parseNetworkType(String networkData)
   {
     mapMatcher = mapPattern.matcher(networkData);
@@ -80,7 +78,6 @@ public class ObjectFromDB
 
     if (mapMatcher.find())
     {
-      mapDrawn = true;
       return new Map(Integer.parseInt(mapMatcher.group(2)), mapMatcher.group(3), mapMatcher.group(4),
           mapMatcher.group(5), mapMatcher.group(6));
     }
@@ -274,8 +271,6 @@ public class ObjectFromDB
 
   public static void updatePlayer(String networkData)
   {
-    System.out.println("Updaing player...");
-
     playerMatcher = playerPattern.matcher(networkData);
 
     if (playerMatcher.find())

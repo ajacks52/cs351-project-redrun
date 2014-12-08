@@ -159,16 +159,6 @@ public class Client
   }
 
   /**
-   * Sends the user input for the current frame to the server.
-   * 
-   * @param input the user input for the current frame
-   */
-  public void sendUserInput(UserInput input)
-  {
-    this.write.println(input.toString());
-  }
-
-  /**
    * Sends the current player to the server.
    * 
    * @param player the current player

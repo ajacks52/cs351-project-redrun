@@ -13,24 +13,35 @@ import redrun.database.Map;
 import redrun.database.MapObjectDB;
 
 /**
- * Directs the flow of information between a client and the server
+ * Directs the flow of information between a client and the server.
  * 
- * @author Jayson Grace ( jaysong@unm.edu )
+ * @author Jayson Grace ( jaysong@unm.edu ), Troy Squillaci
  * @version 1.0
  * @since 2014-11-17
  */
 public class MailMan extends Thread
 {
   @SuppressWarnings("unused")
+  /** The socket connection to the client. */
   private Socket client;
+  
+  /** For sending messages to the client. */
   private PrintWriter clientWriter;
+  
+  /** For receiving messages from the client. */
   private BufferedReader clientReader;
+  
+  /** Holds player data sent from the client each frame. */
   private String playerData;
+  
+  /** Indicates if the worker is ready to broadcast player data. */
   private boolean playerReady = false;
+  
+  /** Indicates if the worker is ready to broadcast trap data. */
   private boolean trapReady = true;
 
   /**
-   * MailMan Instantiation
+   * Creates a new mailman that handles client-server interactions.
    * 
    * @param client the client socket for communication
    */
@@ -44,7 +55,7 @@ public class MailMan extends Thread
     }
     catch (IOException e)
     {
-      System.err.println("Server Worker: Could not open output stream");
+      System.err.println("RedRun Worker: Could not open output stream...");
       e.printStackTrace();
     }
     try
@@ -53,28 +64,27 @@ public class MailMan extends Thread
     }
     catch (IOException e)
     {
-      System.err.println("Server Worker: Could not open input stream");
+      System.err.println("RedRun Worker: Could not open input stream...");
       e.printStackTrace();
     }
   }
 
   /**
-   * Send message from the server to a client
+   * Sends a message from the server to a client.
    * 
-   * @param msg message to send to client
+   * @param networkData the message to send to client
    */
-  public void send(String msg)
+  public void send(String networkData)
   {
-    clientWriter.println(msg);
+    clientWriter.println(networkData);
   }
 
   /**
-   * Facilitate responding to client requests from the server
+   * Facilitate responding to client requests from the server.
    */
   public void run()
   {
-    Pattern playerData = Pattern
-        .compile("===\\sPlayer\\s===\\sLocation:(.*?),\\s(.*?),\\s(.*?)\\sRotation:(.*?)\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
+    Pattern playerData = Pattern.compile("===\\sPlayer\\s===\\sLocation:(.*?),\\s(.*?),\\s(.*?)\\sRotation:(.*?)\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
     Pattern requestDisconnect = Pattern.compile("Disconnect");
     Pattern requestPlayer = Pattern.compile("Player");
     Pattern requestMapData = Pattern.compile("Map");
@@ -93,7 +103,7 @@ public class MailMan extends Thread
         // TODO: Add trap parser
         if (matchRequestDisconnect.find())
         {
-          System.out.println("Quitting!");
+          System.out.println("Client Disconnecting!");
           send("Disconnecting client...");
           Server.deleteClientFromList(this);
           break;
@@ -110,8 +120,6 @@ public class MailMan extends Thread
         }
         else if (matchRequestMapData.find())
         {
-          System.out.println("Client Requested Map Data");
-
           for (Map map : Server.mapData)
           {
             this.send(map.toString());
@@ -124,7 +132,7 @@ public class MailMan extends Thread
       }
       catch (IOException e)
       {
-        System.err.println("Client Error: Could not open input stream");
+        System.err.println("RedRun Worker Error: Could send data to client...");
         e.printStackTrace();
       }
     }
