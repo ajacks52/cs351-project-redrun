@@ -147,21 +147,7 @@ public class Player extends GameObject
   
   public void draw()
   {
-    if (texture != null)
-    {
-      glPushMatrix();
-      {
-        glEnable(GL_TEXTURE_2D);
-        texture.bind();
-        glMultMatrix(body.getOpenGLTransformMatrix());
-        GL11.glRotatef(camera.getYaw()+180, 0, -1, 0);
-        glCallList(displayListId);
-        glDisable(GL_TEXTURE_2D);
-      }
-      glPopMatrix();
-    }
-    else
-    {
+    
       glPushMatrix();
       {
         glMultMatrix(body.getOpenGLTransformMatrix());
@@ -169,7 +155,6 @@ public class Player extends GameObject
         glCallList(displayListId);
       }
       glPopMatrix();
-    }
 
     update();
   }
