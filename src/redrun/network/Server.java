@@ -180,7 +180,7 @@ public class Server
   public static String numberOfConnections()
   {
     Integer connections = allConnections.size();
-    return connections.toString();
+    return "=== Number Players === Number:" + connections.toString() + " ===";
   }
 
   /**
