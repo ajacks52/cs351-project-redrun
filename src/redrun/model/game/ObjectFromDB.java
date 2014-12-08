@@ -152,6 +152,7 @@ public class ObjectFromDB
       {
         case "PIT":
         {
+          type = TrapType.PIT;
           break;
         }
         case "EXPLODING_BOX_FIELD":
@@ -187,6 +188,11 @@ public class ObjectFromDB
         case "ROCK_SMASH":
         {
           type = TrapType.ROCK_SMASH;
+          break;
+        }
+        case "TRAP_DOOR":
+        {
+          type = TrapType.TRAP_DOOR;
           break;
         }
         case "EMPTY":
@@ -344,13 +350,8 @@ public class ObjectFromDB
           }
         }
       }
-<<<<<<< HEAD
-      
-      return new Player(x, y, z, name, team);
-=======
 
       return new Player(0.0f, 1.0f, 0.0f, name, team);
->>>>>>> develop
     }
 
     return null;
