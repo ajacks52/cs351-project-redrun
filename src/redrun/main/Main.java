@@ -415,6 +415,7 @@ public class Main
       if (Keyboard.isKeyDown(Keyboard.KEY_A)) GameData.players.get(0).walkLeft(movementSpeed);
       if (Keyboard.isKeyDown(Keyboard.KEY_S)) GameData.players.get(0).walkBackward(movementSpeed);
       if (Keyboard.isKeyDown(Keyboard.KEY_D)) GameData.players.get(0).walkRight(movementSpeed);
+      
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_D))
       {
         GameData.players.get(0).walkForwardRight(movementSpeed);
