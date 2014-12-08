@@ -208,12 +208,12 @@ public class Client
       {
         Pattern getMap = Pattern
             .compile("(===\\sMap\\s===)\\sID:(\\d+)\\sName:(.*?)\\sSkyBox:(\\w+)\\sFloor:(\\w+)\\sLight Position:(.*?)\\s===");
-
         Pattern getMapObject = Pattern
             .compile("(===\\sMap\\sObject\\s===)\\sID:(\\d+)\\sName:(\\w+)\\sLocation:(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f),\\s(\\d+\\.\\d+f)\\sGround Texture:(\\w+)\\sWall Texture:(\\w+)\\sDirection:(\\w+)\\sTrap Type:(.*?)\\sMap\\sID:(\\d+)\\s===");
         Pattern inboundPlayerData = Pattern
-            .compile("===\\sPlayer\\s===\\sLocation:\\[(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?),\\s(.*?)\\]\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
+            .compile("===\\sPlayer\\s===\\sLocation:(.*?),\\s(.*?),\\s(.*?)\\sRotation:(.*?)\\sName:(.*?)\\sTeam\\sName:(\\w+)\\sHealth:(\\d+)\\sLives\\sleft:(\\d+)\\sAlive:(\\w+)\\s===");
         Pattern quitGame = Pattern.compile("Disconnecting client...");
+        Pattern requestTrapData = Pattern.compile("===\\sTrap\\s===\\sID:(\\d+)\\s===");
 
         try
         {
@@ -224,6 +224,7 @@ public class Client
           Matcher matchMapObject = getMapObject.matcher(msg);
           Matcher matchQuitGame = quitGame.matcher(msg);
           Matcher matchInboundPlayerData = inboundPlayerData.matcher(msg);
+          Matcher matchTrapData = requestTrapData.matcher(msg);
 
           if (matchMap.find())
           {
@@ -242,6 +243,10 @@ public class Client
           {
             GameData.networkData.add(msg);
           }
+          // else if (matchTrapData.find())
+          // {
+          // GameData.networkData.add(msg);
+          // }
           else
           {
             System.out.println("Unrecognized message " + msg + " sent, error!");

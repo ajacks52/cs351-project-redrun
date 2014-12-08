@@ -44,9 +44,9 @@ public class Jail extends Trap
       door2 = new JailDoor(x + 6.5f, y+15, z, orientation, null);
     }
     
-    fire = new Fire(x, y+15, z, orientation);
+    fire = new Fire(x, y+10, z, orientation);
     
-    //GameData.addGameObject(fire);
+    GameData.addGameObject(fire);
     GameData.addGameObject(door1);
     GameData.addGameObject(door2);
   }
