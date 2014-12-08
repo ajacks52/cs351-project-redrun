@@ -373,6 +373,7 @@ public class Main
   private static void getInput()
   {
     // Menu control...
+    if (Keyboard.isKeyDown(Keyboard.KEY_APOSTROPHE)) state = GameState.PLAY;
     if (menu.getState() == MenuState.OFF) state = previousState;
     if (state == GameState.MAIN_MENU) return; // Take no input if menu is up.
     if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
