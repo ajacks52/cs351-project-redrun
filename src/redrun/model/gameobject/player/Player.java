@@ -373,7 +373,10 @@ public class Player extends GameObject
     body.body.setWorldTransform(startPos);
     body.body.activate(true);
     health = 100;
-
+    if (lives <= 0)
+    {
+      alive = false;
+    }
   }
   
   public void hurt()
