@@ -95,8 +95,6 @@ public class MailMan extends Thread
       {
         String incomingMessage = clientReader.readLine();
         
-        System.out.println(incomingMessage);
-
         Matcher matchInboundPlayer = playerData.matcher(incomingMessage);
         Matcher matchTrapData = trapData.matcher(incomingMessage);
         Matcher matchRequestDisconnect = requestDisconnect.matcher(incomingMessage);
@@ -112,7 +110,6 @@ public class MailMan extends Thread
         }
         else if (matchTrapData.find())
         {
-          System.out.println("Got trap data from client...");
           setTrapData(incomingMessage);
           trapReady = true;
           Server.checkBroadcast();
