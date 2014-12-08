@@ -20,16 +20,22 @@ public class Spear extends Trap
   private int count = 0;
   private boolean down = false;
   private long time = 0;
+  Direction orientation;
+  String xyz;
 
-  public Spear(float x, float y, float z, Direction orientation, String textureName, float startTime)
+  public Spear(float x, float y, float z, Direction orientation, String textureName, float startTime, String xyz)
   {
     super(x, y, z, orientation, textureName);
-    float height = 10f;
+    float height = 15f;
     float radius = .3f;
     float resolution = .1f;
     this.startTime = startTime;
+    this.orientation = orientation;
+    this.xyz = xyz;
 
-    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, 12f, 0.3f), new Quat4f(), 0);
+    if (xyz.equals("x"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(5f, 0.3f, 0.3f), new Quat4f(), 0);
+    if (xyz.equals("y"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, 5f, 0.3f), new Quat4f(), 0);
+    if (xyz.equals("z"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, 0.3f, 5f), new Quat4f(), 0);
 
     sl = new ShaderLoader();
     sl.loadShader("bloodf.fs");
@@ -40,6 +46,11 @@ public class Spear extends Trap
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
     {
+      if (xyz.equals("x")) glRotatef(90, 0, 0, -1);
+      // do nothing  if (xyz.equals("y"))  glRotatef(1, 1, 1, 1);
+      if (xyz.equals("z")) glRotatef(90, -1, 0, 0);
+
+      glTranslatef(0, -5.5f, 0);
       glUseProgram(sl.getShaderProgram());
       glBegin(GL_TRIANGLE_FAN);
       {
@@ -89,7 +100,7 @@ public class Spear extends Trap
 
       glPushMatrix();
       glScalef(0.3f, 3f, 0.3f);
-      glTranslatef(0.0f, 4.31f, 0.0f);
+      glTranslatef(0.0f, 5.31f, 0.0f);
       glUseProgram(sl.getShaderProgram());
 
       glBegin(GL_TRIANGLES);
@@ -154,7 +165,11 @@ public class Spear extends Trap
     if (this.timer.getTime() > startTime && count < 14 && !down)
     {
       count++;
-      body.translate(0f, .5f, 0f);
+      if (xyz.equals("x")) body.translate(.5f, 0f, 0f);
+
+      if (xyz.equals("y")) body.translate(0f, .5f, 0f);
+      if (xyz.equals("z")) body.translate(0f, 0f, .5f);
+      
       if (count == 14)
       {
         down = true;
@@ -164,7 +179,11 @@ public class Spear extends Trap
     if (count > 0 && this.timer.getTime() > startTime && down)
     {
       count--;
-      body.translate(0f, -.5f, 0f);
+      
+      if (xyz.equals("y")) body.translate(0f, -.5f, 0f);
+      if (xyz.equals("x")) body.translate(0f, -.5f, 0f);
+      if (xyz.equals("z")) body.translate(0f, -.5f, 0f);
+      
       if (count == 0)
       {
         down = false;

@@ -88,9 +88,9 @@ public class Player extends GameObject
    * @param textureName the name of the player texture for this player
    * @param team the team this player is on
    */
-  public Player(float x, float y, float z, String name, String textureName, Team team)
+  public Player(float x, float y, float z, String name, Team team)
   {
-    super(x, y+10, z, textureName);
+    super(x, y+10, z, null);
 
     
     body = new CapsulePhysicsBody(new Vector3f(x, y, z), 2f, 100f, 0f)
@@ -393,7 +393,7 @@ public class Player extends GameObject
   {
     //@formatter:off
     return "=== Player === " + "Location:" + body.getX() + ", " + body.getY() + ", " + body.getZ() + " Name:" + this.name
-        + " Texture:" + this.texture + " Team Name:" + this.team + " Health:"
+        + " Team Name:" + this.team + " Health:"
         + this.health + " Lives left:" + this.lives + " Alive:" + this.alive + " ===";
     //@formatter:on
   }
