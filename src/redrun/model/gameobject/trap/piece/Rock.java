@@ -49,7 +49,7 @@ public class Rock extends Trap
 
     this.startTime = startTime;
     //this.body = new SpherePhysicsBody(new Vector3f(x, y, z), 4.5f, 10.0f);
-    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(4, 4, 5), new Quat4f(), 0, CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
+    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(2, 2, 2.5f), new Quat4f(), 0, CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
     
     // load in model
     model = OBJLoader.loadModel(new File("res/models/" + "rock" + Constants.random.nextInt(2) + ".obj"));
@@ -60,6 +60,7 @@ public class Rock extends Trap
       int currentTexture = -1;
       GL11.glEnable(GL11.GL_TEXTURE_2D);
       Face face = null;
+      GL11.glScalef(0.5f, 0.5f, 0.5f);
       for (int i = 0; i < model.faces.size(); i++)
       {
         face = model.faces.get(i);
@@ -120,7 +121,7 @@ public class Rock extends Trap
   {
     body.getY();
 //    System.out.println("body.getY: " + body.getOpenGLTransformMatrix());
-    int time = 40;
+    int time = 60;
     if (this.timer.getTime() > startTime && count < time && down)
     {    
       count++;

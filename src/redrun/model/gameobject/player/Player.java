@@ -21,6 +21,7 @@ import com.bulletphysics.collision.dispatch.PairCachingGhostObject;
 import com.bulletphysics.collision.shapes.CapsuleShape;
 import com.bulletphysics.collision.shapes.CollisionShape;
 import com.bulletphysics.dynamics.character.KinematicCharacterController;
+import com.bulletphysics.linearmath.Transform;
 
 import redrun.graphics.camera.Camera;
 import redrun.model.constants.CameraType;
@@ -66,6 +67,9 @@ public class Player extends GameObject
   
   /** The players model */
   private Model model = null;
+  
+  
+  private Transform startPos;
 
 
   /**
@@ -92,11 +96,15 @@ public class Player extends GameObject
         if ((collisionFlags & CollisionTypes.INSTANT_DEATH_COLLISION_TYPE) != 0)
         {
           System.out.println("Instant death!!!!");
-          lives--;
+          kill();
         }
       }
     };
     body.body.setCollisionFlags(body.body.getCollisionFlags() | CollisionFlags.CUSTOM_MATERIAL_CALLBACK);
+    startPos = new Transform();
+    
+    startPos = body.body.getWorldTransform(startPos);
+    
     PhysicsWorld.addToWatchList(body);
     camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, x, y, z, CameraType.PLAYER);
 
@@ -330,6 +338,14 @@ public class Player extends GameObject
   public void setLives(int lives)
   {
     this.lives = lives;
+  }
+  
+  
+  public void kill()
+  {
+    lives --;
+    body.body.setWorldTransform(startPos);
+    body.body.activate(true);
   }
 
   @Override
