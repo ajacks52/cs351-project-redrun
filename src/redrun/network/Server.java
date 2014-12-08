@@ -81,6 +81,26 @@ public class Server
         System.err.println("Server error: Failed to connect to client.");
         e.printStackTrace();
       }
+      
+      boolean isReady = true;
+      
+      for (MailMan workers : allConnections)
+      {
+        if (!workers.isReady())
+        {
+          isReady = false;
+          break;
+        }
+      }
+      
+      if (isReady)
+      {
+        for (MailMan workers : allConnections)
+        {
+          broadcast(workers.getPlayerData());
+          workers.resetReady();
+        }
+      }
     }
   }
 
@@ -120,12 +140,11 @@ public class Server
    * 
    * @param s Message to broadcast to connected clients
    */
-  public static void broadcast(MailMan currentWorker, String s)
+  public static void broadcast(String networkData)
   {
     for (MailMan workers : allConnections)
     {
-      // Send message to all workers except the sender
-      if (!currentWorker.equals(workers)) workers.send(s);
+      workers.send(networkData);
     }
   }
 

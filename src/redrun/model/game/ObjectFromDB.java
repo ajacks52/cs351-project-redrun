@@ -268,6 +268,8 @@ public class ObjectFromDB
       float y = Float.parseFloat(playerMatcher.group(2));
       float z = Float.parseFloat(playerMatcher.group(3));
       String name = playerMatcher.group(4);
+      String texture = playerMatcher.group(5);
+
       int health = Integer.parseInt(playerMatcher.group(7));   
       int lives = Integer.parseInt(playerMatcher.group(8));   
       boolean alive = Boolean.parseBoolean(playerMatcher.group(9));
@@ -280,9 +282,11 @@ public class ObjectFromDB
           player.setHealth(health);
           player.setLives(lives);
           player.setAlive(alive);
-          break;
+          return;
         }
       }
+      
+      GameData.players.add(createPlayer(networkData));
     }
   }
   
