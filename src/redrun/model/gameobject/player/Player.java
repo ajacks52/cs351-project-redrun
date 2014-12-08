@@ -237,6 +237,26 @@ public class Player extends GameObject
     body.moveRight(speed, camera.getYaw());
   }
 
+  public void walkForwardRight(float speed)
+  {
+    body.moveForwardRight(speed, camera.getYaw());
+  }
+
+  public void walkForwardLeft(float speed)
+  {
+    body.moveForwardLeft(speed, camera.getYaw());
+  }
+
+  public void walkBackRight(float speed)
+  {
+    body.moveBackRight(speed, camera.getYaw());
+  }
+
+  public void walkBackLeft(float speed)
+  {
+    body.moveBackLeft(speed, camera.getYaw());
+  }
+
   public void lookThrough()
   {
     camera.lookThrough();

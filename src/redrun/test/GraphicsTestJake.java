@@ -1,6 +1,7 @@
 package redrun.test;
 
 import java.nio.FloatBuffer;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,9 +11,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.Timer;
-import org.newdawn.slick.Color;
 
-import redrun.database.Map;
 import redrun.graphics.camera.Camera;
 import redrun.graphics.camera.CameraManager;
 import redrun.graphics.camera.HUD_Manager;
@@ -20,6 +19,7 @@ import redrun.graphics.selection.Picker;
 import redrun.main.Menu;
 import redrun.main.Menu.MenuState;
 import redrun.model.constants.CameraType;
+import redrun.model.constants.Constants;
 import redrun.model.constants.Direction;
 import redrun.model.constants.GameState;
 import redrun.model.constants.Team;
@@ -43,10 +43,7 @@ import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
-import redrun.model.toolkit.FontTools;
 import redrun.model.toolkit.LoadingScreen;
-import redrun.model.toolkit.Timing;
-import redrun.network.Client;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -85,8 +82,7 @@ public class GraphicsTestJake
   {
     try
     {
-      Display.setDisplayMode(new DisplayMode(1280, 720));
-      // TODO - Need to have the name of the active map be in the title...
+      Display.setDisplayMode(new DisplayMode(Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT));
       Display.setTitle("RedRun Ice World");
       Display.create();
       Display.setVSyncEnabled(true);
@@ -96,7 +92,12 @@ public class GraphicsTestJake
       Logger.getLogger(GraphicsTestJake.class.getName()).log(Level.SEVERE, null, ex);
     }
 
-    player = new Player(0.0f, 1.0f, 0.0f, "Linvala, Keeper of Silence", null, Team.BLUE);
+    player = new Player(0.0f, 1.0f, 0.0f, "Linvala, Keeper of Silence", Team.BLUE);
+
+    float floatArray[] = new float[player.getBody().getOpenGLTransformMatrix().limit()];
+    player.getBody().getOpenGLTransformMatrix().get(floatArray);
+    player.getBody().getOpenGLTransformMatrix().rewind();
+    System.out.println(Arrays.toString(floatArray));
 
     Camera spectatorCam = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000, 0.0f,
         1.0f, 0.0f, CameraType.SPECTATOR);
@@ -453,9 +454,25 @@ public class GraphicsTestJake
         player.walkForward(movementSpeed * 2);
       }
       else if (Keyboard.isKeyDown(Keyboard.KEY_W)) player.walkForward(movementSpeed);
-      if (Keyboard.isKeyDown(Keyboard.KEY_S)) player.walkBackward(movementSpeed);
       if (Keyboard.isKeyDown(Keyboard.KEY_A)) player.walkLeft(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_S)) player.walkBackward(movementSpeed);
       if (Keyboard.isKeyDown(Keyboard.KEY_D)) player.walkRight(movementSpeed);
+      if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_D))
+      {
+        player.walkForwardRight(movementSpeed);
+      }
+      if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_A))
+      {
+        player.walkForwardLeft(movementSpeed);
+      }
+      if (Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_D))
+      {
+        player.walkBackRight(movementSpeed);
+      }
+      if (Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_A))
+      {
+        player.walkBackLeft(movementSpeed);
+      }
       if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) player.jump();
     }
     else if (camera.getType() == CameraType.SPECTATOR)
@@ -465,8 +482,8 @@ public class GraphicsTestJake
         camera.moveForward(movementSpeed / 20);
       }
       if (Keyboard.isKeyDown(Keyboard.KEY_W)) camera.moveForward(movementSpeed / 40);
-      if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed / 40);
       if (Keyboard.isKeyDown(Keyboard.KEY_A)) camera.moveLeft(movementSpeed / 40);
+      if (Keyboard.isKeyDown(Keyboard.KEY_S)) camera.moveBackward(movementSpeed / 40);
       if (Keyboard.isKeyDown(Keyboard.KEY_D)) camera.moveRight(movementSpeed / 40);
       if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) camera.moveUp(movementSpeed / 40);
       if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) camera.moveDown(movementSpeed / 40);
