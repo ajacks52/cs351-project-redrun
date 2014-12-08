@@ -6,17 +6,37 @@ import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import com.bulletphysics.collision.dispatch.CollisionObject;
+
+import redrun.model.constants.CollisionTypes;
 import redrun.model.constants.Direction;
 import redrun.model.gameobject.trap.Trap;
+import redrun.model.gameobject.trap.full.ExplodingBoxField;
 import redrun.model.physics.BoxPhysicsBody;
+import redrun.model.physics.PhysicsWorld;
 
 public class ExplosiveBox extends Trap
 {
-  public ExplosiveBox(float x, float y, float z, Direction orientation, String textureName)
+  
+  private boolean exploded = false;
+  
+  public ExplosiveBox(float x, float y, float z, Direction orientation, String textureName, final ExplodingBoxField boxField)
   {
     super(x, y+20, z, orientation, textureName);
 
-    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(1, 1, 1), new Quat4f(), 0);
+    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(1, 1, 1), new Quat4f(), 0, CollisionTypes.EXPLOSION_COLLISION_TYPE)
+    {
+      public void collidedWith(CollisionObject other)
+      {
+        int collisionFlags = other.getCollisionFlags();
+        if ((collisionFlags & CollisionTypes.PLAYER_COLLISION_TYPE) != 0)
+        {
+          exploded = true;
+          boxField.explode();
+        }
+      }
+    };
+    PhysicsWorld.addToWatchList(this.body);
 
     displayListId = glGenLists(1);
 
@@ -96,6 +116,17 @@ public class ExplosiveBox extends Trap
     glEndList();
   }
 
+  public void explode()
+  {
+    exploded = true;
+  }
+  
+  @Override
+  public void draw()
+  {
+    if (!exploded) super.draw();
+  }
+  
   @Override
   public void activate()
   {

@@ -29,6 +29,7 @@ import redrun.model.mesh.Face;
 import redrun.model.mesh.Model;
 import redrun.model.physics.CapsulePhysicsBody;
 import redrun.model.physics.PhysicsBody;
+import redrun.model.physics.PhysicsTools;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.OBJLoader;
 
@@ -63,7 +64,9 @@ public class Player extends GameObject
   private Model model = null;
 
   private Transform startPos;
-
+  
+  private boolean exploding = false;
+  private int explodingCount = 0;
   /**
    * Creates a new player at the specified position.
    * 
@@ -78,21 +81,55 @@ public class Player extends GameObject
   {
     super(x, y + 10, z, null);
 
-    body = new CapsulePhysicsBody(new Vector3f(x, y, z), 2f, 100f, 0f)
+    body = new CapsulePhysicsBody(new Vector3f(x, y, z), 2f, 100f, 1.8f, CollisionTypes.PLAYER_COLLISION_TYPE)
     {
+      public void callback()
+      {
+        if (exploding)
+        {
+          
+          if (explodingCount % 3 == 0) hurt();
+          explodingCount++;
+          if (explodingCount >= 60)
+          {
+            exploding = false;
+          }
+        }
+      }
       public void collidedWith(CollisionObject other)
       {
         super.collidedWith(other);
+        
+        if (exploding) hurt();
+        
         int collisionFlags = other.getCollisionFlags();
         if ((collisionFlags & CollisionTypes.INSTANT_DEATH_COLLISION_TYPE) != 0)
         {
           System.out.println("Instant death!!!!");
           kill();
         }
-        else if ((collisionFlags & CollisionTypes.MINIMAL_DAMAGE_COLLISION_TYPE) != 0)
+        
+        if ((collisionFlags & CollisionTypes.MINIMAL_DAMAGE_COLLISION_TYPE) != 0)
         {
           hurt();
         }
+        
+        if ((collisionFlags & CollisionTypes.EXPLOSION_COLLISION_TYPE) != 0)
+        {
+          
+          if (!exploding)
+          {
+            explodingCount = 0;
+            exploding = true;
+            
+            float power = 100;
+            float x = (float) ((Math.random() * power*2) - power);
+            float y = (float) ((Math.random() * power) + power);
+            float z = (float) ((Math.random() * power*2) - power);
+            body.setLinearVelocity(PhysicsTools.openGLToBullet(new Vector3f(x,y,z)));
+            
+          }
+        } 
 
       }
     };
@@ -116,7 +153,7 @@ public class Player extends GameObject
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
     {
-      glMultMatrix(body.getOpenGLTransformMatrix());
+      GL11.glTranslatef(0,-2f,0);
       int currentTexture = -1;
       GL11.glEnable(GL11.GL_TEXTURE_2D);
       Face face = null;
@@ -253,7 +290,7 @@ public class Player extends GameObject
   @Override
   public void update()
   {
-    camera.updatePosition(this.getX(), this.getY() + 5f, this.getZ(), body.getPitch(), body.getYaw());
+    camera.updatePosition(this.getX(), this.getY() + 2f, this.getZ(), body.getPitch(), body.getYaw());
   }
 
   @Override
@@ -372,12 +409,14 @@ public class Player extends GameObject
   {
     lives--;
     body.body.setWorldTransform(startPos);
+    body.body.setLinearVelocity(PhysicsTools.openGLToBullet(new Vector3f(0,0,0)));
     body.body.activate(true);
     health = 100;
     if (lives <= 0)
     {
       alive = false;
     }
+    exploding = false;
   }
 
   public void hurt()
