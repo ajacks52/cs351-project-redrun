@@ -3,7 +3,7 @@ package redrun.model.gameobject.trap.full;
 import redrun.model.constants.Direction;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.trap.Trap;
-import redrun.model.gameobject.trap.piece.Fire;
+//import redrun.model.gameobject.trap.piece.Fire;
 import redrun.model.gameobject.trap.piece.JailDoor;
 
 /**
