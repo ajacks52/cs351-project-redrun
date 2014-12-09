@@ -20,6 +20,7 @@ import redrun.database.RedRunDAO;
  */
 public class MapObjectTextToDB
 {
+  /** Debug mode */
   private static final boolean DEBUG = false;
 
   /**
