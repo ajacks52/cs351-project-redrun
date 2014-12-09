@@ -58,8 +58,18 @@ public abstract class MapObject implements Comparable<MapObject>
   /** The list of game object that define the map object. */
   protected List<GameObject> components = new ArrayList<GameObject>();
 
-  public MapObject(float x, float y, float z, String groundTexture, String wallTexture, Direction orientation,
-      TrapType type)
+  /**
+   * Creates a new map object.
+   * 
+   * @param x the x position of the map object
+   * @param y the y position of the map object
+   * @param z the z position of the map object
+   * @param groundTexture the ground texture to apply
+   * @param wallTexture the wall texture to apply
+   * @param orientation the direction of the map object
+   * @param type the type of trap to apply
+   */
+  public MapObject(float x, float y, float z, String groundTexture, String wallTexture, Direction orientation, TrapType type)
   {
     this.x = x;
     this.y = y;

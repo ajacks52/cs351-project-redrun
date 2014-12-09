@@ -59,11 +59,21 @@ public class GameData
   /** The current game state for this client and its player. */
   public static GameState state = GameState.MAIN_MENU;
 
+  /**
+   * Adds a button the list of button.
+   * 
+   * @param button the button to add
+   */
   public static void addButton(Button button)
   {
     buttons.add(button);
   }
 
+  /**
+   * Adds a trap the list of traps.
+   * 
+   * @param trap the trap to add
+   */
   public static void addTrap(Trap trap)
   {
     traps.add(trap);

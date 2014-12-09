@@ -112,9 +112,6 @@ public class Camera
     position.x = x;
     position.y = y;
     position.z = z;
-    
-//    this.yaw = yaw;
-//    this.pitch = pitch;
   }
 
   /**
@@ -284,6 +281,11 @@ public class Camera
   	return type;
   }
   
+  /**
+   * Sets the yaw of the camera.
+   * 
+   * @param yaw the new yaw of the camera
+   */
   public void setYaw(float yaw)
   {
     this.yaw = yaw;
