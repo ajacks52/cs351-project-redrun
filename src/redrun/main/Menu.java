@@ -14,6 +14,7 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import redrun.model.constants.Constants;
@@ -199,6 +200,7 @@ public class Menu
     drawTransparentBackground();
     
     FontTools.renderText("Welcome to Red Run", textIndentation, 110, textColor, 3);
+    FontTools.renderText("Clients Connected: " + GameData.playerCount, textIndentation, 170, textColor, 1);
 
     FontTools.renderText("Back to Game", textIndentation, 220, options[0], 2);
     FontTools.renderText("Controls", textIndentation, 260, options[1], 2);
