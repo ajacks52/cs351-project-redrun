@@ -218,13 +218,12 @@ public class Main
     }
 
     GameData.bindConnections();
+    
+    for (int i = 0; i < 500; i++)
+    {
+    GameData.addGameObject(new Cube(45.0f, 50.0f + (2 * i), 45.0f, "crate1"));
+    }
 
-    // Create cubes above the staircase...
-    // for (int i = 0; i < 500; i++)
-    // {
-    // GameData.addGameObject(new Cube(45.0f, 50.0f + (2 * i), 45.0f,
-    // "crate1"));
-    // }
 
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
@@ -235,6 +234,9 @@ public class Main
       {
         for (String networkData : GameData.networkData)
         {
+          System.out.println(networkData);
+          System.out.println(GameData.networkData.size());
+          
           NetworkType type = ObjectFromDB.parseNetworkType(networkData);
 
           switch (type)
@@ -294,7 +296,6 @@ public class Main
 
       GameData.networkData.clear();
       client.sendPlayer(GameData.players.get(0));
-      client.requestNumberPlayers();
 
       // Prepare for rendering...
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

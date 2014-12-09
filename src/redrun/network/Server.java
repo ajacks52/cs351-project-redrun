@@ -78,6 +78,7 @@ public class Server
         MailMan worker = new MailMan(client);
         worker.start();
         System.out.println("RedRun Server: A new client has connected!");
+        broadcast(Server.numberOfConnections());
         allConnections.add(worker);
       }
       catch (IOException e)
