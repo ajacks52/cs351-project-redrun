@@ -78,7 +78,6 @@ public class Server
         MailMan worker = new MailMan(client);
         worker.start();
         System.out.println("RedRun Server: A new client has connected!");
-        broadcast(Server.numberOfConnections());
         allConnections.add(worker);
       }
       catch (IOException e)
@@ -100,7 +99,9 @@ public class Server
         "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 15.0, 2.0, 15.0] Name:Balthazar Team Name:RED Health:100 Lives left:5 Alive:true ===",
         "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 4.0, 2.0, -4.0] Name:Joel Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
         "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -4.0, 2.0, 4.0] Name:Archimedes Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
-        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -4.0, 2.0, -4.0] Name:Leeroy Jenkins Team Name:BLUE Health:100 Lives left:5 Alive:true ===" };
+        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, -4.0, 2.0, -4.0] Name:Leeroy Jenkins Team Name:BLUE Health:100 Lives left:5 Alive:true ===",
+        "=== Player === Location:[1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 4.0, 2.0, 4.0] Name:Jake Nichol Team Name:BLUE Health:100 Lives left:5 Alive:true ==="
+    };
     return players[playerCounter++];
   }
 

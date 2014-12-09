@@ -100,6 +100,7 @@ public class Main
 
     client.requestMapObjects();
     client.requestPlayer();
+    client.requestNumberPlayers();
 
     // Set up OpenGL and OpenAL...
     try
