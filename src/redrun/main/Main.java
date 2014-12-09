@@ -363,7 +363,7 @@ public class Main
         if (player.getTeam() == Team.BLUE) blueCount++;
         if (player.getTeam() == Team.BLUE && player.getLives() <= 0) deadCount++;
       }
-      if (deadCount == blueCount)
+      if (deadCount == blueCount && blueCount != 0)
       {
         for (Player player : GameData.players)
         {
@@ -371,14 +371,15 @@ public class Main
           else player.setWinner(-1);
         }
       }
-
       if (GameData.players.get(0).isWinner() == 1)
       {
         // Display Win TODO
+        HUD_Manager.displayGameOver(camera, GameData.players.get(0));
       }
       else if (GameData.players.get(0).isWinner() == -1)
       {
         // Display Lose TODO
+        HUD_Manager.displayGameOver(camera, GameData.players.get(0));
       }
 
       // Show the HUD...

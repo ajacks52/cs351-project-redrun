@@ -302,11 +302,11 @@ public class HUD_Manager
     if (cam.getType() == CameraType.PLAYER)
     {
       //TODO give player a winner boolean
-      //if(Player )
+      if(player.isWinner() == 1)
       {
         displayYouWin();
       }
-      //else
+      else if (player.isWinner() == -1)
       {
         displayYouLose();
       }
