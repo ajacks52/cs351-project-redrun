@@ -138,7 +138,7 @@ public class MailMan extends Thread
         }
         else if (matchRequestNumberPlayers.find())
         {
-          send(Server.numberOfConnections());
+          Server.broadcast(Server.numberOfConnections());
         }
         else
         {
