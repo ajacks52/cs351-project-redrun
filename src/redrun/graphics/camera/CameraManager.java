@@ -38,6 +38,9 @@ public class CameraManager
     cameras.add(spectator);
   }
 
+  /**
+   * Switches to the next camera in the list.
+   */
   public void chooseNextCamera()
   {
     if (selectable)
