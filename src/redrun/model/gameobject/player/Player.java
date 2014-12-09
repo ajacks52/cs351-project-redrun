@@ -215,8 +215,8 @@ public class Player extends GameObject
   }
 
   /**
-   * drawWithModel
-   * sets up the model to be displayed with the dispId
+   * Sets up the model to be displayed with the dispId
+   * 
    * @param model
    * @param dispId
    */
@@ -286,8 +286,8 @@ public class Player extends GameObject
   }
 
   /**
-   * jump
    * Makes the player jump.
+   * 
    */
   public void jump()
   {
@@ -308,8 +308,8 @@ public class Player extends GameObject
   }
 
   /**
-   * pitch 
-   * increments the pitch 
+   * Increments the pitch 
+   * 
    * @param pitch
    */
   public void pitch(float pitch)
@@ -317,6 +317,11 @@ public class Player extends GameObject
     camera.pitch(pitch);
   }
 
+  /**
+   * Increments the yaw 
+   * 
+   * @param yaw
+   */
   public void yaw(float yaw)
   {
     Transform trans = new Transform();
@@ -326,46 +331,90 @@ public class Player extends GameObject
     camera.yaw(yaw);
   }
 
+  /**
+   * Walks the player forward
+   * 
+   * @param speed
+   */
   public void walkForward(float speed)
   {
     body.moveForward(speed, camera.getYaw());
   }
 
+  /**
+   * Walks the player backward
+   * 
+   * @param speed
+   */
   public void walkBackward(float speed)
   {
     body.moveBackward(speed, camera.getYaw());
   }
 
+  /**
+   * Walks the player left
+   * 
+   * @param speed
+   */
   public void walkLeft(float speed)
   {
     body.moveLeft(speed, camera.getYaw());
   }
 
+  /**
+   * Walks the player right
+   * 
+   * @param speed
+   */
   public void walkRight(float speed)
   {
     body.moveRight(speed, camera.getYaw());
   }
 
+  /**
+   * Walks the player forward - right
+   * 
+   * @param speed
+   */
   public void walkForwardRight(float speed)
   {
     body.moveForwardRight(speed, camera.getYaw());
   }
 
+  /**
+   * Walks the player forward - left
+   * 
+   * @param speed
+   */
   public void walkForwardLeft(float speed)
   {
     body.moveForwardLeft(speed, camera.getYaw());
   }
 
+  /**
+   * Walks the player back - right
+   * 
+   * @param speed
+   */
   public void walkBackRight(float speed)
   {
     body.moveBackRight(speed, camera.getYaw());
   }
 
+  /**
+   * Walks the player back - left
+   * 
+   * @param speed
+   */
   public void walkBackLeft(float speed)
   {
     body.moveBackLeft(speed, camera.getYaw());
   }
 
+  /**
+   * Allows the main loop to ask the player to setup the camera
+   * 
+   */
   public void lookThrough()
   {
     camera.lookThrough();
@@ -383,6 +432,10 @@ public class Player extends GameObject
     playerStatus();
   }
 
+  /**
+   * Sets the players status
+   * 
+   */
   private void playerStatus()
   {
     if (killed)
@@ -523,6 +576,10 @@ public class Player extends GameObject
     this.lives = lives;
   }
 
+  /**
+   * Sets the players dead state
+   * 
+   */
   private void setDead()
   {
 //    if (Timing.getTime() < deathTime + 4000)
@@ -545,12 +602,20 @@ public class Player extends GameObject
     }
   }
 
+  /**
+   * Kills the player
+   * 
+   */
   public void kill()
   {
     killed = true;
     deathTime = Timing.getTime();
   }
 
+  /**
+   * Hurts the player
+   * 
+   */
   public void hurt()
   {
     health--;
