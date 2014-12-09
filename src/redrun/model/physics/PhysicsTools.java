@@ -1,19 +1,20 @@
 package redrun.model.physics;
 
 import javax.vecmath.Matrix3f;
-import javax.vecmath.Matrix4f;
 import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
 
 import com.bulletphysics.linearmath.QuaternionUtil;
 /**
- * 
+ * Tools compiled to make my life easier.
+ * Not sure if they actually did...
  * @author jem
- *
+ * @date 141115
  */
 public class PhysicsTools
 {
   /**
+   * openGLToBullet
    * converts from openGL Vector3f to JBullet Vector3f
    * @param vec
    * @return
@@ -23,6 +24,14 @@ public class PhysicsTools
     return new Vector3f(vec.x,vec.y,vec.z);
   }
   
+  /**
+   * quatFromRollPitchYaw
+   * Creates a quaternion by using roll, pitch, and yaw
+   * @param roll
+   * @param pitch
+   * @param yaw
+   * @return
+   */
   public static Quat4f quatFromRollPitchYaw(float roll, float pitch, float yaw)
   {
     Quat4f q = new Quat4f();
@@ -30,21 +39,45 @@ public class PhysicsTools
     return q;
   }
   
+  /**
+   * rollFromQuat
+   * Gets the roll component from a quaternion
+   * @param q
+   * @return
+   */
   public static float rollFromQuat(Quat4f q)
   {
     return (float) Math.toDegrees(Math.atan2(2*q.y*q.w - 2*q.x*q.z, 1-2*q.y*q.y - 2*q.z*q.z));
   }
   
+  /**
+   * pitchFromQuat
+   * Gets the pitch component from a quaternion
+   * @param q
+   * @return
+   */
   public static float pitchFromQuat(Quat4f q)
   {
     return (float) Math.toDegrees(Math.atan2(2*q.x*q.w - 2*q.y*q.z, 1-2*q.x*q.x - 2*q.z*q.z));
   }
   
+  /**
+   * yawFromQuat
+   * Gets the yaw component from a quaternion
+   * @param q
+   * @return
+   */
   public static float yawFromQuat(Quat4f q)
   {
     return (float) Math.toDegrees(Math.asin(2*q.x*q.y + 2*q.z*q.w));
   }
   
+  /**
+   * quatFromMatrix
+   * Gets the rotation quaternion from a 3x3 matrix
+   * @param m1
+   * @return
+   */
   public static Quat4f quatFromMatrix(Matrix3f m1)
   {
     float x; 

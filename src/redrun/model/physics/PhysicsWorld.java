@@ -5,25 +5,37 @@ import java.util.HashSet;
 import javax.vecmath.Vector3f;
 
 import com.bulletphysics.BulletGlobals;
-import com.bulletphysics.ContactAddedCallback;
 import com.bulletphysics.ContactProcessedCallback;
 import com.bulletphysics.collision.broadphase.BroadphaseInterface;
 import com.bulletphysics.collision.broadphase.DbvtBroadphase;
 import com.bulletphysics.collision.dispatch.CollisionDispatcher;
-import com.bulletphysics.collision.dispatch.CollisionFlags;
 import com.bulletphysics.collision.dispatch.CollisionObject;
 import com.bulletphysics.collision.dispatch.DefaultCollisionConfiguration;
 import com.bulletphysics.collision.narrowphase.ManifoldPoint;
 import com.bulletphysics.dynamics.DiscreteDynamicsWorld;
-import com.bulletphysics.dynamics.RigidBody;
 import com.bulletphysics.dynamics.constraintsolver.SequentialImpulseConstraintSolver;
 
+/**
+ * PhysicsWorld
+ * A set of global static variables and functions that are used to work the physics
+ * @author jem
+ * @date 141125
+ */
 public class PhysicsWorld
 {
+  /** Keeps track of everything and does all the calculations */
   public static DiscreteDynamicsWorld world;
+  
+  /** Holds a list of all the bodies that are added to the world */
   public static HashSet<PhysicsBody> bodies;
+  
+  /** Holds all of the objects that want to be notified when they collide*/
   public static HashSet<PhysicsBody> watchList;
   
+  /**
+   * Static initialization
+   * Loads all of the information needed for physics and collision detection
+   */
   static 
   {
     BroadphaseInterface broadphase = new DbvtBroadphase();
@@ -68,18 +80,34 @@ public class PhysicsWorld
     BulletGlobals.setContactProcessedCallback(callback);
   }
   
+  /**
+   * addPhysicsBody
+   * adds a physics body to the world and activates it
+   * @param body
+   */
   public static void addPhysicsBody(PhysicsBody body)
   {
     world.addRigidBody(body.body);
     bodies.add(body);
   }
   
+  /**
+   * removePhysicsBody
+   * allows you to remove bodies from the world after 
+   * they have been created
+   * @param body
+   */
   public static void removePhysicsBody(PhysicsBody body)
   {
     world.removeRigidBody(body.body);
     bodies.remove(body);
   }
   
+  /**
+   * stepSimulation
+   * steps the phyics simulation by timeStep seconds
+   * @param timeStep
+   */
   public static void stepSimulation(float timeStep)
   {
     world.stepSimulation(timeStep, 10);
@@ -89,6 +117,14 @@ public class PhysicsWorld
     }
     
   }
+  
+  /**
+   * addToWatchList
+   * adds the physics body to a list that will be notigfied 
+   * whenever they collide with another object using
+   * the collideWith method
+   * @param body
+   */
   public static void addToWatchList(PhysicsBody body)
   {
     watchList.add(body);

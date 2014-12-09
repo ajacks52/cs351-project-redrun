@@ -7,9 +7,9 @@ import org.lwjgl.util.vector.Vector3f;
 import com.bulletphysics.collision.shapes.BoxShape;
 
 /**
- * A physics body in the shape of a box
+ * A physics body in the shape of a box/ rectangluar prism
  * @author jem
- *
+ * @date 141115
  */
 public class BoxPhysicsBody extends PhysicsBody
 {
@@ -19,6 +19,7 @@ public class BoxPhysicsBody extends PhysicsBody
    * @param radiuses in meters
    * @param direction a quaternion
    * @param mass in kg
+   * @param collisionTypes
    */
   public BoxPhysicsBody(Vector3f center, Vector3f radiuses, Quat4f direction, float mass, int collisionTypes)
   {

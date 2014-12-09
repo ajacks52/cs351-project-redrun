@@ -10,8 +10,9 @@ import org.lwjgl.util.vector.Vector3f;
 import com.bulletphysics.collision.shapes.SphereShape;
 
 /**
+ * A sphere
  * @author jem
- *
+ * @date 141115
  */
 public class SpherePhysicsBody extends PhysicsBody
 {

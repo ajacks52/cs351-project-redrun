@@ -7,6 +7,13 @@ import org.lwjgl.util.vector.Vector3f;
 import com.bulletphysics.collision.dispatch.CollisionFlags;
 import com.bulletphysics.collision.shapes.CapsuleShape;
 
+/**
+ * CapsulePhysicsBody
+ * Its shaped like a pill with a cylander and two semi-spheres on each end
+ * Its only aligned to the y-axis
+ * @author jem
+ * @date 141201
+ */
 public class CapsulePhysicsBody extends PhysicsBody
 {
   /**

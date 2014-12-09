@@ -14,7 +14,6 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import redrun.model.constants.Constants;
@@ -35,7 +34,7 @@ public class Menu
 {
   /** The menu's state. */
   private static MenuState state = MenuState.MAIN_MENU;
-  
+
   /** DisplayList id. */
   private static int transBackground1 = -1;
 
@@ -59,10 +58,9 @@ public class Menu
 
   /** The number of clients. */
   private int clients = 0;
-  
+
   /** Debugging flag for printing. */
   private static final boolean DEBUG = false;
-  
 
   /**
    * Contains all of the possible menu states. Possible states include: OFF,
@@ -88,7 +86,7 @@ public class Menu
     }
     options[0] = textSelectedColor;
     selection = 0;
-    
+
     transBackground1 = glGenLists(1);
     glNewList(transBackground1, GL_COMPILE);
     {
@@ -102,7 +100,10 @@ public class Menu
     }
     glEndList();
   }
-  
+
+  /**
+   * Draws a grey transparent background over the scene.
+   */
   private static void drawTransparentBackground()
   {
     HUD_Manager.make2D();
@@ -198,7 +199,7 @@ public class Menu
   private void menuText()
   {
     drawTransparentBackground();
-    
+
     FontTools.renderText("Welcome to Red Run", textIndentation, 110, textColor, 3);
     FontTools.renderText("Clients Connected: " + GameData.playerCount, textIndentation, 170, textColor, 1);
 
@@ -217,11 +218,12 @@ public class Menu
   private void controlsText()
   {
     drawTransparentBackground();
-    
+
     FontTools.renderText("Controls", textIndentation, 110, textColor, 3);
     FontTools.renderText("Use WASD controls to move around the map", textIndentation, 170, textColor, 2);
     FontTools.renderText("Press SPACE to jump", textIndentation, 220, textColor, 2);
-    FontTools.renderText("In Spectator Mode, use SPACE to move upward and Left Control", textIndentation, 270, textColor, 2);
+    FontTools.renderText("In Spectator Mode, use SPACE to move upward and Left Control", textIndentation, 270,
+        textColor, 2);
     FontTools.renderText("to move downward", textIndentation, 310, textColor, 2);
     FontTools.renderText("Press F to interact with buttons", textIndentation, 360, textColor, 2);
     FontTools.renderText("Press R to switch cameras", textIndentation, 410, textColor, 2);
@@ -236,7 +238,7 @@ public class Menu
   private void howToText()
   {
     drawTransparentBackground();
-    
+
     FontTools.renderText("How to Play", textIndentation, 110, textColor, 3);
     FontTools.renderText(
         "Players on the BLUE team try to get from the beginning of the obstacle course to the end without dying.",
@@ -258,7 +260,7 @@ public class Menu
   private void errorText()
   {
     drawTransparentBackground();
-    
+
     FontTools.renderText("I'm sorry there are only " + clients + " clients connected.", 20, 110, textColor, 2);
     FontTools.renderText("You need " + (Constants.MAX_PLAYERS - clients) + " more users connect to play a", 20, 150,
         textColor, 2);

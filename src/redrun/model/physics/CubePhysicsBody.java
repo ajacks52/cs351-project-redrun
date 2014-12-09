@@ -8,17 +8,21 @@ import javax.vecmath.Quat4f;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
+ * CubePhysicsBody
+ * Creates a perfect cube
  * @author jem
- *
+ * @date 141115
  */
 public class CubePhysicsBody extends BoxPhysicsBody
 {
 
   /**
+   * Constructs a box with all of the sides equal to radius
    * @param center
    * @param radiuses
    * @param direction
    * @param mass
+   * @param collisionType
    */
   public CubePhysicsBody(Vector3f center, float radius, Quat4f direction, float mass, int collisionTypes)
   {
@@ -33,6 +37,6 @@ public class CubePhysicsBody extends BoxPhysicsBody
    */
   public CubePhysicsBody(Vector3f center, float radius, Quat4f direction, float mass)
   {
-    super(center, new Vector3f(radius,radius,radius), direction, mass, 0);
+    this(center, radius, direction, mass, 0);
   }
 }

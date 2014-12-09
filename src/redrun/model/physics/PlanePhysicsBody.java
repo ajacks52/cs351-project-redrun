@@ -8,16 +8,16 @@ import javax.vecmath.Quat4f;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.bulletphysics.collision.shapes.BoxShape;
-import com.bulletphysics.collision.shapes.StaticPlaneShape;
 
 /**
+ * A plane
  * @author jem
- *
+ * @date 141115
  */
 public class PlanePhysicsBody extends PhysicsBody
 {
   /**
-   * Creates an infinite plane in all directions
+   * Creates an plane 
    * The simplest and easiest physics body should be used wherever possible
    * @param center in meters
    * @param normal the vector that is perpendicular to the plane
@@ -29,7 +29,7 @@ public class PlanePhysicsBody extends PhysicsBody
   }
   
   /**
-   * Creates an infinite plane in all directions
+   * Creates a plane 
    * The simplest and easiest physics body should be used wherever possible
    * @param center in meters
    * @param normal the vector that is perpendicular to the plane
