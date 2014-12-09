@@ -226,19 +226,10 @@ public class Main
           {
             case MAP:
             {
-              map = ObjectFromDB.createMap(networkData);
-              Display.setTitle("RedRun " + map.getMapName());
-              skybox = ObjectFromDB.createSkybox(map.getSkyBox());
-              floor = ObjectFromDB.createFloor(map.getFloor());
               break;
             }
             case MAP_OBJECT:
             {
-              MapObject object = ObjectFromDB.createMapObject(networkData);
-              if (!GameData.mapObjects.contains(object))
-              {
-                GameData.mapObjects.add(object);
-              }
               break;
             }
             case PLAYER:
