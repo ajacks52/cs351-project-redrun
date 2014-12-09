@@ -94,6 +94,7 @@ public class RedRunDAO
   }
 
   /**
+   * Insert new mapObject into Map Objects table
    * 
    * @param objectName name of map object
    * @param location location of map object
