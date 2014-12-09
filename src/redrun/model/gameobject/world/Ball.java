@@ -10,10 +10,27 @@ import org.lwjgl.util.vector.Vector3f;
 import redrun.model.physics.SpherePhysicsBody;
 import redrun.model.toolkit.BufferConverter;
 
+/**
+ * This class represents a ball.
+ * 
+ * @author Troy Squillaci
+ * @version 1.0
+ * @since 2014-11-24
+ */
 public class Ball extends WorldObject
 {  
+  /** The sphere used to create the ball. */
   private Sphere sphere;
 
+  /**
+   * Creates a new ball.
+   * 
+   * @param x the x position of the ball
+   * @param y the y position of the ball
+   * @param z the z position of the ball
+   * @param textureName the texture to apply to the ball
+   * @param radius the radius of the ball
+   */
   public Ball(float x, float y, float z, String textureName, float radius)
   {
     super(x, y, z, textureName);
@@ -46,21 +63,18 @@ public class Ball extends WorldObject
   @Override
   public void interact()
   {
-    // TODO Auto-generated method stub
-
+    
   }
 
   @Override
   public void update()
   {
-    // TODO Auto-generated method stub
 
   }
 
   @Override
   public void reset()
   {
-    // TODO Auto-generated method stub
 
   }
 }
