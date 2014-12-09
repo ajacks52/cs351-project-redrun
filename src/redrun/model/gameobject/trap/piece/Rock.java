@@ -19,7 +19,6 @@ import redrun.model.gameobject.trap.Trap;
 import redrun.model.mesh.Face;
 import redrun.model.mesh.Model;
 import redrun.model.physics.BoxPhysicsBody;
-import redrun.model.physics.SpherePhysicsBody;
 import redrun.model.toolkit.OBJLoader;
 
 /**

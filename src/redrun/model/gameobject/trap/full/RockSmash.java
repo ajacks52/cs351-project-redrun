@@ -1,6 +1,5 @@
 package redrun.model.gameobject.trap.full;
 
-import redrun.main.Main;
 import redrun.model.constants.Direction;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.trap.Trap;
@@ -27,7 +26,7 @@ public class RockSmash extends Trap
 
     rock1 = new Rock(x,     y + 25, z-10, orientation, null, 0f);
     rock2 = new Rock(x+5,   y + 25, z,    orientation, null, 1f);
-    rock3 = new Rock(x+3,   y + 25, z+10, orientation, null, 1.5f);
+    rock3 = new Rock(x-15,   y + 25, z+10, orientation, null, 1.5f);
     rock4 = new Rock(x+10,  y + 25, z+15, orientation, null, 1.7f);
     rock5 = new Rock(x,     y + 25, z+15, orientation, null, 1.7f);
     rock6 = new Rock(x+15,  y + 25, z+10, orientation, null, 1.7f);

@@ -139,7 +139,7 @@ public abstract class MapObject implements Comparable<MapObject>
 
       case TRAP_DOOR:
       {
-        this.trap = new TrapDoor(x, y, z, orientation, "ground14");
+        this.trap = new TrapDoor(x, y, z, orientation, "ground16");
         break;
       }
 

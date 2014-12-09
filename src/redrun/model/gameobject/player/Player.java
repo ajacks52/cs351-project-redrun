@@ -64,6 +64,7 @@ public class Player extends GameObject
   /** The state of the player */
   private boolean killed = false;
 
+  @SuppressWarnings("unused")
   private long deathTime = 0;
 
 
