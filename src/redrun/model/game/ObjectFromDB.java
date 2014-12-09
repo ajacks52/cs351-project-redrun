@@ -62,7 +62,7 @@ public class ObjectFromDB
    * @return the type of network data
    */
   public static NetworkType parseNetworkType(String networkData)
-  {
+  {    
     mapMatcher = mapPattern.matcher(networkData);
     mapObjectMatcher = mapObjectPattern.matcher(networkData);
     playerMatcher = playerPattern.matcher(networkData);
@@ -318,10 +318,8 @@ public class ObjectFromDB
       {
         Trap trap = (Trap) object;
         
-        if (!trap.isActive())
-        {
-          trap.activate();
-        }
+        System.out.println("Activating.........");
+        trap.activate();
       }
       else
       {

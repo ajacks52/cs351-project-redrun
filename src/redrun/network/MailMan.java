@@ -94,7 +94,7 @@ public class MailMan extends Thread
       try
       {
         String incomingMessage = clientReader.readLine();
-
+        
         Matcher matchInboundPlayer = playerData.matcher(incomingMessage);
         Matcher matchTrapData = trapData.matcher(incomingMessage);
         Matcher matchRequestDisconnect = requestDisconnect.matcher(incomingMessage);

@@ -73,8 +73,6 @@ public class Fire extends Trap
   public void update()
   {
     logic();
-
-    System.out.println("hhii");
     glPushMatrix();
     {
       glEnable(GL_TEXTURE_2D);
