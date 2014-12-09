@@ -6,6 +6,7 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 
 import org.newdawn.slick.Color;
 
+import redrun.model.constants.Constants;
 import redrun.model.toolkit.FontTools;
 import redrun.model.toolkit.HUD_Manager;
 
@@ -21,6 +22,8 @@ public class DeathScreen
     }
     glPopMatrix();
     HUD_Manager.make3D();
-    FontTools.renderText("Wasted", 10, 10, Color.white, 3);
+    
+    
+    FontTools.renderText("Wasted", Constants.DISPLAY_WIDTH/2, Constants.DISPLAY_HEIGHT/2, Color.red, 3);
   }
 }

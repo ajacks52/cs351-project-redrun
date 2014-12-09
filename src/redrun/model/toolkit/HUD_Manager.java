@@ -134,7 +134,7 @@ public class HUD_Manager
     transBackgroundUtil = glGenLists(1);
     glNewList(transBackgroundUtil, GL_COMPILE);
     {
-      glColor4f(1.0f, 0.0f, 0.0f, .3f);
+      glColor4f(1.0f, 0.0f, 0.0f, .4f);
       glBegin(GL_QUADS);
       glVertex2f(0, Constants.DISPLAY_HEIGHT);
       glVertex2f(0 + Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT);
