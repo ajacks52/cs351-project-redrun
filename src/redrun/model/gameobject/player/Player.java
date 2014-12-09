@@ -152,6 +152,11 @@ public class Player extends GameObject
 
           }
         }
+        
+        if ((collisionFlags & CollisionTypes.WALL_COLLISION_TYPE) != 0)
+        {
+          canJump = false;
+        }
 
       }
     };
