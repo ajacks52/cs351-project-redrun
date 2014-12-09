@@ -18,6 +18,8 @@ import org.newdawn.slick.Color;
 
 import redrun.graphics.camera.HUD_Manager;
 import redrun.model.constants.Constants;
+import redrun.model.constants.GameState;
+import redrun.model.game.GameData;
 import redrun.model.toolkit.FontTools;
 
 /**
@@ -167,7 +169,7 @@ public class Menu
         menuText();
         break;
       case OFF:
-        // Do nothing
+        GameData.state = GameState.PLAY;
         break;
       case CONTROLS:
         backToMenuControls();

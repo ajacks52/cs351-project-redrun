@@ -2,9 +2,6 @@ package redrun.model.constants;
 
 public enum GameState
 {
-  /** Waiting for other players to connect. */
-  WAIT,
-
   /** Game play is available. */
   PLAY,
 
@@ -16,7 +13,7 @@ public enum GameState
 
   /** Player has lost. */
   LOSER,
-  
+
   /** Menu is up. */
   MAIN_MENU;
 }

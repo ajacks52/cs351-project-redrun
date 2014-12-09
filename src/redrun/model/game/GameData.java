@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import redrun.database.Map;
+import redrun.model.constants.GameState;
 import redrun.model.gameobject.GameObject;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.player.Player;
@@ -51,6 +52,9 @@ public class GameData
   // Sounds related data...
   /** The active sound manager. */
   public static SoundManager soundManager = new SoundManager();
+
+  /** The current game state for this client and its player. */
+  public static GameState state = GameState.MAIN_MENU;
 
   public static void addButton(Button button)
   {
