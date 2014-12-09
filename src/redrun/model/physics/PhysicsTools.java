@@ -30,7 +30,7 @@ public class PhysicsTools
    * @param roll
    * @param pitch
    * @param yaw
-   * @return
+   * @return quaternion
    */
   public static Quat4f quatFromRollPitchYaw(float roll, float pitch, float yaw)
   {
@@ -43,7 +43,7 @@ public class PhysicsTools
    * rollFromQuat
    * Gets the roll component from a quaternion
    * @param q
-   * @return
+   * @return roll
    */
   public static float rollFromQuat(Quat4f q)
   {
@@ -54,7 +54,7 @@ public class PhysicsTools
    * pitchFromQuat
    * Gets the pitch component from a quaternion
    * @param q
-   * @return
+   * @return pitch
    */
   public static float pitchFromQuat(Quat4f q)
   {
@@ -65,7 +65,7 @@ public class PhysicsTools
    * yawFromQuat
    * Gets the yaw component from a quaternion
    * @param q
-   * @return
+   * @return yaw
    */
   public static float yawFromQuat(Quat4f q)
   {
@@ -76,7 +76,7 @@ public class PhysicsTools
    * quatFromMatrix
    * Gets the rotation quaternion from a 3x3 matrix
    * @param m1
-   * @return
+   * @return quaternion
    */
   public static Quat4f quatFromMatrix(Matrix3f m1)
   {
