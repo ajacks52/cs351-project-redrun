@@ -90,8 +90,6 @@ public class Main
   /** Used to access the database. */
   private static Map map = null;
   
-  private static int numPlayers = -1;
-
   /**
    * Performs initialization.
    */
@@ -211,12 +209,6 @@ public class Main
     }
 
     GameData.bindConnections();
-    
-    for (int i = 0; i < 500; i++)
-    {
-    GameData.addGameObject(new Cube(45.0f, 50.0f + (2 * i), 45.0f, "crate1"));
-    }
-
 
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
@@ -260,7 +252,7 @@ public class Main
             }
             case NUMBER_PLAYERS:
             {
-              numPlayers = ObjectFromDB.returnPlayerNumber(networkData);
+              GameData.playerCount = ObjectFromDB.returnPlayerNumber(networkData);
               break;
             }
             default:

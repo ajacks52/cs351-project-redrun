@@ -29,8 +29,11 @@ public class GameData
 
   /** Used to keep track of the current map. */
   public static Map map = null;
+  
+  /** The number of players connected to the RedRun session. */
+  public static int playerCount = -1;
 
-  // GameObject and MapObject realted data...
+  // GameObject and MapObject related data...
   /** The list of players. */
   public static LinkedList<Player> players = new LinkedList<Player>();
 
