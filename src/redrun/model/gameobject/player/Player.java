@@ -138,7 +138,7 @@ public class Player extends GameObject
             exploding = true;
 
             float power = 20;
-            explodingPower = (int) ((Math.random() * power));
+            explodingPower = (int) ((Math.random() * 30) + 10);
             float x = (float) ((Math.random() * power * 2) - power);
             float y = (float) ((Math.random() * power) + power);
             float z = (float) ((Math.random() * power * 2) - power);
