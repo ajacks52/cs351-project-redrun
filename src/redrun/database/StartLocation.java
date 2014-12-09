@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 /**
  * Convert start location from string to floats that can be used as coordinates
  * 
- * @author Jayson Grace
+ * @author Jayson Grace ( jaysong @ unm.edu )
  * @version 1.0
  * @since 2014-11-24
  */

@@ -59,13 +59,17 @@ public class MapObjectTextToDB
     return null;
   }
 
+  /**
+   * Insert map object into the database
+   * 
+   * @param br reader
+   * @param currentMap current map we're using
+   * @throws IOException exception if there's issues reading the input file
+   */
   private static void generateMapObjects(BufferedReader br, Map currentMap) throws IOException
   {
     int mapId = currentMap.getId();
-    // System.out.println("Working Directory = " +
-    // System.getProperty("user.dir"));
-    Pattern getMapObject = Pattern
-        .compile("(\\w+),\\s\\((.*?)\\),\\s(\\w+),\\s(\\w+),\\s(\\w+),\\s(\\w+),\\s(\\d+)");
+    Pattern getMapObject = Pattern.compile("(\\w+),\\s\\((.*?)\\),\\s(\\w+),\\s(\\w+),\\s(\\w+),\\s(\\w+),\\s(\\d+)");
 
     String line = br.readLine();
     try
@@ -102,6 +106,11 @@ public class MapObjectTextToDB
     }
   }
 
+  /**
+   * Main statement
+   * 
+   * @param args
+   */
   public static void main(String[] args) throws IOException
   {
     BufferedReader br = new BufferedReader(new FileReader("res/maps/IceWorld.txt"));

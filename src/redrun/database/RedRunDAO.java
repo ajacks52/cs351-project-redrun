@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * DAO used to facilitate all database interactions in the RedRun Database
  * 
- * @author Jayson Grace
+ * @author Jayson Grace ( jaysong @ unm.edu )
  * @version 1.0
  * @since 2014-11-24
  */

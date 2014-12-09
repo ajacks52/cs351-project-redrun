@@ -47,7 +47,8 @@ import redrun.model.toolkit.LoadingScreen;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
- * This class is for testing OpenGL scenes.
+ * This class is for testing OpenGL scenes, physics interactions, menu, and
+ * anything else Jake needs to work on.
  * 
  * @author J. Jake Nichol
  * @version 1.0
@@ -55,6 +56,10 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class GraphicsTestJake
 {
+  /**
+   * Is the game running. If this is false, the game will proceed to close down
+   * properly.
+   */
   private static boolean running = true;
 
   /** The game menu. */
@@ -407,13 +412,14 @@ public class GraphicsTestJake
    */
   private static void getInput()
   {
-    // TODO Not to be used in production code.
+    // Not to be used in production code.
     if (menu.getState() == MenuState.EXIT) requestClose();
 
     // Menu control...
     if (Keyboard.isKeyDown(Keyboard.KEY_APOSTROPHE)) GameData.state = GameState.PLAY;
     if (menu.getState() == MenuState.OFF) GameData.state = GameState.PLAY;
-    if (GameData.state == GameState.MAIN_MENU) return; // Take no input if menu is up.
+    if (GameData.state == GameState.MAIN_MENU) return; // Take no input if menu
+                                                       // is up.
     if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
       GameData.state = GameState.MAIN_MENU;

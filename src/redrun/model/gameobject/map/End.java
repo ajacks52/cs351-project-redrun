@@ -6,7 +6,6 @@ import redrun.model.constants.TrapType;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.world.EndPlane;
 import redrun.model.gameobject.world.InvisibleWall;
-import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.RectangularPrism;
 
 /**
