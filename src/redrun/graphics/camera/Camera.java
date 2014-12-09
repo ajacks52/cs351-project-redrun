@@ -16,8 +16,8 @@ import static org.lwjgl.util.glu.GLU.*;
  */
 public class Camera
 {
-	/** The type of camera. */
-	private final CameraType type;
+  /** The type of camera. */
+  private final CameraType type;
 	
   /** The position of the camera in 3D space. */
   private Vector3f position = null;

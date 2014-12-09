@@ -126,7 +126,7 @@ public class Picker
   }
   
   /**
-   * Controlled 
+   * Toggles picking.
    */
   public static void pick()
   {

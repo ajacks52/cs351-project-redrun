@@ -133,6 +133,9 @@ public class GameData
     return connections.get(button);
   }
 
+  /**
+   * Binds all buttons to traps.
+   */
   public static void bindConnections()
   {
     System.out.println("Buttons Size: " + buttons.size() + ", Traps Size: " + traps.size());
@@ -157,6 +160,9 @@ public class GameData
     }
   }
 
+  /**
+   * Destroys all sounds used.
+   */
   public static void destroy()
   {
     soundManager.destroySounds();
