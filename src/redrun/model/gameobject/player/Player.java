@@ -70,18 +70,25 @@ public class Player extends GameObject
   @SuppressWarnings("unused")
   private long deathTime = 0;
 
-
   /** The players model */
   private Model[] models;
 
+  /** A list of ids to be drawn at every step */
   private int[] dispIds;
 
+  /** A counter to increment the player graphics */
   private int step = 0;
-
+  
+  /** The starting position for when the player dies to be sent back */
   private Transform startPos;
 
+  /** Whether or not the current player is currently exploding */
   private boolean exploding = false;
+  
+  /** The number of time steps that the player has been exploding for */
   private int explodingCount = 0;
+  
+  /** The power that the explode had */
   private int explodingPower;
 
   /**
@@ -207,6 +214,12 @@ public class Player extends GameObject
     yaw(90);
   }
 
+  /**
+   * drawWithModel
+   * sets up the model to be displayed with the dispId
+   * @param model
+   * @param dispId
+   */
   public void drawWithModel(Model model, int dispId)
   {
     glNewList(dispId, GL_COMPILE);
@@ -250,6 +263,7 @@ public class Player extends GameObject
     GL11.glEndList();
   }
 
+  @Override
   public void draw()
   {
     javax.vecmath.Vector3f vel = new javax.vecmath.Vector3f();
@@ -272,13 +286,15 @@ public class Player extends GameObject
   }
 
   /**
-   * Makes the player jump about 2 meters into the air.
+   * jump
+   * Makes the player jump.
    */
   public void jump()
   {
     body.jump();
   }
 
+  
   /**
    * Walk in the specified direction, x and z will be normalized.
    * 
@@ -291,6 +307,11 @@ public class Player extends GameObject
     body.push(vec);
   }
 
+  /**
+   * pitch 
+   * increments the pitch 
+   * @param pitch
+   */
   public void pitch(float pitch)
   {
     camera.pitch(pitch);
