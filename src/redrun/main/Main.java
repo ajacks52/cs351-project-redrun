@@ -44,6 +44,7 @@ import org.lwjgl.util.Timer;
 import redrun.database.Map;
 import redrun.graphics.camera.Camera;
 import redrun.graphics.camera.CameraManager;
+import redrun.model.toolkit.HUD_Manager;
 import redrun.graphics.selection.Picker;
 import redrun.main.Menu.MenuState;
 import redrun.model.constants.CameraType;
@@ -58,7 +59,6 @@ import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
-import redrun.model.toolkit.HUD_Manager;
 import redrun.model.toolkit.LoadingScreen;
 import redrun.network.Client;
 import redrun.sound.Sound;
@@ -384,7 +384,6 @@ public class Main
     if (GameData.state == GameState.MAIN_MENU) return; // Take no input if menu is up.
     if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
-//      if (GameData.state != GameState.MAIN_MENU) GameData.previousState = GameData.state;
       GameData.state = GameState.MAIN_MENU;
       menu.setState();
     }
