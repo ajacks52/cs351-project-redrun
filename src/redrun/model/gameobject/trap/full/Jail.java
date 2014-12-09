@@ -17,7 +17,6 @@ public class Jail extends Trap
 {
   JailDoor door1;
   JailDoor door2;
-  Fire fire;
 
   /**
    * Constructor
@@ -44,9 +43,7 @@ public class Jail extends Trap
       door2 = new JailDoor(x + 6.5f, y+25, z, orientation, null);
     }
     
-    fire = new Fire(x, y+10, z, orientation);
     
-    //GameData.addGameObject(fire);
     GameData.addGameObject(door1);
     GameData.addGameObject(door2);
   }
@@ -57,28 +54,21 @@ public class Jail extends Trap
     System.out.println("Interacting with the game object: " + this.id);
     door1.activate();
     door2.activate();
-    //fire.activate();
   }
 
   @Override
   public void reset()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void interact()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void update()
   {
-    // TODO Auto-generated method stub
-    fire.update();
   }
 
 }

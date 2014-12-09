@@ -1,15 +1,14 @@
-package redrun.graphics.camera;
+package redrun.model.toolkit;
 
 import static org.lwjgl.opengl.GL11.*;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
+import redrun.graphics.camera.Camera;
 import redrun.model.constants.CameraType;
 import redrun.model.constants.Constants;
 import redrun.model.gameobject.player.Player;
-import redrun.model.toolkit.FontTools;
-import redrun.model.toolkit.Tools;
 
 public class HUD_Manager
 {
@@ -17,6 +16,7 @@ public class HUD_Manager
   private static boolean setUp = true;
   private static int heartID = -1, healthOutlineID = -1, hudID = -1, healthID = -1, transBackground1 = -1,
       transBackground2 = -1, transBackground3 = -1;
+  public static int transBackgroundUtil = -1;
 
   private static void setUp(Player player)
   {
@@ -131,6 +131,19 @@ public class HUD_Manager
     }
     glEndList();
 
+    transBackgroundUtil = glGenLists(1);
+    glNewList(transBackgroundUtil, GL_COMPILE);
+    {
+      glColor4f(1.0f, 0.0f, 0.0f, .3f);
+      glBegin(GL_QUADS);
+      glVertex2f(0, Constants.DISPLAY_HEIGHT);
+      glVertex2f(0 + Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT);
+      glVertex2f(0 + Constants.DISPLAY_WIDTH, -Constants.DISPLAY_HEIGHT);
+      glVertex2f(0, -Constants.DISPLAY_HEIGHT);
+      glEnd();
+    }
+    glEndList();
+    
   }
 
   public static void huds(Camera cam, Player player)

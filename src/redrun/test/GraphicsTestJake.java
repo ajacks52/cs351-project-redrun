@@ -14,7 +14,6 @@ import org.lwjgl.util.Timer;
 
 import redrun.graphics.camera.Camera;
 import redrun.graphics.camera.CameraManager;
-import redrun.graphics.camera.HUD_Manager;
 import redrun.graphics.selection.Picker;
 import redrun.main.Menu;
 import redrun.main.Menu.MenuState;
@@ -43,6 +42,7 @@ import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
+import redrun.model.toolkit.HUD_Manager;
 import redrun.model.toolkit.LoadingScreen;
 import static org.lwjgl.opengl.GL11.*;
 

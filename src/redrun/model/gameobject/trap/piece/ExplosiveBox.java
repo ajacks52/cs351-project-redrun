@@ -14,6 +14,7 @@ import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.trap.full.ExplodingBoxField;
 import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.physics.PhysicsWorld;
+import redrun.sound.Sound;
 
 public class ExplosiveBox extends Trap
 {
@@ -31,6 +32,8 @@ public class ExplosiveBox extends Trap
         int collisionFlags = other.getCollisionFlags();
         if ((collisionFlags & CollisionTypes.PLAYER_COLLISION_TYPE) != 0)
         {
+          //Sound ambient = new Sound("ambience/iceworld");
+          //ambient.play();
           exploded = true;
           PhysicsWorld.removePhysicsBody(this);
 //          boxField.explode();
