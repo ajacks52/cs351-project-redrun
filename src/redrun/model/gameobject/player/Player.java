@@ -475,11 +475,11 @@ public class Player extends GameObject
 
   private void setDead()
   {
-    if (Timing.getTime() < deathTime + 4000)
-    {
-      DeathScreen.display(deathTime);
-    }
-    else
+//    if (Timing.getTime() < deathTime + 4000)
+//    {
+//      DeathScreen.display(deathTime);
+//    }
+//    else
     {
       lives--;
       body.body.setWorldTransform(startPos);

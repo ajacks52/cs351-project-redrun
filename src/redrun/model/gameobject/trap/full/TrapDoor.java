@@ -38,9 +38,9 @@ public class TrapDoor extends Trap
    */
   public TrapDoor(float x, float y, float z, Direction orientation, String textureName)
   {
-    super(x, y+.01f, z, orientation, textureName);
+    super(x, y+.02f, z, orientation, textureName);
 
-    this.body = new BoxPhysicsBody(new Vector3f(x, y+.01f, z), new Vector3f(7, 0f, 7), new Quat4f(), 0.0f);
+    this.body = new BoxPhysicsBody(new Vector3f(x, y+.02f, z), new Vector3f(7, 0f, 7), new Quat4f(), 0.0f);
 
     this.orientation = orientation;
 
@@ -72,7 +72,6 @@ public class TrapDoor extends Trap
   {
     glPushMatrix();
     {
-      glColor3f(1f, 1f, 1f);
       glMultMatrix(body.getOpenGLTransformMatrix());
       glScalef(7f, 1f, 7f);
       glEnable(GL_TEXTURE_2D);
@@ -116,7 +115,7 @@ public class TrapDoor extends Trap
       }
       if (orientation == Direction.EAST || orientation == Direction.WEST)
       {
-        body.translate(0f, 0f, 1f);
+        body.translate(0f, 0f, -1f);
       }
 
       if (count == 10)
@@ -133,7 +132,7 @@ public class TrapDoor extends Trap
       }
       if (orientation == Direction.EAST || orientation == Direction.WEST)
       {
-        body.translate(0f, 0f, -1f);
+        body.translate(0f, 0f, 1f);
       }
       if (count == 0)
       {
