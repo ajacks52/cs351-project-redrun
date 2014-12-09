@@ -41,7 +41,6 @@ public class Timing
     long time = getTime();
     int delta = (int) (time - lastFrame);
     lastFrame = time;
-
     return delta;
   }
 }
