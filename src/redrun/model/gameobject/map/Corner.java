@@ -44,10 +44,10 @@ public class Corner extends MapObject
         components.add(new InvisibleWall(x + (size / 2), y + 8f, z, null, 0.0f, 10.0f, size));
 
         components.add(new RectangularPrism(x - 0.5f, y + 1.5f, z + -((size - 1.0f) / 2), wallTexture, size - 1.0f, 3.0f, 1.0f));
-        components.add(new InvisibleWall(x - 0.5f, y + 8f, z + -((size - 1.0f) / 2), null, size - 1.0f, 3.0f, 0.0f));
+        components.add(new InvisibleWall(x - 0.5f, y + 8f, z + -((size - 1.0f) / 2), null, size - 1.0f, 10.0f, 0.0f));
 
         components.add(new RectangularPrism(x + -(size / 2), y + 1.5f, z + (size / 2), wallTexture, 1.0f, 3.0f, 1.0f));
-        components.add(new InvisibleWall(x + -(size / 2), y + 8f, z + (size / 2), null, 0.0f, 3.0f, 0.0f));
+        components.add(new InvisibleWall(x + -(size / 2), y + 8f, z + (size / 2), null, 0.0f, 10.0f, 0.0f));
         break;
       }
       case EAST:

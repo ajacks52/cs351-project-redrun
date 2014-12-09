@@ -40,10 +40,10 @@ public class Staircase extends MapObject
       case NORTH:
       {
         components.add(new RectangularPrism(x, y + (size / 2) + 2.0f, z + (size / 2), wallTexture, size, size + 3.0f, 1.0f));
-        components.add(new InvisibleWall(x, y + (size / 2) + 20.0f, z + (size / 2), null, size + 20, 10.0f, 0.0f));
+        components.add(new InvisibleWall(x, y + (size / 2) + 18.0f, z + (size / 2), null, size + 20, 10.0f, 1.0f));
 
         components.add(new RectangularPrism(x, y + (size / 2) + 2.0f, z + -(size / 2), wallTexture, size, size + 3.0f, 1.0f));
-        components.add(new InvisibleWall(x, y + (size / 2) + 20.0f, z + -(size / 2), null, size + 20, 10.0f, 0.0f));
+        components.add(new InvisibleWall(x, y + (size / 2) + 18.0f, z + -(size / 2), null, size + 20, 10.0f, 1.0f));
         for (int i = 0; i < size; i++)
         {
           components.add(new RectangularPrism((x - (size / 2)) + i, (y - (size / 2)) + i + (size / 2) + 0.5f, z, groundTexture, 1.0f, 1.0f, size - 2));
@@ -53,10 +53,10 @@ public class Staircase extends MapObject
       case EAST:
       {
         components.add(new RectangularPrism(x + (size / 2), y + (size / 2) + 2.0f, z, wallTexture, 1.0f, size + 3.0f, size));
-        components.add(new InvisibleWall(x + (size / 2), y + (size / 2) + 20.0f, z, null, 0.0f, 10.0f, size + 20));
+        components.add(new InvisibleWall(x + (size / 2), y + (size / 2) + 18.0f, z, null, 1.0f, 10.0f, size + 20));
 
         components.add(new RectangularPrism(x + -(size / 2), y + (size / 2) + 2.0f, z, wallTexture, 1.0f, size + 3.0f, size));
-        components.add(new InvisibleWall(x + -(size / 2), y + (size / 2) + 20.0f, z, null, 0.0f, 10.0f, size + 20));
+        components.add(new InvisibleWall(x + -(size / 2), y + (size / 2) + 18.0f, z, null, 1.0f, 10.0f, size + 20));
         for (int i = 0; i < size; i++)
         {
           components.add(new RectangularPrism(x, (y - (size / 2)) + i + (size / 2) + 0.5f, (z - (size / 2)) + i, groundTexture, size - 2, 1.0f, 1.0f));
@@ -66,10 +66,10 @@ public class Staircase extends MapObject
       case SOUTH:
       {
         components.add(new RectangularPrism(x, y + (size / 2) + 2.0f, z + (size / 2), wallTexture, size, size + 3.0f, 1.0f));
-        components.add(new InvisibleWall(x, y + (size / 2) + 20.0f, z + (size / 2), null, size + 20, 10.0f, 0.0f));
+        components.add(new InvisibleWall(x, y + (size / 2) + 18.0f, z + (size / 2), null, size + 20, 10.0f, 1.0f));
         
         components.add(new RectangularPrism(x, y + (size / 2) + 2.0f, z + -(size / 2), wallTexture, size, size + 3.0f, 1.0f));
-        components.add(new InvisibleWall(x, y + (size / 2) + 20.0f, z + -(size / 2), null, size + 20, size + 20.0f, 0.0f));
+        components.add(new InvisibleWall(x, y + (size / 2) + 18.0f, z + -(size / 2), null, size + 20, 10.0f, 1.0f));
         for (int i = 0; i < size; i++)
         {
           components.add(new RectangularPrism((x + (size / 2)) - i, (y - (size / 2)) + i + (size / 2) + 0.5f, z, groundTexture, 1.0f, 1.0f, size - 2));
@@ -79,10 +79,10 @@ public class Staircase extends MapObject
       case WEST:
       {
         components.add(new RectangularPrism(x + (size / 2), y + (size / 2) + 2.0f, z, wallTexture, 1.0f, size + 3.0f, size));
-        components.add(new InvisibleWall(x + (size / 2), y + (size / 2) + 20.0f, z, null, 0.0f, 10.0f, size + 20));
+        components.add(new InvisibleWall(x + (size / 2), y + (size / 2) + 18.0f, z, null, 1.0f, 10.0f, size + 20));
 
         components.add(new RectangularPrism(x + -(size / 2), y + (size / 2) + 2.0f, z, wallTexture, 1.0f, size + 3.0f, size));
-        components.add(new InvisibleWall(x + -(size / 2), y + (size / 2) + 20.0f, z, null, 0.0f, 10.0f, size + 20));
+        components.add(new InvisibleWall(x + -(size / 2), y + (size / 2) + 18.0f, z, null, 1.0f, 10.0f, size + 20));
         for (int i = 0; i < size; i++)
         {
           components.add(new RectangularPrism(x, (y - (size / 2)) + i + (size / 2) + 0.5f, (z + (size / 2)) - i, groundTexture, size - 2, 1.0f, 1.0f));

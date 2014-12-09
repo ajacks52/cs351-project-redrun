@@ -18,6 +18,8 @@ import redrun.model.physics.BoxPhysicsBody;
  */
 public class InvisibleWall extends WorldObject
 {
+  private final boolean DEBUG = false;
+  
   /**
    * Creates a rectangular prism at the specified location with the specified dimensions.
    * 
@@ -35,6 +37,91 @@ public class InvisibleWall extends WorldObject
 
     this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(width / 2, height / 2, depth / 2), new Quat4f(), 0, CollisionTypes.WALL_COLLISION_TYPE);
     this.body.body.setFriction(0);
+    
+    if (DEBUG)
+    {
+      displayListId = glGenLists(1);
+  
+      glNewList(displayListId, GL_COMPILE);
+      {
+        glBegin(GL_QUADS);
+        {
+          // Top face...
+          glNormal3f(0.0f, height / 2, 0.0f);
+          glColor3f(0.0f, 1.0f, 0.0f);
+          glVertex3f(width / 2, height / 2, -depth / 2);
+          glTexCoord2f(0, 0);
+          glVertex3f(-width / 2, height / 2, -depth / 2);
+          glTexCoord2f(0, 1);
+          glVertex3f(-width / 2, height / 2, depth / 2);
+          glTexCoord2f(1, 1);
+          glVertex3f(width / 2, height / 2, depth / 2);
+          glTexCoord2f(1, 0);
+  
+          // Bottom face...
+          glNormal3f(0.0f, -height / 2, 0.0f);
+          glColor3f(1.0f, 0.5f, 0.0f);
+          glVertex3f(width / 2, -height / 2, depth / 2);
+          glTexCoord2f(0, 0);
+          glVertex3f(-width / 2, -height / 2, depth / 2);
+          glTexCoord2f(0, 1);
+          glVertex3f(-width / 2, -height / 2, -depth / 2);
+          glTexCoord2f(1, 1);
+          glVertex3f(width / 2, -height / 2, -depth / 2);
+          glTexCoord2f(1, 0);
+  
+          // Front face...
+          glNormal3f(0.0f, 0.0f, -1.0f);
+          glColor3f(1.0f, 1.0f, 0.0f);
+          glVertex3f(width / 2, -height / 2, -depth / 2);
+          glTexCoord2f(0, 0);
+          glVertex3f(-width / 2, -height / 2, -depth / 2);
+          glTexCoord2f(0, 1);
+          glVertex3f(-width / 2, height / 2, -depth / 2);
+          glTexCoord2f(1, 1);
+          glVertex3f(width / 2, height / 2, -depth / 2);
+          glTexCoord2f(1, 0);
+  
+          // Back face...
+          glNormal3f(0.0f, 0.0f, 1.0f);
+          glColor3f(1.0f, 0.0f, 0.0f);
+          glVertex3f(width / 2, -height / 2, depth / 2);
+          glTexCoord2f(0, 0);
+          glVertex3f(-width / 2, -height / 2, depth / 2);
+          glTexCoord2f(0, 1);
+          glVertex3f(-width / 2, height / 2, depth / 2);
+          glTexCoord2f(1, 1);
+          glVertex3f(width / 2, height / 2, depth / 2);
+          glTexCoord2f(1, 0);
+  
+          // Left face...
+          glNormal3f(-1.0f, 0.0f, 0.0f);
+          glColor3f(0.0f, 0.0f, 1.0f);
+          glVertex3f(-width / 2, height / 2, depth / 2);
+          glTexCoord2f(0, 0);
+          glVertex3f(-width / 2, height / 2, -depth / 2);
+          glTexCoord2f(0, 1);
+          glVertex3f(-width / 2, -height / 2, -depth / 2);
+          glTexCoord2f(1, 1);
+          glVertex3f(-width / 2, -height / 2, depth / 2);
+          glTexCoord2f(1, 0);
+  
+          // Right face...
+          glNormal3f(1.0f, 0.0f, 0.0f);
+          glColor3f(1.0f, 0.0f, 1.0f);
+          glVertex3f(width / 2, height / 2, -depth / 2);
+          glTexCoord2f(0, 0);
+          glVertex3f(width / 2, height / 2, depth / 2);
+          glTexCoord2f(0, 1);
+          glVertex3f(width / 2, -height / 2, depth / 2);
+          glTexCoord2f(1, 1);
+          glVertex3f(width / 2, -height / 2, -depth / 2);
+          glTexCoord2f(1, 0);
+        }
+        glEnd();
+      }
+      glEndList();
+    }
   }
 
   /**
@@ -58,11 +145,11 @@ public class InvisibleWall extends WorldObject
     this.body.body.setFriction(0);
   }
 
-  @Override
-  public void draw()
-  {
-    // passthrough
-  }
+//  @Override
+//  public void draw()
+//  {
+//    // passthrough
+//  }
   
   @Override
   public void interact()
