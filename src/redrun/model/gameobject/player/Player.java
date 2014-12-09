@@ -455,12 +455,10 @@ public class Player extends GameObject
   {
     if (Timing.getTime() < deathTime + 4000)
     {
-      System.out.println((deathTime + 4000) + " " + (Timing.getTime()));
       DeathScreen.display(deathTime);
     }
     else
     {
-
       lives--;
       body.body.setWorldTransform(startPos);
       body.body.setLinearVelocity(PhysicsTools.openGLToBullet(new Vector3f(0, 0, 0)));
@@ -477,7 +475,6 @@ public class Player extends GameObject
 
   public void kill()
   {
-    System.out.println("ghgh");
     killed = true;
     deathTime = Timing.getTime();
   }
