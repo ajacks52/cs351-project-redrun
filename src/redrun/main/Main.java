@@ -358,11 +358,24 @@ public class Main
       // Win/lose display logic
       int deadCount = 0;
       int blueCount = 0;
+      boolean blueWon = false;
+      // Count blues without lives and total blues
+      // Check for blue win
       for (Player player : GameData.players)
       {
+        if (player.getTeam() == Team.BLUE && player.isWinner() == 1) blueWon = true;
         if (player.getTeam() == Team.BLUE) blueCount++;
         if (player.getTeam() == Team.BLUE && player.getLives() <= 0) deadCount++;
       }
+      // If blue win, red loses
+      if (blueWon)
+      {
+        for (Player player : GameData.players)
+        {
+          if (player.getTeam() == Team.RED) player.setWinner(-1);
+        }
+      }
+      // If all blue are dead, set all red as winners
       if (deadCount == blueCount && blueCount != 0)
       {
         for (Player player : GameData.players)
@@ -371,6 +384,7 @@ public class Main
           else player.setWinner(-1);
         }
       }
+      // Bring up displays
       if (GameData.players.get(0).isWinner() == 1)
       {
         // Display Win TODO
