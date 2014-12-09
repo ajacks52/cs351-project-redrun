@@ -16,11 +16,11 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 
-import redrun.graphics.camera.HUD_Manager;
 import redrun.model.constants.Constants;
 import redrun.model.constants.GameState;
 import redrun.model.game.GameData;
 import redrun.model.toolkit.FontTools;
+import redrun.model.toolkit.HUD_Manager;
 
 /**
  * The main menu. Takes input from the keyboard to display information about the

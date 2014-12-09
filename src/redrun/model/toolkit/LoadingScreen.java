@@ -7,7 +7,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.Drawable;
 import org.lwjgl.opengl.SharedDrawable;
 
-import redrun.graphics.camera.HUD_Manager;
 import redrun.model.constants.Constants;
 import redrun.model.gameobject.GameObject;
 
