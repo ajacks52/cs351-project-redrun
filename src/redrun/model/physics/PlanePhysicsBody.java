@@ -7,18 +7,19 @@ import org.lwjgl.util.vector.Vector3f;
 import com.bulletphysics.collision.shapes.BoxShape;
 
 /**
- * A plane
+ * A physics body for a plane.
  * @author Jordan Medlock
  * @date 2014-12-06
  */
 public class PlanePhysicsBody extends PhysicsBody
 {
   /**
-   * Creates an plane 
-   * The simplest and easiest physics body should be used wherever possible
+   * Creates an plane. This is the simplest and easiest physics body to use
+   * and should be used wherever possible.
    * @param center in meters
    * @param normal the vector that is perpendicular to the plane
    * @param mass in kg
+   * @param collisionTypes the collision type
    */
   public PlanePhysicsBody(Vector3f center, Vector3f radiuses, float mass, int collisionTypes)
   {
@@ -26,8 +27,8 @@ public class PlanePhysicsBody extends PhysicsBody
   }
   
   /**
-   * Creates a plane 
-   * The simplest and easiest physics body should be used wherever possible
+   * Creates an plane. This is the simplest and easiest physics body to use
+   * and should be used wherever possible.
    * @param center in meters
    * @param normal the vector that is perpendicular to the plane
    * @param mass in kg
