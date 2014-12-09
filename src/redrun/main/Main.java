@@ -74,6 +74,10 @@ import redrun.sound.Sound;
  */
 public class Main
 {
+  /**
+   * A flag for when the game should be running. When this is false, the game
+   * will exit properly.
+   */
   private static boolean running = true;
 
   /** The game menu. */
