@@ -26,7 +26,7 @@ git clone https://bitbucket.org/ggallinislove/redrun/
 
 1. Create a new project in Eclipse
 2. Unzip the submitted archive and import the files into the project you created in step 1
-3. Be sure to set up your ip address appropriately in the client, if you are using external machines
+3. Be sure to set up your ip address appropriately in Main.java, if you are using external machines
 4. All of the dependencies are in the lib folder and need to be put in the build path
 5. In order to configure LWJGL, be sure to set up your native path as per these instructions:
 Go to your LWJGL folder that contains the folders named "jar", "res", "doc", and "native". You need to go into Eclipse (assuming you use eclipse), open your project in the Project Explorer on the left side of your screen.
