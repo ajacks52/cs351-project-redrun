@@ -382,6 +382,7 @@ public class Main
         {
           if (player.getTeam() == Team.RED) player.setWinner(1);
           else player.setWinner(-1);
+          if (camera.getType() == CameraType.SPECTATOR) cameraManager.chooseNextCamera();
         }
       }
       // Bring up displays

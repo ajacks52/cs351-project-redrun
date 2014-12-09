@@ -324,7 +324,7 @@ public class HUD_Manager
       drawBackGroundRed();
       make3D();
 
-      FontTools.renderText("Wasted", Constants.DISPLAY_WIDTH / 2, Constants.DISPLAY_HEIGHT / 2, Color.red, 3);
+      FontTools.renderText("Wasted", Constants.DISPLAY_WIDTH / 3, Constants.DISPLAY_HEIGHT / 2, Color.red, 3);
     }
   }
 
@@ -337,7 +337,7 @@ public class HUD_Manager
     drawBackGroundGrey();
     make3D();
 
-    FontTools.renderText("Congratulations Your Team Wom", Constants.DISPLAY_WIDTH / 2, Constants.DISPLAY_HEIGHT / 2,
+    FontTools.renderText("Congratulations Your Team Wom", Constants.DISPLAY_WIDTH / 3, Constants.DISPLAY_HEIGHT / 2,
         Color.red, 3);
 
   }
