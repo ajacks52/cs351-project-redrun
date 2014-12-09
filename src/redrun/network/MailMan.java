@@ -129,16 +129,17 @@ public class MailMan extends Thread
             send(mapObject.toString());
           }
         }
+        else if (matchRequestNumberPlayers.find())
+        {
+          Server.broadcast(Server.numberOfConnections());
+        }
         else if (matchRequestDisconnect.find())
         {
           System.out.println("Client Disconnecting!");
           send("Disconnecting client...");
           Server.deleteClientFromList(this);
+          Server.broadcast(Server.numberOfConnections());
           break;
-        }
-        else if (matchRequestNumberPlayers.find())
-        {
-          send(Server.numberOfConnections());
         }
         else
         {

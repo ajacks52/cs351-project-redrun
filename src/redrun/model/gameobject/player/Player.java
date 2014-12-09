@@ -151,6 +151,12 @@ public class Player extends GameObject
         {
           canJump = false;
         }
+        
+        if ((collisionFlags & CollisionTypes.END_COLLISION_TYPE) != 0)
+        {
+          System.out.println("You made it to the End!!!");
+          System.out.println("What you gonna do now punk?");
+        }
 
       }
     };
