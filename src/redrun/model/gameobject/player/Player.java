@@ -94,12 +94,13 @@ public class Player extends GameObject
    * @param textureName the name of the player texture for this player
    * @param team the team this player is on
    */
-  public Player(float x, float y, float z, String name, Team team)
+  public Player(float x, float y, float z, String name, final Team team)
   {
     super(x, y + 10, z, null);
-
+    
     body = new CapsulePhysicsBody(new Vector3f(x, y, z), 2f, 100f, 1.8f, CollisionTypes.PLAYER_COLLISION_TYPE)
     {
+      
       public void callback()
       {
         if (exploding)
