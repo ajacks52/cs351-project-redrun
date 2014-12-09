@@ -193,6 +193,8 @@ public class MailMan extends Thread
   }
 
   /**
+   * Gets the player data associated with this mailman.
+   * 
    * @return the playerData
    */
   public String getPlayerData()
@@ -201,6 +203,8 @@ public class MailMan extends Thread
   }
 
   /**
+   * Gets the trap data associated with this mailman.
+   * 
    * @return the trapData
    */
   public String getTrapData()
@@ -209,6 +213,8 @@ public class MailMan extends Thread
   }
 
   /**
+   * Sets the player data associated with this mailman.
+   * 
    * @param playerData the playerData to set
    */
   public void setPlayerData(String playerData)
@@ -217,6 +223,8 @@ public class MailMan extends Thread
   }
 
   /**
+   * Sets the trap data associated with this mailman.
+   * 
    * @param trapData the trapData to set
    */
   public void setTrapData(String trapData)
