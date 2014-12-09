@@ -89,8 +89,6 @@ public class Main
 
   /** Used to access the database. */
   private static Map map = null;
-  
-  private static int numPlayers = -1;
 
   /**
    * Performs initialization.
@@ -212,13 +210,6 @@ public class Main
 
     GameData.bindConnections();
 
-    // Create cubes above the staircase...
-    // for (int i = 0; i < 500; i++)
-    // {
-    // GameData.addGameObject(new Cube(45.0f, 50.0f + (2 * i), 45.0f,
-    // "crate1"));
-    // }
-
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
 
@@ -227,7 +218,7 @@ public class Main
       while (!GameData.networkData.isEmpty())
       {
         for (String networkData : GameData.networkData)
-        {
+        {          
           NetworkType type = ObjectFromDB.parseNetworkType(networkData);
 
           switch (type)
@@ -261,7 +252,7 @@ public class Main
             }
             case NUMBER_PLAYERS:
             {
-              numPlayers = ObjectFromDB.returnPlayerNumber(networkData);
+              GameData.playerCount = ObjectFromDB.returnPlayerNumber(networkData);
               break;
             }
             default:
@@ -287,7 +278,6 @@ public class Main
 
       GameData.networkData.clear();
       client.sendPlayer(GameData.players.get(0));
-      client.requestNumberPlayers();
 
       // Prepare for rendering...
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -383,7 +373,8 @@ public class Main
     // Menu control...
     if (Keyboard.isKeyDown(Keyboard.KEY_APOSTROPHE)) GameData.state = GameState.PLAY;
     if (menu.getState() == MenuState.OFF) GameData.state = GameState.PLAY;
-    if (GameData.state == GameState.MAIN_MENU) return; // Take no input if menu is up.
+    if (GameData.state == GameState.MAIN_MENU) return; // Take no input if menu
+                                                       // is up.
     if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
       GameData.state = GameState.MAIN_MENU;
@@ -415,7 +406,7 @@ public class Main
 
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
       {
-        GameData.players.get(0).walkForward(movementSpeed * 2);
+        GameData.players.get(0).walkForward(movementSpeed * 1.5f);
       }
       else if (Keyboard.isKeyDown(Keyboard.KEY_W)) GameData.players.get(0).walkForward(movementSpeed);
       if (Keyboard.isKeyDown(Keyboard.KEY_A)) GameData.players.get(0).walkLeft(movementSpeed);

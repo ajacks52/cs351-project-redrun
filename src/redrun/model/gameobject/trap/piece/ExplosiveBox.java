@@ -36,7 +36,6 @@ public class ExplosiveBox extends Trap
           //ambient.play();
           exploded = true;
           PhysicsWorld.removePhysicsBody(this);
-//          boxField.explode();
         }
       }
     };
@@ -134,25 +133,20 @@ public class ExplosiveBox extends Trap
   @Override
   public void activate()
   {
-    // TODO Auto-generated method stub
   }
 
   @Override
   public void reset()
   {
-    // TODO Auto-generated method stub
   }
 
   @Override
   public void interact()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void update()
   {
-    // TODO Auto-generated method stub
   }
 }
