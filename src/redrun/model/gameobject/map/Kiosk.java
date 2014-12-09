@@ -6,6 +6,7 @@ import redrun.model.constants.TrapType;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.MapObject;
 import redrun.model.gameobject.world.Button;
+import redrun.model.gameobject.world.InvisibleWall;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.RectangularPrism;
 
@@ -78,6 +79,45 @@ public class Kiosk extends MapObject
         button = new Button(x - (size / 2), y + 3.25f, z, "button");  
         GameData.addGameObject(button);  
         GameData.addButton(button);
+        break;
+      }
+      default:
+      {
+        try
+        {
+          throw new IllegalArgumentException();
+        }
+        catch (IllegalArgumentException ex)
+        {
+          ex.printStackTrace();
+        }
+      }
+    }
+    
+    switch (orientation)
+    {
+      case NORTH:
+      {
+        components.add(new InvisibleWall(x, y + 10f, z + (size / 2), null, size, 10f, 0.0f));
+        components.add(new InvisibleWall(x, y + 10f, z + -(size / 2), null, size, 10f, 0.0f));  
+        break;
+      }
+      case EAST:
+      {
+        components.add(new InvisibleWall(x + (size / 2), y + 10f, z, null, 0.0f, 10f, size));
+        components.add(new InvisibleWall(x + -(size / 2), y + 10f, z, null, 0.0f, 10f, size));
+        break;
+      }
+      case SOUTH:
+      {
+        components.add(new InvisibleWall(x, y + 10f, z + (size / 2), null, size, 10f, 0.0f));
+        components.add(new InvisibleWall(x, y + 10f, z + -(size / 2), null, size, 10f, 0.0f));
+        break;
+      }
+      case WEST:
+      {
+        components.add(new InvisibleWall(x + (size / 2), y + 10f, z, null, 0.0f, 10f, size));
+        components.add(new InvisibleWall(x + -(size / 2), y + 10f, z, null, 0.0f, 10f, size));
         break;
       }
       default:
