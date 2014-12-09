@@ -348,10 +348,37 @@ public class Main
         gameObject.draw();
       }
 
+      // If player has no lives left, set to spectator and disable change.
       if (GameData.players.get(0).getLives() <= 0 && switched == false)
       {
         cameraManager.chooseNextCamera();
         switched = true;
+      }
+
+      // Win/lose display logic
+      int deadCount = 0;
+      int blueCount = 0;
+      for (Player player : GameData.players)
+      {
+        if (player.getTeam() == Team.BLUE) blueCount++;
+        if (player.getTeam() == Team.BLUE && player.getLives() <= 0) deadCount++;
+      }
+      if (deadCount == blueCount)
+      {
+        for (Player player : GameData.players)
+        {
+          if (player.getTeam() == Team.RED) player.setWinner(1);
+          else player.setWinner(-1);
+        }
+      }
+
+      if (GameData.players.get(0).isWinner() == 1)
+      {
+        // Display Win TODO
+      }
+      else if (GameData.players.get(0).isWinner() == -1)
+      {
+        // Display Lose TODO
       }
 
       // Show the HUD...

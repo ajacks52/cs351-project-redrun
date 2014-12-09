@@ -56,6 +56,9 @@ public class Player extends GameObject
 
   /** The state of this player's life. */
   private boolean alive;
+  
+  /** Has the player won.  -1 = lose, 0 = neither, 1 = win. */
+  private int winner = 0;
 
 //private String[] modelStrings = new String[] {"mario_standing", "mario_0", "mario_1", "mario_2", "mario_3", "mario_4", "mario_5", "mario_6"};
   private String[] modelRedStrings = new String[] {"standingred", "rightfrontred", "leftfrontred"};
@@ -151,12 +154,12 @@ public class Player extends GameObject
           canJump = false;
         }
         
-        if ((collisionFlags & CollisionTypes.END_COLLISION_TYPE) != 0)
+        if (team == Team.BLUE && (collisionFlags & CollisionTypes.END_COLLISION_TYPE) != 0)
         {
+          winner = 1;
           System.out.println("You made it to the End!!!");
           System.out.println("What you gonna do now punk?");
         }
-
       }
     };
     body.body.setCollisionFlags(body.body.getCollisionFlags() | CollisionFlags.CUSTOM_MATERIAL_CALLBACK);
@@ -382,6 +385,26 @@ public class Player extends GameObject
   public boolean isAlive()
   {
     return this.alive;
+  }
+  
+  /**
+   * Gets the state of this player's victory.
+   * 
+   * @return the state of this player's victory
+   */
+  public int isWinner()
+  {
+    return this.winner;
+  }
+  
+  /**
+   * Sets the state of this player's victory.
+   * 
+   * @param the state of this player's victory
+   */
+  public void setWinner(int value)
+  {
+    this.winner = value;
   }
 
   /**
