@@ -41,6 +41,6 @@ A file explorer will pop up. Navigate to the location of your LWJGL native folde
 * The first player to join is the villain, the rest are the victims
 * Press the Esc key to view the menu which will help you get associated with controls for the game
 * There can be up to 5 players total
-* If you are the villain, trigger traps by interacting with the buttons using the "k" key
+* If you are the villain, trigger traps by interacting with the buttons using the "f" key
 * Switch perspectives using the "r" key
 * If you're the victims, reach the end of the map in order to win
