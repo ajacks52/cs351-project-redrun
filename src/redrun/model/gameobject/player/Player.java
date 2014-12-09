@@ -61,8 +61,8 @@ public class Player extends GameObject
   private boolean alive;
 
 //private String[] modelStrings = new String[] {"mario_standing", "mario_0", "mario_1", "mario_2", "mario_3", "mario_4", "mario_5", "mario_6"};
-  private String[] modelStrings = new String[] {"standing3", "rightfront", "leftfront"};
-
+  private String[] modelRedStrings = new String[] {"standingred", "rightfrontred", "leftfrontred"};
+  private String[] modelBlueStrings = new String[] {"standingblue", "rightfrontblue", "leftfrontblue"};
   
   /** The players model */
   private Model[] models;
@@ -173,15 +173,29 @@ public class Player extends GameObject
     this.alive = true;
 
     
-    
-    models = new Model[modelStrings.length];
-    dispIds = new int[modelStrings.length];
-    for (int i=0; i < modelStrings.length; i++)
+    if (team == Team.BLUE)
     {
-      String s = modelStrings[i];
-      models[i] = OBJLoader.loadModel(new File("res/models/" + s + ".obj"));
-      dispIds[i] = glGenLists(1);
-      drawWithModel(models[i], dispIds[i]);
+      models = new Model[modelBlueStrings.length];
+      dispIds = new int[modelBlueStrings.length];
+      for (int i=0; i < modelBlueStrings.length; i++)
+      {
+        String s = modelBlueStrings[i];
+        models[i] = OBJLoader.loadModel(new File("res/models/" + s + ".obj"));
+        dispIds[i] = glGenLists(1);
+        drawWithModel(models[i], dispIds[i]);
+      }
+    }
+    else
+    {
+      models = new Model[modelRedStrings.length];
+      dispIds = new int[modelRedStrings.length];
+      for (int i=0; i < modelRedStrings.length; i++)
+      {
+        String s = modelRedStrings[i];
+        models[i] = OBJLoader.loadModel(new File("res/models/" + s + ".obj"));
+        dispIds[i] = glGenLists(1);
+        drawWithModel(models[i], dispIds[i]);
+      }
     }
     
     yaw(90);
