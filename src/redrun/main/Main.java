@@ -388,12 +388,10 @@ public class Main
       // Bring up displays
       if (GameData.players.get(0).isWinner() == 1)
       {
-        // Display Win TODO
         HUD_Manager.displayGameOver(camera, GameData.players.get(0));
       }
       else if (GameData.players.get(0).isWinner() == -1)
       {
-        // Display Lose TODO
         HUD_Manager.displayGameOver(camera, GameData.players.get(0));
       }
 
