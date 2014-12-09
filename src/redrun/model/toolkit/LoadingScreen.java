@@ -30,7 +30,7 @@ public class LoadingScreen extends GameObject
     {
       glBegin(GL_QUADS);
       glTexCoord2f(0, 0);
-      glVertex2i(0, 0); // Upper-left
+      glVertex2i(-2, -2); // Upper-left
       glTexCoord2f(1, 0);
       glVertex2i(Constants.DISPLAY_WIDTH, 0); // Upper-right
       glTexCoord2f(1, 1);
