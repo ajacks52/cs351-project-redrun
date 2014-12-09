@@ -56,6 +56,7 @@ public class GraphicsTestJayson
   /** Used to interface with the network client. */
   private static Client client = null;
 
+  /** Map associated with the game */
   private static Map map = null;
 
   /**
@@ -106,29 +107,11 @@ public class GraphicsTestJayson
 
     GameData.bindConnections();
 
-    // Create the game objects...
-
-    // Create the player...
-
     // Create the skybox...
     SkyBox skybox = null;
 
     // Create the floor...
     GameObject floor = null;
-
-    // Create cubes above the staircase...
-    // for (int i = 0; i < 500; i++)
-    // {
-    // GameData.addGameObject(new Cube(45.0f, 50.0f + (2 * i), 45.0f,
-    // "crate1"));
-    // }
-
-    // Create balls above the staircase...
-    // for (int i = 0; i < 10; i++)
-    // {
-    // GameData.addGameObject(new Ball(45.0f, 50.0f + (5 * i), 15.0f, "crate1",
-    // 1.5f));
-    // }
 
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
@@ -310,6 +293,11 @@ public class GraphicsTestJayson
     Display.destroy();
   }
 
+  /**
+   * Main entry point of the program.
+   * 
+   * @param args
+   */
   public static void main(String[] args)
   {
     createOpenGL();
