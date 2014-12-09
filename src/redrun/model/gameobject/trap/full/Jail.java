@@ -3,7 +3,6 @@ package redrun.model.gameobject.trap.full;
 import redrun.model.constants.Direction;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.trap.Trap;
-//import redrun.model.gameobject.trap.piece.Fire;
 import redrun.model.gameobject.trap.piece.JailDoor;
 
 /**
@@ -41,10 +40,8 @@ public class Jail extends Trap
     {
       door1 = new JailDoor(x - 6.5f, y+25, z, orientation, null);
       door2 = new JailDoor(x + 6.5f, y+25, z, orientation, null);
-    }
-    
-//    Fire fire = new Fire(x, y, z, orientation);
-    
+    }  
+        
     GameData.addGameObject(door1);
     GameData.addGameObject(door2);
   }
