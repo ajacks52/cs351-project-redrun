@@ -60,7 +60,8 @@ public class Player extends GameObject
   /** The state of this player's life. */
   private boolean alive;
 
-  private String[] modelStrings = new String[] {"mario_standing", "mario_0", "mario_1", "mario_2", "mario_3", "mario_4", "mario_5", "mario_6"};
+//private String[] modelStrings = new String[] {"mario_standing", "mario_0", "mario_1", "mario_2", "mario_3", "mario_4", "mario_5", "mario_6"};
+  private String[] modelStrings = new String[] {"standing3", "rightfront", "leftfront"};
 
   
   /** The players model */
@@ -237,7 +238,7 @@ public class Player extends GameObject
     vel.absolute();
     if (vel.x > 0.0001f)
     {
-      int delta = 10;
+      int delta = 60 / (dispIds.length-1);
       if (step %delta  == 0)
       {
         displayListId = dispIds[((step/delta)%(dispIds.length-1)) + 1];
@@ -338,7 +339,7 @@ public class Player extends GameObject
   @Override
   public void update()
   {
-    camera.updatePosition(this.getX(), this.getY() + 2f, this.getZ(),
+    camera.updatePosition(this.getX(), this.getY() + 1.5f, this.getZ(),
         body.getPitch(), body.getYaw());
   }
 
@@ -475,7 +476,7 @@ public class Player extends GameObject
 
   public void hurt()
   {
-    health -= 2;
+    health--;
     if (health <= 0)
     {
       kill();
