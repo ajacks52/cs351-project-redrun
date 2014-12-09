@@ -96,6 +96,8 @@ public class Main
 
   /** Used to access the database. */
   private static Map map = null;
+  
+  private static int numPlayers = -1;
 
   /**
    * Performs initialization.
@@ -196,9 +198,7 @@ public class Main
           }
           case NUMBER_PLAYERS:
           {
-            // TODO remove
             ObjectFromDB.returnPlayerNumber(networkData);
-            System.out.println("NUMBER OF PLAYERS : " + networkData);
             break;
           }
           default:
@@ -268,9 +268,7 @@ public class Main
             }
             case NUMBER_PLAYERS:
             {
-              // TODO remove println
-              int players = ObjectFromDB.returnPlayerNumber(networkData);
-              System.out.println("NUMBER OF PLAYERS : " + players);
+              numPlayers = ObjectFromDB.returnPlayerNumber(networkData);
               break;
             }
             default:
