@@ -14,7 +14,7 @@ RedRun is a first-person multiplayer game in which a group of victims attempt to
 
 #How do I get set up?
 
-##For group members: clone into the repository:
+##For group members:
 
 ```
 #!bash
