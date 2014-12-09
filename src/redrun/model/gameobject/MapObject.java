@@ -77,15 +77,15 @@ public abstract class MapObject implements Comparable<MapObject>
       {
         if (this.getClass() == Pit.class)
         {
-          this.trap = new ExplodingBoxField(x, y + 5, z, null, "pit");
+          this.trap = new ExplodingBoxField(x + 1, y - 15, z, null, "pit");
         }
         if (this.getClass() == Corridor.class)
         {
-          this.trap = new ExplodingBoxField(x, y + 5, z, null, "corridor");
+          this.trap = new ExplodingBoxField(x + 1, y+1, z, null, "corridor");
         }
         if (this.getClass() == Field.class)
         {
-          this.trap = new ExplodingBoxField(x, y + 5, z, null, "field");
+          this.trap = new ExplodingBoxField(x + 2, y+1, z, null, "field");
         }
         break;
       }

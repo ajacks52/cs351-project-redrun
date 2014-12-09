@@ -44,7 +44,6 @@ import org.lwjgl.util.Timer;
 import redrun.database.Map;
 import redrun.graphics.camera.Camera;
 import redrun.graphics.camera.CameraManager;
-import redrun.graphics.camera.HUD_Manager;
 import redrun.graphics.selection.Picker;
 import redrun.main.Menu.MenuState;
 import redrun.model.constants.CameraType;
@@ -60,6 +59,7 @@ import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
+import redrun.model.toolkit.HUD_Manager;
 import redrun.model.toolkit.LoadingScreen;
 import redrun.network.Client;
 import redrun.sound.Sound;
@@ -96,6 +96,8 @@ public class Main
 
   /** Used to access the database. */
   private static Map map = null;
+  
+  private static int numPlayers = -1;
 
   /**
    * Performs initialization.
@@ -194,6 +196,11 @@ public class Main
           {
             break;
           }
+          case NUMBER_PLAYERS:
+          {
+            ObjectFromDB.returnPlayerNumber(networkData);
+            break;
+          }
           default:
           {
             try
@@ -213,22 +220,23 @@ public class Main
     GameData.bindConnections();
 
     // Create cubes above the staircase...
-    for (int i = 0; i < 500; i++)
-    {
-      GameData.addGameObject(new Cube(45.0f, 50.0f + (2 * i), 45.0f, "crate1"));
-    }
+    // for (int i = 0; i < 500; i++)
+    // {
+    // GameData.addGameObject(new Cube(45.0f, 50.0f + (2 * i), 45.0f,
+    // "crate1"));
+    // }
 
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
 
     while (!Display.isCloseRequested() && running)
-    {  
+    {
       while (!GameData.networkData.isEmpty())
       {
         for (String networkData : GameData.networkData)
         {
           NetworkType type = ObjectFromDB.parseNetworkType(networkData);
-          
+
           switch (type)
           {
             case MAP:
@@ -258,6 +266,11 @@ public class Main
               ObjectFromDB.updateTrap(networkData);
               break;
             }
+            case NUMBER_PLAYERS:
+            {
+              numPlayers = ObjectFromDB.returnPlayerNumber(networkData);
+              break;
+            }
             default:
             {
               try
@@ -278,9 +291,10 @@ public class Main
 
       // Get input from the user...
       getInput();
-      
+
       GameData.networkData.clear();
       client.sendPlayer(GameData.players.get(0));
+      client.requestNumberPlayers();
 
       // Prepare for rendering...
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -334,7 +348,7 @@ public class Main
         }
         Picker.stopPicking();
       }
-      
+
       // Draw the other players...
       for (Player player : GameData.players)
       {
@@ -383,7 +397,7 @@ public class Main
       state = GameState.MAIN_MENU;
       menu.setState();
     }
-    if(state == GameState.WAIT) return;
+    if (state == GameState.WAIT) return;
 
     // Used for controlling the camera with the keyboard and mouse...
     float dx = 0.0f;
@@ -407,7 +421,7 @@ public class Main
     {
       GameData.players.get(0).yaw(dx * mouseSensitivity);
       GameData.players.get(0).pitch(-dy * mouseSensitivity);
-      
+
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
       {
         GameData.players.get(0).walkForward(movementSpeed * 2);
@@ -416,7 +430,7 @@ public class Main
       if (Keyboard.isKeyDown(Keyboard.KEY_A)) GameData.players.get(0).walkLeft(movementSpeed);
       if (Keyboard.isKeyDown(Keyboard.KEY_S)) GameData.players.get(0).walkBackward(movementSpeed);
       if (Keyboard.isKeyDown(Keyboard.KEY_D)) GameData.players.get(0).walkRight(movementSpeed);
-      
+
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_D))
       {
         GameData.players.get(0).walkForwardRight(movementSpeed);
@@ -439,7 +453,7 @@ public class Main
     {
       camera.yaw(dx * mouseSensitivity);
       camera.pitch(-dy * mouseSensitivity);
-      
+
       if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
       {
         camera.moveForward(movementSpeed / 20);

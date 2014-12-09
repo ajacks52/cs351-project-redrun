@@ -3,7 +3,6 @@ package redrun.model.gameobject.trap.full;
 import java.util.ArrayList;
 
 import redrun.model.constants.Constants;
-import redrun.model.constants.Direction;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.trap.piece.ExplosiveBox;
@@ -13,9 +12,9 @@ import redrun.model.physics.PhysicsWorld;
 public class ExplodingBoxField extends Trap
 {
 
-  private ArrayList<ExplosiveBox> explosiveBoxes = new  ArrayList<ExplosiveBox>(220);
+  private ArrayList<ExplosiveBox> explosiveBoxes = new ArrayList<ExplosiveBox>(220);
   int size = 0;
-  int pit_height = 2;
+  int pit_height = 1;
 
   public ExplodingBoxField(float x, float y, float z, String textureName, String type)
   {
@@ -35,22 +34,22 @@ public class ExplodingBoxField extends Trap
       size = 9;
     }
 
-    for (int y_axis = 1; y_axis < pit_height; y_axis++)
+    for (int y_axis = 0; y_axis < pit_height; y_axis++)
     {
-      for (int x_axis = -(size+1); x_axis < size; x_axis++)
+      for (int x_axis = -size; x_axis < size; x_axis++)
       {
         for (int z_axis = -size; z_axis < size; z_axis++)
         {
           int rand = Constants.random.nextInt(3);
           if (rand == 0)
           {
-            ExplosiveBox box1 = new ExplosiveBox(x + 2 * x_axis, y - 4 * y_axis, z + 2 * z_axis, null, "crate2", this);
+            ExplosiveBox box1 = new ExplosiveBox(x + 2 * x_axis, y + 2 * y_axis, z + 2 * z_axis, null, "crate1", this);
             explosiveBoxes.add(box1);
             GameData.addGameObject(box1);
           }
           else
           {
-            NonExplosiveBox box2 = new NonExplosiveBox(x + 2 * x_axis, y - 4 * y_axis, z + 2 * z_axis, null, "crate1");
+            NonExplosiveBox box2 = new NonExplosiveBox(x + 2 * x_axis, y + 2 * y_axis, z + 2 * z_axis, null, "crate1");
             GameData.addGameObject(box2);
           }
         }
