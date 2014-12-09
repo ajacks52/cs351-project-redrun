@@ -7,9 +7,9 @@ import org.lwjgl.util.vector.Vector3f;
 import com.bulletphysics.collision.shapes.BoxShape;
 
 /**
- * A physics body in the shape of a box/ rectangluar prism
- * @author jem
- * @date 141115
+ * A physics body in the shape of a box/ rectangular prism.
+ * @author Jordan Medlock
+ * @date 2014-12-06
  */
 public class BoxPhysicsBody extends PhysicsBody
 {

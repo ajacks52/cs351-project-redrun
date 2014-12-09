@@ -8,8 +8,8 @@ import com.bulletphysics.collision.shapes.BoxShape;
 
 /**
  * A plane
- * @author jem
- * @date 141115
+ * @author Jordan Medlock
+ * @date 2014-12-06
  */
 public class PlanePhysicsBody extends PhysicsBody
 {

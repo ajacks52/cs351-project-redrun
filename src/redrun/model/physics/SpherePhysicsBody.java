@@ -8,8 +8,8 @@ import com.bulletphysics.collision.shapes.SphereShape;
 
 /**
  * A sphere
- * @author jem
- * @date 141115
+ * @author Jordan Medlock
+ * @date 2014-12-06
  */
 public class SpherePhysicsBody extends PhysicsBody
 {

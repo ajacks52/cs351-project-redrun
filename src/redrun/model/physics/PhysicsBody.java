@@ -19,8 +19,8 @@ import com.bulletphysics.linearmath.Transform;
  * Super class for all other physics bodies. creates convenience methods that
  * can be used in the model objects to perform operations on the physics bodies.
  * 
- * @author jem
- *
+ * @author Jordan Medlock
+ * @date 2014-12-06
  */
 public class PhysicsBody
 {

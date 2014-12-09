@@ -8,8 +8,8 @@ import com.bulletphysics.linearmath.QuaternionUtil;
 /**
  * Tools compiled to make my life easier.
  * Not sure if they actually did...
- * @author jem
- * @date 141115
+ * @author Jordan Medlock
+ * @date 2014-12-06
  */
 public class PhysicsTools
 {

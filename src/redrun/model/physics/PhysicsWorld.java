@@ -18,8 +18,8 @@ import com.bulletphysics.dynamics.constraintsolver.SequentialImpulseConstraintSo
 /**
  * PhysicsWorld
  * A set of global static variables and functions that are used to work the physics
- * @author jem
- * @date 141125
+ * @author Jordan Medlock
+ * @date 2014-12-06
  */
 public class PhysicsWorld
 {

@@ -11,8 +11,8 @@ import com.bulletphysics.collision.shapes.CapsuleShape;
  * CapsulePhysicsBody
  * Its shaped like a pill with a cylander and two semi-spheres on each end
  * Its only aligned to the y-axis
- * @author jem
- * @date 141201
+ * @author Jordan Medlock
+ * @date 2014-12-06
  */
 public class CapsulePhysicsBody extends PhysicsBody
 {

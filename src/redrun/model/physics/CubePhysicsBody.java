@@ -7,8 +7,8 @@ import org.lwjgl.util.vector.Vector3f;
 /**
  * CubePhysicsBody
  * Creates a perfect cube
- * @author jem
- * @date 141115
+ * @author Jordan Medlock
+ * @date 2014-12-06
  */
 public class CubePhysicsBody extends BoxPhysicsBody
 {
