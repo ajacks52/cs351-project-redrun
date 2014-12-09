@@ -118,8 +118,7 @@ public class GraphicsTestJake
   }
 
   /**
-   * The main loop where the logic occurs. Stopped when the escape key is
-   * pressed or the window is closed.
+   * The main loop where the logic occurs.
    */
   private static void gameLoop()
   {
@@ -283,10 +282,6 @@ public class GraphicsTestJake
     GameData.addMapObject(new Staircase(30.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.NORTH, TrapType.EMPTY));
 
     GameData.bindConnections();
-
-    // Create the game objects...
-
-    // Create the player...
 
     // Create the skybox...
     SkyBox skybox = new SkyBox(0, 0, 0, "iceflats");
@@ -506,6 +501,11 @@ public class GraphicsTestJake
     Display.destroy();
   }
 
+  /**
+   * Main entry point of the program.
+   * 
+   * @param args
+   */
   public static void main(String[] args)
   {
     GraphicsTestJake.createOpenGL();
