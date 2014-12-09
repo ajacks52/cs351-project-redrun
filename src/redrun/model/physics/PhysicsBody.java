@@ -11,9 +11,7 @@ import javax.vecmath.Quat4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.util.vector.Vector3f;
 
-import redrun.model.gameobject.GameObject;
 
-import com.bulletphysics.collision.dispatch.CollisionFlags;
 import com.bulletphysics.collision.dispatch.CollisionObject;
 import com.bulletphysics.collision.shapes.CollisionShape;
 import com.bulletphysics.dynamics.RigidBody;
@@ -29,7 +27,10 @@ import com.bulletphysics.linearmath.Transform;
  */
 public class PhysicsBody
 {
-  private Transform trans = new Transform(); // used only to make getting faster
+  /** trans is a instance varaible that is used to speed up getting and setting of x,y,z*/
+  private Transform trans = new Transform();
+  
+  /** The most imprtant variable in this class hold all of the physics information*/
   public RigidBody body;
   public boolean canJump = true;
 
@@ -40,7 +41,7 @@ public class PhysicsBody
    * @param direction
    * @param center in meters
    * @param collisionShape
-   * @param  
+   * @param collisionType an int from either CollisionFlags or CollisionTypes and they can be joined
    */
   public PhysicsBody(float mass, Quat4f direction, Vector3f center, CollisionShape collisionShape, int collisionType)
   {
@@ -57,7 +58,7 @@ public class PhysicsBody
 
   /**
    * Gets the X value
-   * 
+   * As far as I can tell doesn't quite work
    * @return x value
    */
   public float getX()
@@ -68,24 +69,22 @@ public class PhysicsBody
 
   /**
    * Gets the Y value
-   * 
+   * As far as I can tell doesn't quite work
    * @return y value
    */
   public float getY()
   {
-    FloatBuffer fb = this.getOpenGLTransformMatrix();
-//    System.out.println(fb.get(1) + " " + fb.get(5) + " " + fb.get(9) + " " + fb.get(13));
+    trans = body.getMotionState().getWorldTransform(trans);
     return trans.origin.y;
   }
 
   /**
    * Gets the Z value
-   * 
+   * As far as I can tell doesn't quite work
    * @return z value
    */
   public float getZ()
   {
-    
     trans = body.getMotionState().getWorldTransform(trans);
     return trans.origin.z;
   }
@@ -123,10 +122,6 @@ public class PhysicsBody
    */
   public void push(Vector3f direction)
   {
-    // direction.normalise();
-    float mass = getMass();
-//    System.out.println("push: " + direction);
-    // body.applyCentralForce(PhysicsTools.openGLToBullet(direction));
     javax.vecmath.Vector3f vel = PhysicsTools.openGLToBullet(new Vector3f());
     vel = body.getLinearVelocity(vel);
     vel.x = direction.x;
@@ -135,17 +130,21 @@ public class PhysicsBody
   }
 
   /**
-   * jump in the y direcion
+   * Jump in the y direction
+   * Apply a linear velocity in the positive y direction
    */
   public void jump()
   {
-    // about 7 times their mass allows them to jump 2 meters
     if (canJump) {
       body.setLinearVelocity(PhysicsTools.openGLToBullet(new Vector3f(0, 50f, 0)));
       canJump = false;
     }
   }
 
+  /**
+   * getPitch 
+   * @return pitch in degrees
+   */
   public float getPitch()
   {
     trans = body.getMotionState().getWorldTransform(trans);
@@ -153,6 +152,10 @@ public class PhysicsBody
     return PhysicsTools.pitchFromQuat(q);
   }
 
+  /**
+   * getYaw 
+   * @return yaw in degrees
+   */
   public float getYaw()
   {
     trans = body.getMotionState().getWorldTransform(trans);
@@ -160,6 +163,10 @@ public class PhysicsBody
     return PhysicsTools.yawFromQuat(q);
   }
 
+  /**
+   * getRoll
+   * @return roll in degrees
+   */
   public float getRoll()
   {
     trans = body.getMotionState().getWorldTransform(trans);
@@ -167,7 +174,12 @@ public class PhysicsBody
     return PhysicsTools.rollFromQuat(q);
   }
 
-
+  /**
+   * moveForward
+   * Uses the yaw of the object to move it relative to where the its facing
+   * @param speed
+   * @param yaw
+   */
   public void moveForward(float speed, float yaw)
   {
     float x = (float) (Math.sin(Math.toRadians(yaw)) * speed);
@@ -175,6 +187,12 @@ public class PhysicsBody
     push(new Vector3f(x, 0, z));
   }
 
+  /**
+   * moveBackward
+   * Uses the yaw of the object to move it relative to where the its facing
+   * @param speed
+   * @param yaw
+   */
   public void moveBackward(float speed, float yaw)
   {
     float x = -(float) (Math.sin(Math.toRadians(yaw)) * speed);
@@ -183,6 +201,12 @@ public class PhysicsBody
     push(new Vector3f(x, 0, z));
   }
 
+  /**
+   * moveLeft
+   * Uses the yaw of the object to move it relative to where the its facing
+   * @param speed
+   * @param yaw
+   */
   public void moveLeft(float speed, float yaw)
   {
     float x = (float) (Math.sin(Math.toRadians(yaw - 90)) * speed);
@@ -190,6 +214,12 @@ public class PhysicsBody
     push(new Vector3f(x, 0, z));
   }
 
+  /**
+   * moveRight
+   * Uses the yaw of the object to move it relative to where the its facing
+   * @param speed
+   * @param yaw
+   */
   public void moveRight(float speed, float yaw)
   {
     float x = (float) (Math.sin(Math.toRadians(yaw + 90)) * speed);
@@ -197,6 +227,12 @@ public class PhysicsBody
     push(new Vector3f(x, 0, z));
   }
   
+  /**
+   * moveForwardRight
+   * Uses the yaw of the object to move it relative to where the its facing
+   * @param speed
+   * @param yaw
+   */
   public void moveForwardRight(float speed, float yaw)
   {
     float x = (float) (Math.sin(Math.toRadians(yaw + 45)) * speed);
@@ -204,6 +240,12 @@ public class PhysicsBody
     push(new Vector3f(x, 0, z));
   }
   
+  /**
+   * moveForwardLeft
+   * Uses the yaw of the object to move it relative to where the its facing
+   * @param speed
+   * @param yaw
+   */
   public void moveForwardLeft(float speed, float yaw)
   {
     float x = (float) (Math.sin(Math.toRadians(yaw - 45)) * speed);
@@ -211,6 +253,12 @@ public class PhysicsBody
     push(new Vector3f(x, 0, z));
   }
   
+  /**
+   * moveBackRight
+   * Uses the yaw of the object to move it relative to where the its facing
+   * @param speed
+   * @param yaw
+   */
   public void moveBackRight(float speed, float yaw)
   {
     float x = -(float) (Math.sin(Math.toRadians(yaw - 45)) * speed);
@@ -218,6 +266,12 @@ public class PhysicsBody
     push(new Vector3f(x, 0, z));
   }
   
+  /**
+   * moveBackLeft
+   * Uses the yaw of the object to move it relative to where the its facing
+   * @param speed
+   * @param yaw
+   */
   public void moveBackLeft(float speed, float yaw)
   {
     float x = -(float) (Math.sin(Math.toRadians(yaw + 45)) * speed);
@@ -225,6 +279,10 @@ public class PhysicsBody
     push(new Vector3f(x, 0, z));
   }
 
+  /**
+   * getOpenGLTransformMatrix
+   * @return FloatBuffer used to draw the opengl
+   */
   public FloatBuffer getOpenGLTransformMatrix()
   {
     float[] m = new float[16];
@@ -237,7 +295,10 @@ public class PhysicsBody
     return buffer;
   }
   
-
+  /**
+   * getOpenGLTransformMatrixArray
+   * @return float[] 16 element 4x4 matrix holding both x,y,z and rotation
+   */
   public float[] getOpenGLTransformMatrixArray()
   {
     float[] m = new float[16];
@@ -246,6 +307,11 @@ public class PhysicsBody
     return m;
   }
   
+  /**
+   * setFromOpenGLTransformMatrix
+   * Sets the global position and rotation using a 16 element 4x4 matrix
+   * @param m
+   */
   public void setFromOpenGLTransformMatrix(float[] m)
   {
     trans = body.getWorldTransform(trans);
@@ -253,23 +319,43 @@ public class PhysicsBody
     body.setWorldTransform(trans);
   }
 
+  /**
+   * translate
+   * Translates the physics body, It sorta teleports the body
+   * @param x
+   * @param y
+   * @param z
+   */
   public void translate(float x, float y, float z)
   {
     body.translate(PhysicsTools.openGLToBullet(new Vector3f(x, y, z)));
     body.activate(true);
   }
 
+  /**
+   * getCollisionShape
+   * @return the bodies collision shape
+   */
   public CollisionShape getCollisionShape()
   {
     return body.getCollisionShape();
   }
   
-  
+  /**
+   * callback
+   * gets called every time PhysicsWorld.stepSimulation gets called
+   */
   public void callback()
   {
     
   }
   
+  /**
+   * collidedWith
+   * gets called every time it collides with another object
+   * must be added to PhysicsWorld.addToWatchlist in order to be called
+   * @param other
+   */
   public void collidedWith(CollisionObject other)
   {
     canJump = true;

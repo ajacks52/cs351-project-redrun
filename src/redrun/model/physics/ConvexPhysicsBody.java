@@ -12,8 +12,10 @@ import com.bulletphysics.util.ObjectArrayList;
 
 
 /**
+ * ConvexPhysicsBody
+ * Used to create a custom physics body in any complex convex shape
  * @author jem
- *
+ * @date 141115
  */
 public class ConvexPhysicsBody extends PhysicsBody
 {
