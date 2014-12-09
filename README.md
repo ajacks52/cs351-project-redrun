@@ -31,6 +31,7 @@ git clone https://bitbucket.org/ggallinislove/redrun/
 5. Start Main.java on any client machines you want to connect
 6. All of the dependencies are in the lib folder and need to be put in the build path
 7. In order to configure LWJGL, be sure to set up your native path as per these instructions:
+
 Go to your LWJGL folder that contains the folders named "jar", "res", "doc", and "native". You need to go into Eclipse (assuming you use eclipse), open your project in the Project Explorer on the left side of your screen.
 Right click on the "JRE System Library" of your project, and click "Build Path" -> "Configure Build Path".
 Include the LWJGL native libraries to your project in the Build Path Configurer by clicking the "Native library location" which can be seen in the JRE System Library dropdown menu.
