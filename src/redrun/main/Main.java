@@ -233,10 +233,7 @@ public class Main
       while (!GameData.networkData.isEmpty())
       {
         for (String networkData : GameData.networkData)
-        {
-          System.out.println(networkData);
-          System.out.println(GameData.networkData.size());
-          
+        {          
           NetworkType type = ObjectFromDB.parseNetworkType(networkData);
 
           switch (type)
