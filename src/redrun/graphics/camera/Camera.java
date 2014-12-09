@@ -282,9 +282,9 @@ public class Camera
   }
   
   /**
-   * Sets the camera's yaw.
+   * Sets the yaw of the camera.
    * 
-   * @param yaw the yaw value for this camera
+   * @param yaw the new yaw of the camera
    */
   public void setYaw(float yaw)
   {

@@ -511,7 +511,7 @@ public class Main
   }
 
   /**
-   * Main statement
+   * Main entry point of the program.
    * 
    * @param args
    */
