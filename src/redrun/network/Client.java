@@ -158,7 +158,10 @@ public class Client
   {
     this.write.println("Player");
   }
-  
+
+  /**
+   * Get the number of players connected to the server
+   */
   public void requestNumberPlayers()
   {
     this.write.println("Number Players");

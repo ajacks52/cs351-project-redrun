@@ -3,7 +3,7 @@ package redrun.database;
 /**
  * Represent a MapObject from the RedRun DB
  * 
- * @author Jayson Grace
+ * @author Jayson Grace ( jaysong @ unm.edu )
  * @version 1.0
  * @since 2014-11-25
  */

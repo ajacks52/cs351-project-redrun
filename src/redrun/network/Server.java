@@ -13,7 +13,7 @@ import redrun.database.RedRunDAO;
 /**
  * Facilitate server functionality
  * 
- * @author Jayson Grace ( jaysong@unm.edu ), Troy Squillaci
+ * @author Jayson Grace ( jaysong@unm.edu ), Troy Squillaci ( zivia@unm.edu )
  * @version 1.0
  * @since 2014-11-17
  */

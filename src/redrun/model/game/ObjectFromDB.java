@@ -25,6 +25,13 @@ import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
 
+/**
+ * This class represents a map object that is used to construct Redrun maps.
+ * 
+ * @author Troy Squillaci ( zivia@unm.edu ), Jayson Grace ( jaysong@unm.edu )
+ * @version 1.0
+ * @since 2014-11-22
+ */
 public class ObjectFromDB
 {
   // Regex Patterns...
