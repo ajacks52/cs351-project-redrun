@@ -378,11 +378,11 @@ public class Main
       // If all blue are dead, set all red as winners
       if (deadCount == blueCount && blueCount != 0)
       {
+        if (camera.getType() == CameraType.SPECTATOR) cameraManager.chooseNextCamera();
         for (Player player : GameData.players)
         {
           if (player.getTeam() == Team.RED) player.setWinner(1);
           else player.setWinner(-1);
-          if (camera.getType() == CameraType.SPECTATOR) cameraManager.chooseNextCamera();
         }
       }
       // Bring up displays
