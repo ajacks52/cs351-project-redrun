@@ -13,7 +13,6 @@ import org.lwjgl.util.Timer;
 
 import redrun.graphics.camera.Camera;
 import redrun.graphics.camera.CameraManager;
-import redrun.graphics.camera.HUD_Manager;
 import redrun.graphics.selection.Picker;
 import redrun.model.constants.CameraType;
 import redrun.model.constants.Constants;
@@ -38,6 +37,7 @@ import redrun.model.gameobject.world.Plane;
 import redrun.model.gameobject.world.SkyBox;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.BufferConverter;
+import redrun.model.toolkit.HUD_Manager;
 import redrun.model.toolkit.LoadingScreen;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -101,7 +101,6 @@ public class GraphicsTestAdam
    */
   private static void gameLoop()
   {
-
     // Create the map objects...
 
     // Make the obstacle course...
@@ -110,7 +109,8 @@ public class GraphicsTestAdam
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 15.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 30.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
-    GameData.addMapObject(new Pit(-30.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST, TrapType.EXPLODING_BOX_FIELD)); //
+    GameData.addMapObject(new Corridor(0.0f, 0.0f, 45.0f, "ground14", "brick8", Direction.EAST,
+        TrapType.EXPLODING_BOX_FIELD)); //
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 60.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
     GameData.addMapObject(new Corridor(0.0f, 0.0f, 75.0f, "ground14", "brick8", Direction.EAST, TrapType.EMPTY));
 
@@ -151,8 +151,7 @@ public class GraphicsTestAdam
     GameData.addMapObject(new Corridor(90.0f, 15.0f, 195.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
     GameData.addMapObject(new Pit(90.0f, 15.0f, 180.0f, "ground14", "brick8", Direction.WEST, TrapType.SPIKE_FIELD));
     GameData.addMapObject(new Corridor(90.0f, 15.0f, 165.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
-    GameData
-        .addMapObject(new Pit(90.0f, 15.0f, 150.0f, "ground14", "brick8", Direction.WEST, TrapType.TRAP_DOOR));
+    GameData.addMapObject(new Pit(90.0f, 15.0f, 150.0f, "ground14", "brick8", Direction.WEST, TrapType.TRAP_DOOR));
     GameData.addMapObject(new Corridor(90.0f, 15.0f, 135.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
     GameData.addMapObject(new Pit(90.0f, 15.0f, 120.0f, "ground14", "brick8", Direction.WEST, TrapType.SPIKE_FIELD));
     GameData.addMapObject(new Corridor(90.0f, 15.0f, 105.0f, "ground14", "brick8", Direction.WEST, TrapType.EMPTY));
@@ -277,15 +276,19 @@ public class GraphicsTestAdam
     // Create the floor...
     Plane floor = new Plane(0, -1.0f, 0, "marble", Direction.EAST, 2000);
 
-//    for (int i = 0; i < 5; i++)
-//    {
-//      GameData.addGameObject(new Cube(0.0f, 25.0f + (2 * i), 45.0f, "crate1"));
-//      GameData.addGameObject(new Cube(3.0f, 70.0f + (2 * i), 45 + 3.0f, "crate1"));
-//      GameData.addGameObject(new Cube(-3.0f, 105.0f + (2 * i), 45 - 3.0f, "crate1"));
-//      GameData.addGameObject(new Cube(-3.0f, 150.0f + (2 * i), 45 + 3.0f, "crate1"));
-//      GameData.addGameObject(new Cube(3.0f, 195.0f + (2 * i), 45 - 3.0f, "crate1"));
-//    }
-    
+    // for (int i = 0; i < 5; i++)
+    // {
+    // GameData.addGameObject(new Cube(0.0f, 25.0f + (2 * i), 45.0f, "crate1"));
+    // GameData.addGameObject(new Cube(3.0f, 70.0f + (2 * i), 45 + 3.0f,
+    // "crate1"));
+    // GameData.addGameObject(new Cube(-3.0f, 105.0f + (2 * i), 45 - 3.0f,
+    // "crate1"));
+    // GameData.addGameObject(new Cube(-3.0f, 150.0f + (2 * i), 45 + 3.0f,
+    // "crate1"));
+    // GameData.addGameObject(new Cube(3.0f, 195.0f + (2 * i), 45 - 3.0f,
+    // "crate1"));
+    // }
+
     // Hide the mouse cursor...
     Mouse.setGrabbed(true);
 
@@ -386,7 +389,7 @@ public class GraphicsTestAdam
    */
   private static void getInput()
   {
-    
+
     Constants.DX = Mouse.getDX();
     Constants.DY = Mouse.getDY();
 
@@ -405,11 +408,15 @@ public class GraphicsTestAdam
       {
         player.walkForward(Constants.MOVEMENT_SPEED_PLAYER * 2);
       }
-      else if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_D)) player.walkForwardRight(Constants.MOVEMENT_SPEED_PLAYER);
-      else if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_A)) player.walkForwardLeft(Constants.MOVEMENT_SPEED_PLAYER);
-      else if (Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_D)) player.walkBackRight(Constants.MOVEMENT_SPEED_PLAYER);
-      else if (Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_A)) player.walkBackLeft(Constants.MOVEMENT_SPEED_PLAYER);
-      
+      else if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_D)) player
+          .walkForwardRight(Constants.MOVEMENT_SPEED_PLAYER);
+      else if (Keyboard.isKeyDown(Keyboard.KEY_W) && Keyboard.isKeyDown(Keyboard.KEY_A)) player
+          .walkForwardLeft(Constants.MOVEMENT_SPEED_PLAYER);
+      else if (Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_D)) player
+          .walkBackRight(Constants.MOVEMENT_SPEED_PLAYER);
+      else if (Keyboard.isKeyDown(Keyboard.KEY_S) && Keyboard.isKeyDown(Keyboard.KEY_A)) player
+          .walkBackLeft(Constants.MOVEMENT_SPEED_PLAYER);
+
       else if (Keyboard.isKeyDown(Keyboard.KEY_W)) player.walkForward(Constants.MOVEMENT_SPEED_PLAYER);
       else if (Keyboard.isKeyDown(Keyboard.KEY_S)) player.walkBackward(Constants.MOVEMENT_SPEED_PLAYER);
       else if (Keyboard.isKeyDown(Keyboard.KEY_A)) player.walkLeft(Constants.MOVEMENT_SPEED_PLAYER);
