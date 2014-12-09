@@ -50,6 +50,7 @@ import redrun.main.Menu.MenuState;
 import redrun.model.constants.CameraType;
 import redrun.model.constants.GameState;
 import redrun.model.constants.NetworkType;
+import redrun.model.constants.Team;
 import redrun.model.game.GameData;
 import redrun.model.game.ObjectFromDB;
 import redrun.model.gameobject.GameObject;
@@ -148,6 +149,8 @@ public class Main
     // Create the floor...
     Plane floor = null;
 
+    boolean switched = false;
+
     // While information is being received from the network, parse it and
     // display it accordingly
     while (!GameData.networkData.isEmpty())
@@ -219,7 +222,7 @@ public class Main
       while (!GameData.networkData.isEmpty())
       {
         for (String networkData : GameData.networkData)
-        {          
+        {
           NetworkType type = ObjectFromDB.parseNetworkType(networkData);
 
           switch (type)
@@ -316,7 +319,7 @@ public class Main
       glLight(GL_LIGHT0, GL_POSITION, lightPosition);
 
       // Picking code for 3D selection of game objects...
-      if (Keyboard.isKeyDown(Keyboard.KEY_F))
+      if (Keyboard.isKeyDown(Keyboard.KEY_F) && GameData.players.get(0).getTeam() == Team.RED)
       {
         Picker.startPicking();
         {
@@ -352,6 +355,12 @@ public class Main
       for (GameObject gameObject : GameData.getGameObjects())
       {
         gameObject.draw();
+      }
+
+      if (GameData.players.get(0).getLives() <= 0 && switched == false)
+      {
+        cameraManager.chooseNextCamera();
+        switched = true;
       }
 
       // Show the HUD...
@@ -394,7 +403,7 @@ public class Main
     dy = Mouse.getDY();
 
     // Camera related input...
-    if (Keyboard.isKeyDown(Keyboard.KEY_R))
+    if (Keyboard.isKeyDown(Keyboard.KEY_R) && GameData.players.get(0).getLives() > 0)
     {
       cameraManager.chooseNextCamera();
     }
