@@ -1,6 +1,3 @@
-/**
- * 
- */
 package redrun.model.physics;
 
 import java.nio.FloatBuffer;
@@ -38,7 +35,7 @@ public class PhysicsBody
    * Creates a simple physics body
    * 
    * @param mass in kg if mass is 0 it is static
-   * @param direction
+   * @param direction that the physics body faces
    * @param center in meters
    * @param collisionShape
    * @param collisionType an int from either CollisionFlags or CollisionTypes and they can be joined
@@ -354,7 +351,7 @@ public class PhysicsBody
    * collidedWith
    * gets called every time it collides with another object
    * must be added to PhysicsWorld.addToWatchlist in order to be called
-   * @param other
+   * @param other the other body
    */
   public void collidedWith(CollisionObject other)
   {

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package redrun.model.physics;
 
 import javax.vecmath.Quat4f;
@@ -25,7 +22,7 @@ public class PlanePhysicsBody extends PhysicsBody
    */
   public PlanePhysicsBody(Vector3f center, Vector3f radiuses, float mass, int collisionTypes)
   {
-    super(mass, new Quat4f(0,0,0,1), center,  new BoxShape(PhysicsTools.openGLToBullet(radiuses)), collisionTypes); // im not sure what the "1" represents
+    super(mass, new Quat4f(0,0,0,1), center,  new BoxShape(PhysicsTools.openGLToBullet(radiuses)), collisionTypes);
   }
   
   /**
@@ -37,6 +34,6 @@ public class PlanePhysicsBody extends PhysicsBody
    */
   public PlanePhysicsBody(Vector3f center, Vector3f radiuses, float mass)
   {
-    super(mass, new Quat4f(0,0,0,1), center,  new BoxShape(PhysicsTools.openGLToBullet(radiuses)), 0); // im not sure what the "1" represents
+    super(mass, new Quat4f(0,0,0,1), center,  new BoxShape(PhysicsTools.openGLToBullet(radiuses)), 0);
   }
 }

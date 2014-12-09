@@ -1,6 +1,3 @@
-/**
- * 
- */
 package redrun.model.physics;
 
 import javax.vecmath.Quat4f;

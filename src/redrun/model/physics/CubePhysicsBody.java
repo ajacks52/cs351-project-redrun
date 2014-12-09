@@ -1,6 +1,3 @@
-/**
- * 
- */
 package redrun.model.physics;
 
 import javax.vecmath.Quat4f;
@@ -18,6 +15,7 @@ public class CubePhysicsBody extends BoxPhysicsBody
 
   /**
    * Constructs a box with all of the sides equal to radius
+   * 
    * @param center
    * @param radiuses
    * @param direction
@@ -30,6 +28,8 @@ public class CubePhysicsBody extends BoxPhysicsBody
   }
 
   /**
+   * Constructs a box with all of the sides equal to radius
+   * 
    * @param center
    * @param radiuses
    * @param direction
