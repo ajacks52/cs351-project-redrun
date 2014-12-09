@@ -4,6 +4,7 @@ import redrun.model.constants.Direction;
 import redrun.model.constants.Scale;
 import redrun.model.constants.TrapType;
 import redrun.model.gameobject.MapObject;
+import redrun.model.gameobject.world.InvisibleWall;
 import redrun.model.gameobject.world.RectangularPrism;
 
 /**
@@ -69,6 +70,45 @@ public class Pit extends MapObject
         components.add(new RectangularPrism(x, y - (size / 2), z + (size / 2), wallTexture, size - 2.0f, size - 1.0f, 1.0f));
         components.add(new RectangularPrism(x, y - (size / 2), z + -(size / 2), wallTexture, size - 2.0f, size - 1.0f, 1.0f));
         components.add(new RectangularPrism(x, y - size + 0.5f, z, wallTexture, size - 2.0f, 1.0f, size));
+        break;
+      }
+      default:
+      {
+        try
+        {
+          throw new IllegalArgumentException();
+        }
+        catch (IllegalArgumentException ex)
+        {
+          ex.printStackTrace();
+        }
+      }
+    }
+
+    switch (orientation)
+    {
+      case NORTH:
+      {
+        components.add(new InvisibleWall(x, y + 10f, z - (size / 2), null, size - 2.0f, 10.0f, 0.0f));
+        components.add(new InvisibleWall(x, y + 10f, z + (size / 2), null, size - 2.0f, 10.0f, 0.0f));
+        break;
+      }
+      case EAST:
+      {
+        components.add(new InvisibleWall(x + -(size / 2), y + 10f, z, null, 1.0f, 10.0f, size - 2.0f));
+        components.add(new InvisibleWall(x + (size / 2), y + 10f, z, null, 1.0f, 10.0f, size - 2.0f));    
+        break;
+      }
+      case SOUTH:
+      {
+        components.add(new InvisibleWall(x, y + 10f, z - (size / 2), null, size - 2.0f, 10.0f, 0.0f));
+        components.add(new InvisibleWall(x, y + 10f, z + (size / 2), null, size - 2.0f, 10.0f, 0.0f));       
+        break;
+      }
+      case WEST:
+      {
+        components.add(new InvisibleWall(x + -(size / 2), y + 10f, z, null, 0.0f, 10.0f, size - 2.0f));
+        components.add(new InvisibleWall(x + (size / 2), y + 10f, z, null, 0.0f, 10.0f, size - 2.0f));
         break;
       }
       default:
