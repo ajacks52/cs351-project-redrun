@@ -7,4 +7,5 @@ public class CollisionTypes
   public static final int INSTANT_DEATH_COLLISION_TYPE  = 1 << 7;
   public static final int EXPLOSION_COLLISION_TYPE      = 1 << 8;
   public static final int MINIMAL_DAMAGE_COLLISION_TYPE = 1 << 9;
+  public static final int WALL_COLLISION_TYPE           = 1 << 10;
 }

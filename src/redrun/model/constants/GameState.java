@@ -5,9 +5,6 @@ public enum GameState
   /** Game play is available. */
   PLAY,
 
-  /** Player is dead. */
-  DEAD,
-
   /** Player has won. */
   WINNER,
 
