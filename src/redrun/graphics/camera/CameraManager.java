@@ -60,6 +60,9 @@ public class CameraManager
     return cameras.get(active);
   }
 
+  /**
+   * Updates the timer.
+   */
   public void update()
   {
     if (timer.getTime() >= 0.5f)
