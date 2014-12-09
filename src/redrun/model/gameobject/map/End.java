@@ -129,7 +129,6 @@ public class End extends MapObject
   @Override
   public int compareTo(MapObject o)
   {
-    // TODO Auto-generated method stub
     return 0;
   }
 }

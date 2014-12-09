@@ -90,7 +90,6 @@ public class Tunnel extends MapObject
   @Override
   public int compareTo(MapObject o)
   {
-    // TODO Auto-generated method stub
     return 0;
   }
 }
