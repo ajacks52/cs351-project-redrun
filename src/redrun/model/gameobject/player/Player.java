@@ -60,7 +60,7 @@ public class Player extends GameObject
   /** The state of this player's life. */
   private boolean alive;
 
-  private String[] modelStrings = new String[] {"standing3", "rightfront","leftfront"};
+  private String[] modelStrings = new String[] {"mario_standing", "mario_0", "mario_1", "mario_2", "mario_3", "mario_4", "mario_5", "mario_6"};
 
   
   /** The players model */
@@ -237,7 +237,7 @@ public class Player extends GameObject
     vel.absolute();
     if (vel.x > 0.0001f)
     {
-      int delta = 25;
+      int delta = 10;
       if (step %delta  == 0)
       {
         displayListId = dispIds[((step/delta)%(dispIds.length-1)) + 1];

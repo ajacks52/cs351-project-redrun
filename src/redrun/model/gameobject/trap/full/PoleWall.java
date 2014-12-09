@@ -11,6 +11,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import com.bulletphysics.collision.dispatch.CollisionObject;
 
+import redrun.main.Main;
 import redrun.model.constants.Direction;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.trap.Trap;

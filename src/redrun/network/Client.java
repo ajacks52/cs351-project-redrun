@@ -158,6 +158,11 @@ public class Client
   {
     this.write.println("Player");
   }
+  
+  public void requestNumberPlayers()
+  {
+    this.write.println("Number Players");
+  }
 
   /**
    * Sends the current player to the server.
@@ -176,7 +181,7 @@ public class Client
    */
   public void sendTrap(Trap trap)
   {
-    trap.getNetworkString();
+    this.write.println(trap.getNetworkString());
   }
 
   /**
