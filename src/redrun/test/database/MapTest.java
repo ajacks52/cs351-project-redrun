@@ -12,6 +12,7 @@ import redrun.database.Map;
  */
 public class MapTest
 {
+  /** Debug mode */
   private static final boolean DEBUG = true;
 
   /**
