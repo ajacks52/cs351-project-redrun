@@ -496,10 +496,10 @@ public class Main
    */
   private static void destroyResources()
   {
+    client.requestDisconnect();
     GameData.soundManager.destroySounds();
     AL.destroy();
     Display.destroy();
-    client.requestDisconnect();
   }
 
   /**
