@@ -88,8 +88,8 @@ public class BufferConverter
   /**
    * Creates a pre-flipped float buffer of the specified size.
    * 
-   * @param amountOfElements
-   * @return
+   * @param size the size of the buffer
+   * @return the new reversed float buffer
    */
   public static FloatBuffer reserveFloatData(int size)
   {
