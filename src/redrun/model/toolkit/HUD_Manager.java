@@ -16,7 +16,8 @@ public class HUD_Manager
   private static boolean setUp = true;
   private static int heartID = -1, healthOutlineID = -1, hudID = -1, healthID = -1, transBackground1 = -1,
       transBackground2 = -1, transBackground3 = -1;
-  public static int transBackgroundUtil = -1;
+  public static int transBackgroundUtilGrey = -1;
+  public static int transBackgroundUtilRed = -1;
 
   private static void setUp(Player player)
   {
@@ -131,10 +132,10 @@ public class HUD_Manager
     }
     glEndList();
 
-    transBackgroundUtil = glGenLists(1);
-    glNewList(transBackgroundUtil, GL_COMPILE);
+    transBackgroundUtilGrey = glGenLists(1);
+    glNewList(transBackgroundUtilGrey, GL_COMPILE);
     {
-      glColor4f(1.0f, 0.0f, 0.0f, .4f);
+      glColor4f(0.1f, 0.1f, 0.1f, .4f);
       glBegin(GL_QUADS);
       glVertex2f(0, Constants.DISPLAY_HEIGHT);
       glVertex2f(0 + Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT);
@@ -143,7 +144,20 @@ public class HUD_Manager
       glEnd();
     }
     glEndList();
-    
+
+    transBackgroundUtilRed = glGenLists(1);
+    glNewList(transBackgroundUtilRed, GL_COMPILE);
+    {
+      glColor4f(1.0f, 0.0f, 0.0f, .45f);
+      glBegin(GL_QUADS);
+      glVertex2f(0, Constants.DISPLAY_HEIGHT);
+      glVertex2f(0 + Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT);
+      glVertex2f(0 + Constants.DISPLAY_WIDTH, -Constants.DISPLAY_HEIGHT);
+      glVertex2f(0, -Constants.DISPLAY_HEIGHT);
+      glEnd();
+    }
+    glEndList();
+
   }
 
   public static void huds(Camera cam, Player player)
@@ -163,9 +177,8 @@ public class HUD_Manager
 
       // draw spectator text
       FontTools.renderText(
-          "Spectator Camera: (" + (float) Math.round(cam.getX() * 10) / 10 + ", "
-              + (float) Math.round(cam.getY() * 10) / 10 + ", " + (float) Math.round(cam.getZ() * 10) / 10 + ")",
-          10, 10, Color.white, 1);
+          "Spectator Camera: (" + (float) Math.round(cam.getX() * 10) / 10 + ", " + (float) Math.round(cam.getY() * 10)
+              / 10 + ", " + (float) Math.round(cam.getZ() * 10) / 10 + ")", 10, 10, Color.white, 1);
     }
     else if (cam.getType() == CameraType.PLAYER)
     {
@@ -258,6 +271,87 @@ public class HUD_Manager
       glCallList(hudID);
     }
     glPopMatrix();
+  }
+
+  /**
+   * drawBackGroundRed
+   */
+  public static void drawBackGroundRed()
+  {
+    glPushMatrix();
+    {
+      glCallList(HUD_Manager.transBackgroundUtilRed);
+    }
+    glPopMatrix();
+  }
+
+  /**
+   * drawBackGroundGrey
+   */
+  public static void drawBackGroundGrey()
+  {
+    glPushMatrix();
+    {
+      glCallList(HUD_Manager.transBackgroundUtilGrey);
+    }
+    glPopMatrix();
+  }
+
+  public static void displayGameOver(Camera cam, Player player)
+  {
+    if (cam.getType() == CameraType.PLAYER)
+    {
+      //TODO give player a winner boolean
+      //if(Player )
+      {
+        displayYouWin();
+      }
+      //else
+      {
+        displayYouLose();
+      }
+    }   
+  }
+
+  /**
+   * displayYouDied
+   */
+  public static void displayYouDied(Camera cam)
+  {
+    if (cam.getType() == CameraType.PLAYER)
+    {
+      make2D();
+      drawBackGroundRed();
+      make3D();
+
+      FontTools.renderText("Wasted", Constants.DISPLAY_WIDTH / 2, Constants.DISPLAY_HEIGHT / 2, Color.red, 3);
+    }
+  }
+
+  /**
+   * displayYouWin
+   */
+  public static void displayYouWin()
+  {
+    make2D();
+    drawBackGroundGrey();
+    make3D();
+
+    FontTools.renderText("Congratulations Your Team Wom", Constants.DISPLAY_WIDTH / 2, Constants.DISPLAY_HEIGHT / 2,
+        Color.red, 3);
+
+  }
+
+  /**
+   * displayYouLose
+   */
+  public static void displayYouLose()
+  {
+    make2D();
+    drawBackGroundGrey();
+    make3D();
+
+    FontTools.renderText("Your Team Lost.", Constants.DISPLAY_WIDTH / 2, Constants.DISPLAY_HEIGHT / 2, Color.red, 3);
   }
 
   /**

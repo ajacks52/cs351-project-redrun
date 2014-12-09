@@ -67,6 +67,7 @@ public class Player extends GameObject
   /** The state of the player */
   private boolean killed = false;
 
+  @SuppressWarnings("unused")
   private long deathTime = 0;
 
 
@@ -140,7 +141,7 @@ public class Player extends GameObject
             exploding = true;
 
             float power = 20;
-            explodingPower = (int) ((Math.random() * power));
+            explodingPower = (int) ((Math.random() * 30) + 10);
             float x = (float) ((Math.random() * power * 2) - power);
             float y = (float) ((Math.random() * power) + power);
             float z = (float) ((Math.random() * power * 2) - power);
@@ -504,11 +505,11 @@ public class Player extends GameObject
 
   private void setDead()
   {
-    if (Timing.getTime() < deathTime + 4000)
-    {
-      DeathScreen.display(deathTime);
-    }
-    else
+//    if (Timing.getTime() < deathTime + 4000)
+//    {
+//      DeathScreen.display(deathTime);
+//    }
+//    else
     {
       lives--;
       body.body.setWorldTransform(startPos);

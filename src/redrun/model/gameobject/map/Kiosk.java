@@ -98,26 +98,26 @@ public class Kiosk extends MapObject
     {
       case NORTH:
       {
-        components.add(new InvisibleWall(x, y + 10f, z + (size / 2), null, size, 10f, 0.0f));
-        components.add(new InvisibleWall(x, y + 10f, z + -(size / 2), null, size, 10f, 0.0f));  
+        components.add(new InvisibleWall(x, y + 10f, z + (size / 2), null, size, 10f, 1.0f));
+        components.add(new InvisibleWall(x, y + 10f, z + -(size / 2), null, size, 10f, 1.0f));  
         break;
       }
       case EAST:
       {
-        components.add(new InvisibleWall(x + (size / 2), y + 10f, z, null, 0.0f, 10f, size));
-        components.add(new InvisibleWall(x + -(size / 2), y + 10f, z, null, 0.0f, 10f, size));
+        components.add(new InvisibleWall(x + (size / 2), y + 10f, z, null, 1.0f, 10f, size));
+        components.add(new InvisibleWall(x + -(size / 2), y + 10f, z, null, 1.0f, 10f, size));
         break;
       }
       case SOUTH:
       {
-        components.add(new InvisibleWall(x, y + 10f, z + (size / 2), null, size, 10f, 0.0f));
-        components.add(new InvisibleWall(x, y + 10f, z + -(size / 2), null, size, 10f, 0.0f));
+        components.add(new InvisibleWall(x, y + 10f, z + (size / 2), null, size, 10f, 1.0f));
+        components.add(new InvisibleWall(x, y + 10f, z + -(size / 2), null, size, 10f, 1.0f));
         break;
       }
       case WEST:
       {
-        components.add(new InvisibleWall(x + (size / 2), y + 10f, z, null, 0.0f, 10f, size));
-        components.add(new InvisibleWall(x + -(size / 2), y + 10f, z, null, 0.0f, 10f, size));
+        components.add(new InvisibleWall(x + (size / 2), y + 10f, z, null, 1.0f, 10f, size));
+        components.add(new InvisibleWall(x + -(size / 2), y + 10f, z, null, 1.0f, 10f, size));
         break;
       }
       default:

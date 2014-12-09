@@ -1,23 +1,9 @@
 package redrun.model.gameobject.trap.full;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.glGetAttribLocation;
-import static org.lwjgl.opengl.GL20.glUseProgram;
-import static org.lwjgl.opengl.GL20.glVertexAttrib3f;
-
-import javax.vecmath.Quat4f;
-
-import org.lwjgl.util.vector.Vector3f;
-
-import com.bulletphysics.collision.dispatch.CollisionObject;
-
-import redrun.main.Main;
 import redrun.model.constants.Direction;
 import redrun.model.game.GameData;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.trap.piece.Spear;
-import redrun.model.physics.BoxPhysicsBody;
-import redrun.model.toolkit.ShaderLoader;
 
 public class PoleWall extends Trap
 {
@@ -48,9 +34,9 @@ public class PoleWall extends Trap
       spear5 = new Spear(x + 3, y + 5, z + 35, orientation, null, 0f, "z");
     }
 
-    ///   *-5     *0     *+5  +5
-    ///            +
-    ///       *-3     *+3     +3
+    // / *-5 *0 *+5 +5
+    // / +
+    // / *-3 *+3 +3
     GameData.addGameObject(spear1);
     GameData.addGameObject(spear2);
     GameData.addGameObject(spear3);

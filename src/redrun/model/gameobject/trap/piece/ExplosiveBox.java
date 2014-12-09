@@ -14,26 +14,25 @@ import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.trap.full.ExplodingBoxField;
 import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.physics.PhysicsWorld;
-import redrun.sound.Sound;
 
 public class ExplosiveBox extends Trap
 {
-  
-  private boolean exploded = false;
-  
-  public ExplosiveBox(float x, float y, float z, Direction orientation, String textureName, final ExplodingBoxField boxField)
-  {
-    super(x, y+20, z, orientation, textureName);
 
-    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(1, 1, 1), new Quat4f(), 0, CollisionTypes.EXPLOSION_COLLISION_TYPE)
+  private boolean exploded = false;
+
+  public ExplosiveBox(float x, float y, float z, Direction orientation, String textureName,
+      final ExplodingBoxField boxField)
+  {
+    super(x, y + 20, z, orientation, textureName);
+
+    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(1, 1, 1), new Quat4f(), 0,
+        CollisionTypes.EXPLOSION_COLLISION_TYPE)
     {
       public void collidedWith(CollisionObject other)
       {
         int collisionFlags = other.getCollisionFlags();
         if ((collisionFlags & CollisionTypes.PLAYER_COLLISION_TYPE) != 0)
         {
-          //Sound ambient = new Sound("ambience/iceworld");
-          //ambient.play();
           exploded = true;
           PhysicsWorld.removePhysicsBody(this);
         }
@@ -123,13 +122,13 @@ public class ExplosiveBox extends Trap
   {
     exploded = true;
   }
-  
+
   @Override
   public void draw()
   {
     if (!exploded) super.draw();
   }
-  
+
   @Override
   public void activate()
   {
