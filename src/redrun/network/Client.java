@@ -158,6 +158,11 @@ public class Client
   {
     this.write.println("Player");
   }
+  
+  public void requestNumberPlayers()
+  {
+    this.write.println("Number Players");
+  }
 
   /**
    * Sends the current player to the server.
