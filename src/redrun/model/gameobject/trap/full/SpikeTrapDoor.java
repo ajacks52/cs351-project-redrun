@@ -7,7 +7,6 @@ import javax.vecmath.Quat4f;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import redrun.main.Main;
 import redrun.model.constants.CollisionTypes;
 import redrun.model.constants.Direction;
 import redrun.model.gameobject.trap.Trap;

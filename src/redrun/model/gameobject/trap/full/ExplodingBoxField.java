@@ -31,7 +31,7 @@ public class ExplodingBoxField extends Trap
     }
     else if (type.equals("field"))
     {
-      size = 9;
+      size = 10;
     }
 
     for (int y_axis = 0; y_axis < pit_height; y_axis++)

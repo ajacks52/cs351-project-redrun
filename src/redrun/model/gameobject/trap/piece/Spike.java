@@ -12,7 +12,6 @@ import redrun.model.constants.Direction;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.trap.full.TrapDoor;
 import redrun.model.physics.BoxPhysicsBody;
-import redrun.model.physics.SpherePhysicsBody;
 import redrun.model.toolkit.ShaderLoader;
 
 public class Spike extends Trap
