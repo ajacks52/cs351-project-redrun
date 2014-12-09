@@ -1,12 +1,8 @@
 package redrun.model.gameobject.player;
 
 import static org.lwjgl.opengl.GL11.GL_COMPILE;
-import static org.lwjgl.opengl.GL11.glCallList;
 import static org.lwjgl.opengl.GL11.glGenLists;
-import static org.lwjgl.opengl.GL11.glMultMatrix;
 import static org.lwjgl.opengl.GL11.glNewList;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
 
 import java.io.File;
 import java.util.Arrays;
@@ -32,6 +28,7 @@ import redrun.model.physics.PhysicsBody;
 import redrun.model.physics.PhysicsTools;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.OBJLoader;
+import redrun.model.toolkit.Timing;
 
 /**
  * This class represents a player in the game world.
@@ -60,10 +57,15 @@ public class Player extends GameObject
   /** The state of this player's life. */
   private boolean alive;
 
-//private String[] modelStrings = new String[] {"mario_standing", "mario_0", "mario_1", "mario_2", "mario_3", "mario_4", "mario_5", "mario_6"};
-  private String[] modelStrings = new String[] {"standing3", "rightfront", "leftfront"};
+  /** The state of the player */
+  private boolean killed = false;
 
-  
+  private long deathTime = 0;
+
+  // private String[] modelStrings = new String[] {"mario_standing", "mario_0",
+  // "mario_1", "mario_2", "mario_3", "mario_4", "mario_5", "mario_6"};
+  private String[] modelStrings = new String[] { "standing3", "rightfront", "leftfront" };
+
   /** The players model */
   private Model[] models;
 
@@ -80,33 +82,25 @@ public class Player extends GameObject
   /**
    * Creates a new player at the specified position.
    * 
-   * @param x
-   *          the x position of the player
-   * @param y
-   *          the y position of the player
-   * @param z
-   *          the z position of the player
-   * @param name
-   *          the name of the player
-   * @param textureName
-   *          the name of the player texture for this player
-   * @param team
-   *          the team this player is on
+   * @param x the x position of the player
+   * @param y the y position of the player
+   * @param z the z position of the player
+   * @param name the name of the player
+   * @param textureName the name of the player texture for this player
+   * @param team the team this player is on
    */
   public Player(float x, float y, float z, String name, Team team)
   {
     super(x, y + 10, z, null);
 
-    body = new CapsulePhysicsBody(new Vector3f(x, y, z), 2f, 100f, 1.8f,
-        CollisionTypes.PLAYER_COLLISION_TYPE)
+    body = new CapsulePhysicsBody(new Vector3f(x, y, z), 2f, 100f, 1.8f, CollisionTypes.PLAYER_COLLISION_TYPE)
     {
       public void callback()
       {
         if (exploding)
         {
 
-          if (explodingCount % 2 == 0)
-            hurt();
+          if (explodingCount % 2 == 0) hurt();
           explodingCount++;
           if (explodingCount >= explodingPower)
           {
@@ -119,14 +113,13 @@ public class Player extends GameObject
       {
         super.collidedWith(other);
 
-        if (exploding)
-          hurt();
+        if (exploding) hurt();
 
         int collisionFlags = other.getCollisionFlags();
         if ((collisionFlags & CollisionTypes.INSTANT_DEATH_COLLISION_TYPE) != 0)
         {
           System.out.println("Instant death!!!!");
-          kill();
+          if (!killed)kill();
         }
 
         if ((collisionFlags & CollisionTypes.MINIMAL_DAMAGE_COLLISION_TYPE) != 0)
@@ -147,24 +140,22 @@ public class Player extends GameObject
             float x = (float) ((Math.random() * power * 2) - power);
             float y = (float) ((Math.random() * power) + power);
             float z = (float) ((Math.random() * power * 2) - power);
-            body.setLinearVelocity(PhysicsTools.openGLToBullet(new Vector3f(x,
-                y, z)));
+            body.setLinearVelocity(PhysicsTools.openGLToBullet(new Vector3f(x, y, z)));
 
           }
         }
 
       }
     };
-    body.body.setCollisionFlags(body.body.getCollisionFlags()
-        | CollisionFlags.CUSTOM_MATERIAL_CALLBACK);
-    
+    body.body.setCollisionFlags(body.body.getCollisionFlags() | CollisionFlags.CUSTOM_MATERIAL_CALLBACK);
+
     startPos = new Transform();
 
     startPos = body.body.getWorldTransform(startPos);
 
     PhysicsWorld.addToWatchList(body);
-    camera = new Camera(70, (float) Display.getWidth()
-        / (float) Display.getHeight(), 0.3f, 1000f, x, y, z, CameraType.PLAYER);
+    camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.3f, 1000f, x, y, z,
+        CameraType.PLAYER);
 
     this.name = name;
     this.team = team;
@@ -172,22 +163,19 @@ public class Player extends GameObject
     this.lives = 5;
     this.alive = true;
 
-    
-    
     models = new Model[modelStrings.length];
     dispIds = new int[modelStrings.length];
-    for (int i=0; i < modelStrings.length; i++)
+    for (int i = 0; i < modelStrings.length; i++)
     {
       String s = modelStrings[i];
       models[i] = OBJLoader.loadModel(new File("res/models/" + s + ".obj"));
       dispIds[i] = glGenLists(1);
       drawWithModel(models[i], dispIds[i]);
     }
-    
+
     yaw(90);
   }
 
-  
   public void drawWithModel(Model model, int dispId)
   {
     glNewList(dispId, GL_COMPILE);
@@ -230,18 +218,18 @@ public class Player extends GameObject
     }
     GL11.glEndList();
   }
-  
+
   public void draw()
-  { 
+  {
     javax.vecmath.Vector3f vel = new javax.vecmath.Vector3f();
     vel = body.body.getLinearVelocity(vel);
     vel.absolute();
     if (vel.x > 0.0001f)
     {
-      int delta = 60 / (dispIds.length-1);
-      if (step %delta  == 0)
+      int delta = 60 / (dispIds.length - 1);
+      if (step % delta == 0)
       {
-        displayListId = dispIds[((step/delta)%(dispIds.length-1)) + 1];
+        displayListId = dispIds[((step / delta) % (dispIds.length - 1)) + 1];
       }
       step++;
     }
@@ -281,7 +269,7 @@ public class Player extends GameObject
   {
     Transform trans = new Transform();
     body.body.getWorldTransform(trans);
-    trans.basis.rotY(-(float)Math.toRadians(camera.getYaw() + yaw-180));
+    trans.basis.rotY(-(float) Math.toRadians(camera.getYaw() + yaw - 180));
     body.body.setWorldTransform(trans);
     camera.yaw(yaw);
   }
@@ -339,8 +327,16 @@ public class Player extends GameObject
   @Override
   public void update()
   {
-    camera.updatePosition(this.getX(), this.getY() + 1.5f, this.getZ(),
-        body.getPitch(), body.getYaw());
+    camera.updatePosition(this.getX(), this.getY() + 1.5f, this.getZ(), body.getPitch(), body.getYaw());
+    playerStatus();
+  }
+
+  private void playerStatus()
+  {
+    if (killed)
+    {
+      setDead();
+    }
   }
 
   @Override
@@ -418,8 +414,7 @@ public class Player extends GameObject
   /**
    * Sets the state of this player's life.
    * 
-   * @param alive
-   *          whether or not this player is alive
+   * @param alive whether or not this player is alive
    */
   public void setAlive(boolean alive)
   {
@@ -429,8 +424,7 @@ public class Player extends GameObject
   /**
    * Sets this player's health.
    * 
-   * @param health
-   *          this player's health
+   * @param health this player's health
    */
   public void setHealth(int health)
   {
@@ -440,8 +434,7 @@ public class Player extends GameObject
   /**
    * Sets this player's team.
    * 
-   * @param team
-   *          this player's team
+   * @param team this player's team
    */
   public void setTeam(Team team)
   {
@@ -451,27 +444,42 @@ public class Player extends GameObject
   /**
    * Sets this player's lives.
    * 
-   * @param lives
-   *          the number of lives to give this player
+   * @param lives the number of lives to give this player
    */
   public void setLives(int lives)
   {
     this.lives = lives;
   }
 
+  private void setDead()
+  {
+    if (Timing.getTime() < deathTime + 4000)
+    {
+      System.out.println((deathTime + 4000) + " " + (Timing.getTime()));
+      DeathScreen.display(deathTime);
+    }
+    else
+    {
+
+      lives--;
+      body.body.setWorldTransform(startPos);
+      body.body.setLinearVelocity(PhysicsTools.openGLToBullet(new Vector3f(0, 0, 0)));
+      body.body.activate(true);
+      health = 100;
+      killed = false;
+      if (lives <= 0)
+      {
+        alive = false;
+      }
+      exploding = false;
+    }
+  }
+
   public void kill()
   {
-    lives--;
-    body.body.setWorldTransform(startPos);
-    body.body.setLinearVelocity(PhysicsTools.openGLToBullet(new Vector3f(0, 0,
-        0)));
-    body.body.activate(true);
-    health = 100;
-    if (lives <= 0)
-    {
-      alive = false;
-    }
-    exploding = false;
+    System.out.println("ghgh");
+    killed = true;
+    deathTime = Timing.getTime();
   }
 
   public void hurt()
@@ -486,9 +494,11 @@ public class Player extends GameObject
   @Override
   public String toString()
   {
-    //@formatter:off
-    return "=== Player === " + "Location:" + Arrays.toString(body.getOpenGLTransformMatrixArray()) + " Name:" + this.name +
-      " Team Name:" + this.team + " Health:" + this.health + " Lives left:" + this.lives + " Alive:" + this.alive + " ===";
-    //@formatter:on
+    // @formatter:off
+    return "=== Player === " + "Location:" + Arrays.toString(body.getOpenGLTransformMatrixArray()) + " Name:"
+        + this.name + " Team Name:" + this.team + " Health:" + this.health + " Lives left:" + this.lives + " Alive:"
+        + this.alive + " ===";
+    // @formatter:on
   }
+
 }

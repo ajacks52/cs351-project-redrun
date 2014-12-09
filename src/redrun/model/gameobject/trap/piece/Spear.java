@@ -34,9 +34,15 @@ public class Spear extends Trap
     this.orientation = orientation;
     this.xyz = xyz;
 
-    if (xyz.equals("x"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(height/2, 0.3f, 0.3f), new Quat4f(), 0, CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
-    if (xyz.equals("y"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, height/2, 0.3f), new Quat4f(), 0, CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
-    if (xyz.equals("z"))  this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, 0.3f, height/2), new Quat4f(), 0, CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
+    if (xyz.equals("x"))
+      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(height / 2, 0.3f, 0.3f), new Quat4f(), 0,
+          CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
+    if (xyz.equals("y"))
+      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, height / 2, 0.3f), new Quat4f(), 0,
+          CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
+    if (xyz.equals("z"))
+      this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, 0.3f, height / 2), new Quat4f(), 0,
+          CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
 
     sl = new ShaderLoader();
     sl.loadShader("bloodf.fs");
@@ -48,7 +54,7 @@ public class Spear extends Trap
     glNewList(displayListId, GL_COMPILE);
     {
       if (xyz.equals("x")) glRotatef(90, 0, 0, -1);
-      // do nothing  if (xyz.equals("y"))  glRotatef(1, 1, 1, 1);
+      // do nothing if (xyz.equals("y")) glRotatef(1, 1, 1, 1);
       if (xyz.equals("z")) glRotatef(90, -1, 0, 0);
 
       glTranslatef(0, -7.5f, 0);
@@ -169,10 +175,9 @@ public class Spear extends Trap
     {
       count++;
       if (xyz.equals("x")) body.translate(speed, 0f, 0f);
-
       if (xyz.equals("y")) body.translate(0f, speed, 0f);
       if (xyz.equals("z")) body.translate(0f, 0f, -speed);
-      
+
       if (count == limit)
       {
         down = true;
@@ -183,10 +188,9 @@ public class Spear extends Trap
     {
       count--;
       if (xyz.equals("x")) body.translate(-speed, 0f, 0f);
-
       if (xyz.equals("y")) body.translate(0f, -speed, 0f);
       if (xyz.equals("z")) body.translate(0f, 0f, speed);
-      
+
       if (count == 0)
       {
         down = false;
@@ -196,6 +200,5 @@ public class Spear extends Trap
         }
       }
     }
-
   }
 }
