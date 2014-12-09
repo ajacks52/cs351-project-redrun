@@ -60,12 +60,6 @@ public class GraphicsTestJake
   /** The game menu. */
   private static Menu menu = null;
 
-  /** The current game state for this client and its player. */
-  private static GameState state = GameState.WAIT;
-
-  /** The current game state for this client and its player. */
-  private static GameState previousState = GameState.WAIT;
-
   /** The active camera manager. */
   private static CameraManager cameraManager = null;
 
@@ -397,9 +391,9 @@ public class GraphicsTestJake
 
       // Update...
       // Show the HUD...
-      if (state != GameState.MAIN_MENU) HUD_Manager.huds(camera, player);
+      if (GameData.state != GameState.MAIN_MENU) HUD_Manager.huds(camera, GameData.players.get(0));
       // Show the menu...
-      if (state == GameState.MAIN_MENU) menu.stateControl();
+      if (GameData.state == GameState.MAIN_MENU || GameData.state == GameState.MAIN_MENU) menu.stateControl();
       cameraManager.update();
       PhysicsWorld.stepSimulation(1 / 60.0f);
       Timer.tick();
@@ -417,12 +411,12 @@ public class GraphicsTestJake
     if (menu.getState() == MenuState.EXIT) requestClose();
 
     // Menu control...
-    if (menu.getState() == MenuState.OFF) state = previousState;
-    if (state == GameState.MAIN_MENU) return; // Take no input if menu is up.
+    if (Keyboard.isKeyDown(Keyboard.KEY_APOSTROPHE)) GameData.state = GameState.PLAY;
+    if (menu.getState() == MenuState.OFF) GameData.state = GameState.PLAY;
+    if (GameData.state == GameState.MAIN_MENU) return; // Take no input if menu is up.
     if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
     {
-      if (state != GameState.MAIN_MENU) previousState = state;
-      state = GameState.MAIN_MENU;
+      GameData.state = GameState.MAIN_MENU;
       menu.setState();
     }
 
