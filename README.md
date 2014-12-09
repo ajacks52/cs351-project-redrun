@@ -29,6 +29,13 @@ git clone https://bitbucket.org/ggallinislove/redrun/
 3. Be sure to set up your ip address appropriately in the client, if you are using external machines
 4. Start Server.java
 5. Start Main.java on any client machines you want to connect
+6. All of the dependencies are in the lib folder and need to be put in the build path
+7. In order to configure LWJGL, be sure to set up your native path as per these instructions:
+Go to your LWJGL folder that contains the folders named "jar", "res", "doc", and "native". You need to go into Eclipse (assuming you use eclipse), open your project in the Project Explorer on the left side of your screen.
+Right click on the "JRE System Library" of your project, and click "Build Path" -> "Configure Build Path".
+Include the LWJGL native libraries to your project in the Build Path Configurer by clicking the "Native library location" which can be seen in the JRE System Library dropdown menu.
+Click on "Edit...", which will be the only button clickable in that general area.
+A file explorer will pop up. Navigate to the location of your LWJGL native folder (The location should be something like "C:\Users\YOURUSERNAMEHERE\Desktop\Java\eclipse\lwjgl-2.9.0\native" if you are using Windows) and include the folder named [Your OS here].
 
 # Game Instructions #
 * The first player to join is the villain, the rest are the victims
