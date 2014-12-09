@@ -158,8 +158,6 @@ public class Player extends GameObject
         if (team == Team.BLUE && (collisionFlags & CollisionTypes.END_COLLISION_TYPE) != 0)
         {
           winner = 1;
-          System.out.println("You made it to the End!!!");
-          System.out.println("What you gonna do now punk?");
         }
       }
     };
