@@ -16,7 +16,7 @@ import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.physics.PhysicsWorld;
 
 /**
- * Class to make a spike
+ * Class to make an explosive box
  * 
  * @author Adam Mitchell
  * @version 1.0

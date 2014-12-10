@@ -10,8 +10,24 @@ import redrun.model.constants.Direction;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.physics.BoxPhysicsBody;
 
+/**
+ * Creates a Non Explosive Box
+ * 
+ * @author Adam Mitchell
+ * @version 1.0
+ * @since 2014-11-9
+ * 
+ */
 public class NonExplosiveBox extends Trap
 {
+  /**
+   * NonExplosiveBox constructor x,y,z
+   * @param x position
+   * @param y position
+   * @param z position
+   * @param orientation
+   * @param textureName
+   */
   public NonExplosiveBox(float x, float y, float z, Direction orientation, String textureName)
   {
     super(x, y, z, orientation, textureName);
@@ -19,9 +35,10 @@ public class NonExplosiveBox extends Trap
     this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(1, 1, 1), new Quat4f(), 0);
 
     displayListId = glGenLists(1);
-
+    /** The display list to draw the trap*/
     glNewList(displayListId, GL_COMPILE);
     {
+      // A box
       glBegin(GL_QUADS);
       {
         glColor3f(1.0f, 1.0f, 1.0f);
@@ -99,28 +116,20 @@ public class NonExplosiveBox extends Trap
   @Override
   public void activate()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void reset()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void interact()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void update()
   {
-    // TODO Auto-generated method stub
-
   }
 }

@@ -53,7 +53,7 @@ public class JailDoor extends Trap
     float radius = .5f;
     float resolution = .1f;
 
-    // load the shaders to color 
+    // load the shaders to color
     sl = new ShaderLoader();
     sl.loadShader("bloodf.fs");
     sl.loadShader("bloodv.vs");
@@ -64,8 +64,8 @@ public class JailDoor extends Trap
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
     {
+      /** apply the gltransforms to draw jail */
       glPushMatrix();
-      // glRotatef(90, 1, 0, 0);
       GL11.glTranslatef(0, -10f, 0);
       glUseProgram(sl.getShaderProgram());
 
@@ -79,7 +79,7 @@ public class JailDoor extends Trap
           if (orientation == Direction.EAST || orientation == Direction.WEST) glTranslatef(5, 0, 0);
           if (orientation == Direction.NORTH || orientation == Direction.SOUTH) glTranslatef(0, 0, 5);
         }
-        /* top triangle */
+        /* top triangle fan */
         glBegin(GL_TRIANGLE_FAN);
         {
           glVertexAttrib3f(program, 0.1f, 0.1f, 0.1f);
@@ -91,7 +91,7 @@ public class JailDoor extends Trap
           }
         }
         glEnd();
-        /* bottom triangle */
+        /* bottom triangle fan */
         glBegin(GL_TRIANGLE_FAN);
         {
           glVertex3f(0, 0, 0); /* center */
@@ -104,7 +104,7 @@ public class JailDoor extends Trap
           glVertex3f(radius, height, 0);
         }
         glEnd();
-        /* middle tube */
+        /* middle tube strip */
         glBegin(GL_QUAD_STRIP);
         {
           for (float i = 0; i <= 2 * Math.PI; i += resolution)
@@ -219,7 +219,7 @@ public class JailDoor extends Trap
   @Override
   public void update()
   {
-    // the movement of the jail door 
+    // the movement of the jail door
     // go down when started
     if (this.timer.getTime() > 0 && count < 15 && down)
     {

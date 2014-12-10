@@ -10,19 +10,32 @@ import redrun.model.constants.CameraType;
 import redrun.model.constants.Constants;
 import redrun.model.gameobject.player.Player;
 
+/**
+ * Creates and manages the HUD
+ * 
+ * @author Adam Mitchell
+ * @version 1.0
+ * @since 2014-11-9
+ * 
+ */
 public class HUD_Manager
 {
   private static Texture texture = null;
   private static boolean setUp = true;
+  /** The display list IDs */
   private static int heartID = -1, healthOutlineID = -1, hudID = -1, healthID = -1, transBackground1 = -1,
       transBackground2 = -1, transBackground3 = -1;
   public static int transBackgroundUtilGrey = -1;
   public static int transBackgroundUtilRed = -1;
 
+  /*
+   * Pass in a player to set up the needed info
+   */
   private static void setUp(Player player)
   {
     texture = Tools.loadTexture("heart", "png");
 
+    /** The heart display list */
     heartID = glGenLists(1);
     glNewList(heartID, GL_COMPILE);
     {
@@ -40,6 +53,7 @@ public class HUD_Manager
     }
     glEndList();
 
+    /** The healthID display list */
     healthID = glGenLists(1);
     glNewList(healthID, GL_COMPILE);
     {
@@ -52,6 +66,7 @@ public class HUD_Manager
     }
     glEndList();
 
+    /** The healthOutlineID display list */
     healthOutlineID = glGenLists(1);
     glNewList(healthOutlineID, GL_COMPILE);
     {
@@ -66,6 +81,7 @@ public class HUD_Manager
     }
     glEndList();
 
+    /** The hudID display list */
     hudID = glGenLists(1);
     glNewList(hudID, GL_COMPILE);
     {
@@ -93,6 +109,7 @@ public class HUD_Manager
     }
     glEndList();
 
+    /** The transBackground1 display list */
     transBackground1 = glGenLists(1);
     glNewList(transBackground1, GL_COMPILE);
     {
@@ -106,6 +123,7 @@ public class HUD_Manager
     }
     glEndList();
 
+    /** The transBackground2 display list */
     transBackground2 = glGenLists(1);
     glNewList(transBackground2, GL_COMPILE);
     {
@@ -119,6 +137,7 @@ public class HUD_Manager
     }
     glEndList();
 
+    /** The transBackground3 display list */
     transBackground3 = glGenLists(1);
     glNewList(transBackground3, GL_COMPILE);
     {
@@ -132,6 +151,7 @@ public class HUD_Manager
     }
     glEndList();
 
+    /** The transBackgroundUtilGrey display list */
     transBackgroundUtilGrey = glGenLists(1);
     glNewList(transBackgroundUtilGrey, GL_COMPILE);
     {
@@ -145,6 +165,7 @@ public class HUD_Manager
     }
     glEndList();
 
+    /** The transBackgroundUtilRed display list */
     transBackgroundUtilRed = glGenLists(1);
     glNewList(transBackgroundUtilRed, GL_COMPILE);
     {
@@ -160,6 +181,11 @@ public class HUD_Manager
 
   }
 
+  /**
+   * Renders the HUDs player and spectator
+   * @param cam the camera being used
+   * @param player the current player
+   */
   public static void huds(Camera cam, Player player)
   {
     if (setUp == true)
@@ -200,6 +226,7 @@ public class HUD_Manager
 
   /**
    * Draws player health and lives remaining
+   * @param Player player
    */
   private static void drawPlayerHUD(Player player)
   {
@@ -250,6 +277,9 @@ public class HUD_Manager
     drawHUD();
   }
 
+  /**
+   * drawSpectatorHUD
+   */
   private static void drawSpectatorHUD()
   {
     glPushMatrix();
@@ -297,12 +327,17 @@ public class HUD_Manager
     glPopMatrix();
   }
 
+  /**
+   * displayGameOver 
+   * @param cam the camera 
+   * @param player player
+   */
   public static void displayGameOver(Camera cam, Player player)
   {
     if (cam.getType() == CameraType.PLAYER)
     {
-      //TODO give player a winner boolean
-      if(player.isWinner() == 1)
+      // TODO give player a winner boolean
+      if (player.isWinner() == 1)
       {
         displayYouWin();
       }
@@ -310,11 +345,13 @@ public class HUD_Manager
       {
         displayYouLose();
       }
-    }   
+    }
   }
 
   /**
    * displayYouDied
+   * 
+   * @param the camera 
    */
   public static void displayYouDied(Camera cam)
   {
