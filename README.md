@@ -53,7 +53,7 @@ rake db:migrate --VERSION=0
 * If you want to create all tables and the database does not currently exist:
 rake db:migrate
 
-## Populate Database with Map ##
+## Populate Database with Map Input File##
 
 1. Build text file formatted similarly to the one found at  res/maps/IceWorld.txt
 
