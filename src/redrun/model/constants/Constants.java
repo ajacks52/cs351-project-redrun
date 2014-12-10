@@ -2,8 +2,17 @@ package redrun.model.constants;
 
 import java.util.Random;
 
+/**
+ * Constants Static constants
+ * 
+ * @author Adam Mitchell
+ * @version 1.0
+ * @since 2014-11-9
+ * 
+ */
 public class Constants
 {
+  // The static info for the game
   public static final Random random = new Random();
   public static final int DISPLAY_WIDTH = 1280;
   public static final int DISPLAY_HEIGHT = 720;
