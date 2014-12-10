@@ -45,6 +45,8 @@ A file explorer will pop up. Navigate to the location of your LWJGL native folde
 # Miscellaneous - Database #
 
 ## Migrate Database ##
+* Ruby must be installed for this to work!
+
 1. cd to the redrun parent folder
 
 * If database already exists and you want to clear all tables:
