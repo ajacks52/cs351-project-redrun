@@ -24,7 +24,9 @@ import redrun.model.toolkit.ShaderLoader;
  */
 public class SpikeTrapDoor extends Trap
 {
+  /** the shader loader */
   ShaderLoader sl;
+  /** the whether move or not */
   float occilate = 0;
   float occilate2 = 0;
   float movementSpeed = 0.15f;
@@ -37,13 +39,13 @@ public class SpikeTrapDoor extends Trap
    * @param x starting coordinate
    * @param y starting coordinate
    * @param z starting coordinate
-   * @param low
+   * @param low set whether the trap is on a corridor, or a pit
    */
   public SpikeTrapDoor(float x, float y, float z, Direction orientation, String textureName, boolean low)
   {
     super(x, y, z, orientation, null);
 
-    // Physics body...
+    // Physics body
     this.body = new BoxPhysicsBody(new Vector3f(x, y-3f, z), new Vector3f(5, 1, 5), new Quat4f(), 0.0f, CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
     sl = new ShaderLoader();
     sl.loadShader("bloodf.fs");
@@ -98,13 +100,7 @@ public class SpikeTrapDoor extends Trap
     glEndList();
   }
 
-  /**
-   * Draws spikes to the screen at the given position
-   * 
-   * @param the x coord
-   * @param the y coord
-   * @param the z coord
-   */
+ 
   @Override
   public void draw()
   {
@@ -147,7 +143,7 @@ public class SpikeTrapDoor extends Trap
   {
   }
 
-
+  @Override
   public void update()
   {
     int time = 40;

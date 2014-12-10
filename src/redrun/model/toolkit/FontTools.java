@@ -20,9 +20,13 @@ import static org.lwjgl.util.glu.GLU.gluPerspective;
  */
 public class FontTools
 {
+  /** The first font small */
   private static TrueTypeFont fontSmall;
+  /** The second font normal sized */
   private static TrueTypeFont fontNormal;
+  /** The third font larger*/
   private static TrueTypeFont fontBig;
+  /** The really big font*/
   private static TrueTypeFont fontBigger;
 
 

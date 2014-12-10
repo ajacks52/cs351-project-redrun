@@ -12,21 +12,30 @@ import static org.lwjgl.opengl.GL20.*;
  * Utility class to load shaders to make new shader make a new object of this
  * class
  * 
- * 
  * @author Adam Mitchell
- *
- *
+ * @version 1.0
+ * @since 2014-11-9
  */
 public class ShaderLoader
 {
+  /** shaders that are in the program  */
   private ArrayList<Integer> shaders = new ArrayList<Integer>();
+  /** the current shader */
   private int shaderProgram;
 
+  /*
+   * ShaderLoader creates a new shader loader
+   */
   public ShaderLoader()
   {
     this.shaderProgram = glCreateProgram();
   }
 
+  /**
+   * 
+   * @param name string
+   * @return the shader id
+   */
   public int loadShader(String name)
   {
     int shader = 0;
@@ -58,7 +67,6 @@ public class ShaderLoader
     }
     catch (IOException e)
     {
-      // System.out.println(name);
       System.err.println("Shader wasn't loaded properly " + name + ".");
       return -1;
     }
@@ -81,10 +89,10 @@ public class ShaderLoader
     glCompileShader(shader);
     if (glGetShaderi(shader, GL_COMPILE_STATUS) == GL_FALSE)
     {
-      System.err.println("Shader wasn't compiled correctly "+ name + ".");
+      System.err.println("Shader wasn't compiled correctly " + name + ".");
       return -1;
     }
-
+    /** Everything is loaded well */
     glAttachShader(this.shaderProgram, shader);
     glLinkProgram(this.shaderProgram);
     glValidateProgram(this.shaderProgram);

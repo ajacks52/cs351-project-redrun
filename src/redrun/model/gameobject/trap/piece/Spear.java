@@ -14,6 +14,14 @@ import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.toolkit.ShaderLoader;
 import redrun.model.toolkit.Timing;
 
+/**
+ * Class to make a Spear
+ * 
+ * @author Adam Mitchell
+ * @version 1.0
+ * @since 2014-11-9
+ * 
+ */
 public class Spear extends Trap
 {
   private ShaderLoader sl;
@@ -24,6 +32,16 @@ public class Spear extends Trap
   Direction orientation;
   String xyz;
 
+  /**
+   * 
+   * @param x position 
+   * @param y position
+   * @param z position
+   * @param orientation
+   * @param textureName
+   * @param startTime
+   * @param xyz one either x, y, or z
+   */
   public Spear(float x, float y, float z, Direction orientation, String textureName, float startTime, String xyz)
   {
     super(x, y, z, orientation, textureName);
@@ -44,17 +62,19 @@ public class Spear extends Trap
       this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(0.3f, 0.3f, height / 2), new Quat4f(), 0,
           CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
 
+    /** Load the shaders*/
     sl = new ShaderLoader();
     sl.loadShader("bloodf.fs");
     sl.loadShader("bloodv.vs");
     sl.deleteShaders();
     int program = glGetAttribLocation(sl.getShaderProgram(), "atr1");
 
+    /** Set and compile the display list */
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
     {
+      /** Apply the transformations */
       if (xyz.equals("x")) glRotatef(90, 0, 0, -1);
-      // do nothing if (xyz.equals("y")) glRotatef(1, 1, 1, 1);
       if (xyz.equals("z")) glRotatef(90, -1, 0, 0);
 
       glTranslatef(0, -7.5f, 0);

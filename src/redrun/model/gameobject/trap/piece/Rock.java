@@ -22,10 +22,12 @@ import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.toolkit.OBJLoader;
 
 /**
+ * Creates a Rock trap
  * 
  * @author Adam Mitchell
- *
- *
+ * @version 1.0
+ * @since 2014-11-9
+ * 
  */
 public class Rock extends Trap
 {
@@ -35,21 +37,23 @@ public class Rock extends Trap
   private boolean down = true;
 
   /**
-   * A rock smashing traps
+   * A rock smashing traps at x,y,z
    * 
-   * @param x
-   * @param y
-   * @param z
-   * @param modeln name rock1, rock2, rock3
+   * @param x position
+   * @param y position
+   * @param z position
+   * @param model name
+   * @param start time
    */
   public Rock(float x, float y, float z, Direction orientation, String modelName, float startTime)
   {
     super(x, y, z, orientation, null);
 
     this.startTime = startTime;
-    //this.body = new SpherePhysicsBody(new Vector3f(x, y, z), 4.5f, 10.0f);
-    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(2, 2, 2.5f), new Quat4f(), 0, CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
-    
+    // this.body = new SpherePhysicsBody(new Vector3f(x, y, z), 4.5f, 10.0f);
+    this.body = new BoxPhysicsBody(new Vector3f(x, y, z), new Vector3f(2, 2, 2.5f), new Quat4f(), 0,
+        CollisionTypes.INSTANT_DEATH_COLLISION_TYPE);
+
     // load in model
     model = OBJLoader.loadModel(new File("res/models/" + "rock" + Constants.random.nextInt(2) + ".obj"));
 
@@ -104,7 +108,6 @@ public class Rock extends Trap
   @Override
   public void reset()
   {
-    // TODO Auto-generated method stub
     this.timer.pause();
     this.timer.reset();
   }
@@ -112,32 +115,31 @@ public class Rock extends Trap
   @Override
   public void interact()
   {
-    // TODO Auto-generated method stub
   }
 
   @Override
   public void update()
   {
     body.getY();
-//    System.out.println("body.getY: " + body.getOpenGLTransformMatrix());
+    // System.out.println("body.getY: " + body.getOpenGLTransformMatrix());
     int time = 60;
     if (this.timer.getTime() > startTime && count < time && down)
-    {    
+    {
       count++;
       body.translate(0f, -0.5f, 0f);
-      if(count == time)
+      if (count == time)
       {
-        down=false;
+        down = false;
       }
     }
     else if (count > 0 && this.timer.getTime() > startTime && !down)
     {
       count--;
       body.translate(0f, 0.5f, 0f);
-      if(count == 0)
+      if (count == 0)
       {
-        down=true;
-        if(this.timer.getTime() > 10)
+        down = true;
+        if (this.timer.getTime() > 10)
         {
           this.reset();
         }

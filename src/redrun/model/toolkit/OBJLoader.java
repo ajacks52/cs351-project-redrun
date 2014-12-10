@@ -16,14 +16,22 @@ import redrun.model.mesh.Face;
 import redrun.model.mesh.Model;
 
 /**
+ * Creates and manages the HUD
  * 
  * @author Adam Mitchell
- *
- *
+ * @version 1.0
+ * @since 2014-11-9
+ * 
  */
 public class OBJLoader
 {
-  public static Model loadModel(File f) 
+  /**
+   * loadModel static method to load a model
+   * 
+   * @param File file
+   * @return Model to be displayed
+   */
+  public static Model loadModel(File f)
   {
     BufferedReader reader = null;
     try
@@ -34,7 +42,7 @@ public class OBJLoader
     {
       e.printStackTrace();
     }
-
+    /** The model */
     Model model = new Model();
     String line;
     Texture currentTexture = null;
@@ -42,6 +50,7 @@ public class OBJLoader
     {
       while ((line = reader.readLine()) != null)
       {
+        /** find the v */
         if (line.startsWith("v "))
         {
           float x = Float.valueOf(line.split(" ")[1]);
@@ -49,6 +58,7 @@ public class OBJLoader
           float z = Float.valueOf(line.split(" ")[3]);
           model.verticies.add(new Vector3f(x, y, z));
         }
+        /** find the vn */
         else if (line.startsWith("vn "))
         {
           float x = Float.valueOf(line.split(" ")[1]);
@@ -56,20 +66,22 @@ public class OBJLoader
           float z = Float.valueOf(line.split(" ")[3]);
           model.normals.add(new Vector3f(x, y, z));
         }
+        /** find the vt */
         else if (line.startsWith("vt "))
         {
           float x = Float.valueOf(line.split(" ")[1]);
           float y = Float.valueOf(line.split(" ")[2]);
           model.texVerticies.add(new Vector2f(x, 1 - y));
         }
+        /** find the f */
         else if (line.startsWith("f "))
         {
-          Vector3f vertexIndicies = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[0]) - 1, Float.valueOf(line
-              .split(" ")[2].split("/")[0]) - 1, Float.valueOf(line.split(" ")[3].split("/")[0]) - 1);
-          Vector3f textureIndicies = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[1]) - 1, Float.valueOf(line
-              .split(" ")[2].split("/")[1]) - 1, Float.valueOf(line.split(" ")[3].split("/")[1]) - 1);
-          Vector3f normalIndicies = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[2]) - 1, Float.valueOf(line
-              .split(" ")[2].split("/")[2]) - 1, Float.valueOf(line.split(" ")[3].split("/")[2]) - 1);
+          Vector3f vertexIndicies = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[0]) - 1,
+              Float.valueOf(line.split(" ")[2].split("/")[0]) - 1, Float.valueOf(line.split(" ")[3].split("/")[0]) - 1);
+          Vector3f textureIndicies = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[1]) - 1,
+              Float.valueOf(line.split(" ")[2].split("/")[1]) - 1, Float.valueOf(line.split(" ")[3].split("/")[1]) - 1);
+          Vector3f normalIndicies = new Vector3f(Float.valueOf(line.split(" ")[1].split("/")[2]) - 1,
+              Float.valueOf(line.split(" ")[2].split("/")[2]) - 1, Float.valueOf(line.split(" ")[3].split("/")[2]) - 1);
 
           model.faces.add(new Face(vertexIndicies, textureIndicies, normalIndicies, currentTexture.getTextureID()));
         }

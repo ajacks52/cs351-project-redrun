@@ -14,6 +14,14 @@ import redrun.model.gameobject.trap.full.TrapDoor;
 import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.toolkit.ShaderLoader;
 
+/**
+ * Class to make a Spike
+ * 
+ * @author Adam Mitchell
+ * @version 1.0
+ * @since 2014-11-9
+ * 
+ */
 public class Spike extends Trap
 {
   ShaderLoader sl;
@@ -23,6 +31,15 @@ public class Spike extends Trap
   float occilate2 = 0;
   float movementSpeed = 0.15f;
 
+  /**
+   * Spike trap
+   * 
+   * @param x position
+   * @param y position
+   * @param z position
+   * @param orientation
+   * @param textureName
+   */
   public Spike(float x, float y, float z, Direction orientation, String textureName)
   {
     super(x, y, z, orientation, null);
@@ -42,6 +59,7 @@ public class Spike extends Trap
       glScalef(0.3f, 2.f, 0.2f);
       glColor3f(0.5f, 0.5f, 0.5f);
 
+      /** Make the spike triangles */
       glBegin(GL_TRIANGLES);
       {
         // Front triangle...
@@ -83,7 +101,6 @@ public class Spike extends Trap
   @Override
   public void activate()
   {
-    // TODO Auto-generated method stub
     System.out.println("Interacting with the game object: " + this.id);
     this.timer.resume();
   }
@@ -91,21 +108,17 @@ public class Spike extends Trap
   @Override
   public void reset()
   {
-    // TODO Auto-generated method stub
     this.timer.reset();
   }
 
   @Override
   public void interact()
   {
-    // TODO Auto-generated method stub
   }
 
   @Override
   public void update()
   {
-    
-    
   }
 
 }

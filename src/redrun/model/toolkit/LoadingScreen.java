@@ -11,6 +11,8 @@ import redrun.model.constants.Constants;
 import redrun.model.gameobject.GameObject;
 
 /**
+ * Loading Screen class 
+ * 
  * @author Adam Mitchell
  * @version 1.0
  * @since 2014-19-10
@@ -21,6 +23,11 @@ public class LoadingScreen extends GameObject
 {
   private static BackgroundLoader backgroundLoader;
 
+
+  /**
+   * The loading screen 
+   * @param texture not used.
+   */
   public LoadingScreen(String texture)
   {
     super(0, 0, 0, texture);
@@ -74,7 +81,7 @@ public class LoadingScreen extends GameObject
     catch (LWJGLException e)
     {
     }
-    // set up the loading screen
+    // set up the loading screen texture
     LoadingScreen spashScreen = new LoadingScreen("loading2");
     HUD_Manager.make2D();
     while (backgroundLoader.isRunning())
