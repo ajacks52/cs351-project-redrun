@@ -25,6 +25,14 @@ public class RockSmash extends Trap
   Rock rock7;
   Rock rock8;
 
+  /**
+   * 
+   * @param x position 
+   * @param y position
+   * @param z position
+   * @param orientation
+   * @param textureName
+   */
   public RockSmash(float x, float y, float z, Direction orientation, String textureName)
   {
     super(x, y, z, orientation, null);
