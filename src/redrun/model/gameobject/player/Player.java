@@ -28,7 +28,6 @@ import redrun.model.physics.PhysicsBody;
 import redrun.model.physics.PhysicsTools;
 import redrun.model.physics.PhysicsWorld;
 import redrun.model.toolkit.OBJLoader;
-import redrun.model.toolkit.Timing;
 
 /**
  * This class represents a player in the game world.
@@ -60,15 +59,14 @@ public class Player extends GameObject
   /** Has the player won.  -1 = lose, 0 = neither, 1 = win. */
   private int winner = 0;
 
-//private String[] modelStrings = new String[] {"mario_standing", "mario_0", "mario_1", "mario_2", "mario_3", "mario_4", "mario_5", "mario_6"};
+  /** Models for drawing/animating the red players. */
   private String[] modelRedStrings = new String[] {"standingred", "rightfrontred", "leftfrontred"};
+  
+  /** Models for drawing/animating the blue players. */
   private String[] modelBlueStrings = new String[] {"standingblue", "rightfrontblue", "leftfrontblue"};
   
   /** The state of the player */
   private boolean killed = false;
-
-  @SuppressWarnings("unused")
-  private long deathTime = 0;
 
   /** The players model */
   private Model[] models;
@@ -287,7 +285,6 @@ public class Player extends GameObject
 
   /**
    * Makes the player jump.
-   * 
    */
   public void jump()
   {
@@ -447,7 +444,6 @@ public class Player extends GameObject
   @Override
   public void reset()
   {
-    // TODO Auto-generated method stub
 
   }
 
@@ -531,6 +527,9 @@ public class Player extends GameObject
     return this.camera;
   }
 
+  /**
+   * Gets the player's physics body.
+   */
   public PhysicsBody getBody()
   {
     return body;
@@ -578,15 +577,9 @@ public class Player extends GameObject
 
   /**
    * Sets the players dead state
-   * 
    */
   private void setDead()
   {
-//    if (Timing.getTime() < deathTime + 4000)
-//    {
-//      DeathScreen.display(deathTime);
-//    }
-//    else
     {
       lives--;
       body.body.setWorldTransform(startPos);
@@ -604,17 +597,14 @@ public class Player extends GameObject
 
   /**
    * Kills the player
-   * 
    */
   public void kill()
   {
     killed = true;
-    deathTime = Timing.getTime();
   }
 
   /**
    * Hurts the player
-   * 
    */
   public void hurt()
   {
