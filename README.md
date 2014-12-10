@@ -56,5 +56,7 @@ rake db:migrate
 ## Populate Database with Map ##
 
 1. Build text file formatted similarly to the one found at  res/maps/IceWorld.txt
+
 * The first line must be the map, followed by a blank line, then followed by the list of mapobjects
+
 * Run MapObjectTextToDB.java with the text file created to populate database
