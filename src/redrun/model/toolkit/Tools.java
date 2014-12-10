@@ -23,8 +23,7 @@ public class Tools
   /**
    * Loads a texture from a file for OpenGL.
    * 
-   * @param filename the name of the file located in the res (resources)
-   *          directory
+   * @param filename the name of the file located in the res (resources) directory
    * @return the loaded texture
    */
   public static Texture loadTexture(String filename, String filetype)

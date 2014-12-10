@@ -14,7 +14,9 @@ import redrun.database.RedRunDAO;
  */
 public class RedRunDAOTest
 {
+  /** Debug mode */
   private static final boolean DEBUG = true;
+  /** DAO instance for db functionality */
   private static RedRunDAO dao = new RedRunDAO();
 
   /**

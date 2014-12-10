@@ -66,6 +66,9 @@ public class Sound
     alSourcePlay(source);
   }
   
+  /**
+   * Destroys this sound.
+   */
   public void destroy()
   {
     alDeleteBuffers(buffer);

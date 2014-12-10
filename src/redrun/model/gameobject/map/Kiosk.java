@@ -137,7 +137,6 @@ public class Kiosk extends MapObject
   @Override
   public int compareTo(MapObject arg0)
   {
-    // TODO Auto-generated method stub
     return 0;
   }
 }
