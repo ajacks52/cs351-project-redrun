@@ -15,11 +15,29 @@ import redrun.model.gameobject.trap.full.ExplodingBoxField;
 import redrun.model.physics.BoxPhysicsBody;
 import redrun.model.physics.PhysicsWorld;
 
+/**
+ * Class to make a spike
+ * 
+ * @author Adam Mitchell
+ * @version 1.0
+ * @since 2014-11-9
+ * 
+ */
 public class ExplosiveBox extends Trap
 {
-
+  // Don't explode the whole box row
   private boolean exploded = false;
 
+  /**
+   * Creates a single spike
+   * 
+   * @param x position
+   * @param y position
+   * @param z position
+   * @param orientation
+   * @param textureName
+   * @param boxField
+   */
   public ExplosiveBox(float x, float y, float z, Direction orientation, String textureName,
       final ExplodingBoxField boxField)
   {
@@ -38,10 +56,11 @@ public class ExplosiveBox extends Trap
         }
       }
     };
+    // Add the body to physics world
     PhysicsWorld.addToWatchList(this.body);
 
     displayListId = glGenLists(1);
-
+    // the display list for the box
     glNewList(displayListId, GL_COMPILE);
     {
       glBegin(GL_QUADS);
@@ -118,6 +137,9 @@ public class ExplosiveBox extends Trap
     glEndList();
   }
 
+  /**
+   * Explode the box set to true
+   */
   public void explode()
   {
     exploded = true;

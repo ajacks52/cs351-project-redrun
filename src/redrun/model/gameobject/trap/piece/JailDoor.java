@@ -20,7 +20,9 @@ import redrun.model.toolkit.ShaderLoader;
  * Creates a jail door to block the path of players
  * 
  * @author Adam Mitchell
- *
+ * @version 1.0
+ * @since 2014-11-9
+ * 
  */
 public class JailDoor extends Trap
 {
@@ -29,7 +31,7 @@ public class JailDoor extends Trap
   private boolean down = true;
 
   /**
-   * Constructor
+   * JailDoor constructor
    * 
    * @param x same as map object
    * @param y same as map object
@@ -51,18 +53,20 @@ public class JailDoor extends Trap
     float radius = .5f;
     float resolution = .1f;
 
+    // load the shaders to color 
     sl = new ShaderLoader();
     sl.loadShader("bloodf.fs");
     sl.loadShader("bloodv.vs");
+    // delete the shaders
     sl.deleteShaders();
     int program = glGetAttribLocation(sl.getShaderProgram(), "atr1");
-
+    // set the display list
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
     {
       glPushMatrix();
       // glRotatef(90, 1, 0, 0);
-      GL11.glTranslatef(0,-10f, 0);
+      GL11.glTranslatef(0, -10f, 0);
       glUseProgram(sl.getShaderProgram());
 
       glScalef(0.3f, 2f, 0.3f);
@@ -121,7 +125,7 @@ public class JailDoor extends Trap
       glPopMatrix();
       glPushMatrix();
       {
-        GL11.glTranslatef(0,-10f, 0);
+        GL11.glTranslatef(0, -10f, 0);
         glUseProgram(sl.getShaderProgram());
         if (orientation == Direction.NORTH || orientation == Direction.SOUTH)
         {
@@ -203,7 +207,6 @@ public class JailDoor extends Trap
   @Override
   public void reset()
   {
-    // TODO Auto-generated method stub
     this.timer.pause();
     this.timer.reset();
   }
@@ -211,12 +214,13 @@ public class JailDoor extends Trap
   @Override
   public void interact()
   {
-    // TODO Auto-generated method stub
   }
 
   @Override
   public void update()
   {
+    // the movement of the jail door 
+    // go down when started
     if (this.timer.getTime() > 0 && count < 15 && down)
     {
       count++;
@@ -226,6 +230,7 @@ public class JailDoor extends Trap
         down = false;
       }
     }
+    // move up when the time is up
     else if (count > 0 && !down && this.timer.getTime() > 10)
     {
       count--;
@@ -235,6 +240,7 @@ public class JailDoor extends Trap
         down = true;
       }
     }
+    // reset
     if (count == 0 && this.timer.getTime() > 0)
     {
       this.reset();

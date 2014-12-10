@@ -6,14 +6,16 @@ import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.trap.piece.JailDoor;
 
 /**
- * Creates a jail of two doors looks players inside for 10 seconds. 
+ * Creates a jail of two doors looks players inside for 10 seconds.
  * 
  * @author Adam Mitchell
  *
- *
+ * @version 1.0
+ * @since 2014-11-9
  */
 public class Jail extends Trap
 {
+  /** The jail doors */
   JailDoor door1;
   JailDoor door2;
 
@@ -32,20 +34,20 @@ public class Jail extends Trap
 
     if (orientation == Direction.EAST || orientation == Direction.WEST)
     {
-      door1 = new JailDoor(x, y+25, z - 6.5f, orientation, null);
-      door2 = new JailDoor(x, y+25, z + 6.5f, orientation, null);
+      door1 = new JailDoor(x, y + 25, z - 6.5f, orientation, null);
+      door2 = new JailDoor(x, y + 25, z + 6.5f, orientation, null);
     }
 
     if (orientation == Direction.SOUTH || orientation == Direction.NORTH)
     {
-      door1 = new JailDoor(x - 6.5f, y+25, z, orientation, null);
-      door2 = new JailDoor(x + 6.5f, y+25, z, orientation, null);
-    }  
-        
+      door1 = new JailDoor(x - 6.5f, y + 25, z, orientation, null);
+      door2 = new JailDoor(x + 6.5f, y + 25, z, orientation, null);
+    }
+
     GameData.addGameObject(door1);
     GameData.addGameObject(door2);
   }
-  
+
   @Override
   public void activate()
   {

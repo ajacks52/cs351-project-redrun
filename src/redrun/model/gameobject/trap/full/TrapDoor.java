@@ -18,7 +18,7 @@ import static org.lwjgl.opengl.GL11.*;
  * 
  * @author Adam Mitchell
  * @version 1.0
- * @since 2014-13-10
+ * @since 2014-11-9
  * 
  */
 public class TrapDoor extends Trap
@@ -30,15 +30,16 @@ public class TrapDoor extends Trap
   /**
    * Constructor to make a new trap door give the starting position
    * 
-   * @param x pos
-   * @param y pos
-   * @param z pos
+   * @param x position
+   * @param y position
+   * @param z position
    * @param textureName
    */
   public TrapDoor(float x, float y, float z, Direction orientation, String textureName)
   {
     super(x, y+.02f, z, orientation, textureName);
 
+    // Box physics body with a flat side the floor
     this.body = new BoxPhysicsBody(new Vector3f(x, y+.02f, z), new Vector3f(7, 0f, 7), new Quat4f(), 0.0f);
 
     this.orientation = orientation;
@@ -47,6 +48,7 @@ public class TrapDoor extends Trap
     GameData.addGameObject(bottomTrap);
     displayListId = glGenLists(1);
 
+    // The display list 
     glNewList(displayListId, GL_COMPILE);
     {
       glBegin(GL_QUADS);
@@ -66,6 +68,9 @@ public class TrapDoor extends Trap
     glEndList();
   }
 
+  /**
+   * override draw to apply the scale
+   */
   @Override
   public void draw()
   {
@@ -81,17 +86,21 @@ public class TrapDoor extends Trap
     glPopMatrix();
     update();
   }
-
+  /** 
+   *Turn on the trap 
+   **/
   @Override
   public void activate()
   {
     this.timer.resume();
   }
 
+  /**
+   * Reset the trap
+   */
   @Override
   public void reset()
   {
-    // TODO Auto-generated method stub
     this.timer.pause();
     this.timer.reset();
   }
@@ -99,14 +108,15 @@ public class TrapDoor extends Trap
   @Override
   public void interact()
   {
-    // TODO Auto-generated method stub
   }
 
   @Override
   public void update()
   {
+    // the trap animation open sequence 
     if (this.timer.getTime() > 0 && count < 10 && down)
     {
+      // number of times to run the trap
       count++;
       if (orientation == Direction.NORTH || orientation == Direction.SOUTH)
       {
@@ -122,6 +132,7 @@ public class TrapDoor extends Trap
         down = false;
       }
     }
+    // go back to the close position
     else if (count > 0 && !down && this.timer.getTime() > 6)
     {
       count--;

@@ -6,13 +6,16 @@ import redrun.model.gameobject.trap.Trap;
 import redrun.model.gameobject.trap.piece.Rock;
 
 /**
+ * Creates a Rock Smash trap
  * 
  * @author Adam Mitchell
  *
- *
+ * @version 1.0
+ * @since 2014-11-9
  */
 public class RockSmash extends Trap
 {
+  /** 8 rocks to be displayed*/
   Rock rock1;
   Rock rock2;
   Rock rock3;
@@ -26,6 +29,7 @@ public class RockSmash extends Trap
   {
     super(x, y, z, orientation, null);
 
+    /**  Adds 8 rocks */
     rock1 = new Rock(x, y + 25, z - 10, orientation, null, 0f);
     rock2 = new Rock(x + 5, y + 25, z, orientation, null, 1f);
     rock3 = new Rock(x - 15, y + 25, z + 10, orientation, null, 1.5f);
@@ -34,7 +38,7 @@ public class RockSmash extends Trap
     rock6 = new Rock(x + 15, y + 25, z + 10, orientation, null, 1.7f);
     rock7 = new Rock(x - 10, y + 25, z + 15, orientation, null, 1.3f);
     rock8 = new Rock(x - 15, y + 25, z,  orientation, null, 2f);
-
+    /**  Adds the rocks to the game data*/
     GameData.addGameObject(rock1);
     GameData.addGameObject(rock2);
     GameData.addGameObject(rock3);

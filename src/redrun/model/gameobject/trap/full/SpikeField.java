@@ -15,9 +15,12 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 
 /**
- * Draws a strip of spikes to the position and size set in the constructor
+ * Creates the spike field trap 
  * 
  * @author Adam Mitchell
+ *
+ * @version 1.0
+ * @since 2014-11-9
  */
 public class SpikeField extends Trap
 {
@@ -25,11 +28,11 @@ public class SpikeField extends Trap
   Dimension dim;
 
   /**
-   * Constructor
+   * Creates the spike field trap 
    * 
-   * @param x pos
-   * @param y pos
-   * @param z pos
+   * @param x position
+   * @param y position
+   * @param z position
    * @param textureName
    * @param dimension of the trap x,z (not x y)
    */
@@ -56,12 +59,13 @@ public class SpikeField extends Trap
     sl.loadShader("bloodf.fs");
     sl.loadShader("bloodv.vs");
     sl.deleteShaders();
-
+    // the shader program 
     int program = glGetAttribLocation(sl.getShaderProgram(), "atr1");
-
+    // set up the display list
     displayListId = glGenLists(1);
     glNewList(displayListId, GL_COMPILE);
     {
+      // if low is set make them smaller 
       if (low)
       {
         glTranslatef(-(float) (dim.width / 2), 1.0f, -(float) (dim.height / 2));
@@ -120,6 +124,7 @@ public class SpikeField extends Trap
           }
         }
       }
+      // if !low is set make them larger 
       else if (!low)
       {
         glTranslatef(-(float) (dim.width / 2), 1.51f, -(float) (dim.height / 2));
@@ -140,6 +145,7 @@ public class SpikeField extends Trap
           }
         glEnd();
         glScalef(0.5f, 7f, 0.5f);
+        // Makes the spike parts
         for (float z_axis = 2f; z_axis < dim.height * 1.5; z_axis += 6f)
         {
           for (float x_axis = 2f; x_axis < dim.width * 1.5; x_axis += 6f)
@@ -183,29 +189,21 @@ public class SpikeField extends Trap
   @Override
   public void activate()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void reset()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void interact()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void update()
   {
-    // TODO Auto-generated method stub
-
   }
 
 }

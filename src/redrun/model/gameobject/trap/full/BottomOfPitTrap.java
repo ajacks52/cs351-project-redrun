@@ -11,9 +11,27 @@ import redrun.model.constants.Direction;
 import redrun.model.gameobject.trap.Trap;
 import redrun.model.physics.BoxPhysicsBody;
 
+
+/**
+ * Trap to kill players in an empty pit
+ * 
+ * @author Adam Michell, Jordan Medlock
+ *         
+ * @version 1.0
+ * @since 2014-12-9
+ */
 public class BottomOfPitTrap extends Trap
 {
 
+  /**
+   * BottomOfPitTrap constructor makes a new BottomOfPitTrap at the given location
+   * 
+   * @param x position 
+   * @param y position
+   * @param z position 
+   * @param orientation
+   * @param dimension
+   */
   public BottomOfPitTrap(float x, float y, float z, Direction orientation, Dimension dim)
   {
     super(x, y, z, orientation, null);
@@ -23,30 +41,22 @@ public class BottomOfPitTrap extends Trap
 
   @Override
   public void activate()
-  {
-    // TODO Auto-generated method stub
-    
+  {    
   }
 
   @Override
   public void reset()
-  {
-    // TODO Auto-generated method stub
-    
+  {    
   }
 
   @Override
   public void interact()
-  {
-    // TODO Auto-generated method stub
-    
+  {    
   }
 
   @Override
   public void update()
-  {
-    // TODO Auto-generated method stub
-    
+  {    
   }
 
 }

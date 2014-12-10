@@ -19,7 +19,7 @@ import redrun.model.toolkit.ShaderLoader;
  * 
  * @author Adam Mitchell
  * @version 1.0
- * @since 2014-13-10
+ * @since 2014-11-9
  * 
  */
 public class SpikeTrapDoor extends Trap

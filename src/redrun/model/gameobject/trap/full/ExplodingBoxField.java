@@ -9,13 +9,32 @@ import redrun.model.gameobject.trap.piece.ExplosiveBox;
 import redrun.model.gameobject.trap.piece.NonExplosiveBox;
 import redrun.model.physics.PhysicsWorld;
 
+/**
+ * The container to make the box field
+ * 
+ * @author Adam Michell
+ * 
+ * @version 1.0
+ * @since 2014-12-9
+ */
 public class ExplodingBoxField extends Trap
 {
-
+  /** explosiveBoxes array */
   private ArrayList<ExplosiveBox> explosiveBoxes = new ArrayList<ExplosiveBox>(220);
+  /** size of field */
   int size = 0;
+  /** height of pit */
   int pit_height = 1;
 
+  /**
+   * Makes a new Exploding Box Field at x,y,z
+   * 
+   * @param x position
+   * @param y position
+   * @param z position 
+   * @param textureName
+   * @param type of map object to be placed in "pit", "corridor", "field"
+   */
   public ExplodingBoxField(float x, float y, float z, String textureName, String type)
   {
     super(x, y, z, null, textureName);
@@ -57,6 +76,9 @@ public class ExplodingBoxField extends Trap
     }
   }
 
+  /**
+   * Explodes a box or set of boxes
+   */
   public void explode()
   {
     for (ExplosiveBox box : explosiveBoxes)
@@ -69,29 +91,20 @@ public class ExplodingBoxField extends Trap
   @Override
   public void activate()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void reset()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void interact()
   {
-    // TODO Auto-generated method stub
-
   }
 
   @Override
   public void update()
   {
-    // TODO Auto-generated method stub
-
   }
-
 }
