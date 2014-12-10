@@ -41,3 +41,16 @@ A file explorer will pop up. Navigate to the location of your LWJGL native folde
 * The first player to join is the villain, the rest are the victims
 * Press the Esc key to view the menu which will help you get familiar with the controls for the game
 * There can be up to 5 players total
+
+# Miscellaneous - Database #
+## Migrate Database ##
+1. cd to the redrun parent folder
+* If database already exists and you want to clear all tables:
+rake db:migrate --VERSION=0 
+* If you want to create all tables and the database does not currently exist:
+rake db:migrate
+## Populate Database with Map ##
+1. Build text file formatted similarly to the one found at  res/maps/IceWorld.txt
+* The first line must be the map, followed by a blank line, then followed by the list of mapobjects
+* Run MapObjectTextToDB.java with the text file created to populate database
+
