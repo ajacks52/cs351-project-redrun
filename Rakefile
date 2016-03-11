@@ -22,7 +22,7 @@ namespace :db do
 
   task :configure_connection => :configuration do
     ActiveRecord::Base.establish_connection @config
-    ActiveRecord::Base.logger = Logger.new(File.open('src/redrun/database/logs/database.log', 'a'))
+    ActiveRecord::Base.logger = Logger.new(File.open('redrun/database/logs/database.log', 'a'))
   end
 
   desc 'Migrate the database (options: VERSION=x, VERBOSE=false).'

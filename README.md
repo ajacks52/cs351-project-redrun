@@ -3,9 +3,9 @@ Current Version: 1.0
 
 #Authors
 * Troy Squillaci <zivia@unm.edu>
-* Jake Nichol <jjaken@unm.edu>
 * Jayson Grace <jaysong@unm.edu>
 * Adam Mitchell <adam@unm.edu>
+* Jake Nichol <jjaken@unm.edu>
 * Jordan Medlock <medlock@unm.edu>
 
 #Project Description
@@ -16,11 +16,6 @@ RedRun is a first-person multiplayer game in which a group of victims attempt to
 
 ##For group members:
 
-```
-#!bash
-git clone https://bitbucket.org/ggallinislove/redrun/
-
-```
 
 ##For instructors/graders:
 
@@ -50,7 +45,7 @@ A file explorer will pop up. Navigate to the location of your LWJGL native folde
 1. cd to the redrun parent folder
 
 * If database already exists and you want to clear all tables:
-rake db:migrate --VERSION=0 
+rake db:migrate --VERSION=0
 
 * If you want to create all tables and the database does not currently exist:
 rake db:migrate

@@ -14,6 +14,7 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 
 import redrun.model.constants.Constants;
@@ -58,6 +59,9 @@ public class Menu
 
   /** The number of clients. */
   private int clients = 0;
+  
+  /** To show the mouse or not*/
+  private boolean showMouse = true;
 
   /** Debugging flag for printing. */
   private static final boolean DEBUG = false;
@@ -138,6 +142,12 @@ public class Menu
       {
         state = MenuState.values()[selection];
         if (DEBUG) System.out.println(state);
+      }
+      else if (Keyboard.getEventKey() == Keyboard.KEY_M && Keyboard.getEventKeyState())
+      {
+        // Show the mouse cursor...
+        showMouse = !showMouse;
+        Mouse.setGrabbed(showMouse);
       }
     }
   }
